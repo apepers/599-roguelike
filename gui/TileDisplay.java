@@ -36,6 +36,8 @@ public class TileDisplay extends JPanel{
 	private static final Color BACKGROUND = Color.BLACK;
 	
 	
+	
+	
 	private int xCells;
 	private int yCells;
 	private int width;
@@ -80,14 +82,23 @@ public class TileDisplay extends JPanel{
 		
 		
 		//clear all cells.
-		for (int i = 0; i< xCells; i++){
-			for (int j = 0; j< yCells; j++){
-				
-			}
-		}
+		clearDisplay();
 		
 		repaint();
 	}
+	
+	
+	/**
+	 * Clears the display of all tiles
+	 */
+	public void clearDisplay(){
+		for (int i = 0; i< xCells; i++){
+			for (int j = 0; j< yCells; j++){
+				//TODO clear tiles
+			}
+		}
+	}
+	
 	
 	
 	/**
@@ -104,9 +115,13 @@ public class TileDisplay extends JPanel{
 	}
 	
 	
-	
+	/**
+	 * Clears a tile to the background color
+	 * @param x
+	 * @param y
+	 */
 	public void clearTile(int x, int y){
-		
+		//TODO clear a single tile
 	}
 	
 	/**
@@ -138,6 +153,26 @@ public class TileDisplay extends JPanel{
 				g.drawImage(buffer[i][j], location.x, location.y, BACKGROUND, null);
 			}
 		}
+	}
+
+
+	
+	//==============================================================================================
+	// Getter and setters
+	public int getxCells() {
+		return xCells;
+	}
+	
+	public int getyCells() {
+		return yCells;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 
 }
