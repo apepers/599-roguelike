@@ -36,12 +36,12 @@ public class ImageRegistry {
 	}
 	
 	public void registerTile(String key, Image img){
-	  regisry.put(key, img);
+		//registry.put(key, img);
 	}
 	
 	
 	public Image getResource(String key){
-		return registry.get(key);
+		return null; // registry.get(key);
 	}
 	
 	
