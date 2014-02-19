@@ -65,10 +65,10 @@ public class Test {
 	
 	private static void reactToChar(char c) {
 		if (c == 'p') {
-			ArrayList<Holdable> tileItems = tile.getItems();
+			ArrayList<Holdable> tileItems = player.location.getItems();
 			if (tileItems.size() > 0) {
 				Holdable newItem = tileItems.get(0);
-				tile.removeItem(0);
+				player.location.removeItem(0);
 				player.addItem(newItem);
 				System.out.println("Picked up " + newItem.name + " off the floor.");
 			} else {
@@ -79,7 +79,7 @@ public class Test {
 			if (playerItems.size() > 0) {
 				Holdable dropItem = playerItems.get(0);
 				player.removeItem(dropItem);
-				tile.addItem(dropItem);
+				player.location.addItem(dropItem);
 				System.out.println("Dropped " + dropItem.name);
 			} else {
 				System.out.println("You aren't carrying anything to drop");
@@ -99,6 +99,18 @@ public class Test {
 				player.removeItem(eatItem);
 				System.out.println(eatItem.eatMsg());
 			}
+		} else if (c == 'i') {
+			player.displayInventory();
+		} else if (c == 'l') {
+			player.location.displayItems();
+		} else if (c == 'h') {
+			System.out.println("Press p to pick up the first listed item");
+			System.out.println("Press d to drop your first listed item");
+			System.out.println("Press t to throw your first listed item");
+			System.out.println("Press e to eat your first listed food item");
+			System.out.println("Press i to view your inventory");
+			System.out.println("Press l to look at the items in the tile");
+			System.out.println("Press q to quit");
 		}
 	}
 }

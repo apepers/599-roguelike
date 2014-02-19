@@ -6,10 +6,9 @@ public class Player extends Sentient {
 	
 	// Simple header-less way of displaying everything currently in the inventory
 	public void displayInventory() {
-		if (location != null) {
-			for (Holdable item : getInventory()) {
-				System.out.println(item.name);
-			}
+		System.out.println("Inventory:");
+		for (Holdable item : getInventory()) {
+			System.out.println(item.name);
 		}
 	}
 }

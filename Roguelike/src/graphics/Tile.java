@@ -25,6 +25,18 @@ public class Tile {
 			items.remove(index);
 	}
 	
+	// Display the contents of the tile from the items list
+	public void displayItems() {
+		if (items.size() == 0)
+			System.out.println("There is nothing in this tile");
+		else {
+			System.out.println("Here there is:");
+			for (Holdable item : items) {
+				System.out.println(item.name);
+			}
+		}
+	}
+	
 	// Get the sentient currently standing in the square
 	public Sentient getOccupant() {
 		return occupant;
