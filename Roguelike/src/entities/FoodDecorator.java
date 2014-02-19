@@ -10,6 +10,10 @@ public abstract class FoodDecorator extends Food {
 	
 	public FoodDecorator(Food decoratedFood) {
 		this.decoratedFood = decoratedFood;
+		this.name = decoratedFood.name;
+		this.cost = decoratedFood.cost;
+		this.colour = decoratedFood.colour;
+		this.weight = decoratedFood.weight;
 		this.nutrition = decoratedFood.nutrition;
 		this.turnsToEat = decoratedFood.turnsToEat;
 		this.eatMessage = decoratedFood.eatMessage;
