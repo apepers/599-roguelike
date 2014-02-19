@@ -11,23 +11,17 @@ public class Test {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader("itemdata.txt"));
 			String line = in.readLine();
-			if (!line.equals("Foods")) {
-				System.out.println("Error: File is missing Foods section");
+			if (!headersMatch(line)) {
+				System.out.println("Error: Food section is improperly defined in the headers");
 				System.exit(0);
 			}
-			String name = in.readLine().substring("Name:".length()).trim();
-			while (name != null) {
-				foods.add(Food.createFoodFromReader(name, in));
-				name = in.readLine();
-				if (name == null)
-					break;
-				if (name.equals(""))
-					name = in.readLine();
-				if (!name.contains("Name:")) {
-					name = null;
-				} else {
-					name = name.substring("Name:".length()).trim();
-				}
+			// Check headers
+			String food = in.readLine();
+			while (food != null) {
+				Food newFood = Food.createFoodFromReader(food);
+				if (newFood != null)
+					foods.add(newFood);
+				food = in.readLine();
 			}
 		} catch (IOException e) {
 			System.out.println("Error reading the item file");
@@ -42,5 +36,18 @@ public class Test {
 			System.out.println(food.throwMsg());
 			System.out.println("\n");
 		}
+	}
+	
+	private static boolean headersMatch(String input) {
+		String[] inHeaders = input.split(",");
+		String[] headers = {"Name", "Cost", "Weight", "Red", "Blue", "Green", 
+				"Nutrition", "TurnsToEat", "EatMsg", "Special"};
+		if (inHeaders.length != headers.length) 
+			return false;
+		for (int i = 0; i < headers.length; i++) {
+			if (!inHeaders[i].equals(headers[i]))
+				return false;
+		}
+		return true;
 	}
 }

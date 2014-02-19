@@ -15,26 +15,28 @@ public abstract class Food extends Holdable {
 	
 	// Messy file parser just for demonstration, should be replaced by a way to read
 	// a comma-delimited list much more smoothly
-	public static Food createFoodFromReader(String name, BufferedReader in) {
+	public static Food createFoodFromReader(String foodString) {
+		String[] values = foodString.split(",");
 		Food food = new SimpleFood();
 		try {
-			food.name = name;
-			food.cost = Integer.parseInt(in.readLine().substring("Cost:".length()).trim());
-			food.weight = Integer.parseInt(in.readLine().substring("Weight:".length()).trim());
-			String[] colours = in.readLine().substring("Colour:".length()).split(",");
-			int red = Integer.parseInt(colours[0].trim());
-			int blue = Integer.parseInt(colours[1].trim());
-			int green = Integer.parseInt(colours[2].trim());
+			food.name = values[0];
+			food.cost = Integer.parseInt(values[1]);
+			food.weight = Integer.parseInt(values[2]);
+			int red = Integer.parseInt(values[3]);
+			int blue = Integer.parseInt(values[4]);
+			int green = Integer.parseInt(values[5]);
 			food.colour = new Color(red, blue, green);
-			food.nutrition = Integer.parseInt(in.readLine().substring("Nutrition:".length()).trim());
-			food.turnsToEat = Integer.parseInt(in.readLine().substring("Turns To Eat:".length()).trim());
-			food.eatMessage = in.readLine().substring("Eat Message: ".length()).trim();
-			String[] specials = in.readLine().substring("Special:".length()).split(",");
-			food = Food.applySpecialTraits(food, specials);
-		} catch (IOException e) {
+			food.nutrition = Integer.parseInt(values[6]);
+			food.turnsToEat = Integer.parseInt(values[7]);
+			food.eatMessage = values[8];
+			if (values.length == 10 && values[9] != "") {
+				String[] specials = values[9].split(" ");
+				food = Food.applySpecialTraits(food, specials);
+			}
+		} catch (Exception e) {
 			System.out.println("Error reading food object");
-			if (name != null)
-				System.out.println(name + " is missing some parameter.");
+			if (food.name != null)
+				System.out.println(food.name + " has some incorrect parameter.");
 			return null;
 		}
 		return food;

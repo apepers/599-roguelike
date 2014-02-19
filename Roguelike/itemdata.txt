@@ -1,27 +1,4 @@
-Foods
-Name: Cream Pie
-Cost: 10
-Weight: 10
-Colour: 0, 50, 50
-Nutrition: 100
-Turns To Eat: 1
-Eat Message: The cream pie is sweet.
-Special: Splat
-
-Name: Lembas
-Cost: 45
-Weight: 5
-Colour: 0, 0, 0
-Nutrition: 800
-Turns To Eat: 2
-Eat Message: The lembas is delicious!
-Special:
-
-Name: Ration
-Cost: 45
-Weight: 20
-Colour: 50, 50, 50
-Nutrition: 800
-Turns To Eat: 5
-Eat Message: The ration is bland.
-Special:
+Name,Cost,Weight,Red,Blue,Green,Nutrition,TurnsToEat,EatMsg,Special
+cream pie,10,10,0,50,50,100,1,The cream pie is sweet.,Splat
+lembas,45,5,0,0,0,800,2,The lembas is delicious!,
+ration,45,20,50,50,50,800,5,The ration is bland.,
