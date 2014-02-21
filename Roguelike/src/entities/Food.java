@@ -1,3 +1,7 @@
+/* Class for food objects, which are objects that can be eaten for some given
+ * nutrition in some number of turns.
+ */
+
 package entities;
 
 import java.awt.Color;

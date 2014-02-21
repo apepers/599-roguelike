@@ -1,39 +1,45 @@
+/* Simple placeholder class for a tile on the map
+ * 
+ */
+
 package graphics;
 
 import java.util.ArrayList;
 import entities.*;
 
 public class Tile {
-	ArrayList<Holdable> items = new ArrayList<Holdable>();
+	Container items = new Container();	// The items in the tile
 	Sentient occupant = null;
 	
 	public Tile() { }
 	
-	// Get the items in the tile
-	public ArrayList<Holdable> getItems() {
+	// Get the items in the tile, as a container
+	public Container getItems() {
 		return items;
+	}
+	
+	// Get a list of all the items in the tile
+	public ArrayList<Holdable> getAllItems() {
+		return items.getAllItems();
 	}
 	
 	// Add an item to the pile in the tile
 	public void addItem(Holdable item) {
-		items.add(item);
+		items.addItem(item);
 	}
 	
-	// Remove the item at the specified index, if the index is within range
-	public void removeItem(int index) {
-		if (index < items.size())
-			items.remove(index);
+	// Remove the item
+	public void removeItem(Holdable item) {
+		items.removeItem(item);
 	}
 	
 	// Display the contents of the tile from the items list
 	public void displayItems() {
-		if (items.size() == 0)
+		if (items.size == 0)
 			System.out.println("There is nothing in this tile");
 		else {
 			System.out.println("Here there is:");
-			for (Holdable item : items) {
-				System.out.println(item.name);
-			}
+			items.display();
 		}
 	}
 	
