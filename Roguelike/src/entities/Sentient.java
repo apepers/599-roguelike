@@ -4,7 +4,10 @@
 
 package entities;
 
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import graphics.*;
 
 public abstract class Sentient extends Entity {
@@ -17,8 +20,9 @@ public abstract class Sentient extends Entity {
 	}
 	
 	// Take an item out of the player's inventory
-	public void removeItem(Holdable item) {
-		inventory.removeItem(item);
+	public Holdable removeItem(Character itemID) throws InvalidKeyException {
+		Holdable item = inventory.removeItem(itemID);
+		return item;
 	}
 	
 	// Return the inventory
@@ -27,12 +31,12 @@ public abstract class Sentient extends Entity {
 	}
 	
 	// Return a list version of the inventory
-	public ArrayList<Holdable> getInventoryList() {
+	public HashMap<Character, Holdable> getInventoryList() {
 		return inventory.getAllItems();
 	}
 	
 	// Get just the food from the inventory
-	public ArrayList<Food> getFood() {
+	public HashMap<Character, Food> getFood() {
 		return inventory.getFood();
 	}
 }

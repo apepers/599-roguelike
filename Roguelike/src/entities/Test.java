@@ -4,7 +4,9 @@
 
 package entities;
 
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import graphics.*;
@@ -81,7 +83,23 @@ public class Test {
 	// React to user input
 	private static void reactToChar(char c) {
 		// Pick up
+		Scanner reader = new Scanner(System.in);
 		if (c == 'p') {
+			System.out.println("Pick up what? (type 'q' to quit)");
+			tile.displayItems();
+			char input = reader.next().charAt(0);
+			while (input != 'q') {
+				try {
+					Holdable item = tile.removeItem((Character)input);
+					player.addItem(item);
+					System.out.println("Picked up " + item.name + " off the floor.");
+					break;
+				} catch (InvalidKeyException e) {
+					input = reader.next().charAt(0);
+					continue;
+				}
+			}
+			/*
 			// Get all of the items in the tile
 			ArrayList<Holdable> tileItems = player.location.getAllItems();
 			if (tileItems.size() > 0) {
@@ -93,9 +111,26 @@ public class Test {
 			} else {
 				System.out.println("There is nothing here to pick up");
 			}
+			*/
 		// Drop
 		} else if (c == 'd') {
-			ArrayList<Holdable> playerItems = player.getInventoryList();
+			System.out.println("Drop what? (type 'q' to quit)");
+			player.displayInventory();
+			char input = reader.next().charAt(0);
+			while (input != 'q') {
+				try {
+					Holdable item = player.removeItem((Character)input);
+					tile.addItem(item);
+					System.out.println("Dropped " + item.name + " on the floor.");
+					break;
+				} catch (InvalidKeyException e) {
+					input = reader.next().charAt(0);
+					continue;
+				}
+			}
+			
+			/*
+			HashMap<Character, Holdable> playerItems = player.getInventoryList();
 			// Drop the first item in the inventory
 			if (playerItems.size() > 0) {
 				Holdable dropItem = playerItems.get(0);
@@ -105,9 +140,25 @@ public class Test {
 			} else {
 				System.out.println("You aren't carrying anything to drop");
 			}
+			*/
 		// Throw
 		} else if (c == 't') {
-			ArrayList<Holdable> playerItems = player.getInventoryList();
+			System.out.println("Throw what? (type 'q' to quit)");
+			player.displayInventory();
+			char input = reader.next().charAt(0);
+			while (input != 'q') {
+				try {
+					Holdable item = player.removeItem((Character)input);
+					System.out.println(item.throwMsg());
+					System.out.println("The " + item.name + " has vanished into the ether");
+					break;
+				} catch (InvalidKeyException e) {
+					input = reader.next().charAt(0);
+					continue;
+				}
+			}
+			/*
+			HashMap<Character, Holdable> playerItems = player.getInventoryList();
 			// Throw the first item in the inventory
 			if (playerItems.size() > 0) {
 				Holdable throwItem = playerItems.get(0);
@@ -115,15 +166,31 @@ public class Test {
 				System.out.println(throwItem.throwMsg());
 				System.out.println("The " + throwItem.name + " has vanished into the ether");
 			}
+			*/
 		// Eat
 		} else if (c == 'e') {
-			ArrayList<Food> playerFood = player.getFood();
+			System.out.println("Eat what? (type 'q' to quit)");
+			player.displayInventory();
+			char input = reader.next().charAt(0);
+			while (input != 'q') {
+				try {
+					Holdable item = player.removeItem((Character)input);
+					System.out.println(item.eatMsg());
+					break;
+				} catch (InvalidKeyException e) {
+					input = reader.next().charAt(0);
+					continue;
+				}
+			}
+			/*
+			HashMap<Character, Food> playerFood = player.getFood();
 			// Eat the first food in the inventory
 			if (playerFood.size() > 0) {
 				Food eatItem = playerFood.get(0);
 				player.removeItem(eatItem);
 				System.out.println(eatItem.eatMsg());
 			}
+			*/
 		// Inventory
 		} else if (c == 'i') {
 			player.displayInventory();

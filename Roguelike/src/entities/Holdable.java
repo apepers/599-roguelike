@@ -5,9 +5,18 @@
 package entities;
 
 public abstract class Holdable extends Entity {
+	private char id = 'a';
 	int weight;
 	int cost = 0;
 	//boolean stackable = false;
+	
+	public char getID() {
+		return id;
+	}
+	
+	public void setID(char id) {
+		this.id = id;
+	}
 	
 	public String eatMsg() {
 		return "You can't eat that.";

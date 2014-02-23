@@ -4,7 +4,10 @@
 
 package graphics;
 
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import entities.*;
 
 public class Tile {
@@ -19,7 +22,7 @@ public class Tile {
 	}
 	
 	// Get a list of all the items in the tile
-	public ArrayList<Holdable> getAllItems() {
+	public HashMap<Character, Holdable> getAllItems() {
 		return items.getAllItems();
 	}
 	
@@ -29,8 +32,9 @@ public class Tile {
 	}
 	
 	// Remove the item
-	public void removeItem(Holdable item) {
-		items.removeItem(item);
+	public Holdable removeItem(Character itemID) throws InvalidKeyException {
+		Holdable item = items.removeItem(itemID);
+		return item;
 	}
 	
 	// Display the contents of the tile from the items list
