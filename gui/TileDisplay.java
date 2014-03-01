@@ -26,10 +26,10 @@ public class TileDisplay extends JPanel{
 	
 	
 	
-	private static final int X_CELLS_DEFAULT = 40;
+	private static final int X_CELLS_DEFAULT = 50;
 	private static final int Y_CELLS_DEFAULT = 40;
-	private static final int WIDTH_DEFAULT = 800;
-	private static final int HEIGHT_DEFAULT = 600;
+	public static final int WIDTH= 800;							//in pixels
+	public static final int HEIGHT= 640;						//in pixels
 	
 	private static final boolean DOUBLE_BUFFERING = true;
 	
@@ -51,7 +51,7 @@ public class TileDisplay extends JPanel{
 	 * Default constructor for the display
 	 */
 	public TileDisplay(){
-		this(WIDTH_DEFAULT, HEIGHT_DEFAULT, X_CELLS_DEFAULT, Y_CELLS_DEFAULT);
+		this(WIDTH, HEIGHT, X_CELLS_DEFAULT, Y_CELLS_DEFAULT);
 		
 	}
 
@@ -131,8 +131,8 @@ public class TileDisplay extends JPanel{
 	 * @return Top left corner of the cell is returned.
 	 */
 	private Point getCellLocation(int x, int y){
-		int deltaX = height/xCells;
-		int deltaY = width/yCells;
+		int deltaX = width/xCells;
+		int deltaY = height/yCells;
 		
 		return new Point(x*deltaX, y*deltaY);
 	}
