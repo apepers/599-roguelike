@@ -1,3 +1,5 @@
+package graphics;
+
 import java.awt.Image;
 import java.util.HashMap;
 
@@ -15,7 +17,7 @@ public class ImageRegistry {
 	
 	//for now, we're pretending to store images
 	//Uses a string to refer to the ID of tile.
-	private static HashMap<String, String> registry = new HashMap<String, String>();
+	private static HashMap<String, Image> registry = new HashMap<String, Image>();
 	 
 	
 	
@@ -36,7 +38,7 @@ public class ImageRegistry {
 	}
 	
 	public void registerTile(String key, Image img){
-	  regisry.put(key, img);
+		registry.put(key, img);
 	}
 	
 	
