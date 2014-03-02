@@ -51,6 +51,8 @@ public abstract class Food extends Holdable {
 		for (String trait : traits) {
 			if (trait.trim().equals("Splat"))
 				food = new Splat(food);
+			if (trait.trim().equals("Stackable"))
+				food = new Stackable(food);
 		}
 		return food;
 	}

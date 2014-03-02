@@ -52,6 +52,7 @@ public class Test {
 		tile = new Tile();
 		for (Food f : foods) {
 			tile.addItem(f);
+			tile.addItem(f);
 		}
 		// Create the player and place them on our tile
 		player = new Player();
@@ -88,30 +89,48 @@ public class Test {
 			System.out.println("Pick up what? (type 'q' to quit)");
 			tile.displayItems();
 			char input = reader.next().charAt(0);
+			Holdable newItem = null;
 			while (input != 'q') {
 				try {
-					Holdable item = tile.removeItem((Character)input);
-					player.addItem(item);
-					System.out.println("Picked up " + item.name + " off the floor.");
-					break;
+					Holdable item = tile.getItem((Character) input);
+					if (item.stackable) {
+						System.out.println("How many do you want to pick up? (#, all, or q to quit)");
+						item.display();
+						String countInput = reader.next();
+						while (countInput.charAt(0) != 'q') {
+							if (countInput.matches("\\d*")) {
+								int count = Integer.parseInt(countInput);
+								if (count > item.stackSize())
+									System.out.println("There aren't that many " + item.name + " here.");
+								else if (count < 1) 
+									System.out.println("You have to pick up at least 1.");
+								else {
+									newItem = tile.removeItem(input, count);
+									break;
+								}
+							} else if (countInput.equalsIgnoreCase("all")) {
+								newItem = tile.removeItem(input, item.stackSize());
+								break;
+							}
+							countInput = reader.next();
+							if (countInput.charAt(0) == 'q')
+								input = 'q';
+						}
+					} else {
+						newItem = tile.removeItem((Character)input);
+					}
+					if (newItem != null) {
+						player.addItem(newItem);
+						System.out.println("Picked up " + newItem.properName() + " off the floor.");
+						break;
+					} else {
+						System.out.println("Didn't pick anything up.");
+					}
 				} catch (InvalidKeyException e) {
 					input = reader.next().charAt(0);
 					continue;
 				}
 			}
-			/*
-			// Get all of the items in the tile
-			ArrayList<Holdable> tileItems = player.location.getAllItems();
-			if (tileItems.size() > 0) {
-				// Take the first item
-				Holdable newItem = tileItems.get(0);
-				player.location.removeItem(newItem);
-				player.addItem(newItem);
-				System.out.println("Picked up " + newItem.name + " off the floor.");
-			} else {
-				System.out.println("There is nothing here to pick up");
-			}
-			*/
 		// Drop
 		} else if (c == 'd') {
 			System.out.println("Drop what? (type 'q' to quit)");

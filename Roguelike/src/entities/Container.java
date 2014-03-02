@@ -32,7 +32,7 @@ public class Container extends Holdable {
 			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
 			while(iter.hasNext()) {
 				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
-				System.out.println(entry.getKey() + " - " + entry.getValue().name);
+				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
 			}
 		}
 		if (foods.size() > 0) {
@@ -40,7 +40,7 @@ public class Container extends Holdable {
 			Iterator<Entry<Character, Food>> iter = foods.entrySet().iterator();
 			while(iter.hasNext()) {
 				Map.Entry<Character, Food> entry = (Map.Entry<Character, Food>)iter.next();
-				System.out.println(entry.getKey() + " - " + entry.getValue().name);
+				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
 			}
 		}
 		if (misc.size() > 0) {
@@ -48,23 +48,15 @@ public class Container extends Holdable {
 			Iterator<Entry<Character, Holdable>> iter = misc.entrySet().iterator();
 			while(iter.hasNext()) {
 				Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
-				System.out.println(entry.getKey() + " - " + entry.getValue().name);
+				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
 			}
 		}
-		/*
-		if (foods.size() > 0) {
-			System.out.println("Consumables:");
-			for (Food f : foods) {
-				System.out.println(f.name);
-			}
-		}
-		if (misc.size() > 0) {
-			System.out.println("Other:");
-			for (Holdable m : misc) {
-				m.display();
-			}
-		}
-		*/
+	}
+	
+	// Get a specific item from its key
+	public Holdable getItem(Character itemID) {
+		HashMap<Character, Holdable> allItems = this.getAllItems();
+		return allItems.get(itemID);
 	}
 	
 	public HashMap<Character, Weapon> getWeapons() {
@@ -104,102 +96,118 @@ public class Container extends Holdable {
 	
 	// Add an item to the container, putting it into the matching internal list
 	public void addItem(Holdable item) {
-		Character itemID = assignID(item);
-		if (item instanceof Weapon) 
-			weapons.put(itemID, (Weapon) item);
-		else if (item instanceof Food)
-			foods.put(itemID, (Food) item);
-		else
-			misc.put(itemID, item);
-		size++;
+		if (item.stackable) {	// Follow the different rules for stackable items
+			addStackedItem(item);
+		} else {
+			Character itemID = assignID(item);
+			if (item instanceof Weapon) 
+				weapons.put(itemID, (Weapon) item);
+			else if (item instanceof Food)
+				foods.put(itemID, (Food) item);
+			else
+				misc.put(itemID, item);
+			size++;
+		}
 	}
 	
-	/*public void addStackedItem(Holdable item) {
+	// Add a stackable item, which means checking if there is already the same type of item in
+	// the relevant list in which case it's count is incremented instead of a new item being added.
+	public void addStackedItem(Holdable item) {
 		boolean alreadyExists = false;
+		Character itemID = assignID(item);
 		if (item instanceof Weapon) {
-			for (Weapon w : weapons) {
-				if (item.sameItem(w)) {
-					w.combineStack(item);
+			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
+				if (item.sameItem(entry.getValue())) {
+					entry.getValue().combineStack((Stackable)item);
 					alreadyExists = true;
 				}
 			}
-			if (!alreadyExists) 
-				weapons.add((Weapon)item);
+			if (!alreadyExists) {
+				weapons.put(itemID, (Weapon)item);
+				size++;
+			}
 		} else if (item instanceof Food) {
-			for (Food f : foods) {
-				if (item.sameItem(f)) {
-					f.combineStack(item);
-					alreadyExists = true;
-				}
-			}			
-			if (!alreadyExists)
-				foods.add((Food) item);
-		} else {
-			for (Holdable h : misc) {
-				if (item.sameItem(h)) {
-					h.combineStack(h);
+			Iterator<Entry<Character, Food>> iter = foods.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Food> entry = (Map.Entry<Character, Food>)iter.next();
+				if (item.sameItem(entry.getValue())) {
+					entry.getValue().combineStack((Stackable)item);
 					alreadyExists = true;
 				}
 			}
-			if (!alreadyExists) 
-				misc.add(item);
+			if (!alreadyExists) {
+				foods.put(itemID, (Food) item);
+				size++;
+			}
+		} else {
+			Iterator<Entry<Character, Holdable>> iter = misc.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
+				if (item.sameItem(entry.getValue())) {
+					entry.getValue().combineStack((Stackable)item);
+					alreadyExists = true;
+				}
+			}
+			if (!alreadyExists) {
+				misc.put(itemID, item);
+				size++;
+			}
 		}
-	}*/
+	}
 	
-	// Take out an item from the correct list. Note that this might need a proper
-	// equals/hashcode to work reliably
+	// Remove a number of stacked items specified by the count
+	public Holdable removeStackedItem(Character itemID, int count) throws InvalidKeyException {
+		Holdable item;
+		Holdable returnItem;
+		if(weapons.containsKey(itemID)) {
+			item = weapons.get(itemID);
+			// If the item is stackable then just reduce the stack count
+			returnItem = item.reduceStack(count);
+			// Only if the stack has hit 0 do we actually remove the item
+			if (item.stackSize() == 0) {
+				weapons.remove(itemID);
+				size--;
+			}
+		} else if (foods.containsKey(itemID)) {
+			item = foods.get(itemID);
+			returnItem = item.reduceStack(count);
+			if (item.stackSize() == 0) {
+				foods.remove(itemID);
+				size--;
+			}
+		} else if (misc.containsKey(itemID)) {
+			item = misc.get(itemID);
+			returnItem = item.reduceStack(count);
+			if (item.stackSize() == 0) {
+				misc.remove(itemID);
+				size--;
+			}
+		} else {
+			throw new InvalidKeyException();
+		}
+		return returnItem;
+	}
+	
+	// Take out an item from the correct list. 
 	public Holdable removeItem(Character itemID) throws InvalidKeyException {
-		//if (item.stackable) {
-			// Query user for how many items in the stack to drop
-			//return removeStackedItem(item, 1);
-		//} else {
 		Holdable item;
 		if(weapons.containsKey(itemID)) {
 			item = weapons.get(itemID);
 			weapons.remove(itemID);
+			size--;
 		} else if (foods.containsKey(itemID)) {
 			item = foods.get(itemID);
 			foods.remove(itemID);
+			size--;
 		} else if (misc.containsKey(itemID)) {
 			item = misc.get(itemID);
 			misc.remove(itemID);
+			size--;
 		} else {
 			throw new InvalidKeyException();
 		}
-		size--;
 		return item;
-		//}
 	}
-	
-	/*public Holdable removeStackedItem(Holdable item, int c) {
-		Holdable result = null;
-		if (item instanceof Weapon) {
-			for (Weapon w : weapons) {
-				if (w.sameItem(item)) {
-					result = w.reduceStack(c);
-					if (w.stackSize() == 0) 
-						weapons.remove((Weapon) w);
-				}
-			}
-		} else if (item instanceof Food) {
-			for (Food f : foods) {
-				if (f.sameItem(item)) {
-					result = f.reduceStack(c);
-					if (f.stackSize() == 0)
-						foods.remove((Food) f);
-				}
-			}
-		} else {
-			for (Holdable h : misc) {
-				if (h.sameItem(item)) {
-					result = h.reduceStack(c);
-					if (h.stackSize() == 0)
-						misc.remove(h);
-				}
-			}
-		}
-		return result;
-	}*/
-	
-
 }

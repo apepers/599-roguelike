@@ -16,6 +16,10 @@ public class Tile {
 	
 	public Tile() { }
 	
+	public Holdable getItem(Character itemID) {
+		return items.getItem(itemID);
+	}
+	
 	// Get the items in the tile, as a container
 	public Container getItems() {
 		return items;
@@ -34,6 +38,12 @@ public class Tile {
 	// Remove the item
 	public Holdable removeItem(Character itemID) throws InvalidKeyException {
 		Holdable item = items.removeItem(itemID);
+		return item;
+	}
+	
+	// Remove a certain number of stackable items
+	public Holdable removeItem(Character itemID, int count) throws InvalidKeyException {
+		Holdable item = items.removeStackedItem(itemID, count);
 		return item;
 	}
 	
