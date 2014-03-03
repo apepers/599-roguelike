@@ -1,5 +1,7 @@
 package graphics;
 
+import game.Constants;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -15,12 +17,17 @@ import javax.swing.JTextPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+
 import java.awt.ScrollPane;
+
 import javax.swing.JScrollPane;
 import javax.swing.AbstractAction;
+
 import java.awt.event.ActionEvent;
+
 import javax.swing.Action;
 import javax.swing.JTextArea;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
@@ -31,17 +38,17 @@ import java.awt.event.ActionListener;
  * @author Kevin
  *
  */
-public class Main extends JFrame {
+public class Frame extends JFrame {
 
 	private JPanel contentPane;
 
 	
 	private static final boolean RESIZEABLE = false;
-
+	
 	
 	
 	private TileDisplay tileDisplay;
-	private Console console;
+	private PlayerLog console;
 	private StatusBar statusBar;
 	
 	
@@ -52,7 +59,7 @@ public class Main extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main frame = new Main();
+					Frame frame = new Frame(new TileDisplay(50,40), new PlayerLog(), new StatusBar());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,9 +71,10 @@ public class Main extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Main() {
+	public Frame(TileDisplay display, PlayerLog console, StatusBar status) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 806, 864);
+		setTitle(Constants.GAME_NAME);
 		
 		//========================================================================
 		//menu bar items
@@ -105,43 +113,36 @@ public class Main extends JFrame {
 		setResizable(RESIZEABLE);
 		contentPane.setLayout(null);
 		
-		
 		//====================================================================================
 		
 		
-		tileDisplay = new TileDisplay();
-		tileDisplay.setBounds(0, 132,TileDisplay.WIDTH, TileDisplay.HEIGHT);
-		contentPane.add(tileDisplay);
+		JScrollPane scrollPaneConsole = new JScrollPane();
+		scrollPaneConsole.setBounds(0, 0, 800, 132);
+		contentPane.add(scrollPaneConsole);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 800, 132);
-		contentPane.add(scrollPane);
+		this.console = console;
+		scrollPaneConsole.setViewportView(console);
 		
-		console = new Console();
-		scrollPane.setViewportView(console);
+		JScrollPane scrollPaneStatusBar = new JScrollPane();
+		scrollPaneStatusBar.setBounds(0, 772, 800, 46);
+		contentPane.add(scrollPaneStatusBar);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(0, 772, 800, 46);
-		contentPane.add(scrollPane_1);
+		this.statusBar = status;
+		scrollPaneStatusBar.setViewportView(statusBar);
 		
-		statusBar = new StatusBar();
-		scrollPane_1.setViewportView(statusBar);
-		try {
-			System.out.println(new File("D:\\Users\\Kevin\\GitHub\\599-roguelike\\res\\derp.png").exists());
-			BufferedImage derp = ImageIO.read(new File("D:\\Users\\Kevin\\GitHub\\599-roguelike\\res\\derp.png"));
-			for (int i = 0; i< 50; i++){ 
-				for (int j = 0; j< 40; j++){
-					tileDisplay.drawTile(derp, i,j);
-					
-				}
-				console.println("1111111111111111111111111111111112222222222222222222222222222222222222222222222333333333333333333333333333" + i);
-			}
-			
-			tileDisplay.repaint();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		JScrollPane scrollPaneMap = new JScrollPane();
+		scrollPaneMap.setBounds(0, 131, 800, 640);
+		contentPane.add(scrollPaneMap);
+		
+		
+		
+		
+		
+		this.tileDisplay = display;
+		scrollPaneMap.setViewportView(tileDisplay);
+		
+		tileDisplay.repaint();
+		
 	}
-
+	
 }

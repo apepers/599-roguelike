@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 /**
  * The registry that caches image resources for tiles.
+ * Uses singleton desgin pattern
  * @author kta
  *
  */

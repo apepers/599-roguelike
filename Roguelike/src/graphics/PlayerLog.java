@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
  * @author Kevin
  *
  */
-public class Console extends JTextArea {
+public class PlayerLog extends JTextArea {
 
 	
 	public static final int MAX_LINES = 200;			//inclusive
@@ -20,7 +20,7 @@ public class Console extends JTextArea {
 			
 	private int totalLines = 0;
 	
-	public Console(){
+	public PlayerLog(){
 		super.setEditable(false);
 		
 		totalLines = 0;

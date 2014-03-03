@@ -1,12 +1,20 @@
 package graphics;
 
 import java.util.ArrayList;
+
 import entities.*;
 
 public class Tile {
-	ArrayList<Holdable> items = new ArrayList<Holdable>();
-	Sentient occupant = null;
 	
+	
+	private ArrayList<Holdable> items = new ArrayList<Holdable>();
+	private Sentient occupant = null;
+
+	
+	
+	/**
+	 * Creates a new tile object with a blank image key.
+	 */
 	public Tile() { }
 	
 	// Get the items in the tile
@@ -38,6 +46,7 @@ public class Tile {
 	}
 	
 	// Get the sentient currently standing in the square
+	// Returns null if no sentient is on the square.
 	public Sentient getOccupant() {
 		return occupant;
 	}
@@ -66,4 +75,6 @@ public class Tile {
 		return _occupant;
 		
 	}
+	
+
 }

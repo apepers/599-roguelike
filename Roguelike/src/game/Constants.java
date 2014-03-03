@@ -1,3 +1,5 @@
+package game;
+
 
 
 /**
@@ -7,4 +9,6 @@
  */
 public class Constants {
 	
+	
+	public static final String GAME_NAME = "Severed Space";
 }

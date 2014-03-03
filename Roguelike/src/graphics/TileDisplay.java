@@ -28,8 +28,7 @@ public class TileDisplay extends JPanel{
 	
 	private static final int X_CELLS_DEFAULT = 50;
 	private static final int Y_CELLS_DEFAULT = 40;
-	public static final int WIDTH= 800;							//in pixels
-	public static final int HEIGHT= 640;						//in pixels
+	private static final int TILE_SIZE = 16; 					//in pixels, assume square tiles
 	
 	private static final boolean DOUBLE_BUFFERING = true;
 	
@@ -40,8 +39,9 @@ public class TileDisplay extends JPanel{
 	
 	private int xCells;
 	private int yCells;
-	private int width;
-	private int height;
+	
+	private int width;						//in pixels
+	private int height;						//in pixels
 	
 	
 	private Image[][] buffer;
@@ -51,7 +51,7 @@ public class TileDisplay extends JPanel{
 	 * Default constructor for the display
 	 */
 	public TileDisplay(){
-		this(WIDTH, HEIGHT, X_CELLS_DEFAULT, Y_CELLS_DEFAULT);
+		this(X_CELLS_DEFAULT, Y_CELLS_DEFAULT);
 		
 	}
 
@@ -65,7 +65,7 @@ public class TileDisplay extends JPanel{
 	 * @param height in pixels
 	 * @param xCells cells in
 	 */
-	public TileDisplay(int width, int height, int xCells, int yCells){
+	public TileDisplay(int xCells, int yCells){
 		super(DOUBLE_BUFFERING);			//enable double buffering
 	
 		
@@ -74,9 +74,9 @@ public class TileDisplay extends JPanel{
 		//intantiate variables
 		this.xCells = xCells;
 		this.yCells = yCells;
-		this.width = width;
-		this.height = height;
-	
+		this.width = xCells * TILE_SIZE;
+		this.height = yCells * TILE_SIZE;
+		
 		//drawing canvas
 		buffer = new Image[xCells][yCells];
 		
@@ -104,10 +104,10 @@ public class TileDisplay extends JPanel{
 	/**
 	 * Draws a tile onto the screen at the specified cell coordinate.
 	 * Updated on next frame.
-	 * No screen update is done. See TileDisplay.update()
+	 * No screen update is done. See super.repaint()
 	 * @param x cell coordinate
 	 * @param y cell coordinate
-	 * @see TileDisplay.update()
+	 * @see super.repaint()
 	 */
 	public void drawTile(Image tile, int x, int y){
 		buffer[x][y] = tile;
@@ -131,8 +131,8 @@ public class TileDisplay extends JPanel{
 	 * @return Top left corner of the cell is returned.
 	 */
 	private Point getCellLocation(int x, int y){
-		int deltaX = width/xCells;
-		int deltaY = height/yCells;
+		int deltaX = TILE_SIZE;
+		int deltaY = TILE_SIZE;
 		
 		return new Point(x*deltaX, y*deltaY);
 	}

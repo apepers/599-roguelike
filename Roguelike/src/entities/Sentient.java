@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.ArrayList;
+
 import graphics.*;
 
 public abstract class Sentient extends Entity {
