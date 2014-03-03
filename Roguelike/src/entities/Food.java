@@ -1,3 +1,7 @@
+/* Class for food objects, which are objects that can be eaten for some given
+ * nutrition in some number of turns.
+ */
+
 package entities;
 
 import java.awt.Color;
@@ -47,6 +51,8 @@ public abstract class Food extends Holdable {
 		for (String trait : traits) {
 			if (trait.trim().equals("Splat"))
 				food = new Splat(food);
+			if (trait.trim().equals("Stackable"))
+				food = new Stackable(food);
 		}
 		return food;
 	}

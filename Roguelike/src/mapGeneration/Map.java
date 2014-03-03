@@ -3,6 +3,7 @@ package mapGeneration;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 
 /**
@@ -57,11 +58,27 @@ public class Map {
 
 
 		//create every room
-		Rectangle[] rooms = new Rectangle[MAX_ROOMS];
+		ArrayList<Rectangle> rooms = new ArrayList<Rectangle>();
 
 		for (int i =0; i < MAX_ROOMS; i++){
-			rooms[i] = new Rectangle(MapRand.randInt(width - MAX_WIDTH-1), MapRand.randInt(height - MAX_HEIGHT-1), MapRand.randInt(MIN_WIDTH, MAX_WIDTH), MapRand.randInt(MIN_HEIGHT, MAX_HEIGHT));
+			Rectangle tempRoom;
+			boolean overlaps;
+			
+			do{
+				
+				tempRoom = new Rectangle(MapRand.randInt(width - MAX_WIDTH-1), MapRand.randInt(height - MAX_HEIGHT-1), MapRand.randInt(MIN_WIDTH, MAX_WIDTH), MapRand.randInt(MIN_HEIGHT, MAX_HEIGHT));
 
+				
+				overlaps = false;
+				for(Rectangle r : rooms){
+					if (MapRand.overlaps(tempRoom,r) == true){
+						overlaps = true;
+					}
+				}
+				
+			}while (overlaps == true);
+					
+			rooms.add(tempRoom);
 		}
 
 		//create a link between every room
@@ -69,8 +86,8 @@ public class Map {
 		Point[] corridorB = new Point[MAX_ROOMS-1];
 		Point[] corriMids = new Point[corridorA.length];			//midpoint of paths
 		for (int i =0; i < MAX_ROOMS-1; i++){
-			corridorA[i] = MapRand.randRect(MapRand.innerRectangle(rooms[i]));			
-			corridorB[i] = MapRand.randRect(MapRand.innerRectangle(rooms[i+1]));
+			corridorA[i] = MapRand.randRect(MapRand.innerRectangle(rooms.get(i)));			
+			corridorB[i] = MapRand.randRect(MapRand.innerRectangle(rooms.get(i+1)));
 			corriMids[i] = MapRand.randRect(MapRand.rectFromPoints(corridorA[i], corridorB[i]));
 		}
 
@@ -80,8 +97,8 @@ public class Map {
 		//draw the rooms
 
 		//draw inner rectangle
-		for (int i = 0; i < rooms.length ; i++){
-			Rectangle inner = MapRand.innerRectangle(rooms[i]);
+		for (int i = 0; i < rooms.size() ; i++){
+			Rectangle inner = MapRand.innerRectangle(rooms.get(i));
 
 			for (int h = inner.x; h <= inner.x + inner.width ; h++){
 				for (int v = inner.y; v <= inner.y +  inner.height; v++){
@@ -91,8 +108,8 @@ public class Map {
 		}
 
 		//draw border with walls
-		for (int i = 0; i < rooms.length ; i++){
-			Rectangle room = rooms[i];
+		for (int i = 0; i < rooms.size() ; i++){
+			Rectangle room = rooms.get(i);
 
 			//horizonal lines
 			for (int h = room.x; h <= room.x + room.width; h++){
@@ -191,7 +208,7 @@ public class Map {
 		//determine door intersections.
 
 		//set player spawn
-		playerSpawn = MapRand.randRect(MapRand.innerRectangle(rooms[MapRand.randInt(rooms.length-1)]));
+		playerSpawn = MapRand.randRect(MapRand.innerRectangle(rooms.get(MapRand.randInt(rooms.size()-1))));
 
 	}
 
