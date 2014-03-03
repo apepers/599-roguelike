@@ -6,14 +6,29 @@ package graphics;
 
 import java.security.InvalidKeyException;
 import java.util.ArrayList;
+<<<<<<< HEAD
 import java.util.HashMap;
+=======
+>>>>>>> refs/remotes/origin/MapGeneration
 
 import entities.*;
 
 public class Tile {
+<<<<<<< HEAD
 	Container items = new Container();	// The items in the tile
 	Sentient occupant = null;
+=======
+>>>>>>> refs/remotes/origin/MapGeneration
 	
+	
+	private ArrayList<Holdable> items = new ArrayList<Holdable>();
+	private Sentient occupant = null;
+
+	
+	
+	/**
+	 * Creates a new tile object with a blank image key.
+	 */
 	public Tile() { }
 	
 	public Holdable getItem(Character itemID) {
@@ -58,6 +73,7 @@ public class Tile {
 	}
 	
 	// Get the sentient currently standing in the square
+	// Returns null if no sentient is on the square.
 	public Sentient getOccupant() {
 		return occupant;
 	}
@@ -86,4 +102,6 @@ public class Tile {
 		return _occupant;
 		
 	}
+	
+
 }
