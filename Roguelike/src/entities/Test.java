@@ -101,7 +101,7 @@ public class Test {
 							if (countInput.matches("\\d*")) {
 								int count = Integer.parseInt(countInput);
 								if (count > item.stackSize())
-									System.out.println("There aren't that many " + item.name + " here.");
+									System.out.println("There aren't that many " + item.getName() + " here.");
 								else if (count < 1) 
 									System.out.println("You have to pick up at least 1.");
 								else {
@@ -140,7 +140,7 @@ public class Test {
 				try {
 					Holdable item = player.removeItem((Character)input);
 					tile.addItem(item);
-					System.out.println("Dropped " + item.name + " on the floor.");
+					System.out.println("Dropped " + item.getName() + " on the floor.");
 					break;
 				} catch (InvalidKeyException e) {
 					input = reader.next().charAt(0);
@@ -169,7 +169,7 @@ public class Test {
 				try {
 					Holdable item = player.removeItem((Character)input);
 					System.out.println(item.throwMsg());
-					System.out.println("The " + item.name + " has vanished into the ether");
+					System.out.println("The " + item.getName() + " has vanished into the ether");
 					break;
 				} catch (InvalidKeyException e) {
 					input = reader.next().charAt(0);

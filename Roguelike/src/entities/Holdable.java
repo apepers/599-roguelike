@@ -23,7 +23,7 @@ public abstract class Holdable extends Entity {
 	}
 	
 	public String properName() {
-		return name;
+		return this.getName();
 	}
 	
 	public void display() {
@@ -31,7 +31,7 @@ public abstract class Holdable extends Entity {
 	}
 	
 	public boolean sameItem(Holdable h) {
-		if (this.name.equals(h.name) && this.weight == h.weight && this.cost == h.cost
+		if (this.getName().equals(h.getName()) && this.weight == h.weight && this.cost == h.cost
 				&& this.stackable == h.stackable) 
 			return true;
 		else

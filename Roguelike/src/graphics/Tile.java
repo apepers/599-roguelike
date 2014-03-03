@@ -51,7 +51,7 @@ public class Tile {
 	
 	// Display the contents of the tile from the items list
 	public void displayItems() {
-		if (items.size == 0)
+		if (items.getSize() == 0)
 			System.out.println("There is nothing in this tile");
 		else {
 			System.out.println("Here there is:");

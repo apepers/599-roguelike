@@ -23,7 +23,7 @@ public abstract class Food extends Holdable {
 		String[] values = foodString.split(",");
 		Food food = new SimpleFood();
 		try {
-			food.name = values[0];
+			food.setName(values[0]);
 			food.cost = Integer.parseInt(values[1]);
 			food.weight = Integer.parseInt(values[2]);
 			int red = Integer.parseInt(values[3]);
@@ -39,8 +39,8 @@ public abstract class Food extends Holdable {
 			}
 		} catch (Exception e) {
 			System.out.println("Error reading food object");
-			if (food.name != null)
-				System.out.println(food.name + " has some incorrect parameter.");
+			if (food.getName() != null)
+				System.out.println(food.getName() + " has some incorrect parameter.");
 			return null;
 		}
 		return food;

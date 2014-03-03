@@ -14,7 +14,7 @@ public abstract class FoodDecorator extends Food {
 	
 	public FoodDecorator(Food decoratedFood) {
 		this.decoratedFood = decoratedFood;
-		this.name = decoratedFood.name;
+		this.setName(decoratedFood.getName());
 		this.cost = decoratedFood.cost;
 		this.colour = decoratedFood.colour;
 		this.weight = decoratedFood.weight;
@@ -37,7 +37,7 @@ class Splat extends FoodDecorator {
 	
 	@Override
 	public String throwMsg() {
-		return "The " + decoratedFood.name + " hits the floor with a splat!";
+		return "The " + decoratedFood.getName() + " hits the floor with a splat!";
 	}
 }
 
@@ -70,6 +70,6 @@ class Stackable extends FoodDecorator {
 	
 	@Override
 	public String properName() {
-		return this.name + " (" + count + ")";
+		return this.getName() + " (" + count + ")";
 	}
 }
