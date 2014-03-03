@@ -5,26 +5,13 @@
 package graphics;
 
 import java.security.InvalidKeyException;
-import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
->>>>>>> refs/remotes/origin/MapGeneration
 
 import entities.*;
 
 public class Tile {
-<<<<<<< HEAD
-	Container items = new Container();	// The items in the tile
-	Sentient occupant = null;
-=======
->>>>>>> refs/remotes/origin/MapGeneration
-	
-	
-	private ArrayList<Holdable> items = new ArrayList<Holdable>();
+	private Container items = new Container();	// The items in the tile
 	private Sentient occupant = null;
-
-	
 	
 	/**
 	 * Creates a new tile object with a blank image key.

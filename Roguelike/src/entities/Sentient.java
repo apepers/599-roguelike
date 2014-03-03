@@ -5,11 +5,7 @@
 package entities;
 
 import java.security.InvalidKeyException;
-import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
->>>>>>> refs/remotes/origin/MapGeneration
 
 import graphics.*;
 
