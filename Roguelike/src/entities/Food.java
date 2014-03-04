@@ -8,31 +8,29 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public abstract class Food extends Holdable {
-	public char ascii = '%';
-	public Color colour = Color.white;
-	int nutrition;
-	int turnsToEat;
-	String eatMessage;
-	
-	public abstract String eatMsg();
+public class Food extends Holdable {
+	private char ascii = '%';
+	private Color colour = Color.white;
+	private int nutrition;
+	private int turnsToEat;
+	private String eatMessage;
 	
 	// Messy file parser just for demonstration, should be replaced by a way to read
 	// a comma-delimited list much more smoothly
 	public static Food createFoodFromReader(String foodString) {
 		String[] values = foodString.split(",");
-		Food food = new SimpleFood();
+		Food food = new Food();
 		try {
 			food.setName(values[0]);
-			food.cost = Integer.parseInt(values[1]);
-			food.weight = Integer.parseInt(values[2]);
+			food.setCost(Integer.parseInt(values[1]));
+			food.setWeight(Integer.parseInt(values[2]));
 			int red = Integer.parseInt(values[3]);
 			int blue = Integer.parseInt(values[4]);
 			int green = Integer.parseInt(values[5]);
-			food.colour = new Color(red, blue, green);
-			food.nutrition = Integer.parseInt(values[6]);
-			food.turnsToEat = Integer.parseInt(values[7]);
-			food.eatMessage = values[8];
+			food.setColour(new Color(red, blue, green));
+			food.setNutrition(Integer.parseInt(values[6]));
+			food.setTurnsToEat(Integer.parseInt(values[7]));
+			food.setEatMessage(values[8]);
 			if (values.length == 10 && values[9] != "") {
 				String[] specials = values[9].split(" ");
 				food = Food.applySpecialTraits(food, specials);
@@ -56,8 +54,49 @@ public abstract class Food extends Holdable {
 		}
 		return food;
 	}
+
+	public char getAscii() {
+		return ascii;
+	}
+
+	public void setAscii(char ascii) {
+		this.ascii = ascii;
+	}
+
+	public Color getColour() {
+		return colour;
+	}
+
+	public void setColour(Color colour) {
+		this.colour = colour;
+	}
+
+	int getNutrition() {
+		return nutrition;
+	}
+
+	void setNutrition(int nutrition) {
+		this.nutrition = nutrition;
+	}
+
+	int getTurnsToEat() {
+		return turnsToEat;
+	}
+
+	void setTurnsToEat(int turnsToEat) {
+		this.turnsToEat = turnsToEat;
+	}
+
+	String getEatMessage() {
+		return eatMessage;
+	}
+
+	void setEatMessage(String eatMessage) {
+		this.eatMessage = eatMessage;
+	}
 }
 
+/*
 // The basic food object, with no extra functionality
 class SimpleFood extends Food {
 	public SimpleFood() { 
@@ -65,6 +104,7 @@ class SimpleFood extends Food {
 	}
 	
 	public String eatMsg() {
-		return eatMessage;
+		return getEatMessage();
 	}
 }
+*/

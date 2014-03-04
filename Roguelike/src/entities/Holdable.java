@@ -6,9 +6,9 @@ package entities;
 
 public abstract class Holdable extends Entity {
 	private char id = 'a';
-	int weight;
-	int cost = 0;
-	boolean stackable = false;
+	private int weight;
+	private int cost = 0;
+	private boolean stackable = false;
 	
 	public char getID() {
 		return id;
@@ -30,9 +30,33 @@ public abstract class Holdable extends Entity {
 		System.out.println(this.properName());
 	}
 	
+	int getWeight() {
+		return weight;
+	}
+
+	void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	int getCost() {
+		return cost;
+	}
+
+	void setCost(int cost) {
+		this.cost = cost;
+	}
+
+	boolean isStackable() {
+		return stackable;
+	}
+
+	void setStackable(boolean stackable) {
+		this.stackable = stackable;
+	}
+
 	public boolean sameItem(Holdable h) {
-		if (this.getName().equals(h.getName()) && this.weight == h.weight && this.cost == h.cost
-				&& this.stackable == h.stackable) 
+		if (this.getName().equals(h.getName()) && this.getWeight() == h.getWeight() && this.getCost() == h.getCost()
+				&& this.isStackable() == h.isStackable()) 
 			return true;
 		else
 			return false;

@@ -10,17 +10,17 @@ import java.util.HashMap;
 import graphics.*;
 
 public abstract class Sentient extends Entity {
-	public Container inventory = new Container();
-	public Tile location;
+	private Container inventory = new Container();
+	private Tile location;
 	
 	// Add an item to the players inventory
 	public void addItem(Holdable item) {
-		inventory.addItem(item);
+		getInventory().addItem(item);
 	}
 	
 	// Take an item out of the player's inventory
 	public Holdable removeItem(Character itemID) throws InvalidKeyException {
-		Holdable item = inventory.removeItem(itemID);
+		Holdable item = getInventory().removeItem(itemID);
 		return item;
 	}
 	
@@ -29,13 +29,22 @@ public abstract class Sentient extends Entity {
 		return inventory;
 	}
 	
+	public Tile getLocation() {
+		return location;
+	}
+
+	public void setLocation(Tile location) {
+		this.location = location;
+	}
+	
 	// Return a list version of the inventory
 	public HashMap<Character, Holdable> getInventoryList() {
-		return inventory.getAllItems();
+		return getInventory().getAllItems();
 	}
 	
 	// Get just the food from the inventory
 	public HashMap<Character, Food> getFood() {
-		return inventory.getFood();
+		return getInventory().getFood();
 	}
+
 }

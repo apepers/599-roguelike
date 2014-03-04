@@ -77,7 +77,7 @@ public class Tile {
 	public void setOccupant(Sentient _occupant) {
 		if (this.tileFree()) {
 			occupant = _occupant;
-			occupant.location = this;
+			occupant.setLocation(this);
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class Tile {
 	public Sentient removeOccupant() {
 		Sentient _occupant = this.occupant;
 		this.occupant = null;
-		_occupant.location = null;
+		_occupant.setLocation(null);
 		return _occupant;
 		
 	}

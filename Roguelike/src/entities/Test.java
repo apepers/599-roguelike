@@ -93,7 +93,7 @@ public class Test {
 			while (input != 'q') {
 				try {
 					Holdable item = tile.getItem((Character) input);
-					if (item.stackable) {
+					if (item.isStackable()) {
 						System.out.println("How many do you want to pick up? (#, all, or q to quit)");
 						item.display();
 						String countInput = reader.next();
@@ -215,7 +215,7 @@ public class Test {
 			player.displayInventory();
 		// Look
 		} else if (c == 'l') {
-			player.location.displayItems();
+			player.getLocation().displayItems();
 		// Help
 		} else if (c == 'h') {
 			System.out.println("Press p to pick up the first listed item");

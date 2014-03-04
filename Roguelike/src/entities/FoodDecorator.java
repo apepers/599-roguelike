@@ -15,13 +15,13 @@ public abstract class FoodDecorator extends Food {
 	public FoodDecorator(Food decoratedFood) {
 		this.decoratedFood = decoratedFood;
 		this.setName(decoratedFood.getName());
-		this.cost = decoratedFood.cost;
-		this.colour = decoratedFood.colour;
-		this.weight = decoratedFood.weight;
-		this.nutrition = decoratedFood.nutrition;
-		this.turnsToEat = decoratedFood.turnsToEat;
-		this.eatMessage = decoratedFood.eatMessage;
-		this.stackable = decoratedFood.stackable;
+		this.setCost(decoratedFood.getCost());
+		this.setColour(decoratedFood.getColour());
+		this.setWeight(decoratedFood.getWeight());
+		this.setNutrition(decoratedFood.getNutrition());
+		this.setTurnsToEat(decoratedFood.getTurnsToEat());
+		this.setEatMessage(decoratedFood.getEatMessage());
+		this.setStackable(decoratedFood.isStackable());
 	}
 	
 	public String eatMsg() {
@@ -47,7 +47,7 @@ class Stackable extends FoodDecorator {
 	
 	public Stackable(Food decoratedFood) {
 		super(decoratedFood);
-		this.stackable = true;
+		this.setStackable(true);
 	}
 	
 	@Override

@@ -104,7 +104,7 @@ public class Container extends Holdable {
 	
 	// Add an item to the container, putting it into the matching internal list
 	public void addItem(Holdable item) {
-		if (item.stackable) {	// Follow the different rules for stackable items
+		if (item.isStackable()) {	// Follow the different rules for stackable items
 			addStackedItem(item);
 		} else {
 			Character itemID = assignID(item);

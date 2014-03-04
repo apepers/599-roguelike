@@ -11,6 +11,6 @@ public class Player extends Sentient {
 	// Simple header-less way of displaying everything currently in the inventory
 	public void displayInventory() {
 		System.out.println("Inventory:");
-		inventory.display();
+		getInventory().display();
 	}
 }
