@@ -14,14 +14,14 @@ public abstract class FoodDecorator extends Food {
 	
 	public FoodDecorator(Food decoratedFood) {
 		this.decoratedFood = decoratedFood;
-		this.name = decoratedFood.name;
-		this.cost = decoratedFood.cost;
-		this.colour = decoratedFood.colour;
-		this.weight = decoratedFood.weight;
-		this.nutrition = decoratedFood.nutrition;
-		this.turnsToEat = decoratedFood.turnsToEat;
-		this.eatMessage = decoratedFood.eatMessage;
-		this.stackable = decoratedFood.stackable;
+		this.setName(decoratedFood.getName());
+		this.setCost(decoratedFood.getCost());
+		this.setColour(decoratedFood.getColour());
+		this.setWeight(decoratedFood.getWeight());
+		this.setNutrition(decoratedFood.getNutrition());
+		this.setTurnsToEat(decoratedFood.getTurnsToEat());
+		this.setEatMessage(decoratedFood.getEatMessage());
+		this.setStackable(decoratedFood.isStackable());
 	}
 	
 	public String eatMsg() {
@@ -37,7 +37,7 @@ class Splat extends FoodDecorator {
 	
 	@Override
 	public String throwMsg() {
-		return "The " + decoratedFood.name + " hits the floor with a splat!";
+		return "The " + decoratedFood.getName() + " hits the floor with a splat!";
 	}
 }
 
@@ -47,7 +47,7 @@ class Stackable extends FoodDecorator {
 	
 	public Stackable(Food decoratedFood) {
 		super(decoratedFood);
-		this.stackable = true;
+		this.setStackable(true);
 	}
 	
 	@Override
@@ -70,6 +70,6 @@ class Stackable extends FoodDecorator {
 	
 	@Override
 	public String properName() {
-		return this.name + " (" + count + ")";
+		return this.getName() + " (" + count + ")";
 	}
 }

@@ -5,26 +5,13 @@
 package graphics;
 
 import java.security.InvalidKeyException;
-import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
->>>>>>> refs/remotes/origin/MapGeneration
 
 import entities.*;
 
 public class Tile {
-<<<<<<< HEAD
-	Container items = new Container();	// The items in the tile
-	Sentient occupant = null;
-=======
->>>>>>> refs/remotes/origin/MapGeneration
-	
-	
-	private ArrayList<Holdable> items = new ArrayList<Holdable>();
+	private Container items = new Container();	// The items in the tile
 	private Sentient occupant = null;
-
-	
 	
 	/**
 	 * Creates a new tile object with a blank image key.
@@ -64,7 +51,7 @@ public class Tile {
 	
 	// Display the contents of the tile from the items list
 	public void displayItems() {
-		if (items.size == 0)
+		if (items.getSize() == 0)
 			System.out.println("There is nothing in this tile");
 		else {
 			System.out.println("Here there is:");
@@ -90,7 +77,7 @@ public class Tile {
 	public void setOccupant(Sentient _occupant) {
 		if (this.tileFree()) {
 			occupant = _occupant;
-			occupant.location = this;
+			occupant.setLocation(this);
 		}
 	}
 	
@@ -98,7 +85,7 @@ public class Tile {
 	public Sentient removeOccupant() {
 		Sentient _occupant = this.occupant;
 		this.occupant = null;
-		_occupant.location = null;
+		_occupant.setLocation(null);
 		return _occupant;
 		
 	}

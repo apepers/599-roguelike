@@ -17,7 +17,7 @@ public class Container extends Holdable {
 	private HashMap<Character, Weapon> weapons = new HashMap<Character, Weapon>();
 	private HashMap<Character, Food> foods = new HashMap<Character, Food>();
 	private HashMap<Character, Holdable> misc = new HashMap<Character, Holdable>();
-	public int size = 0;
+	private int size = 0;
 	
 	// Display all items in the container under headers matching their
 	// subtype
@@ -51,6 +51,14 @@ public class Container extends Holdable {
 				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
 			}
 		}
+	}
+	
+	public int getSize() {
+		return size;
+	}
+	
+	public void setSize(int size) {
+		this.size = size;
 	}
 	
 	// Get a specific item from its key
@@ -96,7 +104,7 @@ public class Container extends Holdable {
 	
 	// Add an item to the container, putting it into the matching internal list
 	public void addItem(Holdable item) {
-		if (item.stackable) {	// Follow the different rules for stackable items
+		if (item.isStackable()) {	// Follow the different rules for stackable items
 			addStackedItem(item);
 		} else {
 			Character itemID = assignID(item);
