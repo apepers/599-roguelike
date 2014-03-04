@@ -59,6 +59,7 @@ public class Test {
 		tile.setOccupant(player);
 		// Read user input from the console
 		Scanner reader = new Scanner(System.in);
+		System.out.println("Welcome!");
 		char c = reader.next().charAt(0);
 		while (c != 'q') {
 			reactToChar(c);
