@@ -227,6 +227,5 @@ public class Test {
 			System.out.println("Press l to look at the items in the tile");
 			System.out.println("Press q to quit");
 		}
-		reader.close();
 	}
 }
