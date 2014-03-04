@@ -6,14 +6,13 @@ package entities;
 
 import java.security.InvalidKeyException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import graphics.*;
+import serialization.*;
 
 import java.io.*;
 import java.lang.Integer;
-import java.awt.Color;
 
 public class Test {
 	static Tile tile;
@@ -50,9 +49,10 @@ public class Test {
 
 		// Add a single tile to stand on, and one of each food to that tile
 		tile = new Tile();
+		ItemDuplicator duplicator = new ItemDuplicator();
 		for (Food f : foods) {
-			tile.addItem(f);
-			tile.addItem(f);
+			tile.addItem((Holdable)duplicator.duplicate(f));
+			tile.addItem((Holdable)duplicator.duplicate(f));
 		}
 		// Create the player and place them on our tile
 		player = new Player();
@@ -64,6 +64,7 @@ public class Test {
 			reactToChar(c);
 			c = reader.next().charAt(0);
 		}
+		reader.close();
 		System.out.println("Goodbye.");
 	}
 	
@@ -226,5 +227,6 @@ public class Test {
 			System.out.println("Press l to look at the items in the tile");
 			System.out.println("Press q to quit");
 		}
+		reader.close();
 	}
 }

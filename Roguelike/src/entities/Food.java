@@ -5,9 +5,8 @@
 package entities;
 
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.IOException;
 
+@SuppressWarnings("serial")
 public class Food extends Holdable {
 	private char ascii = '%';
 	private Color colour = Color.white;

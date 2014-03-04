@@ -4,6 +4,7 @@
 
 package entities;
 
+@SuppressWarnings("serial")
 public abstract class Holdable extends Entity {
 	private char id = 'a';
 	private int weight;

@@ -4,11 +4,10 @@
 
 package entities;
 
-import java.awt.Color;
-
 /* Use the Decorator design pattern to add functionality to food items
  * individually.
  */
+@SuppressWarnings("serial")
 public abstract class FoodDecorator extends Food {
 	protected final Food decoratedFood;
 	
@@ -30,6 +29,7 @@ public abstract class FoodDecorator extends Food {
 }
 
 // Decorator for food which splats when thrown
+@SuppressWarnings("serial")
 class Splat extends FoodDecorator {
 	public Splat(Food decoratedFood) {
 		super(decoratedFood);
@@ -42,6 +42,7 @@ class Splat extends FoodDecorator {
 }
 
 // Decorator for food which can be stacked
+@SuppressWarnings("serial")
 class Stackable extends FoodDecorator {
 	public int count = 1;
 	

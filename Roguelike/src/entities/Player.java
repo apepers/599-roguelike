@@ -4,6 +4,7 @@
 
 package entities;
 
+@SuppressWarnings("serial")
 public class Player extends Sentient {
 	public Player() {
 	}

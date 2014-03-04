@@ -2,7 +2,8 @@ package entities;
 
 import java.awt.Color;
 
-public abstract class Entity {
+@SuppressWarnings("serial")
+public abstract class Entity implements java.io.Serializable {
 	private char ascii;
 	private Color colour;
 	private String name;

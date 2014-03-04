@@ -2,6 +2,7 @@ package entities;
 
 import java.awt.Color;
 
+@SuppressWarnings("serial")
 public abstract class Weapon extends Holdable {
 	private char ascii = '[';
 	private Color colour = Color.white;

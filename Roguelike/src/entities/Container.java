@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+@SuppressWarnings("serial")
 public class Container extends Holdable {
 	private HashMap<Character, Weapon> weapons = new HashMap<Character, Weapon>();
 	private HashMap<Character, Food> foods = new HashMap<Character, Food>();
