@@ -23,10 +23,6 @@ public abstract class FoodDecorator extends Food {
 		this.setEatMessage(decoratedFood.getEatMessage());
 		this.setStackable(decoratedFood.isStackable());
 	}
-	
-	public String eatMsg() {
-		return decoratedFood.eatMsg();
-	}
 }
 
 // Decorator for food which splats when thrown
