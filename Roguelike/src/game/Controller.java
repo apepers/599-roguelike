@@ -6,9 +6,11 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.*;
+import entities.*;
+import serialization.ItemDuplicator;
+import graphics.Tile;
 
+import java.io.*;
 
 public class Controller {
 	private Player player;
@@ -31,6 +33,7 @@ public class Controller {
 		duplicator = new ItemDuplicator();
 		player = new Player();
 		Tile tile = new Tile();
+		map = new ArrayList<Tile>();
 		map.add(tile);	// Would call function to create the random map
 		// Would randomly add items to the map
 		for (Food f : foods) {
@@ -40,6 +43,7 @@ public class Controller {
 		// Place player on the map
 		tile.setOccupant(player);
 		messenger = new Messenger(this, player);
+		return true;
 	}
 	
 	public static void main(String[] args) {
@@ -49,9 +53,9 @@ public class Controller {
 			System.err.println("Setup did not complete successfully. Exiting now.");
 			System.exit(0);
 		}
-		gameRunning = true;
-		while (gameRunning) {
-			messenger.playerAction();
+		controller.gameRunning = true;
+		while (controller.gameRunning) {
+			controller.messenger.playerAction();
 		}
 	}
 	

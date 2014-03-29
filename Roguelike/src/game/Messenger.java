@@ -6,6 +6,11 @@
 
 package game;
 
+import entities.*;
+import java.util.Scanner;
+import graphics.Tile;
+import java.security.InvalidKeyException;
+
 public class Messenger {
 	private Scanner reader;
 	private Controller controller;
@@ -20,7 +25,7 @@ public class Messenger {
 	
 	public void playerAction() {
 		char c = reader.next().charAt(0);
-		switch c {
+		switch (c) {
 			case 'p':
 				pickUp();
 				break;
@@ -32,13 +37,14 @@ public class Messenger {
 	}
 	
 	private void pickUp() {
+		Tile playerLocation = player.getLocation();
 		System.out.println("Pick up what? (type 'q' to quit)");
-		player.location.displayItems();
+		playerLocation.displayItems();
 		char input = reader.next().charAt(0);
 		Holdable newItem = null;
 		while (input != 'q') {
 			try {
-				Holdable item = player.location.getItem((Character) input);
+				Holdable item = playerLocation.getItem((Character) input);
 				if (item.isStackable()) {
 					System.out.println("How many do you want to pick up? (#, all, or q to quit)");
 					item.display();
@@ -51,11 +57,11 @@ public class Messenger {
 							else if (count < 1) 
 								System.out.println("You have to pick up at least 1.");
 							else {
-								newItem = player.location.removeItem(input, count);
+								newItem = playerLocation.removeItem(input, count);
 								break;
 							}
 						} else if (countInput.equalsIgnoreCase("all")) {
-							newItem = player.location.removeItem(input, item.stackSize());
+							newItem = playerLocation.removeItem(input, item.stackSize());
 							break;
 						}
 						countInput = reader.next();
@@ -63,7 +69,7 @@ public class Messenger {
 							input = 'q';
 					}
 				} else {
-					newItem = player.location.removeItem((Character)input);
+					newItem = playerLocation.removeItem((Character)input);
 				}
 				if (newItem != null) {
 					player.addItem(newItem);
@@ -76,14 +82,6 @@ public class Messenger {
 				input = reader.next().charAt(0);
 				continue;
 			}
-		}
-	}
-	
-	public char getInput() {
-		char c = reader.next().charAt(0);
-		while (c != 'q') {
-			reactToChar(c);
-			c = reader.next().charAt(0);
 		}
 	}
 	
