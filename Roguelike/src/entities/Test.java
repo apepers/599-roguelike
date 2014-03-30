@@ -8,7 +8,6 @@ import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import graphics.*;
 import serialization.*;
 
 import java.io.*;
@@ -326,5 +325,6 @@ public class Test {
 			System.out.println("Press l to look at the items in the tile");
 			System.out.println("Press q to quit");
 		}
+		reader.close();
 	}
 }
