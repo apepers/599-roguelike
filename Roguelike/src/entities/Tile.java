@@ -1,61 +1,47 @@
-/* Simple placeholder class for a tile on the map
- * 
- */
+package entities;
 
-package graphics;
-
-import java.security.InvalidKeyException;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import entities.*;
 
 public class Tile {
-	private Container items = new Container();	// The items in the tile
+	
+	
+	private ArrayList<Holdable> items = new ArrayList<Holdable>();
 	private Sentient occupant = null;
+
+	
 	
 	/**
 	 * Creates a new tile object with a blank image key.
 	 */
 	public Tile() { }
 	
-	public Holdable getItem(Character itemID) {
-		return items.getItem(itemID);
-	}
-	
-	// Get the items in the tile, as a container
-	public Container getItems() {
+	// Get the items in the tile
+	public ArrayList<Holdable> getItems() {
 		return items;
-	}
-	
-	// Get a list of all the items in the tile
-	public HashMap<Character, Holdable> getAllItems() {
-		return items.getAllItems();
 	}
 	
 	// Add an item to the pile in the tile
 	public void addItem(Holdable item) {
-		items.addItem(item);
+		items.add(item);
 	}
 	
-	// Remove the item
-	public Holdable removeItem(Character itemID) throws InvalidKeyException {
-		Holdable item = items.removeItem(itemID);
-		return item;
-	}
-	
-	// Remove a certain number of stackable items
-	public Holdable removeItem(Character itemID, int count) throws InvalidKeyException {
-		Holdable item = items.removeStackedItem(itemID, count);
-		return item;
+	// Remove the item at the specified index, if the index is within range
+	public void removeItem(int index) {
+		if (index < items.size())
+			items.remove(index);
 	}
 	
 	// Display the contents of the tile from the items list
 	public void displayItems() {
-		if (items.getSize() == 0)
+		if (items.size() == 0)
 			System.out.println("There is nothing in this tile");
 		else {
 			System.out.println("Here there is:");
-			items.display();
+			for (Holdable item : items) {
+				System.out.println(item.name);
+			}
 		}
 	}
 	
@@ -77,7 +63,7 @@ public class Tile {
 	public void setOccupant(Sentient _occupant) {
 		if (this.tileFree()) {
 			occupant = _occupant;
-			occupant.setLocation(this);
+			occupant.location = this;
 		}
 	}
 	
@@ -85,7 +71,7 @@ public class Tile {
 	public Sentient removeOccupant() {
 		Sentient _occupant = this.occupant;
 		this.occupant = null;
-		_occupant.setLocation(null);
+		_occupant.location = null;
 		return _occupant;
 		
 	}

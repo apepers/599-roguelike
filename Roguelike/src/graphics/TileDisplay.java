@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 
 /**
@@ -24,8 +26,6 @@ public class TileDisplay extends JPanel{
 	
 	//dimensions of grid.
 	
-	
-	
 	private static final int X_CELLS_DEFAULT = 50;
 	private static final int Y_CELLS_DEFAULT = 40;
 	private static final int TILE_SIZE = 16; 					//in pixels, assume square tiles
@@ -34,8 +34,11 @@ public class TileDisplay extends JPanel{
 	
 	private static final Color BACKGROUND = Color.BLACK;
 	
-	
-	
+	//optimization controls.
+	private int xScrMin;
+	private int xScrMax;
+	private int yScrMin;
+	private int yScrMax;
 	
 	private int xCells;
 	private int yCells;
@@ -52,7 +55,6 @@ public class TileDisplay extends JPanel{
 	 */
 	public TileDisplay(){
 		this(X_CELLS_DEFAULT, Y_CELLS_DEFAULT);
-		
 	}
 
 	
@@ -77,12 +79,19 @@ public class TileDisplay extends JPanel{
 		this.width = xCells * TILE_SIZE;
 		this.height = yCells * TILE_SIZE;
 		
+		this.xScrMin =0;
+		this.xScrMax = width;
+		this.yScrMin =0;
+		this.yScrMax = height;
+		
 		//drawing canvas
 		buffer = new Image[xCells][yCells];
 		
 		
 		//clear all cells.
 		clearDisplay();
+		
+		this.setPreferredSize(new java.awt.Dimension(width,height));
 		
 		repaint();
 	}
@@ -138,6 +147,31 @@ public class TileDisplay extends JPanel{
 	}
 	
 	
+	/**
+	 * Updates the horizontal viewable area of the tile display as to not
+	 * waste time repainting unseen tiles.
+	 * 
+	 * Parameters expected are values from the 
+	 * @param min
+	 * @param max
+	 */
+	protected void updateScrollHorizontal(int min, int max){
+		//xScrMin = min;
+		//xScrMax = max;
+	}
+	
+	/**
+	 * Updates the vertical viewable area of the tile display as to not
+	 * waste time repainting unseen tiles.
+	 * 
+	 * @param min
+	 * @param max
+	 */
+	protected void updateScrollVertical(int min, int max){
+		//yScrMin = min;
+		//yScrMax = max;
+	}
+	
 	
 	/**
 	 * Main drawing method. Posts all tile information to screen
@@ -147,8 +181,8 @@ public class TileDisplay extends JPanel{
 		super.paintComponent(g);
 		
 		//redraw only the tiles that have been updated.
-		for (int i = 0; i< xCells; i++){
-			for (int j = 0; j< yCells; j++){
+		for (int i = xScrMin/TILE_SIZE; i< xScrMax/TILE_SIZE; i++){
+			for (int j = yScrMin/TILE_SIZE; j< yScrMax/TILE_SIZE; j++){
 				Point location = getCellLocation(i, j);
 				g.drawImage(buffer[i][j], location.x, location.y, BACKGROUND, null);
 			}
@@ -159,11 +193,11 @@ public class TileDisplay extends JPanel{
 	
 	//==============================================================================================
 	// Getter and setters
-	public int getxCells() {
+	public int getXCells() {
 		return xCells;
 	}
 	
-	public int getyCells() {
+	public int getYCells() {
 		return yCells;
 	}
 	
