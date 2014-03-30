@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollBar;
 import javax.swing.JTextPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -28,6 +29,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.JTextArea;
 
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
@@ -51,7 +54,8 @@ public class Frame extends JFrame {
 	private PlayerLog console;
 	private StatusBar statusBar;
 	
-	
+	private JScrollBar mapScrHorizontal;
+	private JScrollBar mapScrVertical;
 	/**
 	 * Launch the application.
 	 */
@@ -73,7 +77,7 @@ public class Frame extends JFrame {
 	 */
 	public Frame(TileDisplay display, PlayerLog console, StatusBar status) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 806, 864);
+		setBounds(100, 100, 900, 725);
 		setTitle(Constants.GAME_NAME);
 		
 		//========================================================================
@@ -117,30 +121,39 @@ public class Frame extends JFrame {
 		
 		
 		JScrollPane scrollPaneConsole = new JScrollPane();
-		scrollPaneConsole.setBounds(0, 0, 800, 132);
+		scrollPaneConsole.setBounds(0, 0, 894, 132);
 		contentPane.add(scrollPaneConsole);
 		
 		this.console = console;
 		scrollPaneConsole.setViewportView(console);
 		
 		JScrollPane scrollPaneStatusBar = new JScrollPane();
-		scrollPaneStatusBar.setBounds(0, 772, 800, 46);
+		scrollPaneStatusBar.setBounds(0, 632, 894, 46);
 		contentPane.add(scrollPaneStatusBar);
 		
 		this.statusBar = status;
 		scrollPaneStatusBar.setViewportView(statusBar);
 		
 		JScrollPane scrollPaneMap = new JScrollPane();
-		scrollPaneMap.setBounds(0, 131, 800, 640);
+		scrollPaneMap.setBounds(0, 131, 894, 500);
 		contentPane.add(scrollPaneMap);
-		
-		
-		
-		
-		
 		this.tileDisplay = display;
+		this.mapScrHorizontal = scrollPaneMap.getHorizontalScrollBar();
+		this.mapScrVertical = scrollPaneMap.getVerticalScrollBar();
 		scrollPaneMap.setViewportView(tileDisplay);
-		
+		scrollPaneMap.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				tileDisplay.updateScrollHorizontal(mapScrHorizontal.getValue(), mapScrHorizontal.getModel().getExtent());
+			}
+		});
+		scrollPaneMap.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
+
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent arg0) {
+				tileDisplay.updateScrollVertical(mapScrVertical.getValue(), mapScrVertical.getModel().getExtent());
+			}
+		});
 		tileDisplay.repaint();
 		
 	}

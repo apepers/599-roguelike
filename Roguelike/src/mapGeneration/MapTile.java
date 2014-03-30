@@ -9,7 +9,12 @@ package mapGeneration;
  */
 public enum MapTile {
 
-	BLANK, WALL, FLOOR, PLAYER, DOOR;
+	BLANK, 
+	WALL_H, WALL_V, 									//horizonal/vertical walls.
+	WALL_TL_CORNER, WALL_TR_CORNER, WALL_BL_CORNER, WALL_BR_CORNER,			//wall corners
+	ROOM_FLOOR, CORRIDOR_FLOOR,
+	PLAYER_SPAWN, DOOR,
+	ITEM, MONSTER;
 
 
 
@@ -17,14 +22,30 @@ public enum MapTile {
 		switch (this){
 		case BLANK:
 			return " ";
-		case FLOOR:
+		case ROOM_FLOOR:
 			return ".";
-		case WALL:
-			return "#";
-		case PLAYER:
+		case CORRIDOR_FLOOR:
+			return "_";
+		case WALL_H:
+			return "=";
+		case WALL_V:
+			return "|";
+		case WALL_TL_CORNER:
+			return "/";
+		case WALL_TR_CORNER:
+			return "\\";
+		case WALL_BL_CORNER:
+			return "\\";
+		case WALL_BR_CORNER:
+			return "/";
+		case PLAYER_SPAWN:
 			return "@";
 		case DOOR:
 			return "+";
+		case ITEM:
+			return "$";
+		case MONSTER:
+			return "M";
 		default:
 			return "ERROR";
 		}
