@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -24,6 +26,7 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 /**
  * This is a window builder compatible class. Edit with
@@ -121,17 +124,14 @@ public class Frame extends JFrame {
 		scrollPaneConsole.setBounds(0, 0, 894, 132);
 		contentPane.add(scrollPaneConsole);
 		
-		Action quitListener = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Quit detected!");
-				System.exit(0);
-			}
-		};
-		
 		this.console = console;
 		scrollPaneConsole.setViewportView(console);
+		controller.getMessenger().setPlayerLog(console); // Set up Messenger to be able to write to console
+		// Connect key stroke commands to Messenger actions
 		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "quit");
 		console.getActionMap().put("quit", controller.getMessenger().getQuitAction());
+		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "pickup");
+		console.getActionMap().put("pickup", controller.getMessenger().getPAction());
 		
 		JScrollPane scrollPaneStatusBar = new JScrollPane();
 		scrollPaneStatusBar.setBounds(0, 632, 894, 46);

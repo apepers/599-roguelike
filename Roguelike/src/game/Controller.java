@@ -6,6 +6,7 @@
 package game;
 
 import java.util.ArrayList;
+
 import entities.*;
 import serialization.ItemDuplicator;
 
@@ -101,6 +102,8 @@ public class Controller {
 	
 	public void endGame() {
 		gameRunning = false;
+		// Handle any serialization or other game ending logic
+		System.exit(0);	// Could this be done more smoothly? Not sure
 	}
 	
 	public Messenger getMessenger() {

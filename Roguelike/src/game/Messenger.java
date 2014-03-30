@@ -7,7 +7,9 @@
 package game;
 
 import entities.*;
+import graphics.PlayerLog;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.security.InvalidKeyException;
@@ -19,6 +21,8 @@ public class Messenger {
 	private Controller controller;
 	private Player player;
 	private Action quitAction;
+	private Action pAction;
+	private PlayerLog log;
 	
 	public Messenger(Controller cont, Player p) {
 		controller = cont;
@@ -29,14 +33,28 @@ public class Messenger {
 		quitAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				reader.close();
+				log.println("Goodbye");	// Not usually seen since it closes too quickly
 				controller.endGame();
-				System.out.println("Quit detected!");
+			}
+		};
+		
+		pAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				pickUpNew();
 			}
 		};
 	}
 	
+	public void setPlayerLog(PlayerLog p) {
+		log = p;
+	}
+	
 	public Action getQuitAction() {
 		return quitAction;
+	}
+	
+	public Action getPAction() {
+		return pAction;
 	}
 	
 	public void playerAction() {
@@ -49,6 +67,43 @@ public class Messenger {
 				reader.close();
 				controller.endGame();
 				break;
+		}
+	}
+	
+	// Open a dialog to find out which of the tile's contents the player wishes to pick up.
+	// Note that this method will need alteration to deal with upper case IDs
+	private void pickUpNew() {
+		Tile playerLocation = player.getLocation();
+		final String idsString = playerLocation.getItems().getIDString();
+		String[] descriptions = playerLocation.getItems().getItemTexts();
+		final JCheckBox[] checkBoxes = new JCheckBox[descriptions.length];
+		JComponent[] inputs = new JComponent[descriptions.length];
+		
+		// Set up actions for every ID to toggle the appropriate checkbox
+		Action charAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e.getActionCommand());
+				int index = idsString.indexOf(e.getActionCommand());
+				JCheckBox box = checkBoxes[index];
+				box.setSelected(!box.isSelected());
+			}
+		};
+
+		// Create a checkbox for every item, map the ID to the action above, add to the two lists
+		for (int i = 0; i < descriptions.length; i++) {
+			JCheckBox newBox = new JCheckBox(descriptions[i]);
+			newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), descriptions[i]);
+			newBox.getActionMap().put(descriptions[i], charAction);
+			checkBoxes[i] = newBox;
+			inputs[i] = newBox;
+		}
+		
+		// Create an option dialog with the checkboxes
+		JOptionPane.showMessageDialog(null, inputs, "What would you like to pick up?", JOptionPane.PLAIN_MESSAGE);
+		for (JCheckBox box : checkBoxes) {
+			// Act on the selected checkboxes
+			if (box.isSelected()) 
+				System.out.println(box.getText());
 		}
 	}
 	
