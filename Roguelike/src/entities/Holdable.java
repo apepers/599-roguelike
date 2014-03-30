@@ -47,7 +47,7 @@ public abstract class Holdable extends Entity {
 		this.cost = cost;
 	}
 
-	boolean isStackable() {
+	public boolean isStackable() {
 		return stackable;
 	}
 
