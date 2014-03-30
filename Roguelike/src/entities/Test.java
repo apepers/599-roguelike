@@ -16,6 +16,8 @@ import java.lang.Integer;
 
 public class Test {
 	static Tile tile;
+	static Tile tile1;
+	static Tile tile2;
 	static Player player;
 	
 	public static void main(String[] args) {
@@ -48,17 +50,32 @@ public class Test {
 		}
 
 		// Add a single tile to stand on, and one of each food to that tile
-		tile = new Tile();
 		ItemDuplicator duplicator = new ItemDuplicator();
+		tile1 = new Tile();
+		tile1.addItem((Holdable)duplicator.duplicate(foods.get(0)));
+		tile1.addItem((Holdable)duplicator.duplicate(foods.get(1)));
+		tile1.addItem((Holdable)duplicator.duplicate(foods.get(1)));
+		
+		tile2 = new Tile();
+		tile2.addItem((Holdable)duplicator.duplicate(foods.get(1)));
+		tile2.addItem((Holdable)duplicator.duplicate(foods.get(2)));
+		tile2.addItem((Holdable)duplicator.duplicate(foods.get(0)));
+		
+		tile = tile1;
+		
+		/*
 		for (Food f : foods) {
 			tile.addItem((Holdable)duplicator.duplicate(f));
 			tile.addItem((Holdable)duplicator.duplicate(f));
 		}
+		*/
 		// Create the player and place them on our tile
 		player = new Player();
 		tile.setOccupant(player);
+		System.out.println("You are standing in tile 1");
 		// Read user input from the console
 		Scanner reader = new Scanner(System.in);
+		System.out.println("Welcome!");
 		char c = reader.next().charAt(0);
 		while (c != 'q') {
 			reactToChar(c);
@@ -84,8 +101,9 @@ public class Test {
 	
 	// React to user input
 	private static void reactToChar(char c) {
-		// Pick up
 		Scanner reader = new Scanner(System.in);
+		
+		// Pick up
 		if (c == 'p') {
 			System.out.println("Pick up what? (type 'q' to quit)");
 			tile.displayItems();
@@ -132,97 +150,178 @@ public class Test {
 					continue;
 				}
 			}
+			
 		// Drop
 		} else if (c == 'd') {
 			System.out.println("Drop what? (type 'q' to quit)");
 			player.displayInventory();
 			char input = reader.next().charAt(0);
+			Holdable newItem = null;
 			while (input != 'q') {
 				try {
-					Holdable item = player.removeItem((Character)input);
-					tile.addItem(item);
-					System.out.println("Dropped " + item.getName() + " on the floor.");
-					break;
+					Holdable item = player.getItem((Character) input);
+					if (item.isStackable()) {
+						System.out.println("How many do you want to drop? (#, all, or q to quit)");
+						item.display();
+						String countInput = reader.next();
+						while (countInput.charAt(0) != 'q') {
+							if (countInput.matches("\\d*")) {
+								int count = Integer.parseInt(countInput);
+								if (count > item.stackSize())
+									System.out.println("You don't have that many " + item.getName() + ".");
+								else if (count < 1) 
+									System.out.println("You have to drop at least 1.");
+								else {
+									newItem = player.removeItem(input, count);
+									break;
+								}
+							} else if (countInput.equalsIgnoreCase("all")) {
+								newItem = player.removeItem(input, item.stackSize());
+								break;
+							}
+							countInput = reader.next();
+							if (countInput.charAt(0) == 'q')
+								input = 'q';
+						}
+					} else {
+						newItem = player.removeItem((Character)input);
+					}
+					if (newItem != null) {
+						tile.addItem(newItem);
+						System.out.println("Dropped " + newItem.properName() + " onto the floor.");
+						break;
+					} else {
+						System.out.println("Didn't drop anything.");
+					}
 				} catch (InvalidKeyException e) {
 					input = reader.next().charAt(0);
 					continue;
 				}
 			}
 			
-			/*
-			HashMap<Character, Holdable> playerItems = player.getInventoryList();
-			// Drop the first item in the inventory
-			if (playerItems.size() > 0) {
-				Holdable dropItem = playerItems.get(0);
-				player.removeItem(dropItem);
-				player.location.addItem(dropItem);
-				System.out.println("Dropped " + dropItem.name);
-			} else {
-				System.out.println("You aren't carrying anything to drop");
-			}
-			*/
 		// Throw
 		} else if (c == 't') {
 			System.out.println("Throw what? (type 'q' to quit)");
 			player.displayInventory();
 			char input = reader.next().charAt(0);
+			Holdable newItem = null;
 			while (input != 'q') {
 				try {
-					Holdable item = player.removeItem((Character)input);
-					System.out.println(item.throwMsg());
-					System.out.println("The " + item.getName() + " has vanished into the ether");
-					break;
+					Holdable item = player.getItem((Character) input);
+					if (item.isStackable()) {
+						System.out.println("How many do you want to throw? (#, all, or q to quit)");
+						item.display();
+						String countInput = reader.next();
+						while (countInput.charAt(0) != 'q') {
+							if (countInput.matches("\\d*")) {
+								int count = Integer.parseInt(countInput);
+								if (count > item.stackSize())
+									System.out.println("You don't have that many " + item.getName() + ".");
+								else if (count < 1) 
+									System.out.println("You have to throw at least 1.");
+								else {
+									newItem = player.removeItem(input, count);
+									break;
+								}
+							} else if (countInput.equalsIgnoreCase("all")) {
+								newItem = player.removeItem(input, item.stackSize());
+								break;
+							}
+							countInput = reader.next();
+							if (countInput.charAt(0) == 'q')
+								input = 'q';
+						}
+					} else {
+						newItem = player.removeItem((Character)input);
+					}
+					if (newItem != null) {
+						System.out.println(item.throwMsg());
+						System.out.println("The " + item.getName() + " has vanished into the ether");
+						break;
+					} else {
+						System.out.println("Didn't throw anything.");
+					}
 				} catch (InvalidKeyException e) {
 					input = reader.next().charAt(0);
 					continue;
 				}
 			}
-			/*
-			HashMap<Character, Holdable> playerItems = player.getInventoryList();
-			// Throw the first item in the inventory
-			if (playerItems.size() > 0) {
-				Holdable throwItem = playerItems.get(0);
-				player.removeItem(throwItem);
-				System.out.println(throwItem.throwMsg());
-				System.out.println("The " + throwItem.name + " has vanished into the ether");
-			}
-			*/
+
 		// Eat
 		} else if (c == 'e') {
 			System.out.println("Eat what? (type 'q' to quit)");
 			player.displayInventory();
 			char input = reader.next().charAt(0);
+			Holdable newItem = null;
 			while (input != 'q') {
 				try {
-					Holdable item = player.removeItem((Character)input);
-					System.out.println(item.eatMsg());
-					break;
+					Holdable item = player.getItem((Character) input);
+					if (item.isStackable()) {
+						System.out.println("How many do you want to eat? (#, all, or q to quit)");
+						item.display();
+						String countInput = reader.next();
+						while (countInput.charAt(0) != 'q') {
+							if (countInput.matches("\\d*")) {
+								int count = Integer.parseInt(countInput);
+								if (count > item.stackSize())
+									System.out.println("You don't have that many " + item.getName() + ".");
+								else if (count < 1) 
+									System.out.println("You have to eat at least 1.");
+								else {
+									newItem = player.removeItem(input, count);
+									break;
+								}
+							} else if (countInput.equalsIgnoreCase("all")) {
+								newItem = player.removeItem(input, item.stackSize());
+								break;
+							}
+							countInput = reader.next();
+							if (countInput.charAt(0) == 'q')
+								input = 'q';
+						}
+					} else {
+						newItem = player.removeItem((Character)input);
+					}
+					if (newItem != null) {
+						System.out.println(item.eatMsg());
+						break;
+					} else {
+						System.out.println("Didn't throw anything.");
+					}
 				} catch (InvalidKeyException e) {
 					input = reader.next().charAt(0);
 					continue;
 				}
 			}
-			/*
-			HashMap<Character, Food> playerFood = player.getFood();
-			// Eat the first food in the inventory
-			if (playerFood.size() > 0) {
-				Food eatItem = playerFood.get(0);
-				player.removeItem(eatItem);
-				System.out.println(eatItem.eatMsg());
-			}
-			*/
+
 		// Inventory
 		} else if (c == 'i') {
 			player.displayInventory();
+			
 		// Look
 		} else if (c == 'l') {
 			player.getLocation().displayItems();
+			
+		// Move
+		} else if (c == 'm') {
+			if(player.getLocation() == tile1) {
+				tile.removeOccupant();
+				tile = tile2;
+				System.out.println("You move to tile 2");
+			} else if(player.getLocation() == tile2) {
+				tile.removeOccupant();
+				tile = tile1;
+				System.out.println("You move to tile 1");
+			}
+			tile.setOccupant(player);
+			
 		// Help
 		} else if (c == 'h') {
-			System.out.println("Press p to pick up the first listed item");
-			System.out.println("Press d to drop your first listed item");
-			System.out.println("Press t to throw your first listed item");
-			System.out.println("Press e to eat your first listed food item");
+			System.out.println("Press m to move to another tile");
+			System.out.println("Press p to pick up an item");
+			System.out.println("Press d to drop an item");
+			System.out.println("Press t to throw an item");
+			System.out.println("Press e to eat a food item");
 			System.out.println("Press i to view your inventory");
 			System.out.println("Press l to look at the items in the tile");
 			System.out.println("Press q to quit");
