@@ -319,7 +319,7 @@ public class MapRand {
 	}
 	
 	
-	
+	/*
 	public static void main(String args[]){
 
 
@@ -359,6 +359,6 @@ public class MapRand {
 			System.out.println("");
 		}
 	}
-	
+	*/
 	 
 }
