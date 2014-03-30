@@ -177,6 +177,7 @@ public class TileDisplay extends JPanel{
 	 */
 	@Override
 	public void paint(Graphics g){
+		super.paintComponent(g);
 		
 		//redraw only the tiles that have been updated.
 		for (int i = xScrMin/TILE_SIZE; i< Math.min(xScrMax/TILE_SIZE, xCells); i++){
