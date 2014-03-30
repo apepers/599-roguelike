@@ -7,19 +7,36 @@
 package game;
 
 import entities.*;
+
 import java.util.Scanner;
+import java.awt.event.ActionEvent;
 import java.security.InvalidKeyException;
+
+import javax.swing.*;
 
 public class Messenger {
 	private Scanner reader;
 	private Controller controller;
 	private Player player;
+	private Action quitAction;
 	
 	public Messenger(Controller cont, Player p) {
 		controller = cont;
 		player = p;
 		// Set up scanner to read from the console
 		reader = new Scanner(System.in);
+		
+		quitAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				reader.close();
+				controller.endGame();
+				System.out.println("Quit detected!");
+			}
+		};
+	}
+	
+	public Action getQuitAction() {
+		return quitAction;
 	}
 	
 	public void playerAction() {

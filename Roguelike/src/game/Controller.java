@@ -58,6 +58,13 @@ public class Controller {
 		}
 	}
 	
+	public void run() {
+		this.gameRunning = true;
+		while (this.gameRunning) {
+			this.messenger.playerAction();
+		}
+	}
+	
 	private void loadFoods() throws IOException {
 		BufferedReader in = null;
 		in = new BufferedReader(new FileReader("itemdata.txt"));
@@ -94,5 +101,9 @@ public class Controller {
 	
 	public void endGame() {
 		gameRunning = false;
+	}
+	
+	public Messenger getMessenger() {
+		return messenger;
 	}
 }
