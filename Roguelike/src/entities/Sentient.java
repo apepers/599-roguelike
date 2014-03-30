@@ -7,8 +7,6 @@ package entities;
 import java.security.InvalidKeyException;
 import java.util.HashMap;
 
-import graphics.*;
-
 @SuppressWarnings("serial")
 public abstract class Sentient extends Entity {
 	private Container inventory = new Container();
