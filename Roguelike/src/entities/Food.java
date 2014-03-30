@@ -93,11 +93,6 @@ public class Food extends Holdable {
 	void setEatMessage(String eatMessage) {
 		this.eatMessage = eatMessage;
 	}
-	
-	@Override
-	public String eatMsg() {
-		return this.getEatMessage();
-	}
 }
 
 /*

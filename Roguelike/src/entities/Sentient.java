@@ -14,10 +14,6 @@ public abstract class Sentient extends Entity {
 	private Container inventory = new Container();
 	private Tile location;
 	
-	public Holdable getItem(Character itemID) {
-		return getInventory().getItem(itemID);
-	}
-	
 	// Add an item to the players inventory
 	public void addItem(Holdable item) {
 		getInventory().addItem(item);
@@ -26,11 +22,6 @@ public abstract class Sentient extends Entity {
 	// Take an item out of the player's inventory
 	public Holdable removeItem(Character itemID) throws InvalidKeyException {
 		Holdable item = getInventory().removeItem(itemID);
-		return item;
-	}
-	
-	public Holdable removeItem(Character itemID, int count) throws InvalidKeyException {
-		Holdable item = getInventory().removeStackedItem(itemID, count);
 		return item;
 	}
 	
