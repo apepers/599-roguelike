@@ -9,8 +9,9 @@ package mapGeneration;
  */
 public enum MapTile {
 
-	BLANK, 
-	WALL_H, WALL_V, 									//horizonal/vertical walls.
+	BLANK, 																	//null tile.
+	SPACE,																	//Typically background tiles.
+	WALL_H, WALL_V, 														//horizonal/vertical walls.
 	WALL_TL_CORNER, WALL_TR_CORNER, WALL_BL_CORNER, WALL_BR_CORNER,			//wall corners
 	ROOM_FLOOR, CORRIDOR_FLOOR,
 	PLAYER_SPAWN, DOOR,
