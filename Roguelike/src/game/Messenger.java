@@ -8,7 +8,6 @@ package game;
 
 import entities.*;
 import java.util.Scanner;
-import graphics.Tile;
 import java.security.InvalidKeyException;
 
 public class Messenger {
