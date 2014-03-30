@@ -2,37 +2,22 @@ package graphics;
 
 import game.Constants;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollBar;
-import javax.swing.JTextPane;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-
-import java.awt.ScrollPane;
-
 import javax.swing.JScrollPane;
-import javax.swing.AbstractAction;
+
 
 import java.awt.event.ActionEvent;
-
-import javax.swing.Action;
-import javax.swing.JTextArea;
-
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 
 /**
