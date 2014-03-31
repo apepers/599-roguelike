@@ -22,6 +22,7 @@ public class Messenger {
 	private Player player;
 	private Action quitAction;
 	private Action pAction;
+	private Action iAction;
 	private PlayerLog log;
 	
 	public Messenger(Controller cont, Player p) {
@@ -43,6 +44,12 @@ public class Messenger {
 				pickUpNew();
 			}
 		};
+		
+		iAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				viewInventory();
+			}
+		};
 	}
 	
 	public void setPlayerLog(PlayerLog p) {
@@ -57,6 +64,10 @@ public class Messenger {
 		return pAction;
 	}
 	
+	public Action getIAction() {
+		return iAction;
+	}
+	
 	public void playerAction() {
 		char c = reader.next().charAt(0);
 		switch (c) {
@@ -67,6 +78,20 @@ public class Messenger {
 				reader.close();
 				controller.endGame();
 				break;
+		}
+	}
+	
+	// Display the inventory in a popup, or if the player isn't holding anything say so in the log
+	private void viewInventory() {
+		String[] descriptions = player.getInventory().getItemTexts();
+		if (descriptions.length == 0) {
+			log.println("You are not holding anything");
+		} else {
+			final JComponent[] inputs = new JComponent[descriptions.length];
+			for (int i = 0; i < descriptions.length; i++) {
+				inputs[i] = new JLabel(descriptions[i]);
+			}
+			JOptionPane.showMessageDialog(null, inputs, "Inventory", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 	
