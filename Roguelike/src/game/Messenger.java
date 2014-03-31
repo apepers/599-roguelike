@@ -102,8 +102,21 @@ public class Messenger {
 		JOptionPane.showMessageDialog(null, inputs, "What would you like to pick up?", JOptionPane.PLAIN_MESSAGE);
 		for (JCheckBox box : checkBoxes) {
 			// Act on the selected checkboxes
-			if (box.isSelected()) 
-				System.out.println(box.getText());
+			if (box.isSelected()) {
+				char id = box.getText().charAt(0);
+				// Pick up the item with the ID of the selected box
+				try {
+					Holdable newItem = playerLocation.removeItem((Character) id);
+					if (newItem != null) {
+						player.addItem(newItem);
+						log.println("Picked up " + newItem.properName() + " off the floor.");
+					} else {
+						System.out.println("Didn't pick anything up.");
+					}
+				} catch (InvalidKeyException e) {
+					log.println("The item you picked was invalid.");	// Shouldn't ever happen
+				}
+			}
 		}
 	}
 	
