@@ -80,7 +80,7 @@ public class MapInterpreter {
 						stateTile.setBackground(skin.getTile("space"));
 					}
 					else if(tile == MapTile.CORRIDOR_FLOOR){
-						stateTile.setBackground(skin.getTile("floor" + MapRand.randInt(1, skin.keyCount("floor"))));
+						stateTile.setBackground(skin.getTile("floor"));
 					}
 					else if(tile == MapTile.WALL_H){
 						stateTile.setBackground(skin.getTile("frontwall" + MapRand.randInt(1, skin.keyCount("frontwall"))));

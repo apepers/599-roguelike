@@ -37,8 +37,6 @@ public class ImageRegistry {
 	 */
 	public ImageRegistry(String textureDir){
 
-		this.intialize();
-		
 		this.dir = textureDir;
 		//open index file
 		File indexFile = new File(textureDir + "\\" + INDEX_FILE);
@@ -73,9 +71,9 @@ public class ImageRegistry {
 						for(int i = 0; i < keywords.length; i++){
 							if(key.indexOf(keywords[i]) >=0){
 								//is one of the keywords. break when done.
-								Integer current = keywordCount.get(keywords[i]);
+								Integer current = keywordCount.get(key);
 								current++;
-								keywordCount.put(keywords[i], current);
+								keywordCount.put(key, current);
 								break;
 							}
 						}
