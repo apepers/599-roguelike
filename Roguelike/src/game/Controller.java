@@ -109,4 +109,9 @@ public class Controller {
 	public Messenger getMessenger() {
 		return messenger;
 	}
+	
+	public String playerEat(Food food) {
+		player.reduceHunger(food.getNutrition());
+		return food.eatMsg();
+	}
 }

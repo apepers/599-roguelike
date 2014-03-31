@@ -24,6 +24,7 @@ public class Messenger {
 	private Action quitAction;
 	private Action pAction;
 	private Action iAction;
+	private Action eAction;
 	private PlayerLog log;
 	
 	public Messenger(Controller cont, Player p) {
@@ -51,6 +52,12 @@ public class Messenger {
 				viewInventory();
 			}
 		};
+		
+		eAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				eat();
+			}
+		};
 	}
 	
 	public void setPlayerLog(PlayerLog p) {
@@ -69,6 +76,10 @@ public class Messenger {
 		return iAction;
 	}
 	
+	public Action getEAction() {
+		return eAction;
+	}
+	
 	public void playerAction() {
 		char c = reader.next().charAt(0);
 		switch (c) {
@@ -80,6 +91,88 @@ public class Messenger {
 				controller.endGame();
 				break;
 		}
+	}
+	
+	private void eat() {
+		String[] tileFood = player.getLocation().getItems().getFoodsTexts();
+		String[] playerFood = player.getInventory().getFoodsTexts();
+		if (tileFood.length + playerFood.length == 0) {
+			log.println("There is nothing to eat.");
+		} else {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1));
+			final JRadioButton[] radioButtons = new JRadioButton[tileFood.length + playerFood.length];
+			String tileIDs = descriptionsToIDString(tileFood);
+			String playerIDs = descriptionsToIDString(playerFood);
+			final String idsString = tileIDs + playerIDs;
+			ButtonGroup buttons = new ButtonGroup();
+			Action charAction = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					int index = idsString.indexOf(e.getActionCommand());
+					JRadioButton button = radioButtons[index];
+					button.setSelected(true);
+				}
+			};
+			int foodCount = 0;
+			if (tileFood.length > 0) {
+				panel.add(new JLabel("ON GROUND:"));
+				for (String f : tileFood) {
+					JRadioButton newButton = new JRadioButton(f);
+					panel.add(newButton);
+					radioButtons[foodCount] = newButton;
+					buttons.add(newButton);
+					newButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(foodCount, foodCount+1).toUpperCase()),f);
+					newButton.getActionMap().put(f, charAction);
+					foodCount++;
+				}
+			}
+			if (playerFood.length > 0) {
+				panel.add(new JLabel("INVENTORY"));
+				for (String f : playerFood) {
+					JRadioButton newButton = new JRadioButton(f);
+					panel.add(newButton);
+					radioButtons[foodCount] = newButton;
+					buttons.add(newButton);
+					newButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(foodCount, foodCount+1).toUpperCase()),f);
+					newButton.getActionMap().put(f, charAction);
+					foodCount++;
+				}
+			}
+			JOptionPane.showMessageDialog(null, panel, "What would you like to eat?", JOptionPane.PLAIN_MESSAGE);
+			for (JRadioButton radio : radioButtons) {
+				if (radio.isSelected()) {
+					Character id = radio.getText().charAt(0);
+					// Determine if it's from the tile or inventory
+					Food food;
+					try {
+						if (tileIDs.indexOf(id) >= 0) {
+							food = (Food) player.getLocation().getItem(id);
+							if (food.isStackable())
+								food = (Food) player.getLocation().removeItem(id, 1);
+							else
+								food = (Food) player.getLocation().removeItem(id);
+						} else {
+							food = (Food) player.getInventory().getItem(id);
+							if (food.isStackable())
+								food = (Food) player.getInventory().removeStackedItem(id, 1);
+							else
+								food = (Food) player.getInventory().removeItem(id);
+						}
+						log.println(controller.playerEat(food));
+					} catch (InvalidKeyException e) {
+						log.println("The item you picked was invalid");
+					}
+				}
+			}
+		}
+	}
+	
+	private String descriptionsToIDString(String[] descriptions) {
+		String idString = "";
+		for (String s : descriptions) {
+			idString += s.charAt(0);
+		}
+		return idString;
 	}
 	
 	// Display the inventory in a popup, or if the player isn't holding anything say so in the log
@@ -126,7 +219,6 @@ public class Messenger {
 		// Set up actions for every ID to toggle the appropriate checkbox
 		Action charAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(e.getActionCommand());
 				int index = idsString.indexOf(e.getActionCommand());
 				JCheckBox box = checkBoxes[index];
 				box.setSelected(!box.isSelected());

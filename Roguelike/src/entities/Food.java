@@ -70,7 +70,7 @@ public class Food extends Holdable {
 		this.colour = colour;
 	}
 
-	int getNutrition() {
+	public int getNutrition() {
 		return nutrition;
 	}
 
@@ -78,7 +78,7 @@ public class Food extends Holdable {
 		this.nutrition = nutrition;
 	}
 
-	int getTurnsToEat() {
+	public int getTurnsToEat() {
 		return turnsToEat;
 	}
 
@@ -86,7 +86,7 @@ public class Food extends Holdable {
 		this.turnsToEat = turnsToEat;
 	}
 
-	String getEatMessage() {
+	public String getEatMessage() {
 		return eatMessage;
 	}
 

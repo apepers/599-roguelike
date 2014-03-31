@@ -134,6 +134,8 @@ public class Frame extends JFrame {
 		console.getActionMap().put("pickup", controller.getMessenger().getPAction());
 		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0), "inventory");
 		console.getActionMap().put("inventory", controller.getMessenger().getIAction());
+		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), "eat");
+		console.getActionMap().put("eat", controller.getMessenger().getEAction());
 		
 		JScrollPane scrollPaneStatusBar = new JScrollPane();
 		scrollPaneStatusBar.setBounds(0, 632, 894, 46);
