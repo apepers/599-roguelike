@@ -46,26 +46,6 @@ public class Controller {
 		return true;
 	}
 	
-	public static void main(String[] args) {
-		Controller controller = new Controller();
-		// Setup the game, only continue if it succeeded
-		if (!controller.setup()) {
-			System.err.println("Setup did not complete successfully. Exiting now.");
-			System.exit(0);
-		}
-		controller.gameRunning = true;
-		while (controller.gameRunning) {
-			controller.messenger.playerAction();
-		}
-	}
-	
-	public void run() {
-		this.gameRunning = true;
-		while (this.gameRunning) {
-			this.messenger.playerAction();
-		}
-	}
-	
 	private void loadFoods() throws IOException {
 		BufferedReader in = null;
 		in = new BufferedReader(new FileReader("itemdata.txt"));

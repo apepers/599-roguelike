@@ -80,20 +80,10 @@ public class Messenger {
 		return eAction;
 	}
 	
-	public void playerAction() {
-		char c = reader.next().charAt(0);
-		switch (c) {
-			case 'p':
-				pickUp();
-				break;
-			case 'q':
-				reader.close();
-				controller.endGame();
-				break;
-		}
-	}
-	
+	// Eat a food item from the current tile or inventory
+	// If the item is stackable, just eats one. Only one food item can be selected.
 	private void eat() {
+		// Get all available food
 		String[] tileFood = player.getLocation().getItems().getFoodsTexts();
 		String[] playerFood = player.getInventory().getFoodsTexts();
 		if (tileFood.length + playerFood.length == 0) {
@@ -106,6 +96,7 @@ public class Messenger {
 			String playerIDs = descriptionsToIDString(playerFood);
 			final String idsString = tileIDs + playerIDs;
 			ButtonGroup buttons = new ButtonGroup();
+			// Select the button based on the id of the item
 			Action charAction = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 					int index = idsString.indexOf(e.getActionCommand());
@@ -141,6 +132,7 @@ public class Messenger {
 			JOptionPane.showMessageDialog(null, panel, "What would you like to eat?", JOptionPane.PLAIN_MESSAGE);
 			for (JRadioButton radio : radioButtons) {
 				if (radio.isSelected()) {
+					// Get the selected food
 					Character id = radio.getText().charAt(0);
 					// Determine if it's from the tile or inventory
 					Food food;
@@ -281,56 +273,7 @@ public class Messenger {
 			}
 		}
 	}
-	
-	private void pickUp() {
-		Tile playerLocation = player.getLocation();
-		System.out.println("Pick up what? (type 'q' to quit)");
-		playerLocation.displayItems();
-		char input = reader.next().charAt(0);
-		Holdable newItem = null;
-		while (input != 'q') {
-			try {
-				Holdable item = playerLocation.getItem((Character) input);
-				if (item.isStackable()) {
-					System.out.println("How many do you want to pick up? (#, all, or q to quit)");
-					item.display();
-					String countInput = reader.next();
-					while (countInput.charAt(0) != 'q') {
-						if (countInput.matches("\\d*")) {
-							int count = Integer.parseInt(countInput);
-							if (count > item.stackSize())
-								System.out.println("There aren't that many " + item.getName() + " here.");
-							else if (count < 1) 
-								System.out.println("You have to pick up at least 1.");
-							else {
-								newItem = playerLocation.removeItem(input, count);
-								break;
-							}
-						} else if (countInput.equalsIgnoreCase("all")) {
-							newItem = playerLocation.removeItem(input, item.stackSize());
-							break;
-						}
-						countInput = reader.next();
-						if (countInput.charAt(0) == 'q')
-							input = 'q';
-					}
-				} else {
-					newItem = playerLocation.removeItem((Character)input);
-				}
-				if (newItem != null) {
-					player.addItem(newItem);
-					System.out.println("Picked up " + newItem.properName() + " off the floor.");
-					break;
-				} else {
-					System.out.println("Didn't pick anything up.");
-				}
-			} catch (InvalidKeyException e) {
-				input = reader.next().charAt(0);
-				continue;
-			}
-		}
-	}
-	
+
 	public void closeReader() {
 		reader.close();
 	}
