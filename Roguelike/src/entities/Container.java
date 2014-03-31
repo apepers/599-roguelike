@@ -85,6 +85,48 @@ public class Container extends Holdable {
 		return itemText;
 	}
 	
+	public String[] getWeaponTexts() {
+		String[] weaponText = new String[weapons.size()];
+		int itemCount = 0;
+		if (weapons.size() > 0) {
+			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
+				weaponText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}			
+		}
+		return weaponText;
+	}
+	
+	public String[] getFoodsTexts() {
+		String[] foodText = new String[foods.size()];
+		int itemCount = 0;
+		if (foods.size() > 0) {
+			Iterator<Entry<Character, Food>> iter = foods.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Food> entry = (Map.Entry<Character, Food>)iter.next();
+				foodText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}
+		}
+		return foodText;
+	}
+	
+	public String[] getMiscTexts() {
+		String[] miscText = new String[misc.size()];
+		int itemCount = 0;
+		if (misc.size() > 0) {
+			Iterator<Entry<Character, Holdable>> iter = misc.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
+				miscText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}
+		}
+		return miscText;
+	}
+	
 	public int getSize() {
 		return size;
 	}

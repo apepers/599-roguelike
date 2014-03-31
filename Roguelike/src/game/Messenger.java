@@ -11,6 +11,7 @@ import graphics.PlayerLog;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.security.InvalidKeyException;
 
@@ -83,15 +84,29 @@ public class Messenger {
 	
 	// Display the inventory in a popup, or if the player isn't holding anything say so in the log
 	private void viewInventory() {
-		String[] descriptions = player.getInventory().getItemTexts();
-		if (descriptions.length == 0) {
+		String[] weapons = player.getInventory().getWeaponTexts();
+		String[] foods = player.getInventory().getFoodsTexts();
+		String[] misc = player.getInventory().getMiscTexts();
+		int inventoryLength = weapons.length + foods.length + misc.length;
+		if (inventoryLength == 0) {
 			log.println("You are not holding anything");
 		} else {
-			final JComponent[] inputs = new JComponent[descriptions.length];
-			for (int i = 0; i < descriptions.length; i++) {
-				inputs[i] = new JLabel(descriptions[i]);
-			}
-			JOptionPane.showMessageDialog(null, inputs, "Inventory", JOptionPane.PLAIN_MESSAGE);
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1));
+			if (weapons.length > 0)
+				panel.add(new JLabel("WEAPONS:"));
+			for (String w : weapons)
+				panel.add(new JLabel(w));
+			if (foods.length > 0)
+				panel.add(new JLabel("FOOD:"));
+			for (String f : foods)
+				panel.add(new JLabel(f));
+			if (misc.length > 0)
+				panel.add(new JLabel("MISC:"));
+			for (String m : misc)
+				panel.add(new JLabel(m));
+			
+			JOptionPane.showMessageDialog(null, panel, "Inventory", JOptionPane.PLAIN_MESSAGE);
 		}
 	}
 	
@@ -100,9 +115,13 @@ public class Messenger {
 	private void pickUpNew() {
 		Tile playerLocation = player.getLocation();
 		final String idsString = playerLocation.getItems().getIDString();
-		String[] descriptions = playerLocation.getItems().getItemTexts();
-		final JCheckBox[] checkBoxes = new JCheckBox[descriptions.length];
-		JComponent[] inputs = new JComponent[descriptions.length];
+		String[] weapons = playerLocation.getItems().getWeaponTexts();
+		String[] foods = playerLocation.getItems().getFoodsTexts();
+		String[] misc = playerLocation.getItems().getMiscTexts();
+		final JCheckBox[] checkBoxes = new JCheckBox[weapons.length + foods.length + misc.length];
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(0, 1));
 		
 		// Set up actions for every ID to toggle the appropriate checkbox
 		Action charAction = new AbstractAction() {
@@ -114,17 +133,43 @@ public class Messenger {
 			}
 		};
 
-		// Create a checkbox for every item, map the ID to the action above, add to the two lists
-		for (int i = 0; i < descriptions.length; i++) {
-			JCheckBox newBox = new JCheckBox(descriptions[i]);
-			newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), descriptions[i]);
-			newBox.getActionMap().put(descriptions[i], charAction);
-			checkBoxes[i] = newBox;
-			inputs[i] = newBox;
+		int itemCounter = 0;
+		
+		// Add labels when needed, and add a checkbox for every item
+		// while also mapping IDs to their keystrokes
+		if (weapons.length > 0)
+			panel.add(new JLabel("WEAPONS:"));
+		for (int i = 0; i < weapons.length; i++) {
+			JCheckBox newBox = new JCheckBox(weapons[i]);
+			newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), weapons[i]);
+			newBox.getActionMap().put(weapons[i], charAction);
+			checkBoxes[itemCounter] = newBox;
+			panel.add(newBox);
+			itemCounter++;
 		}
+		if (foods.length > 0)
+			panel.add(new JLabel("FOODS:"));
+		for (int i = 0; i < foods.length; i++) {
+			JCheckBox newBox = new JCheckBox(foods[i]);
+			newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), foods[i]);
+			newBox.getActionMap().put(foods[i], charAction);
+			checkBoxes[itemCounter] = newBox;
+			panel.add(newBox);
+			itemCounter++;
+		}
+		if (misc.length > 0)
+			panel.add(new JLabel("MISC:"));
+		for (int i = 0; i < misc.length; i++) {
+			JCheckBox newBox = new JCheckBox(misc[i]);
+			newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), misc[i]);
+			newBox.getActionMap().put(misc[i], charAction);
+			checkBoxes[itemCounter] = newBox;
+			panel.add(newBox);
+			itemCounter++;
+		}		
 		
 		// Create an option dialog with the checkboxes
-		JOptionPane.showMessageDialog(null, inputs, "What would you like to pick up?", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, panel, "What would you like to pick up?", JOptionPane.PLAIN_MESSAGE);
 		for (JCheckBox box : checkBoxes) {
 			// Act on the selected checkboxes
 			if (box.isSelected()) {
