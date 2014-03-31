@@ -82,15 +82,41 @@ public class MapInterpreter {
 					else if(tile == MapTile.CORRIDOR_FLOOR){
 						stateTile.setBackground(skin.getTile("floor" + MapRand.randInt(1, skin.keyCount("floor"))));
 					}
-					else if(tile == MapTile.WALL_H){}
-					else if(tile == MapTile.WALL_V){} 	
-					else if(tile == MapTile.WALL_TL_CORNER){} 
-					else if(tile == MapTile.WALL_TR_CORNER){} 
-					else if(tile == MapTile.WALL_BL_CORNER){} 
-					else if(tile == MapTile.WALL_BR_CORNER){}			
-					else if(tile == MapTile.ROOM_FLOOR){} 
-					else if(tile == MapTile.PLAYER_SPAWN){} 
-					else if(tile == MapTile.DOOR){}
+					else if(tile == MapTile.WALL_H){
+						stateTile.setBackground(skin.getTile("frontwall" + MapRand.randInt(1, skin.keyCount("frontwall"))));
+					}
+					else if(tile == MapTile.WALL_V){
+						//check if left wall
+						if(i == room.x){
+							//left wall
+							stateTile.setBackground(skin.getTile("leftwall" + MapRand.randInt(1, skin.keyCount("leftwall"))));
+						}
+						else{
+							//right wall
+							stateTile.setBackground(skin.getTile("rightwall" + MapRand.randInt(1, skin.keyCount("rightwall"))));
+						}
+					} 	
+					else if(tile == MapTile.WALL_TL_CORNER){
+						stateTile.setBackground(skin.getTile("topleftcorner" + MapRand.randInt(1, skin.keyCount("topleftcorner"))));
+					} 
+					else if(tile == MapTile.WALL_TR_CORNER){
+						stateTile.setBackground(skin.getTile("toprightcorner" + MapRand.randInt(1, skin.keyCount("toprightcorner"))));
+					} 
+					else if(tile == MapTile.WALL_BL_CORNER){
+						stateTile.setBackground(skin.getTile("bottomleftcorner" + MapRand.randInt(1, skin.keyCount("bottomleftcorner"))));
+					} 
+					else if(tile == MapTile.WALL_BR_CORNER){
+						stateTile.setBackground(skin.getTile("bottomrightcorner" + MapRand.randInt(1, skin.keyCount("bottomrightcorner"))));
+					}			
+					else if(tile == MapTile.ROOM_FLOOR){
+						stateTile.setBackground(skin.getTile("floor" + MapRand.randInt(1, skin.keyCount("floor"))));
+					} 
+					else if(tile == MapTile.PLAYER_SPAWN){
+						
+					} 
+					else if(tile == MapTile.DOOR){
+						
+					}
 				}
 			}
 			
