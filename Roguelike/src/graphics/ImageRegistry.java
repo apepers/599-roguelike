@@ -19,13 +19,17 @@ public class ImageRegistry {
 
 	private static final String INDEX_FILE = "tile_index";
 
+	private static final String[] keywords = {"floor", 
+		"topleftcorner", "bottomleftcorner", "toprightcorner", "bottomrightcorner", 
+		"frontwall", "leftwall", "rightwall"};
 	
 	
 	//for now, we're pretending to store images
 	//Uses a string to refer to the ID of tile.
-	private static HashMap<String, Image> registry = new HashMap<String, Image>();
+	private HashMap<String, Image> registry = new HashMap<String, Image>();
 	 
-	
+	private int[] keywordCount = new int[keywords.length];
+	private String dir;
 	/**
 	 * Loads a themed texture from a folder
 	 * expects an index file listing all the string mappings.
@@ -33,6 +37,7 @@ public class ImageRegistry {
 	 */
 	public ImageRegistry(String textureDir){
 
+		this.dir = textureDir;
 		//open index file
 		File indexFile = new File(textureDir + "\\" + INDEX_FILE);
 		if (indexFile.exists() == false){
@@ -62,7 +67,18 @@ public class ImageRegistry {
 					if (imageFile.exists() == true){
 						//key is at least length one, and image can be read
 						registry.put(key, ImageIO.read(imageFile));
+						
+						for(int i = 0; i < keywords.length; i++){
+							if(key.indexOf(keywords[i]) >=0){
+								//is one of the keywords. break when done.
+								
+								keywordCount[i]++;
+								break;
+							}
+						}
 					}
+					
+					
 					
 				}
 				//skip line if not conforming.
@@ -79,6 +95,10 @@ public class ImageRegistry {
 	
 	
 	public Image getTile(String key){
+		
+		if (registry.containsKey(key) == false){
+			System.err.println("Warning! Tile key: "+ key + " was not found in the registry: "+dir);
+		}
 		return registry.get(key);
 	}
 	

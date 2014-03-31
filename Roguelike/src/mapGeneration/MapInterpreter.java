@@ -1,6 +1,7 @@
 package mapGeneration;
 
 import java.awt.Rectangle;
+import java.rmi.registry.Registry;
 
 import game.Map;
 import graphics.ImageRegistry;
@@ -73,9 +74,14 @@ public class MapInterpreter {
 			for(int i= room.x; i< room.x + room.width; i++){
 				for(int j =room.y; j < room.y + room.height; j++){
 					MapTile tile = map.getTile(i, j);
+					Tile stateTile = newMap.getTile(i, j);
 					if (tile == MapTile.BLANK){}
-					else if(tile == MapTile.SPACE){}
-					else if(tile == MapTile.CORRIDOR_FLOOR){}
+					else if(tile == MapTile.SPACE){
+						stateTile.setBackground(skin.getTile("space"));
+					}
+					else if(tile == MapTile.CORRIDOR_FLOOR){
+						stateTile.setBackground(skin.getTile("floor"));
+					}
 					else if(tile == MapTile.WALL_H){}
 					else if(tile == MapTile.WALL_V){} 	
 					else if(tile == MapTile.WALL_TL_CORNER){} 

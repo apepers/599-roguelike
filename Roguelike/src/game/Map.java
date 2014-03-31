@@ -23,4 +23,9 @@ public class Map {
 	public void setTile(int x, int y, Tile tile){
 		grid[x][y] = tile;
 	}
+
+	public Tile getTile(int i, int j) {
+		// TODO Auto-generated method stub
+		return grid[i][j];
+	}
 }
