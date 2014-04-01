@@ -11,7 +11,17 @@ import javax.imageio.ImageIO;
 
 /**
  * The registry that caches image resources for tiles.
- * Uses singleton desgin pattern
+ * 
+ * The index file is a simple key->value list of items
+ * The first value is the key used in the game as a way to refer
+ * to the specific tiles. The value corresponds to the location of the 
+ * image mapped to the key. This pair is delimited by a comma, and is whitespace
+ * safe.
+ * 
+ * Each line represents a single key mapping. Any invalid lines with missing files
+ * or incorrect syntax is not consumed.
+ * 
+ * Name this file as INDEX_FILE below and place in the directory of the image set.
  * @author kta
  *
  */
