@@ -67,7 +67,7 @@ public class MapInterpreter {
 
 		//for each room, decorate with the styles
 		for (Rectangle room : map.getRooms()){
-			ImageRegistry skin = registries[0];
+			ImageRegistry skin = registries[MapRand.randInt(registries.length-1)];
 			
 			//paint each room with the appropriate tile
 			for(int i= room.x; i< room.x + room.width; i++){
