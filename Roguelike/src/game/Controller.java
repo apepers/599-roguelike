@@ -105,15 +105,21 @@ public class Controller {
 	}
 	
 	public void movePlayerUp() {
-		Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() - 1);
-		if (newTile.isPassable()) {
-			player.setLocation(newTile);
+		System.out.println("Moving up");
+		if (player.getLocation().getRow() > 0) {
+			Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() - 1);
+			if (newTile.isPassable()) {
+				player.setLocation(newTile);
+				System.out.println("In new tile!");
+			}
 		}
 	}
 	
 	public void movePlayerDown() {
-		Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() + 1);
-		if (newTile.isPassable())
-			player.setLocation(newTile);
+		if (player.getLocation().getRow() < map.getWidth() - 1) {
+			Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() + 1);
+			if (newTile.isPassable())
+				player.setLocation(newTile);
+		}
 	}
 }
