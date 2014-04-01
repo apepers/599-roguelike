@@ -22,6 +22,8 @@ public class Map {
 	
 	public void setTile(int x, int y, Tile tile){
 		grid[x][y] = tile;
+		tile.setRow(y);
+		tile.setColumn(x);
 	}
 
 	public Tile getTile(int i, int j) {

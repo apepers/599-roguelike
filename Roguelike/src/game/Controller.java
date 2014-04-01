@@ -44,7 +44,9 @@ public class Controller {
 		Tile tile;
 		do {
 			int width = rand.nextInt(map.getWidth());
+			System.out.println(width);
 			int height = rand.nextInt(map.getHeight());
+			System.out.println(height);
 			tile = map.getTile(width, height);
 		} while (!tile.isPassable());
 		// Place player on the map
@@ -100,5 +102,20 @@ public class Controller {
 	public String playerEat(Food food) {
 		player.reduceHunger(food.getNutrition());
 		return food.eatMsg();
+	}
+	
+	public void movePlayerUp() {
+		System.out.println("Moving up");
+		Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() - 1);
+		if (newTile.isPassable()) {
+			player.setLocation(newTile);
+			System.out.println("In new tile!");
+		}
+	}
+	
+	public void movePlayerDown() {
+		Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() + 1);
+		if (newTile.isPassable())
+			player.setLocation(newTile);
 	}
 }

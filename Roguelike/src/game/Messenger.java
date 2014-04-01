@@ -8,6 +8,7 @@ package game;
 
 import entities.*;
 import graphics.PlayerLog;
+import graphics.TileDisplay;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -25,7 +26,10 @@ public class Messenger {
 	private Action pAction;
 	private Action iAction;
 	private Action eAction;
+	private Action upAction;
+	private Action downAction;
 	private PlayerLog log;
+	private TileDisplay display;
 	
 	public Messenger(Controller cont, Player p) {
 		controller = cont;
@@ -58,10 +62,29 @@ public class Messenger {
 				eat();
 			}
 		};
+		
+		upAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Moving up");
+				controller.movePlayerUp();
+				display.repaint();
+			}
+		};
+		
+		downAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				controller.movePlayerDown();
+				display.repaint();
+			}
+		};
 	}
 	
 	public void setPlayerLog(PlayerLog p) {
 		log = p;
+	}
+	
+	public void setTileDisplay(TileDisplay d) {
+		display = d;
 	}
 	
 	public Action getQuitAction() {
@@ -78,6 +101,14 @@ public class Messenger {
 	
 	public Action getEAction() {
 		return eAction;
+	}
+	
+	public Action getUpAction() {
+		return upAction;
+	}
+	
+	public Action getDownAction() {
+		return downAction;
 	}
 	
 	// Eat a food item from the current tile or inventory

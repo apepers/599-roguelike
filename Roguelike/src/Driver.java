@@ -38,7 +38,8 @@ public class Driver {
 			System.err.println("Setup did not complete successfully. Exiting now.");
 			System.exit(0);
 		}	
-	
+		controller.getMessenger().setTileDisplay(tileDisplay);
+		
 		PlayerLog console = new PlayerLog();
 		StatusBar status = new StatusBar();
 		Frame frame = new Frame(tileDisplay, console, status, controller);

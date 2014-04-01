@@ -17,6 +17,9 @@ public class Tile {
 	private Image background;
 	private boolean passable;
 	
+	private int row;
+	private int column;
+	
 	/**
 	 * Creates a new tile object with a blank image key.
 	 */
@@ -24,6 +27,22 @@ public class Tile {
 
 	public Tile(boolean passable){
 		this.passable = passable;
+	}
+	
+	public int getRow() {
+		return row;
+	}
+	
+	public void setRow(int r) {
+		row = r;
+	}
+	
+	public int getColumn() {
+		return column;
+	}
+	
+	public void setColumn(int c) {
+		column = c;
 	}
 	
 	public Holdable getItem(Character itemID) {
