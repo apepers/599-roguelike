@@ -26,7 +26,7 @@ public class ItemDuplicator {
 			in.close();
 			fileIn.close();
 			
-			System.out.println(f.delete());
+			f.delete();
  
  return newObject;
 	      }catch(Exception e)
