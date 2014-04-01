@@ -21,7 +21,8 @@ public class ImageRegistry {
 
 	private static final String[] keywords = {"floor", 
 		"topleftcorner", "bottomleftcorner", "toprightcorner", "bottomrightcorner", 
-		"frontwall", "leftwall", "rightwall"};
+		"frontwall", "leftwall", "rightwall", 
+		"frontdooropen", "leftdooropen", "rightdooropen","leftdoorclosed", "rightdoorclosed", "frontdoorclosed"};
 
 
 	//for now, we're pretending to store images
@@ -102,15 +103,14 @@ public class ImageRegistry {
 		}
 	}
 
+	/**
+	 * Add all the keywords to the hashtable and intialize their integers.
+	 */
 	private void initialize(){
-		keywordCount.put("floor", 0);
-		keywordCount.put("topleftcorner", 0);
-		keywordCount.put("bottomleftcorner", 0);
-		keywordCount.put("toprightcorner", 0); 
-		keywordCount.put("bottomrightcorner", 0);
-		keywordCount.put("frontwall", 0);
-		keywordCount.put("leftwall", 0);
-		keywordCount.put("rightwall", 0);
+		for(int i =0; i < keywords.length; i++){
+			keywordCount.put(keywords[i], 0);
+		}
+		
 	}
 
 	/**
