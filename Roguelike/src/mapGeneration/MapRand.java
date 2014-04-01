@@ -186,7 +186,12 @@ public class MapRand {
 		LEFT,
 		RIGHT
 	}
-	
+	/**
+	 * Randomly picks a point on a rectangle given the specified side.
+	 * @param r
+	 * @param side
+	 * @return
+	 */
 	public static Point randRectEdge(Rectangle r, RectangleSide side){
 		Point result = null;
 		if(side == RectangleSide.TOP){
@@ -203,6 +208,39 @@ public class MapRand {
 		}
 		return result;
 	}
+	
+	
+	private static final int ACCURACY = 10000000;
+	/**
+	 * Randomly picks an index according to the array of probabilities given.
+	 * Eg: A = {0.25, 0.50, 0.25}
+	 * The expected returns should be:
+	 * 0 => ~25%
+	 * 1 => ~50%
+	 * 2 => ~25%
+	 * 
+	 * @param probArray An array in which the sum of all elements add up to 1.
+	 * @return An index of the array.
+	 */
+	public static int randArray(double[] probArray){
+		
+		int threshold = 0;
+		int randNum = rand.nextInt(ACCURACY-1);
+		
+		for (int i =0; i < probArray.length ;i++){
+			threshold += probArray[i] * ACCURACY;
+			
+			if(randNum < threshold){
+				return i;
+			}
+			
+		}
+	
+		//probabilites likely did not add to 1.
+		System.err.println("Warning! Probability array did not add to 1.");
+		return -1;
+	}
+	
 	/**
 	 * Returns a rectangle that represents the original rectangle
 	 * with one layer of border removed.
@@ -322,16 +360,17 @@ public class MapRand {
 	/*
 	public static void main(String args[]){
 
+		double[] prob = {0.028, 0.95, 0.022};
 
 		//randomization test verification.
 		final int MIN = 0;
 		final int MAX = 1;
-		final int TESTS = 1000000;
-		int[] freq = new int[MAX-MIN +1];
+		final int TESTS = 10000000;
+		int[] freq = new int[prob.length];
 
 		
 		for (int i = 0; i< TESTS ; i++){
-			freq[randBool(0.0) == true ? 0:1] ++;
+			freq[MapRand.randArray(prob)] ++;
 		}
 
 		
@@ -340,7 +379,7 @@ public class MapRand {
 			System.out.println("freq[" + i  +"] = "+ freq[i]);
 		}
 		
-		
+		/*
 		Rectangle r = new Rectangle(0,0,10,10);
 		int freqRect[][] = new int[10][10];
 		
@@ -358,6 +397,7 @@ public class MapRand {
 			}
 			System.out.println("");
 		}
+		
 	}
 	*/
 	 

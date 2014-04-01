@@ -4,19 +4,28 @@
 
 package entities;
 
+import java.awt.Image;
 import java.security.InvalidKeyException;
 import java.util.HashMap;
 
 
 public class Tile {
+	
 	private Container items = new Container();	// The items in the tile
 	private Sentient occupant = null;
 
+	private Image background;
+	private boolean passable;
+	
 	/**
 	 * Creates a new tile object with a blank image key.
 	 */
 	public Tile() { }
 
+	public Tile(boolean passable){
+		this.passable = passable;
+	}
+	
 	public Holdable getItem(Character itemID) {
 		return items.getItem(itemID);
 	}
@@ -89,5 +98,51 @@ public class Tile {
 
 	}
 
+	
+	/**
+	 * Gets the top most appropriate image to display on
+	 * the screen.
+	 * 
+	 * Drawing priority:
+	 * 1. Sentients
+	 * 2. Items
+	 * 3. Background of tile
+	 */
+	public Image getTopImage(){
+		if(occupant != null){
+			return occupant.getImg();
+		}
+		else if (items.getSize() > 0){
+			//TODO horriable way to get first item... PLEASE FIX
+			return items.getItem(items.getUsedIDs().iterator().next()).getImg();
+		}
+		return background;
+	}
+	
+	
+	/**
+	 * Gets the background image of the tile. 
+	 * This is the tile that is draw on the backend.
+	 * Do not use this method to get the top most
+	 * entity image.
+	 * @return
+	 */
+	public Image getBackground() {
+		return background;
+	}
+	
+	public void setBackground(Image background){
+		this.background = background;
+	}
 
+	public boolean isPassable() {
+		return passable;
+	}
+
+	public void setPassable(boolean passable) {
+		this.passable = passable;
+	}
+
+	
+	
 }

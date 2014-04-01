@@ -2,6 +2,7 @@ package graphics;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Class that manages each of the tile sets per level.
@@ -18,7 +19,14 @@ public class ImageManager {
 	private static final String RESOURCE_PATH = "\\res";
 	private static ImageManager global;
 	
+	
+	
 	private static HashMap<String, ImageRegistry> tileSets = new HashMap<String, ImageRegistry>();
+	
+	//global tileset accessable regardless of tilesets.
+	private static final String GLOBAL_KEY = "global";
+	private static ImageRegistry globalReg;
+	
 	
 	public static ImageManager getInstance(){
 		if (global == null){
@@ -38,6 +46,7 @@ public class ImageManager {
 		
 		
 		File resFolder = new File(path);
+		//go through each folder on the top layer.
 		if((resFolder.exists()) && (resFolder.isDirectory())){
 			//is folder and exists
 			File[] fileList = resFolder.listFiles();
@@ -47,6 +56,9 @@ public class ImageManager {
 					tileSets.put(fileList[i].getName(), reg);
 				}
 			}
+			
+			//finally create the global tile set for tiles in the res folder.
+			this.globalReg = new ImageRegistry(path);
 		}
 		else{
 			//cannot proceed if there is an error in the Image manager.
@@ -55,6 +67,12 @@ public class ImageManager {
 	}
 	
 	
+	
+	
+	public static ImageRegistry getGlobalRegistry(){
+		return globalReg;
+	}
+	
 	/**
 	 * Gets a tileset to work with.
 	 * @param key
@@ -62,6 +80,34 @@ public class ImageManager {
 	 */
 	public ImageRegistry getTileSet(String key){
 		return tileSets.get(key);
+	}
+	
+	public ImageRegistry[] getAllTileSets(){
+		ImageRegistry[] all = new ImageRegistry[tileSets.size()];
+		tileSets.values().toArray(all);
+		return all;
+	}
+	
+	/**
+	 * Gets all tile sets that have the substring provided.
+	 * Key comparison not case senstive.
+	 * @param simularKey
+	 * @return
+	 */
+	public ImageRegistry[] getAllTileSets(String simularKey){
+		LinkedList<ImageRegistry> results = new LinkedList<ImageRegistry>();
+		
+		//search all keys for simularity
+		for (String key : tileSets.keySet()){
+			if (key.toLowerCase().indexOf(simularKey.toLowerCase()) >=0){
+				results.add(tileSets.get(key));
+			}
+		}
+		
+		//return result
+		ImageRegistry[] all = new ImageRegistry[results.size()];
+		results.toArray(all);
+		return all;
 	}
 	
 	/**

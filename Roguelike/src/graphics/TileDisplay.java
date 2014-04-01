@@ -1,4 +1,6 @@
 package graphics;
+import game.Map;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -99,7 +101,7 @@ public class TileDisplay extends JPanel{
 	public void clearDisplay(){
 		for (int i = 0; i< xCells; i++){
 			for (int j = 0; j< yCells; j++){
-				//TODO clear tiles
+				buffer[i][j] = null;
 			}
 		}
 	}
@@ -189,6 +191,19 @@ public class TileDisplay extends JPanel{
 		
 	}
 
+	/**
+	 * Loads an entire map into the tile display.
+	 * @param map
+	 */
+	public void drawMap(Map map){
+		clearDisplay();
+		
+		for (int i = xScrMin/TILE_SIZE; i< xScrMax/TILE_SIZE; i++){
+			for (int j = yScrMin/TILE_SIZE; j< yScrMax/TILE_SIZE; j++){
+				buffer[i][j] = map.getTile(i, j).getBackground();
+			}
+		}
+	}
 
 	
 	//==============================================================================================
