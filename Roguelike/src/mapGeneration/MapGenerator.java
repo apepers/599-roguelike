@@ -186,17 +186,17 @@ public abstract class MapGenerator implements Iterable<MapTile>{
 			//horizontal draw
 			//leftmost first
 			for (int h = 0; h <= Math.abs(midPoint.x - start.x); h++){
-				fillRoomCorridor(start.x+h, start.y, tile);
+				fillRoomCorridor(start.x+h, start.y, true, tile);
 			}
 
 			//rightmost next
 			for (int h = 0; h <= Math.abs(midPoint.x - end.x); h++){
-				fillRoomCorridor(end.x-h, end.y, tile);
+				fillRoomCorridor(end.x-h, end.y, false, tile);
 			}
 
 			//vertical draw
 			for(int v = 0 ; v <= Math.abs(start.y - end.y); v++){
-				fillRoomCorridor(midPoint.x, start.y + (v * negation), tile);
+				fillRoomCorridor(midPoint.x, start.y + (v * negation), false, tile);
 			}
 		}
 		else if (horizontal == false){
@@ -218,17 +218,19 @@ public abstract class MapGenerator implements Iterable<MapTile>{
 			//vertical draw
 			//top first
 			for (int v = 0; v <= Math.abs(midPoint.y - start.y); v++){
-				fillRoomCorridor(start.x,start.y + (v* negation), tile);
+				fillRoomCorridor(start.x,start.y + (v* negation), false, tile);
 			}
 
 			//bottom next
 			for (int v = 0; v <= Math.abs(midPoint.y - end.y); v++){
-				fillRoomCorridor(end.x, end.y - (v * negation), tile);
+				fillRoomCorridor(end.x, end.y - (v * negation), false, tile);
 			}
 
 			//horizontal draw
 			for(int h = start.x ; h <= end.x; h++){
-				fillRoomCorridor(h, midPoint.y, tile);
+				boolean leftRight = false;
+				leftRight = (!leftRight) ? true : false;
+				fillRoomCorridor(h, midPoint.y, leftRight, tile);
 			}
 		}
 
@@ -240,15 +242,19 @@ public abstract class MapGenerator implements Iterable<MapTile>{
 	 * then the corridor is not filled at all.
 	 * @param x
 	 * @param y
+	 * @param vRight Tells if the drawing is done on the left or right wall. (vertical) Use false for default
 	 * @param tile
 	 */
-	private void fillRoomCorridor(int x, int y, MapTile tile){
+	private void fillRoomCorridor(int x, int y, boolean vRight, MapTile tile){
 		if(((x >= 0) && (x < width)) && ((y >=0) && (y < height))){
 			if(grid[x][y] == MapTile.WALL_H){
 				//drawing on a wall, make as door
 				grid[x][y] = MapTile.DOOR_FRONT;
 			}
-			else if(grid[x][y] == MapTile.WALL_V){
+			else if((grid[x][y] == MapTile.WALL_V) && (vRight == true)){
+				grid[x][y] = MapTile.DOOR_RIGHT;
+			}
+			else if((grid[x][y] == MapTile.WALL_V) && (vRight == false)){
 				grid[x][y] = MapTile.DOOR_LEFT;
 			}
 			else if(grid[x][y] != MapTile.ROOM_FLOOR){

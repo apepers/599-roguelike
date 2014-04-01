@@ -122,6 +122,8 @@ public class MapInterpreter {
 					}
 				}
 			}
+			
+			decorateRoom(map, registries, room);
 
 		}
 
@@ -150,6 +152,18 @@ public class MapInterpreter {
 		}
 
 		return newMap;
+	}
+
+	
+	/**
+	 * This method decorates a room with a number of items
+	 * monsters, and other tile artifacts.
+	 * Do not add keys for doors here.
+	 * @param room An entire room including the walls
+	 */
+	private static void decorateRoom(MapGenerator map, ImageRegistry[] registries, Rectangle room) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
