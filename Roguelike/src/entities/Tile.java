@@ -102,8 +102,20 @@ public class Tile {
 	/**
 	 * Gets the top most appropriate image to display on
 	 * the screen.
+	 * 
+	 * Drawing priority:
+	 * 1. Sentients
+	 * 2. Items
+	 * 3. Background of tile
 	 */
-	public Image getTileImage(){
+	public Image getTopImage(){
+		if(occupant != null){
+			return occupant.getImg();
+		}
+		else if (items.getSize() > 0){
+			//TODO horriable way to get first item... PLEASE FIX
+			return items.getItem(items.getUsedIDs().iterator().next()).getImg();
+		}
 		return background;
 	}
 	
