@@ -105,11 +105,9 @@ public class Controller {
 	}
 	
 	public void movePlayerUp() {
-		System.out.println("Moving up");
 		Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() - 1);
 		if (newTile.isPassable()) {
 			player.setLocation(newTile);
-			System.out.println("In new tile!");
 		}
 	}
 	

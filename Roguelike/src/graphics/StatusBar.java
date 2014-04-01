@@ -9,6 +9,7 @@ public class StatusBar extends JTextArea{
 
 	public StatusBar(){
 		super.setEditable(false);
+		super.setFocusable(false);
 		super.setFont(new Font("default", Font.BOLD, super.getFont().getSize()));
 	}
 	

@@ -106,17 +106,17 @@ public class Frame extends JFrame {
 		scrollPaneConsole.setViewportView(console);
 		controller.getMessenger().setPlayerLog(console); // Set up Messenger to be able to write to console
 		// Connect key stroke commands to Messenger actions
-		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "quit");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "quit");
 		console.getActionMap().put("quit", controller.getMessenger().getQuitAction());
-		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "pickup");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "pickup");
 		console.getActionMap().put("pickup", controller.getMessenger().getPAction());
-		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0), "inventory");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0), "inventory");
 		console.getActionMap().put("inventory", controller.getMessenger().getIAction());
-		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), "eat");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), "eat");
 		console.getActionMap().put("eat", controller.getMessenger().getEAction());
-		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "up");	// Should be VK_UP
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
 		console.getActionMap().put("up", controller.getMessenger().getUpAction());
-		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
 		console.getActionMap().put("down", controller.getMessenger().getDownAction());
 		
 		JScrollPane scrollPaneStatusBar = new JScrollPane();

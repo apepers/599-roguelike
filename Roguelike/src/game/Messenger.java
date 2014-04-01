@@ -65,7 +65,7 @@ public class Messenger {
 		
 		upAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Moving up");
+				log.println("Moving up");
 				controller.movePlayerUp();
 				display.repaint();
 			}
@@ -73,6 +73,7 @@ public class Messenger {
 		
 		downAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				log.println("Moving down");
 				controller.movePlayerDown();
 				display.repaint();
 			}
