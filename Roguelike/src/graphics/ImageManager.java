@@ -2,6 +2,7 @@ package graphics;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Class that manages each of the tile sets per level.
@@ -84,6 +85,28 @@ public class ImageManager {
 	public ImageRegistry[] getAllTileSets(){
 		ImageRegistry[] all = new ImageRegistry[tileSets.size()];
 		tileSets.values().toArray(all);
+		return all;
+	}
+	
+	/**
+	 * Gets all tile sets that have the substring provided.
+	 * Key comparison not case senstive.
+	 * @param simularKey
+	 * @return
+	 */
+	public ImageRegistry[] getAllTileSets(String simularKey){
+		LinkedList<ImageRegistry> results = new LinkedList<ImageRegistry>();
+		
+		//search all keys for simularity
+		for (String key : tileSets.keySet()){
+			if (key.toLowerCase().indexOf(simularKey.toLowerCase()) >=0){
+				results.add(tileSets.get(key));
+			}
+		}
+		
+		//return result
+		ImageRegistry[] all = new ImageRegistry[results.size()];
+		results.toArray(all);
 		return all;
 	}
 	

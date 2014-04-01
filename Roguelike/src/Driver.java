@@ -45,7 +45,7 @@ public class Driver {
 			BufferedImage space = ImageIO.read(new File(System.getProperty("user.dir")+"\\res\\space.png"));
 			
 			
-			Map map = MapInterpreter.interpretMap(demoLevel, ImageManager.getInstance().getAllTileSets());
+			Map map = MapInterpreter.interpretMap(demoLevel, ImageManager.getInstance().getAllTileSets("map"));
 			tileDisplay.drawMap(map);
 			tileDisplay.repaint();
 			
