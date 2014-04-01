@@ -55,7 +55,7 @@ public class MapInterpreter {
 					//any type of wall
 					newTile = TileFactory.makeWall();
 				}
-				else if(tile == MapTile.DOOR){
+				else if((tile == MapTile.DOOR_FRONT) || (tile == MapTile.DOOR_LEFT)|| (tile == MapTile.DOOR_RIGHT)){
 					//TODO Doors are passable for now.
 					newTile = TileFactory.makeFloor();
 				}
@@ -111,11 +111,14 @@ public class MapInterpreter {
 					else if(tile == MapTile.ROOM_FLOOR){
 						stateTile.setBackground(skin.getTile("floor"));
 					} 
-					else if(tile == MapTile.PLAYER_SPAWN){
-
-					} 
-					else if(tile == MapTile.DOOR){
-
+					else if(tile == MapTile.DOOR_FRONT){
+						stateTile.setBackground(skin.getTile("frontdoorclosed" + MapRand.randInt(1, skin.keyCount("frontdoorclosed"))));
+					}
+					else if(tile == MapTile.DOOR_LEFT){
+						stateTile.setBackground(skin.getTile("leftdoorclosed" + MapRand.randInt(1, skin.keyCount("leftdoorclosed"))));
+					}
+					else if(tile == MapTile.DOOR_RIGHT){
+						stateTile.setBackground(skin.getTile("rightdoorclosed" + MapRand.randInt(1, skin.keyCount("rightdoorclosed"))));
 					}
 				}
 			}
@@ -139,7 +142,10 @@ public class MapInterpreter {
 				}
 				else if(tile == MapTile.CORRIDOR_FLOOR){
 					stateTile.setBackground(skin.getTile("floor"));
-				}			
+				}		
+				else if(tile == MapTile.PLAYER_SPAWN){
+					stateTile.setBackground(skin.getTile("floor"));
+				}
 			}
 		}
 
@@ -166,7 +172,9 @@ public class MapInterpreter {
 				else if(tile == MapTile.WALL_BR_CORNER){}			
 				else if(tile == MapTile.ROOM_FLOOR){} 
 				else if(tile == MapTile.PLAYER_SPAWN){} 
-				else if(tile == MapTile.DOOR){}
+				else if(tile == MapTile.DOOR_FRONT){}
+				else if(tile == MapTile.DOOR_LEFT){}
+				else if(tile == MapTile.DOOR_RIGHT){}
 			}
 		}
  */

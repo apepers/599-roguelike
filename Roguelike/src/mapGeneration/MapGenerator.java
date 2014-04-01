@@ -14,6 +14,9 @@ import java.util.Iterator;
  * 
  * The generated map contains a list of rectangles in which it is safe 
  * add monsters and objects. This typically excludes walls.
+ * 
+ * It is expected that when the rooms are drawn, any intersection with a wall 
+ * corridor will result in the creation of a door.
  * @author Kevin
  *
  */
@@ -241,9 +244,12 @@ public abstract class MapGenerator implements Iterable<MapTile>{
 	 */
 	private void fillRoomCorridor(int x, int y, MapTile tile){
 		if(((x >= 0) && (x < width)) && ((y >=0) && (y < height))){
-			if((grid[x][y] == MapTile.WALL_H) || (grid[x][y] == MapTile.WALL_V)){
+			if(grid[x][y] == MapTile.WALL_H){
 				//drawing on a wall, make as door
-				grid[x][y] = MapTile.DOOR;
+				grid[x][y] = MapTile.DOOR_FRONT;
+			}
+			else if(grid[x][y] == MapTile.WALL_V){
+				grid[x][y] = MapTile.DOOR_LEFT;
 			}
 			else if(grid[x][y] != MapTile.ROOM_FLOOR){
 				grid[x][y] = tile;

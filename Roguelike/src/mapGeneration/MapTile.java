@@ -14,7 +14,8 @@ public enum MapTile {
 	WALL_H, WALL_V, 														//horizonal/vertical walls.
 	WALL_TL_CORNER, WALL_TR_CORNER, WALL_BL_CORNER, WALL_BR_CORNER,			//wall corners
 	ROOM_FLOOR, CORRIDOR_FLOOR,
-	PLAYER_SPAWN, DOOR,
+	PLAYER_SPAWN, 
+	DOOR_FRONT, DOOR_RIGHT, DOOR_LEFT,
 	ITEM, MONSTER;
 
 
@@ -41,7 +42,11 @@ public enum MapTile {
 			return "/";
 		case PLAYER_SPAWN:
 			return "@";
-		case DOOR:
+		case DOOR_FRONT:
+			return "+";
+		case DOOR_LEFT:
+			return "+";
+		case DOOR_RIGHT:
 			return "+";
 		case ITEM:
 			return "$";
