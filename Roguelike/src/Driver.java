@@ -16,9 +16,6 @@ import mapGeneration.MapInterpreter;
 import mapGeneration.MapTile;
 import mapGeneration.SimpleMap;
 
-
-
-
 /**
  * Starts the game.
  * @author Kevin
@@ -40,37 +37,20 @@ public class Driver {
 		StatusBar status = new StatusBar();
 		Frame frame = new Frame(tileDisplay, console, status, controller);
 		frame.setVisible(true);
-		try {
-			
-			//grab some images
-			System.out.println(System.getProperty("user.dir"));
-			System.out.println(new File(System.getProperty("user.dir")+"\\res\\derp.png").exists());
-			BufferedImage derp = ImageIO.read(new File(System.getProperty("user.dir")+"\\res\\derp.png"));
-			BufferedImage wall = ImageIO.read(new File(System.getProperty("user.dir")+"\\res\\wall.png"));
-			BufferedImage floor = ImageIO.read(new File(System.getProperty("user.dir")+"\\res\\floor.png"));
-			BufferedImage space = ImageIO.read(new File(System.getProperty("user.dir")+"\\res\\space.png"));
-			
-			
-			Map map = MapInterpreter.interpretMap(demoLevel, ImageManager.getInstance().getAllTileSets("map"));
-			tileDisplay.drawMap(map);
-			tileDisplay.repaint();
-			
-			
-			//write some messages
-			console.println("Welcome to Severed Space!");
-			console.println("Testing console");
-			
-			for(int i = 0; i< 10 ; i++){
-				console.println("T = " + (i+1));
-			}
-			
-			status.setText("Player: ");
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		// Get the image resources
+		Map map = MapInterpreter.interpretMap(demoLevel, ImageManager.getInstance().getAllTileSets("map"));
+		tileDisplay.drawMap(map);
+		tileDisplay.repaint();
+		
+		
+		//write some messages
+		console.println("Welcome to Severed Space!");
+		console.println("Testing console");
+		
+		for(int i = 0; i< 10 ; i++){
+			console.println("T = " + (i+1));
 		}
 		
-		
+		status.setText("Player: ");
 	}
 }
