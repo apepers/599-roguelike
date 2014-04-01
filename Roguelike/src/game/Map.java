@@ -28,4 +28,12 @@ public class Map {
 		// TODO Auto-generated method stub
 		return grid[i][j];
 	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
 }

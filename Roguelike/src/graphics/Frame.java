@@ -49,28 +49,6 @@ public class Frame extends JFrame {
 	
 	private JScrollBar mapScrHorizontal;
 	private JScrollBar mapScrVertical;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				Controller controller = new Controller();
-				// Setup the game, only continue if it succeeded
-				if (!controller.setup()) {
-					System.err.println("Setup did not complete successfully. Exiting now.");
-					System.exit(0);
-				}
-				try {
-					Frame frame = new Frame(new TileDisplay(50,40), new PlayerLog(), new StatusBar(), controller);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				//controller.run();
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.

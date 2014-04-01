@@ -6,6 +6,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import entities.*;
 import serialization.ItemDuplicator;
@@ -16,13 +17,13 @@ public class Controller {
 	private Player player;
 	ArrayList<Food> foods;
 	private ItemDuplicator duplicator;
-	ArrayList<Tile> map;	// Placeholder until the proper map is brought in
+	private Map map;
 	private Messenger messenger;
 	boolean gameRunning;
 	
 	public Controller() { };
 	
-	public boolean setup() {
+	public boolean setup(Map m) {
 		foods = new ArrayList<Food>();
 		try {
 			loadFoods();
@@ -32,14 +33,20 @@ public class Controller {
 		}
 		duplicator = new ItemDuplicator();
 		player = new Player();
-		Tile tile = new Tile();
-		map = new ArrayList<Tile>();
-		map.add(tile);	// Would call function to create the random map
+/*
 		// Would randomly add items to the map
 		for (Food f : foods) {
 			tile.addItem((Holdable)duplicator.duplicate(f));
 			tile.addItem((Holdable)duplicator.duplicate(f));
-		}
+		}*/
+		map = m;
+		Random rand = new Random();
+		Tile tile;
+		do {
+			int width = rand.nextInt(map.getWidth());
+			int height = rand.nextInt(map.getHeight());
+			tile = map.getTile(width, height);
+		} while (!tile.isPassable());
 		// Place player on the map
 		tile.setOccupant(player);
 		messenger = new Messenger(this, player);

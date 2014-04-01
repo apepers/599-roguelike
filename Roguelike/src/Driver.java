@@ -26,22 +26,23 @@ public class Driver {
 	public static void main(String args[]){
 		MapGenerator demoLevel = new BSTMap(125,125);
 		
-		Controller controller = new Controller();
-		// Setup the game, only continue if it succeeded
-		if (!controller.setup()) {
-			System.err.println("Setup did not complete successfully. Exiting now.");
-			System.exit(0);
-		}		
 		TileDisplay tileDisplay = new TileDisplay(125,125);
-		PlayerLog console = new PlayerLog();
-		StatusBar status = new StatusBar();
-		Frame frame = new Frame(tileDisplay, console, status, controller);
-		frame.setVisible(true);
 		// Get the image resources
 		Map map = MapInterpreter.interpretMap(demoLevel, ImageManager.getInstance().getAllTileSets("map"));
 		tileDisplay.drawMap(map);
 		tileDisplay.repaint();
 		
+		Controller controller = new Controller();
+		// Setup the game, only continue if it succeeded
+		if (!controller.setup(map)) {
+			System.err.println("Setup did not complete successfully. Exiting now.");
+			System.exit(0);
+		}	
+	
+		PlayerLog console = new PlayerLog();
+		StatusBar status = new StatusBar();
+		Frame frame = new Frame(tileDisplay, console, status, controller);
+		frame.setVisible(true);
 		
 		//write some messages
 		console.println("Welcome to Severed Space!");
