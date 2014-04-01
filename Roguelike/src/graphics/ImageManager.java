@@ -18,7 +18,14 @@ public class ImageManager {
 	private static final String RESOURCE_PATH = "\\res";
 	private static ImageManager global;
 	
+	
+	
 	private static HashMap<String, ImageRegistry> tileSets = new HashMap<String, ImageRegistry>();
+	
+	//global tileset accessable regardless of tilesets.
+	private static final String GLOBAL_KEY = "global";
+	private static ImageRegistry globalReg;
+	
 	
 	public static ImageManager getInstance(){
 		if (global == null){
@@ -38,6 +45,7 @@ public class ImageManager {
 		
 		
 		File resFolder = new File(path);
+		//go through each folder on the top layer.
 		if((resFolder.exists()) && (resFolder.isDirectory())){
 			//is folder and exists
 			File[] fileList = resFolder.listFiles();
@@ -47,6 +55,9 @@ public class ImageManager {
 					tileSets.put(fileList[i].getName(), reg);
 				}
 			}
+			
+			//finally create the global tile set for tiles in the res folder.
+			this.globalReg = new ImageRegistry(path);
 		}
 		else{
 			//cannot proceed if there is an error in the Image manager.
@@ -54,6 +65,12 @@ public class ImageManager {
 		}
 	}
 	
+	
+	
+	
+	public static ImageRegistry getGlobalRegistry(){
+		return globalReg;
+	}
 	
 	/**
 	 * Gets a tileset to work with.

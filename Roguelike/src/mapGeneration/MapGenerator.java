@@ -37,7 +37,7 @@ public abstract class MapGenerator implements Iterable<MapTile>{
 
 		for(int i= 0; i< width; i++){
 			for(int j =0; j < height; j++){
-				grid[i][j] = MapTile.BLANK;
+				grid[i][j] = MapTile.SPACE;
 			}
 		}
 	}

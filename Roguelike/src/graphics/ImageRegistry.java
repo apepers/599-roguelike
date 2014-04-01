@@ -38,65 +38,68 @@ public class ImageRegistry {
 	public ImageRegistry(String textureDir){
 
 		initialize();
-		
+
 		this.dir = textureDir;
 		//open index file
 		File indexFile = new File(textureDir + "\\" + INDEX_FILE);
 		if (indexFile.exists() == false){
-			throw new IllegalArgumentException("Error! Cannot find the index file for the texture folder: " + textureDir);
+			System.err.println("Warning! Cannot find the index file for the texture folder: " + textureDir + ". Tile set not added.");
 		}
+		else{
+			//read the index file for all mappings
+			FileReader fs;
+			BufferedReader br;
+			try {
+				fs = new FileReader(indexFile);
+				br = new BufferedReader(fs);
 
-		//read the index file for all mappings
-		FileReader fs;
-		BufferedReader br;
-		try {
-			fs = new FileReader(indexFile);
-			br = new BufferedReader(fs);
 
+				String nextLine = br.readLine();
+				while(nextLine != null){
+					//expects a mapping then the image file name, delimited by comma
+					int delim = nextLine.indexOf(",");
 
-			String nextLine = br.readLine();
-			while(nextLine != null){
-				//expects a mapping then the image file name, delimited by comma
-				int delim = nextLine.indexOf(",");
+					//process line as long as there is at least one character for the mapping
+					if(delim >=1){
+						String[] splitted = nextLine.split(",");
+						String key = splitted[0].trim();
+						String image = splitted[1].trim();
 
-				//process line as long as there is at least one character for the mapping
-				if(delim >=1){
-					String[] splitted = nextLine.split(",");
-					String key = splitted[0].trim();
-					String image = splitted[1].trim();
+						File imageFile = new File(textureDir + "\\" + image);
+						if (imageFile.exists() == true){
+							//key is at least length one, and image can be read
+							registry.put(key, ImageIO.read(imageFile));
 
-					File imageFile = new File(textureDir + "\\" + image);
-					if (imageFile.exists() == true){
-						//key is at least length one, and image can be read
-						registry.put(key, ImageIO.read(imageFile));
+							for(int i = 0; i < keywords.length; i++){
 
-						for(int i = 0; i < keywords.length; i++){
-							
-							int index = key.indexOf(keywords[i]);
-							int nextChar = index + keywords[i].length();
-							if((index>=0) && (nextChar < key.length()) && (Character.isDigit(key.charAt(nextChar)))){
-								//is one of the keywords. break when done.
-								Integer current = keywordCount.get(keywords[i]);
-								current++;
-								keywordCount.put(keywords[i], current);
-								break;
+								int index = key.indexOf(keywords[i]);
+								int nextChar = index + keywords[i].length();
+								if((index>=0) && (nextChar < key.length()) && (Character.isDigit(key.charAt(nextChar)))){
+									//is one of the keywords. break when done.
+									Integer current = keywordCount.get(keywords[i]);
+									current++;
+									keywordCount.put(keywords[i], current);
+									break;
+								}
 							}
 						}
+						else{
+							System.err.println("Warning! Invalid key->image mapping detected in index file from " + textureDir + " that does not exist.");
+						}
+
+
+
 					}
-
-
-
+					//skip line if not conforming.
+					nextLine = br.readLine();
 				}
-				//skip line if not conforming.
-				nextLine = br.readLine();
+
+				fs.close();
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
-			fs.close();
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-
 	}
 
 	private void initialize(){

@@ -3,6 +3,7 @@ package mapGeneration;
 import java.awt.Rectangle;
 
 import game.Map;
+import graphics.ImageManager;
 import graphics.ImageRegistry;
 import entities.TileFactory;
 import entities.Tile;
@@ -130,9 +131,11 @@ public class MapInterpreter {
 			for(int j =0; j < map.getHeight(); j++){
 				MapTile tile = map.getTile(i, j);
 				Tile stateTile = newMap.getTile(i, j);
-				if (tile == MapTile.BLANK){}
+				if (tile == MapTile.BLANK){
+					stateTile.setBackground(ImageManager.getGlobalRegistry().getTile("blank"));
+				}
 				else if(tile == MapTile.SPACE){
-					stateTile.setBackground(skin.getTile("space"));
+					stateTile.setBackground(ImageManager.getGlobalRegistry().getTile("space"));
 				}
 				else if(tile == MapTile.CORRIDOR_FLOOR){
 					stateTile.setBackground(skin.getTile("floor"));
