@@ -20,8 +20,8 @@ public class MapInterpreter {
 		if(registries.length < 1){
 			throw new IllegalArgumentException("Cannot interpret map with "+ registries.length + " registries.");
 		}
-		
-		
+
+
 		Map newMap = new Map(map.getWidth(), map.getHeight());
 
 		//for each tile in the map, convert to an entity tile. Images not yet added.
@@ -68,7 +68,7 @@ public class MapInterpreter {
 		//for each room, decorate with the styles
 		for (Rectangle room : map.getRooms()){
 			ImageRegistry skin = registries[MapRand.randInt(registries.length-1)];
-			
+
 			//paint each room with the appropriate tile
 			for(int i= room.x; i< room.x + room.width; i++){
 				for(int j =room.y; j < room.y + room.height; j++){
@@ -111,23 +111,39 @@ public class MapInterpreter {
 						stateTile.setBackground(skin.getTile("floor"));
 					} 
 					else if(tile == MapTile.PLAYER_SPAWN){
-						
+
 					} 
 					else if(tile == MapTile.DOOR){
-						
+
 					}
 				}
 			}
-			
-			
-			
-		}
-		
 
+		}
+
+		//fill the rest of the map with tiles. These are non room tiles supposedly
+
+		ImageRegistry skin = registries[MapRand.randInt(registries.length-1)];
+
+		//paint each room with the appropriate tile
+		for(int i= 0; i< map.getWidth(); i++){
+			for(int j =0; j < map.getHeight(); j++){
+				MapTile tile = map.getTile(i, j);
+				Tile stateTile = newMap.getTile(i, j);
+				if (tile == MapTile.BLANK){}
+				else if(tile == MapTile.SPACE){
+					stateTile.setBackground(skin.getTile("space"));
+				}
+				else if(tile == MapTile.CORRIDOR_FLOOR){
+					stateTile.setBackground(skin.getTile("floor"));
+				}			
+			}
+		}
 
 		return newMap;
 	}
 }
+
 
 
 
