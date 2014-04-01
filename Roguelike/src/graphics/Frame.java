@@ -1,24 +1,32 @@
 package graphics;
 
-import game.Constants;
+import game.*;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
-
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 
 
+import javax.swing.KeyStroke;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 /**
  * This is a window builder compatible class. Edit with
@@ -47,12 +55,19 @@ public class Frame extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				Controller controller = new Controller();
+				// Setup the game, only continue if it succeeded
+				if (!controller.setup()) {
+					System.err.println("Setup did not complete successfully. Exiting now.");
+					System.exit(0);
+				}
 				try {
-					Frame frame = new Frame(new TileDisplay(50,40), new PlayerLog(), new StatusBar());
+					Frame frame = new Frame(new TileDisplay(50,40), new PlayerLog(), new StatusBar(), controller);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				//controller.run();
 			}
 		});
 	}
@@ -60,7 +75,7 @@ public class Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Frame(TileDisplay display, PlayerLog console, StatusBar status) {
+	public Frame(TileDisplay display, PlayerLog console, StatusBar status, Controller controller) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 725);
 		setTitle(Constants.GAME_NAME);
@@ -111,6 +126,16 @@ public class Frame extends JFrame {
 		
 		this.console = console;
 		scrollPaneConsole.setViewportView(console);
+		controller.getMessenger().setPlayerLog(console); // Set up Messenger to be able to write to console
+		// Connect key stroke commands to Messenger actions
+		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "quit");
+		console.getActionMap().put("quit", controller.getMessenger().getQuitAction());
+		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "pickup");
+		console.getActionMap().put("pickup", controller.getMessenger().getPAction());
+		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0), "inventory");
+		console.getActionMap().put("inventory", controller.getMessenger().getIAction());
+		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), "eat");
+		console.getActionMap().put("eat", controller.getMessenger().getEAction());
 		
 		JScrollPane scrollPaneStatusBar = new JScrollPane();
 		scrollPaneStatusBar.setBounds(0, 632, 894, 46);

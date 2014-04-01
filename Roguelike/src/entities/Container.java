@@ -54,6 +54,79 @@ public class Container extends Holdable {
 		}
 	}
 	
+	// Get an array of strings which contain all item descriptions in the form "id - proper name"
+	public String[] getItemTexts() {
+		String[] itemText = new String[weapons.size() + foods.size() + misc.size()];
+		int itemCount = 0;
+		if (weapons.size() > 0) {
+			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
+				itemText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}
+		}
+		if (foods.size() > 0) {
+			Iterator<Entry<Character, Food>> iter = foods.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Food> entry = (Map.Entry<Character, Food>)iter.next();
+				itemText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}
+		}
+		if (misc.size() > 0) {
+			Iterator<Entry<Character, Holdable>> iter = misc.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
+				itemText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}
+		}
+		return itemText;
+	}
+	
+	public String[] getWeaponTexts() {
+		String[] weaponText = new String[weapons.size()];
+		int itemCount = 0;
+		if (weapons.size() > 0) {
+			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
+				weaponText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}			
+		}
+		return weaponText;
+	}
+	
+	public String[] getFoodsTexts() {
+		String[] foodText = new String[foods.size()];
+		int itemCount = 0;
+		if (foods.size() > 0) {
+			Iterator<Entry<Character, Food>> iter = foods.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Food> entry = (Map.Entry<Character, Food>)iter.next();
+				foodText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}
+		}
+		return foodText;
+	}
+	
+	public String[] getMiscTexts() {
+		String[] miscText = new String[misc.size()];
+		int itemCount = 0;
+		if (misc.size() > 0) {
+			Iterator<Entry<Character, Holdable>> iter = misc.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
+				miscText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}
+		}
+		return miscText;
+	}
+	
 	public int getSize() {
 		return size;
 	}
@@ -91,6 +164,16 @@ public class Container extends Holdable {
 	public Set<Character> getUsedIDs() {
 		Set<Character> usedIDs = getAllItems().keySet();
 		return usedIDs;
+	}
+	
+	// Get all of the ID's concatenated into one string, i.e "abcd"
+	public String getIDString() {
+		Set<Character> ids = getUsedIDs();
+		String IDString = "";
+		for (Character c : ids) {
+			IDString += c;
+		}
+		return IDString;
 	}
 	
 	public Character assignID(Holdable item) {

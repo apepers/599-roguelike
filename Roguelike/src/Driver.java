@@ -5,6 +5,7 @@ import javax.imageio.ImageIO;
 
 import game.Map;
 import graphics.ImageManager;
+import game.Controller;
 import graphics.PlayerLog;
 import graphics.Frame;
 import graphics.StatusBar;
@@ -28,11 +29,16 @@ public class Driver {
 	public static void main(String args[]){
 		MapGenerator demoLevel = new BSTMap(125,125);
 		
-		
+		Controller controller = new Controller();
+		// Setup the game, only continue if it succeeded
+		if (!controller.setup()) {
+			System.err.println("Setup did not complete successfully. Exiting now.");
+			System.exit(0);
+		}		
 		TileDisplay tileDisplay = new TileDisplay(125,125);
 		PlayerLog console = new PlayerLog();
 		StatusBar status = new StatusBar();
-		Frame frame = new Frame(tileDisplay, console, status);
+		Frame frame = new Frame(tileDisplay, console, status, controller);
 		frame.setVisible(true);
 		try {
 			
