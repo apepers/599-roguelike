@@ -30,7 +30,7 @@ public class ImageManager {
 	
 	public static ImageManager getInstance(){
 		if (global == null){
-			global = new ImageManager("D:\\Users\\Kevin\\GitHub\\599-roguelike\\Roguelike\\src"+ RESOURCE_PATH);
+			global = new ImageManager(System.getProperty("user.dir") + "\\src" + RESOURCE_PATH);
 		}
 		return global;
 	}
