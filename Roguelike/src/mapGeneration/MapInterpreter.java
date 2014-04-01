@@ -1,7 +1,6 @@
 package mapGeneration;
 
 import java.awt.Rectangle;
-import java.rmi.registry.Registry;
 
 import game.Map;
 import graphics.ImageRegistry;
@@ -97,19 +96,19 @@ public class MapInterpreter {
 						}
 					} 	
 					else if(tile == MapTile.WALL_TL_CORNER){
-						stateTile.setBackground(skin.getTile("topleftcorner" + MapRand.randInt(1, skin.keyCount("topleftcorner"))));
+						stateTile.setBackground(skin.getTile("topleftcorner"));
 					} 
 					else if(tile == MapTile.WALL_TR_CORNER){
-						stateTile.setBackground(skin.getTile("toprightcorner" + MapRand.randInt(1, skin.keyCount("toprightcorner"))));
+						stateTile.setBackground(skin.getTile("toprightcorner"));
 					} 
 					else if(tile == MapTile.WALL_BL_CORNER){
-						stateTile.setBackground(skin.getTile("bottomleftcorner" + MapRand.randInt(1, skin.keyCount("bottomleftcorner"))));
+						stateTile.setBackground(skin.getTile("bottomleftcorner"));
 					} 
 					else if(tile == MapTile.WALL_BR_CORNER){
-						stateTile.setBackground(skin.getTile("bottomrightcorner" + MapRand.randInt(1, skin.keyCount("bottomrightcorner"))));
+						stateTile.setBackground(skin.getTile("bottomrightcorner"));
 					}			
 					else if(tile == MapTile.ROOM_FLOOR){
-						stateTile.setBackground(skin.getTile("floor" + MapRand.randInt(1, skin.keyCount("floor"))));
+						stateTile.setBackground(skin.getTile("floor"));
 					} 
 					else if(tile == MapTile.PLAYER_SPAWN){
 						
@@ -126,7 +125,7 @@ public class MapInterpreter {
 		
 
 
-		return null;
+		return newMap;
 	}
 }
 

@@ -64,6 +64,12 @@ public class ImageManager {
 		return tileSets.get(key);
 	}
 	
+	public ImageRegistry[] getAllTileSets(){
+		ImageRegistry[] all = new ImageRegistry[tileSets.size()];
+		tileSets.values().toArray(all);
+		return all;
+	}
+	
 	/**
 	 * Returns the number of tilesets currently loaded
 	 * into memory.

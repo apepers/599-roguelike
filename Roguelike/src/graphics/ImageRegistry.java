@@ -62,7 +62,7 @@ public class ImageRegistry {
 				//process line as long as there is at least one character for the mapping
 				if(delim >=1){
 					String[] splitted = nextLine.split(",");
-					String key =splitted[0].trim();
+					String key = splitted[0].trim();
 					String image = splitted[1].trim();
 
 					File imageFile = new File(textureDir + "\\" + image);
@@ -71,7 +71,10 @@ public class ImageRegistry {
 						registry.put(key, ImageIO.read(imageFile));
 
 						for(int i = 0; i < keywords.length; i++){
-							if(key.indexOf(keywords[i]) >=0){
+							
+							int index = key.indexOf(keywords[i]);
+							int nextChar = index + keywords[i].length();
+							if((index>=0) && (nextChar < key.length()) && (Character.isDigit(key.charAt(nextChar)))){
 								//is one of the keywords. break when done.
 								Integer current = keywordCount.get(keywords[i]);
 								current++;

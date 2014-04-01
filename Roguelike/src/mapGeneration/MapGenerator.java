@@ -35,7 +35,11 @@ public abstract class MapGenerator implements Iterable<MapTile>{
 
 		grid = new MapTile[width][height];
 
-
+		for(int i= 0; i< width; i++){
+			for(int j =0; j < height; j++){
+				grid[i][j] = MapTile.BLANK;
+			}
+		}
 	}
 
 
