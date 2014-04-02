@@ -84,7 +84,7 @@ public class SimpleMap extends MapGenerator {
 				}
 				else{
 					//add room
-					super.fillWallRoom(rooms[i][j]);
+					super.fillRoom(rooms[i][j]);
 					super.addRoom(rooms[i][j]);
 				}
 			}
@@ -118,7 +118,7 @@ public class SimpleMap extends MapGenerator {
 		//determine door intersections.
 
 		//set player spawn
-		super.setPlayerSpawn(MapRand.randPoint(MapRand.innerRectangle(super.getRooms()[MapRand.randInt(super.getRoomCount())])));
+		super.setPlayerSpawn(MapRand.randPoint(MapRand.innerRectangle(super.getRooms()[MapRand.randInt(super.getRoomCount()-1)])));
 
 	}
 
