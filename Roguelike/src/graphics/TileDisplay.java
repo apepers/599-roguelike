@@ -196,7 +196,7 @@ public class TileDisplay extends JPanel{
 		
 		for (int i = xScrMin/TILE_SIZE; i< xScrMax/TILE_SIZE; i++){
 			for (int j = yScrMin/TILE_SIZE; j< yScrMax/TILE_SIZE; j++){
-				buffer[i][j] = map.getTile(i, j).getBackground();
+				buffer[i][j] = map.getTile(Math.min(i, map.getWidth()-1), Math.min(j, map.getHeight()-1)).getBackground();
 			}
 		}
 	}
