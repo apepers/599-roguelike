@@ -35,6 +35,10 @@ public class Tile {
 		return items;
 	}
 
+	public int getItemCount(){
+		return items.getSize();
+	}
+	
 	// Get a list of all the items in the tile
 	public HashMap<Character, Holdable> getAllItems() {
 		return items.getAllItems();
@@ -73,6 +77,13 @@ public class Tile {
 		return occupant;
 	}
 
+	/**
+	 * Checks to see if the tile is currently occupied.
+	 * @return
+	 */
+	public boolean isOccupied(){
+		return occupant != null;
+	}
 	// Check is there is a sentient standing in the square or not
 	public boolean tileFree() {
 		if (occupant != null)

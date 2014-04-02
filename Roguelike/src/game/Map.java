@@ -1,5 +1,8 @@
 package game;
 
+import java.awt.Rectangle;
+import java.util.ArrayList;
+
 import entities.Tile;
 
 public class Map {
@@ -8,6 +11,8 @@ public class Map {
 	private int height;
 	
 	private Tile[][] grid;
+	
+	private ArrayList<Rectangle> rooms = new ArrayList<Rectangle>();
 	
 	/**
 	 * Creates an empty map of width x height.
@@ -20,6 +25,8 @@ public class Map {
 		grid = new Tile[width][height];
 	}
 	
+	
+	
 	public void setTile(int x, int y, Tile tile){
 		grid[x][y] = tile;
 	}
@@ -27,5 +34,20 @@ public class Map {
 	public Tile getTile(int i, int j) {
 		// TODO Auto-generated method stub
 		return grid[i][j];
+	}
+	
+	public void addRoom(Rectangle room){
+		rooms.add(room);
+	}
+	
+	/**
+	 * Gets all the rooms currently represented by the map.
+	 * All rectangles include the walls of the room.
+	 * @return
+	 */
+	public Rectangle[] getRooms(){
+		Rectangle[] all = new Rectangle[rooms.size()];
+		rooms.toArray(all);
+		return all;
 	}
 }

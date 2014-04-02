@@ -1,10 +1,12 @@
 package mapGeneration;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import game.Map;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
+import entities.StairTile;
 import entities.TileFactory;
 import entities.Tile;
 
@@ -122,7 +124,7 @@ public class MapInterpreter {
 					}
 				}
 			}
-			
+
 			decorateRoom(map, registries, room);
 
 		}
@@ -154,7 +156,7 @@ public class MapInterpreter {
 		return newMap;
 	}
 
-	
+
 	/**
 	 * This method decorates a room with a number of items
 	 * monsters, and other tile artifacts.
@@ -162,12 +164,82 @@ public class MapInterpreter {
 	 * @param room An entire room including the walls
 	 */
 	private static void decorateRoom(MapGenerator map, ImageRegistry[] registries, Rectangle room) {
-		// TODO Auto-generated method stub
+
+		double[] probs = {0.10, 0.2, 0.78};
+		int style = MapRand.randArray(probs);
+
+		if (style == 0){
+
+		}
+		else if(style == 1){
+
+		}
+		else if(style == 2){
+
+		}
+		else if(style == 3){
+
+		}
+		else if(style == 4){
+
+		}
+		else if(style == 5){
+
+		}
+		else if(style == 6){
+
+		}
+		else if(style == 7){
+
+		}
+		else if(style == 8){
+
+		}
+		else if(style == 9){
+
+		}
+		else if(style == 10){
+
+		}
+		else if(style == 11){
+
+		}
+	}
+
+	/**
+	 * Links both maps given by a random room staircase.
+	 * May fail if no space in the chosen room.
+	 * @param map1
+	 * @param map2
+	 */
+	public static void linkMaps(Map map1, Map map2){
+		Point stair1;
+		Point stair2;
+
+		Rectangle[] rooms1 = map1.getRooms();
+		stair1 = MapRand.randPoint(MapRand.innerRectangle(rooms1[MapRand.randInt(rooms1.length -1)]));
+
+		//ensure staircase gets a free space
+		while ((map1.getTile(stair1.x, stair1.y).getItemCount() > 0) || (map1.getTile(stair1.x, stair1.y).isOccupied() == true)){
+			stair1 = MapRand.randPoint(MapRand.innerRectangle(rooms1[MapRand.randInt(rooms1.length -1)]));
+		}
+
 		
+		
+		Rectangle[] rooms2 = map2.getRooms();
+		stair2 = MapRand.randPoint(MapRand.innerRectangle(rooms2[MapRand.randInt(rooms2.length -1)]));
+		
+		//ensure staircase gets a free space
+		while ((map2.getTile(stair2.x, stair2.y).getItemCount() > 0) || (map2.getTile(stair2.x, stair2.y).isOccupied() == true)){
+			stair2 = MapRand.randPoint(MapRand.innerRectangle(rooms2[MapRand.randInt(rooms2.length -1)]));
+		}
+
+		
+		//create the special staircase link
+		map1.setTile(stair1.x, stair1.y, new StairTile(map1, map2, stair1, stair2));
+		map2.setTile(stair2.x, stair2.y, new StairTile(map2, map1, stair2, stair1));
 	}
 }
-
-
 
 
 /* Template for many functions here. update with new MapTile members please.
