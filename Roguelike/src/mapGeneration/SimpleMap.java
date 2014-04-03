@@ -13,13 +13,17 @@ public class SimpleMap extends MapGenerator {
 	private static final int MIN_ROOM_WIDTH = 4;				//minimum room width
 	private static final int MIN_ROOM_HEIGHT = 4;				//minimum room height
 
-	private static final int AREA_PADDING = 2;
-	private static final double FILL_SCALE = 0.4;
+	private static final int AREA_PADDING = 1;					//minimum padding between zones
+	private static final double FILL_SCALE = 0.4;				//the filling scale to fill the entire zone. 
+	private static final double HIDDEN_PROB = 0.2;				//the chance of creating a junction room
+
+
+
 	private Rectangle[][] roomLayouts;
 	private int roomsX;
 	private int roomsY;
 
-	
+
 
 	/**
 	 * Creates a map based on the given cell width and height.
@@ -56,7 +60,13 @@ public class SimpleMap extends MapGenerator {
 				roomLayouts[i][j] = new Rectangle(i * zoneWidth, j * zoneHeight, zoneWidth, zoneHeight);
 			}
 		}
+
+
+
 		generateMap();
+
+
+
 	}
 
 
@@ -78,12 +88,22 @@ public class SimpleMap extends MapGenerator {
 		//create every room.
 		for (int i =0; i < roomsX; i++){
 			for ( int j =0; j< roomsY; j++){
-				Point roomLocation = MapRand.randPoint(new Rectangle(roomLayouts[i][j].x + AREA_PADDING, roomLayouts[i][j].y + AREA_PADDING, Math.max(roomLayouts[i][j].width/6,1), Math.max(roomLayouts[i][j].height /6, 1)));		//pick point from first sixth
-				int width = MapRand.randInt((int) (Math.abs(roomLocation.x - (roomLayouts[i][j].x + roomLayouts[i][j].width)) * FILL_SCALE), Math.abs(roomLocation.x - (roomLayouts[i][j].x + roomLayouts[i][j].width)) - AREA_PADDING);
-				int height = MapRand.randInt((int) (Math.abs(roomLocation.y - (roomLayouts[i][j].y + roomLayouts[i][j].height)) * FILL_SCALE), Math.abs(roomLocation.y - (roomLayouts[i][j].y + roomLayouts[i][j].height)) - AREA_PADDING);
-				rooms[i][j] = new Rectangle(roomLocation.x, roomLocation.y, Math.max(width, MIN_ROOM_WIDTH), Math.max(height, MIN_ROOM_HEIGHT));
+				if (MapRand.randBool(HIDDEN_PROB)){
+					Rectangle subZone = roomLayouts[i][j];
+					for (int k= 0; k < AREA_PADDING; k++){
+						subZone = MapRand.innerRectangle(subZone);
+					}
+					Point location = MapRand.randPoint(subZone);
+					rooms[i][j] = new Rectangle(location.x, location.y, 1,1);
+				}
+				else{
+					Point roomLocation = MapRand.randPoint(new Rectangle(roomLayouts[i][j].x + AREA_PADDING, roomLayouts[i][j].y + AREA_PADDING, Math.max(roomLayouts[i][j].width/6,1), Math.max(roomLayouts[i][j].height /6, 1)));		//pick point from first sixth
+					int width = MapRand.randInt((int) (Math.abs(roomLocation.x - (roomLayouts[i][j].x + roomLayouts[i][j].width)) * FILL_SCALE), Math.abs(roomLocation.x - (roomLayouts[i][j].x + roomLayouts[i][j].width)) - AREA_PADDING);
+					int height = MapRand.randInt((int) (Math.abs(roomLocation.y - (roomLayouts[i][j].y + roomLayouts[i][j].height)) * FILL_SCALE), Math.abs(roomLocation.y - (roomLayouts[i][j].y + roomLayouts[i][j].height)) - AREA_PADDING);
+					rooms[i][j] = new Rectangle(roomLocation.x, roomLocation.y, Math.max(width, MIN_ROOM_WIDTH), Math.max(height, MIN_ROOM_HEIGHT));
+				}
 
-				
+
 				//any room less than the speicfied height or size is converted into a hidden room
 				if((rooms[i][j].width < MIN_ROOM_WIDTH) || (rooms[i][j].height < MIN_ROOM_HEIGHT)){
 					rooms[i][j].width = 1;
