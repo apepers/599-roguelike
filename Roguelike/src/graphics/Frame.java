@@ -3,16 +3,17 @@ package graphics;
 import game.Constants;
 
 import java.awt.EventQueue;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollBar;
-
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
+
 
 
 import java.awt.event.ActionEvent;
@@ -41,6 +42,10 @@ public class Frame extends JFrame {
 	
 	private JScrollBar mapScrHorizontal;
 	private JScrollBar mapScrVertical;
+	
+	private JScrollPane scrollPaneMap;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -119,7 +124,7 @@ public class Frame extends JFrame {
 		this.statusBar = status;
 		scrollPaneStatusBar.setViewportView(statusBar);
 		
-		JScrollPane scrollPaneMap = new JScrollPane();
+		scrollPaneMap = new JScrollPane();
 		scrollPaneMap.setBounds(0, 131, 894, 500);
 		contentPane.add(scrollPaneMap);
 		this.tileDisplay = display;
@@ -143,4 +148,15 @@ public class Frame extends JFrame {
 		
 	}
 	
+	/**
+	 * Given the tile coordinates of the map
+	 * centers the map to that coordinate point.
+	 * @param x
+	 * @param y
+	 */
+	public void centerMap(int x, int y){
+		//TODO finish this.
+		Point focus = tileDisplay.getTileAbsolute(x, y);
+		
+	}
 }

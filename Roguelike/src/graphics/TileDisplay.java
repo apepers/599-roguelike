@@ -19,6 +19,7 @@ import javax.swing.JPanel;
  * @author kta
  *
  */
+@SuppressWarnings("serial")
 public class TileDisplay extends JPanel{
 	
 	
@@ -118,7 +119,6 @@ public class TileDisplay extends JPanel{
 	 */
 	public void drawTile(Image tile, int x, int y){
 		buffer[x][y] = tile;
-		
 	}
 	
 	
@@ -128,7 +128,7 @@ public class TileDisplay extends JPanel{
 	 * @param y
 	 */
 	public void clearTile(int x, int y){
-		//TODO clear a single tile
+		buffer[x][y] = ImageManager.getGlobalRegistry().getTile("blank");
 	}
 	
 	/**
@@ -220,4 +220,14 @@ public class TileDisplay extends JPanel{
 		return height;
 	}
 
+	/**
+	 * Given a cell coordinate, returns the position of that point
+	 * in java swing bound coordinate system.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public Point getTileAbsolute(int x, int y){
+		return new Point(x*TILE_SIZE, y*TILE_SIZE);
+	}
 }
