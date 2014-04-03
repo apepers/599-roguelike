@@ -30,7 +30,7 @@ public class ImageManager {
 	
 	public static ImageManager getInstance(){
 		if (global == null){
-			global = new ImageManager("D:\\Users\\Kevin\\GitHub\\599-roguelike\\Roguelike\\src"+ RESOURCE_PATH);
+			global = new ImageManager("C:\\Users\\Kevin\\GitHub\\599-roguelike\\Roguelike\\src"+ RESOURCE_PATH);
 		}
 		return global;
 	}
@@ -58,7 +58,7 @@ public class ImageManager {
 			}
 			
 			//finally create the global tile set for tiles in the res folder.
-			this.globalReg = new ImageRegistry(path);
+			globalReg = new ImageRegistry(path);
 		}
 		else{
 			//cannot proceed if there is an error in the Image manager.

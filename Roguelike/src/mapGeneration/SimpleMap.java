@@ -147,7 +147,7 @@ public class SimpleMap extends MapGenerator {
 	 * @param rooms
 	 */
 	private void linkCorridors(Rectangle[][] rooms){
-		double[] prob = {.25,.25,0.25,0.25, 0.0};
+		double[] prob = {1.0};
 		int style = MapRand.randArray(prob);
 
 		if (style ==0){
@@ -159,15 +159,16 @@ public class SimpleMap extends MapGenerator {
 			Point[] corriMids = new Point[corridorA.length];			//midpoint of paths
 			for (int i =0; i < roomsX; i++){
 				for ( int j =0; j< roomsY-1; j++){
-					corridorA[(i*(roomsY-1)) + j] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[j][i]), RectangleSide.RIGHT);			
-					corridorB[(i*(roomsY-1)) + j] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[j+1][i]), RectangleSide.LEFT);
-					corriMids[(i*(roomsY-1)) + j] = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corridorA[j], corridorB[j])))));
+					int index = (i*(roomsY-1)) + j;
+					corridorA[index] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[j][i]), RectangleSide.RIGHT);			
+					corridorB[index] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[j+1][i]), RectangleSide.LEFT);
+					corriMids[index] = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corridorA[index], corridorB[index])))));
 				}
 			}
 
 			//draw the corridors
 			for (int i =0; i < corridorA.length; i++){
-				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
+				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, true);
 			}
 
 			//all vertical links
