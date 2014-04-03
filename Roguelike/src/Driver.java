@@ -27,9 +27,9 @@ public class Driver {
 
 	public static void main(String args[]){
 		//MapGenerator demoLevel = new BSTMap(125,125);
-		MapGenerator demoLevel = new SimpleMap(15,15,3,3);
+		MapGenerator demoLevel = new SimpleMap(15,15,4,4);
 		
-		TileDisplay tileDisplay = new TileDisplay(45,45);
+		TileDisplay tileDisplay = new TileDisplay(60,60);
 		PlayerLog console = new PlayerLog();
 		StatusBar status = new StatusBar();
 		Frame frame = new Frame(tileDisplay, console, status);
