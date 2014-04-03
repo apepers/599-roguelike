@@ -273,6 +273,8 @@ public class MapRand {
 	}
 
 	
+
+	
 	/**
 	 * Returns a rectangle that represents the original rectangle
 	 * with one layer of border added
