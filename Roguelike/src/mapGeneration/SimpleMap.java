@@ -147,7 +147,7 @@ public class SimpleMap extends MapGenerator {
 	 * @param rooms
 	 */
 	private void linkCorridors(Rectangle[][] rooms){
-		double[] prob = {0.50,0.50};
+		double[] prob = {0.0,0.0, 1.0};
 		int style = MapRand.randArray(prob);
 
 		if (style ==0){
@@ -167,9 +167,7 @@ public class SimpleMap extends MapGenerator {
 
 			//draw the corridors
 			for (int i =0; i < corridorA.length; i++){
-				if(corridorA[i] != null){
-					super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, true);
-				}
+				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
 			}
 
 			//all vertical links
@@ -186,9 +184,7 @@ public class SimpleMap extends MapGenerator {
 
 			//draw the corridors
 			for (int i =0; i < corridorA.length; i++){
-				if(corridorA[i] != null){
-					super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
-				}
+				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
 			}
 		}
 		else if (style == 1){
@@ -207,9 +203,7 @@ public class SimpleMap extends MapGenerator {
 
 			//draw the corridors
 			for (int i =0; i < corridorA.length; i++){
-				if(corridorA[i] != null){
-					super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, true);
-				}
+				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
 			}
 
 			//all left most vertical links
@@ -226,9 +220,7 @@ public class SimpleMap extends MapGenerator {
 
 			//draw the corridors
 			for (int i =0; i < corridorA.length; i++){
-				if(corridorA[i] != null){
-					super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
-				}
+				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
 			}
 
 			//all right most vertical links
@@ -245,9 +237,60 @@ public class SimpleMap extends MapGenerator {
 
 			//draw the corridors
 			for (int i =0; i < corridorA.length; i++){
-				if(corridorA[i] != null){
-					super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
+				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
+			}
+		}
+		else if(style == 2){
+			//partial linkage, ladder like, all verticals, but only edge horizontals
+
+			//all vertical links
+			Point[] corridorA = new Point[(roomsX-1) * (roomsY)];
+			Point[] corridorB = new Point[(roomsX-1) * (roomsY)];
+			Point[] corriMids = new Point[corridorA.length];			//midpoint of paths
+			for (int i =0; i < roomsY; i++){
+				for ( int j =0; j< roomsX-1; j++){
+					corridorA[(i*(roomsY-1)) + j] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[i][j]), RectangleSide.BOTTOM);			
+					corridorB[(i*(roomsY-1)) + j] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[i][j+1]), RectangleSide.TOP);
+					corriMids[(i*(roomsY-1)) + j] = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corridorA[j], corridorB[j])))));
 				}
+			}
+
+			//draw the corridors
+			for (int i =0; i < corridorA.length; i++){
+				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
+			}
+
+			//all top most horizontal links
+			corridorA = new Point[(roomsY-1)];
+			corridorB = new Point[(roomsY-1)];
+			corriMids = new Point[corridorA.length];			//midpoint of paths
+			for ( int i =0; i< roomsY-1; i++){
+				corridorA[i] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[i][0]), RectangleSide.RIGHT);			
+				corridorB[i] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[i+1][0]), RectangleSide.LEFT);
+				corriMids[i] = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corridorA[i], corridorB[i])))));
+			}
+
+
+			//draw the corridors
+			for (int i =0; i < corridorA.length; i++){
+				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
+			}
+
+			//all bottom most horizontal links
+			//all top most horizontal links
+			corridorA = new Point[(roomsY-1)];
+			corridorB = new Point[(roomsY-1)];
+			corriMids = new Point[corridorA.length];			//midpoint of paths
+			for ( int i =0; i< roomsY-1; i++){
+				corridorA[i] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[i][roomsY-1]), RectangleSide.RIGHT);			
+				corridorB[i] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[i+1][roomsY-1]), RectangleSide.LEFT);
+				corriMids[i] = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corridorA[i], corridorB[i])))));
+			}
+
+
+			//draw the corridors
+			for (int i =0; i < corridorA.length; i++){
+				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
 			}
 		}
 
