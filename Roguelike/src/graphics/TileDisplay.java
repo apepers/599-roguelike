@@ -198,11 +198,16 @@ public class TileDisplay extends JPanel{
 	public void drawMap(Map map){
 		clearDisplay();
 		
-		for (int i = 0; i< xCells; i++){
-			for (int j = 0; j< yCells; j++){
+		//fill array
+		for (int i = 0; i< map.getWidth(); i++){
+			for (int j = 0; j< map.getHeight(); j++){
 				buffer[i][j] = map.getTile(i, j).getBackground();
 			}
 		}
+		
+		this.width = map.getWidth() * TILE_SIZE;
+		this.height = map.getHeight() * TILE_SIZE;
+		this.setPreferredSize(new java.awt.Dimension(width,height));
 	}
 
 	

@@ -26,8 +26,8 @@ import mapGeneration.SimpleMap;
 public class Driver {
 
 	public static void main(String args[]){
-		//MapGenerator demoLevel = new BSTMap(125,125);
-		MapGenerator demoLevel = new SimpleMap(15,15,20,20);
+		MapGenerator demoLevel = new BSTMap(125,125);
+		//MapGenerator demoLevel = new SimpleMap(15,15,20,20);
 		
 		TileDisplay tileDisplay = new TileDisplay(300,300);
 		PlayerLog console = new PlayerLog();
