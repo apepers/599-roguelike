@@ -66,6 +66,9 @@ public class Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Frame(TileDisplay display, PlayerLog console, StatusBar status) {
+		
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 725);
 		setTitle(Constants.GAME_NAME);
@@ -110,12 +113,12 @@ public class Frame extends JFrame {
 		//====================================================================================
 		
 		
-		JScrollPane scrollPaneConsole = new JScrollPane();
+		JScrollPane scrollPaneConsole = console;
 		scrollPaneConsole.setBounds(0, 0, 894, 132);
 		contentPane.add(scrollPaneConsole);
 		
 		this.console = console;
-		scrollPaneConsole.setViewportView(console);
+
 		
 		JScrollPane scrollPaneStatusBar = new JScrollPane();
 		scrollPaneStatusBar.setBounds(0, 632, 894, 46);

@@ -49,7 +49,7 @@ public class Driver {
 		console.println("Welcome to Severed Space!");
 		console.println("Testing console");
 		
-		for(int i = 0; i< 10 ; i++){
+		for(int i = 0; i< 100 ; i++){
 			console.println("T = " + (i+1));
 		}
 		
