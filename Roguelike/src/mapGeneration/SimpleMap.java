@@ -147,7 +147,7 @@ public class SimpleMap extends MapGenerator {
 	 * @param rooms
 	 */
 	private void linkCorridors(Rectangle[][] rooms){
-		double[] prob = {0.0, 0.0, 1.0};
+		double[] prob = {0.0, 0.0, 0.0, 1.0};
 		int style = MapRand.randArray(prob);
 
 		if (style ==0){
@@ -209,7 +209,7 @@ public class SimpleMap extends MapGenerator {
 				super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, true);
 			}
 
-			
+
 			//all left most vertical links
 			corridorA = new Point[(roomsX-1)];
 			corridorB = new Point[(roomsX-1)];
@@ -298,8 +298,122 @@ public class SimpleMap extends MapGenerator {
 			}
 		}
 		else if(style == 3){
-			//hashtag mode, no outer ring of edges
+			//hashtag mode, no outer ring of edges. Corner rooms given left/down link randomization
 			
+			//all horizontal links
+			Point[] corridorA = new Point[(roomsX-1) * (roomsY-1)];
+			Point[] corridorB = new Point[corridorA.length];
+			Point[] corriMids = new Point[corridorA.length];			//midpoint of paths
+			for (int i =1; i < roomsX-1; i++){
+				for ( int j =0; j< roomsY-1; j++){
+					int index = (i*(roomsY-1)) + j;
+					corridorA[index] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[j][i]), RectangleSide.RIGHT);			
+					corridorB[index] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[j+1][i]), RectangleSide.LEFT);
+					corriMids[index] = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corridorA[index], corridorB[index]))));
+				}
+			}
+
+			//draw the corridors
+			for (int i =0; i < corridorA.length; i++){
+				if (corridorA[i] != null){
+					super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, true);
+				}
+			}
+
+			//all vertical links
+			corridorA = new Point[(roomsX-1) * (roomsY-1)];
+			corridorB = new Point[corridorA.length];
+			corriMids = new Point[corridorA.length];			//midpoint of paths
+			for (int i =1; i < roomsY-1; i++){
+				for ( int j =0; j< roomsX-1; j++){
+					int index = (i*(roomsY-1)) + j;
+					corridorA[index] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[i][j]), RectangleSide.BOTTOM);			
+					corridorB[index] = MapRand.randRectEdge(MapRand.innerRectangle(rooms[i][j+1]), RectangleSide.TOP);
+					corriMids[index] = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corridorA[index], corridorB[index]))));
+				}
+			}
+
+			//draw the corridors
+			for (int i =0; i < corridorA.length; i++){
+				if (corridorA[i] != null){
+					super.fillCorridor(corridorA[i], corriMids[i], corridorB[i], MapTile.CORRIDOR_FLOOR, false);
+				}
+			}
+
+			//for each corner, choose one of the two rooms adjacent to link.
+			Point corA;
+			Point corB;
+			Point corMid;
+
+			
+			//top left corner
+			if(MapRand.randBool()){
+				//room to right
+				corA = MapRand.randRectEdge(MapRand.innerRectangle(rooms[0][0]), RectangleSide.RIGHT);	
+				corB = MapRand.randRectEdge(MapRand.innerRectangle(rooms[1][0]), RectangleSide.LEFT);	
+				corMid = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corA, corB))));
+				super.fillCorridor(corA, corMid, corB, MapTile.CORRIDOR_FLOOR, true);
+			}
+			else{
+				//room down
+				corA = MapRand.randRectEdge(MapRand.innerRectangle(rooms[0][0]), RectangleSide.BOTTOM);	
+				corB = MapRand.randRectEdge(MapRand.innerRectangle(rooms[0][1]), RectangleSide.TOP);	
+				corMid = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corA, corB))));
+				super.fillCorridor(corA, corMid, corB, MapTile.CORRIDOR_FLOOR, false);
+			}
+
+
+			//bottom left corner
+			if(MapRand.randBool()){
+				//room to right
+				corA = MapRand.randRectEdge(MapRand.innerRectangle(rooms[0][roomsY-1]), RectangleSide.RIGHT);	
+				corB = MapRand.randRectEdge(MapRand.innerRectangle(rooms[1][roomsY-1]), RectangleSide.LEFT);	
+				corMid = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corA, corB))));
+				super.fillCorridor(corA, corMid, corB, MapTile.CORRIDOR_FLOOR, true);
+			}
+			else{
+				//room above
+				corA = MapRand.randRectEdge(MapRand.innerRectangle(rooms[0][roomsY-2]), RectangleSide.BOTTOM);	
+				corB = MapRand.randRectEdge(MapRand.innerRectangle(rooms[0][roomsY-1]), RectangleSide.TOP);	
+				corMid = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corA, corB))));
+				super.fillCorridor(corA, corMid, corB, MapTile.CORRIDOR_FLOOR, false);
+			}
+			
+			
+			//top right corner
+			if(MapRand.randBool()){
+				//room to left
+				corA = MapRand.randRectEdge(MapRand.innerRectangle(rooms[roomsX-2][0]), RectangleSide.RIGHT);	
+				corB = MapRand.randRectEdge(MapRand.innerRectangle(rooms[roomsX-1][0]), RectangleSide.LEFT);	
+				corMid = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corA, corB))));
+				super.fillCorridor(corA, corMid, corB, MapTile.CORRIDOR_FLOOR, true);
+			}
+			else{
+				//room to below
+				corA = MapRand.randRectEdge(MapRand.innerRectangle(rooms[roomsX-1][0]), RectangleSide.BOTTOM);	
+				corB = MapRand.randRectEdge(MapRand.innerRectangle(rooms[roomsX-1][1]), RectangleSide.TOP);	
+				corMid = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corA, corB))));
+				super.fillCorridor(corA, corMid, corB, MapTile.CORRIDOR_FLOOR, false);
+			}
+			
+			
+			//bottom right corner
+			if(MapRand.randBool()){
+				//room to left
+				corA = MapRand.randRectEdge(MapRand.innerRectangle(rooms[roomsX-2][roomsY-1]), RectangleSide.RIGHT);	
+				corB = MapRand.randRectEdge(MapRand.innerRectangle(rooms[roomsX-1][roomsY-1]), RectangleSide.LEFT);	
+				corMid = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corA, corB))));
+				super.fillCorridor(corA, corMid, corB, MapTile.CORRIDOR_FLOOR, true);
+			}
+			else{
+				//room to above
+				corA = MapRand.randRectEdge(MapRand.innerRectangle(rooms[roomsX-1][roomsY-2]), RectangleSide.BOTTOM);	
+				corB = MapRand.randRectEdge(MapRand.innerRectangle(rooms[roomsX-1][roomsY-1]), RectangleSide.TOP);	
+				corMid = MapRand.randPoint(MapRand.innerRectangle(MapRand.innerRectangle(MapRand.rectFromPoints(corA, corB))));
+				super.fillCorridor(corA, corMid, corB, MapTile.CORRIDOR_FLOOR, false);
+			}
 		}
+
+
 	}
 }
