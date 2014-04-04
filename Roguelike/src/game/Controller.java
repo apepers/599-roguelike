@@ -17,6 +17,7 @@ import java.io.*;
 public class Controller {
 	private Player player;
 	ArrayList<Food> foods;
+	ArrayList<Monster> monsters;
 	private ItemDuplicator duplicator;
 	private Map map;
 	private Messenger messenger;
@@ -26,20 +27,16 @@ public class Controller {
 	
 	public boolean setup(Map m) {
 		foods = new ArrayList<Food>();
+		monsters = new ArrayList<Monster>();
 		try {
 			loadFoods();
+			loadMonsters();
 		} catch (IOException e) {
-			System.err.println("Error reading foods CSV file.");
+			System.err.println("Error reading the data CSV files.");
 			return false;
 		}
 		duplicator = new ItemDuplicator();
 		player = new Player();
-/*
-		// Would randomly add items to the map
-		for (Food f : foods) {
-			tile.addItem((Holdable)duplicator.duplicate(f));
-			tile.addItem((Holdable)duplicator.duplicate(f));
-		}*/
 		map = m;
 		Random rand = new Random();
 		Tile tile;
@@ -60,7 +57,7 @@ public class Controller {
 		BufferedReader in = null;
 		in = new BufferedReader(new FileReader("itemdata.txt"));
 		String line = in.readLine();
-		if (!headersMatch(line)) {
+		if (!headersMatch(Food.csvHeaders(), line)) {
 			System.out.println("Error: Food section is improperly defined in the headers");
 			System.exit(0);
 		}
@@ -76,11 +73,28 @@ public class Controller {
 		in.close();
 	}
 	
+	private void loadMonsters() throws IOException {
+		BufferedReader in = null;
+		in = new BufferedReader(new FileReader("monsterdata.txt"));
+		String line = in.readLine();
+		if (!headersMatch(Monster.csvHeaders(), line)) {
+			System.out.println("Error: Monster CSV file is improperly defined in the headers");
+			System.exit(0);
+		}
+		String monster = in.readLine();
+		while (monster != null) {
+			Monster newMonster = Monster.createMonsterFromReader(monster);
+			if (newMonster != null) {
+				monsters.add(newMonster);
+			}
+			monster = in.readLine();
+		}
+		in.close();
+	}
+	
 	// Make sure that the headers of the food section match what we expect
-	private boolean headersMatch(String input) {
+	private boolean headersMatch(String[] headers, String input) {
 		String[] inHeaders = input.split(",");
-		String[] headers = {"Name", "Cost", "Weight", "Red", "Blue", "Green", 
-				"Nutrition", "TurnsToEat", "EatMsg", "Special"};
 		if (inHeaders.length != headers.length) 
 			return false;
 		for (int i = 0; i < headers.length; i++) {

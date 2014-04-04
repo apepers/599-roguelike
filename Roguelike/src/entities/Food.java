@@ -14,6 +14,12 @@ public class Food extends Holdable {
 	private int turnsToEat;
 	private String eatMessage;
 	
+	public static String[] csvHeaders() {
+		String[] headers = {"Name", "Cost", "Weight", "Red", "Blue", "Green", 
+			"Nutrition", "TurnsToEat", "EatMsg", "Special"};
+		return headers;
+	}
+	
 	// Messy file parser just for demonstration, should be replaced by a way to read
 	// a comma-delimited list much more smoothly
 	public static Food createFoodFromReader(String foodString) {
