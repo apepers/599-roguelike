@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -13,6 +14,8 @@ public class Map {
 	private Tile[][] grid;
 	
 	private ArrayList<Rectangle> rooms = new ArrayList<Rectangle>();
+	private Point spawn;
+	
 	
 	/**
 	 * Creates an empty map of width x height.
@@ -61,6 +64,16 @@ public class Map {
 
 	public int getHeight() {
 		return height;
+	}
+
+
+
+	public Point getSpawn() {
+		return spawn;
+	}
+
+	public void setSpawn(Point spawn) {
+		this.spawn = spawn;
 	}
 	
 	

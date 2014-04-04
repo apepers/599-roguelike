@@ -134,18 +134,22 @@ public class Frame extends JFrame {
 		scrollPaneMap.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener(){
 			@Override
 			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				tileDisplay.updateScrollHorizontal(mapScrHorizontal.getValue(), mapScrHorizontal.getModel().getExtent());
+				//update the tile display for optimizations, give horizonal position of bar
+				int value = mapScrHorizontal.getValue();
+				tileDisplay.updateScrollHorizontal(value, value + mapScrHorizontal.getModel().getExtent() + (16*3));
 			}
 		});
 		scrollPaneMap.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
 
 			@Override
 			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				tileDisplay.updateScrollVertical(mapScrVertical.getValue(), mapScrVertical.getModel().getExtent());
+				//update the tile display for optimizations, give vertcial position of bar
+				int value = mapScrVertical.getValue();
+				tileDisplay.updateScrollVertical(value, value + mapScrVertical.getModel().getExtent() + (16*3));
 			}
 		});
 		tileDisplay.repaint();
-		
+		centerMap(100,100);
 	}
 	
 	/**
@@ -155,8 +159,8 @@ public class Frame extends JFrame {
 	 * @param y
 	 */
 	public void centerMap(int x, int y){
-		//TODO finish this.
 		Point focus = tileDisplay.getTileAbsolute(x, y);
-		
+		mapScrHorizontal.setValue(focus.x-(mapScrHorizontal.getModel().getExtent()/2));
+		mapScrVertical.setValue(focus.y-(mapScrVertical.getModel().getExtent()/2));
 	}
 }

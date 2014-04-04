@@ -19,7 +19,6 @@ import javax.swing.JPanel;
  * @author kta
  *
  */
-@SuppressWarnings("serial")
 public class TileDisplay extends JPanel{
 	
 	
@@ -27,7 +26,7 @@ public class TileDisplay extends JPanel{
 	
 	private static final int X_CELLS_DEFAULT = 50;
 	private static final int Y_CELLS_DEFAULT = 40;
-	private static final int TILE_SIZE = 16; 					//in pixels, assume square tiles
+	public static final int TILE_SIZE = 16; 					//in pixels, assume square tiles
 	
 	private static final boolean DOUBLE_BUFFERING = true;
 	
@@ -119,6 +118,7 @@ public class TileDisplay extends JPanel{
 	 */
 	public void drawTile(Image tile, int x, int y){
 		buffer[x][y] = tile;
+		
 	}
 	
 	
@@ -128,7 +128,7 @@ public class TileDisplay extends JPanel{
 	 * @param y
 	 */
 	public void clearTile(int x, int y){
-		buffer[x][y] = ImageManager.getGlobalRegistry().getTile("blank");
+		//TODO clear a single tile
 	}
 	
 	/**
@@ -149,25 +149,28 @@ public class TileDisplay extends JPanel{
 	 * Updates the horizontal viewable area of the tile display as to not
 	 * waste time repainting unseen tiles.
 	 * 
-	 * Parameters expected are values from the 
+	 * Parameters expected to the clipping area of the tile display
 	 * @param min
 	 * @param max
 	 */
 	protected void updateScrollHorizontal(int min, int max){
-		//xScrMin = min;
-		//xScrMax = max;
+		xScrMin = min;
+		xScrMax = max;
+		super.repaint();
 	}
 	
 	/**
 	 * Updates the vertical viewable area of the tile display as to not
 	 * waste time repainting unseen tiles.
 	 * 
+	 * Parameters expected to be the clipping area of the tile display.
 	 * @param min
 	 * @param max
 	 */
 	protected void updateScrollVertical(int min, int max){
-		//yScrMin = min;
-		//yScrMax = max;
+		yScrMin = min;
+		yScrMax = max;
+		super.repaint();
 	}
 	
 	
@@ -179,12 +182,13 @@ public class TileDisplay extends JPanel{
 		super.paintComponent(g);
 		
 		//redraw only the tiles that have been updated.
-		for (int i = xScrMin/TILE_SIZE; i< xScrMax/TILE_SIZE; i++){
-			for (int j = yScrMin/TILE_SIZE; j< yScrMax/TILE_SIZE; j++){
+		for (int i = xScrMin/TILE_SIZE; i< Math.min(xScrMax/TILE_SIZE, xCells); i++){
+			for (int j = yScrMin/TILE_SIZE; j< Math.min(yScrMax/TILE_SIZE, yCells); j++){
 				Point location = getCellLocation(i, j);
 				g.drawImage(buffer[i][j], location.x, location.y, BACKGROUND, null);
 			}
 		}
+		
 	}
 
 	/**
@@ -194,9 +198,9 @@ public class TileDisplay extends JPanel{
 	public void drawMap(Map map){
 		clearDisplay();
 		
-		for (int i = xScrMin/TILE_SIZE; i< xScrMax/TILE_SIZE; i++){
-			for (int j = yScrMin/TILE_SIZE; j< yScrMax/TILE_SIZE; j++){
-				buffer[i][j] = map.getTile(Math.min(i, map.getWidth()-1), Math.min(j, map.getHeight()-1)).getBackground();
+		for (int i = 0; i< xCells; i++){
+			for (int j = 0; j< yCells; j++){
+				buffer[i][j] = map.getTile(i, j).getBackground();
 			}
 		}
 	}
@@ -220,13 +224,7 @@ public class TileDisplay extends JPanel{
 		return height;
 	}
 
-	/**
-	 * Given a cell coordinate, returns the position of that point
-	 * in java swing bound coordinate system.
-	 * @param x
-	 * @param y
-	 * @return
-	 */
+
 	public Point getTileAbsolute(int x, int y){
 		return new Point(x*TILE_SIZE, y*TILE_SIZE);
 	}

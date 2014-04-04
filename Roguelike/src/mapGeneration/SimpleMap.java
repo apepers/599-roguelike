@@ -137,7 +137,9 @@ public class SimpleMap extends MapGenerator {
 		//determine door intersections.
 
 		//set player spawn
-		super.setPlayerSpawn(MapRand.randPoint(MapRand.innerRectangle(super.getRooms()[MapRand.randInt(super.getRoomCount()-1)])));
+		Point spawn = MapRand.randPoint(MapRand.innerRectangle(super.getRooms()[MapRand.randInt(super.getRoomCount()-1)]));
+		super.setPlayerSpawn(spawn);
+		super.writeTile(spawn.x, spawn.y, MapTile.PLAYER_SPAWN);
 
 	}
 

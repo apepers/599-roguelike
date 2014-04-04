@@ -27,9 +27,9 @@ public class Driver {
 
 	public static void main(String args[]){
 		//MapGenerator demoLevel = new BSTMap(125,125);
-		MapGenerator demoLevel = new SimpleMap(15,15,6,6);
+		MapGenerator demoLevel = new SimpleMap(15,15,20,20);
 		
-		TileDisplay tileDisplay = new TileDisplay(90,90);
+		TileDisplay tileDisplay = new TileDisplay(300,300);
 		PlayerLog console = new PlayerLog();
 		StatusBar status = new StatusBar();
 		Frame frame = new Frame(tileDisplay, console, status);
@@ -43,7 +43,7 @@ public class Driver {
 		Map map = MapInterpreter.interpretMap(demoLevel, ImageManager.getInstance().getAllTileSets("map"));
 		tileDisplay.drawMap(map);
 		tileDisplay.repaint();
-		
+		frame.centerMap(map.getSpawn().x, map.getSpawn().y);
 		
 		//write some messages
 		console.println("Welcome to Severed Space!");

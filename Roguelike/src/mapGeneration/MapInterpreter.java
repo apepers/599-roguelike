@@ -27,6 +27,8 @@ public class MapInterpreter {
 
 		Map newMap = new Map(map.getWidth(), map.getHeight());
 
+		newMap.setSpawn(map.getPlayerSpawn());
+		
 		//for each tile in the map, convert to an entity tile. Images not yet added.
 		for(int i= 0; i< map.getWidth(); i++){
 			for(int j =0; j < map.getHeight(); j++){
@@ -148,7 +150,7 @@ public class MapInterpreter {
 					stateTile.setBackground(skin.getTile("floor"));
 				}		
 				else if(tile == MapTile.PLAYER_SPAWN){
-					stateTile.setBackground(skin.getTile("floor"));
+					stateTile.setBackground(skin.getTile("flooddsr"));
 				}
 			}
 		}
