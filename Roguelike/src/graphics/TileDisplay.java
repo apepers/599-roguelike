@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -197,12 +198,12 @@ public class TileDisplay extends JPanel{
 
 
 
-
 	/**
 	 * Main drawing method. Posts all tile information to screen
 	 */
 	@Override
 	public void paintComponent(Graphics g){
+		
 		//redraw only the tiles that have been updated.
 		for (int i = xScrMin/TILE_SIZE; i< Math.min(xScrMax/TILE_SIZE, xCells); i++){
 			for (int j = yScrMin/TILE_SIZE; j< Math.min(yScrMax/TILE_SIZE, yCells); j++){
@@ -210,6 +211,9 @@ public class TileDisplay extends JPanel{
 				g.drawImage(buffer[i][j], location.x, location.y, BACKGROUND, null);
 			}
 		}
+		
+		
+	
 	}
 	/**
 	 * Loads an entire map into the tile display.
@@ -253,4 +257,5 @@ public class TileDisplay extends JPanel{
 	public Point getTileAbsolute(int x, int y){
 		return new Point(x*TILE_SIZE, y*TILE_SIZE);
 	}
+	
 }
