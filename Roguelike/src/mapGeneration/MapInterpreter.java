@@ -18,6 +18,9 @@ import entities.Tile;
  */
 public class MapInterpreter {
 
+	private static final int RETRY_COUNT = 100;				//If the retry count exceeds this value, the object being placed is not placed.
+	
+	
 	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries){
 
 		if(registries.length < 1){
@@ -174,6 +177,7 @@ public class MapInterpreter {
 
 		if (style == 0){
 			//single low tier treasure
+			
 		}
 		else if(style == 1){
 			//single low tier treasure with one monster
@@ -221,18 +225,43 @@ public class MapInterpreter {
 		}
 	}
 
+	
+	/**
+	 * Adds monsters into a room randomly without overlap
+	 * @param room Entire room including walls
+	 * @param count
+	 */
+	private static void addItemsRoom(MapGenerator map, Map newMap, Rectangle room, int count){
+		
+		Rectangle placement = MapRand.innerRectangle(room);
+		for (int i = 0; i < count; i++){
+			Point tempPt = MapRand.randPoint(placement);
+
+			int j= 0;
+			//get new point if there's already a monster on the tile.
+			while ((map.getTile(tempPt.x, tempPt.y) == MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
+				tempPt = MapRand.randPoint(placement);
+			}
+
+			//create item and add to map.
+			//TODO
+		}
+	}
+	
 	/**
 	 * Adds monsters into a room randomly without overlap
 	 * @param room Entire room including walls
 	 * @param count
 	 */
 	private static void addMonstersRoom(MapGenerator map, Map newMap, Rectangle room, int count){
+		
 		Rectangle placement = MapRand.innerRectangle(room);
 		for (int i = 0; i < count; i++){
 			Point tempPt = MapRand.randPoint(placement);
 
+			int j= 0;
 			//get new point if there's already a monster on the tile.
-			while (map.getTile(tempPt.x, tempPt.y) == MapTile.MONSTER){
+			while ((map.getTile(tempPt.x, tempPt.y) != MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
 				tempPt = MapRand.randPoint(placement);
 			}
 
@@ -244,6 +273,7 @@ public class MapInterpreter {
 	/**
 	 * Links both maps given by a random room staircase.
 	 * May fail if no space in the chosen room.
+	 * This should only be used
 	 * @param map1
 	 * @param map2
 	 */
