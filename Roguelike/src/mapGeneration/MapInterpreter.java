@@ -237,7 +237,8 @@ public class MapInterpreter {
 		for (int i = 0; i < count; i++){
 			Point tempPt = MapRand.randPoint(placement);
 
-			int j= 0;
+			int j = 0;
+			j = 0;
 			//get new point if there's already a monster on the tile.
 			while ((map.getTile(tempPt.x, tempPt.y) == MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
 				tempPt = MapRand.randPoint(placement);
@@ -260,6 +261,7 @@ public class MapInterpreter {
 			Point tempPt = MapRand.randPoint(placement);
 
 			int j= 0;
+			j = 0;
 			//get new point if there's already a monster on the tile.
 			while ((map.getTile(tempPt.x, tempPt.y) != MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
 				tempPt = MapRand.randPoint(placement);
