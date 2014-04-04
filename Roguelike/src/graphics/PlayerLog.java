@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 
 /**
@@ -66,8 +67,15 @@ public class PlayerLog extends JScrollPane {
 		
 
 		//scroll to bottom after text print
-		scroller.setValue(scroller.getModel().getMaximum());
+		SwingUtilities.invokeLater(new Runnable(){
 
+			@Override
+			public void run() {
+				scroller.setValue(scroller.getModel().getMaximum());
+			}
+			
+		});
+		
 	}
 
 
@@ -75,7 +83,13 @@ public class PlayerLog extends JScrollPane {
 	 * Scrolls the log to the very bottom manually.
 	 */
 	public void scrollBottom(){
-		scroller.setValue(scroller.getModel().getMaximum());
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				scroller.setValue(scroller.getModel().getMaximum());
+			}
+			
+		});
 	}
 
 }

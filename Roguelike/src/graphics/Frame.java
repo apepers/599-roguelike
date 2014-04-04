@@ -139,7 +139,7 @@ public class Frame extends JFrame {
 			public void adjustmentValueChanged(AdjustmentEvent arg0) {
 				//update the tile display for optimizations, give horizonal position of bar
 				int value = mapScrHorizontal.getValue();
-				tileDisplay.updateScrollHorizontal(value, value + mapScrHorizontal.getModel().getExtent() + (16*3));
+				tileDisplay.updateScrollHorizontal(value, value + mapScrHorizontal.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
 			}
 		});
 		scrollPaneMap.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
@@ -148,7 +148,7 @@ public class Frame extends JFrame {
 			public void adjustmentValueChanged(AdjustmentEvent arg0) {
 				//update the tile display for optimizations, give vertcial position of bar
 				int value = mapScrVertical.getValue();
-				tileDisplay.updateScrollVertical(value, value + mapScrVertical.getModel().getExtent() + (16*3));
+				tileDisplay.updateScrollVertical(value, value + mapScrHorizontal.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
 			}
 		});
 		tileDisplay.repaint();
