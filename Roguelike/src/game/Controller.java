@@ -10,6 +10,7 @@ import java.util.Random;
 
 import entities.*;
 import serialization.ItemDuplicator;
+import mapGeneration.MapRand;
 
 import java.io.*;
 
@@ -121,5 +122,12 @@ public class Controller {
 			if (newTile.isPassable())
 				player.setLocation(newTile);
 		}
+	}
+	
+	// Return a random item for the map, given the current depth in the station
+	// Currently just returns one of our foods randomly.
+	public Holdable getRandMapItem(int mapIndex) {
+		int randomIndex = MapRand.randInt(foods.size() - 1);
+		return (Holdable)duplicator.duplicate(foods.get(randomIndex));
 	}
 }
