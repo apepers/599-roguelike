@@ -58,7 +58,7 @@ public class ImageManager {
 			}
 			
 			//finally create the global tile set for tiles in the res folder.
-			this.globalReg = new ImageRegistry(path);
+			globalReg = new ImageRegistry(path);
 		}
 		else{
 			//cannot proceed if there is an error in the Image manager.

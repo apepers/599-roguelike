@@ -25,7 +25,7 @@ public abstract class MapGenerator implements Iterable<MapTile>{
 	private int width = 0;
 	private int height = 0;
 
-	protected MapTile[][] grid; 
+	private MapTile[][] grid; 
 
 	private Point playerSpawn = null;
 
@@ -325,6 +325,10 @@ public abstract class MapGenerator implements Iterable<MapTile>{
 		Rectangle[] rects = new Rectangle[rooms.size()];
 		rooms.toArray(rects);
 		return rects;
+	}
+	
+	public int getRoomCount(){
+		return rooms.size();
 	}
 
 	protected void writeTile(int x, int y, MapTile tile){

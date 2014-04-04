@@ -25,8 +25,10 @@ public class Driver {
 
 	public static void main(String args[]){
 		MapGenerator demoLevel = new BSTMap(125,125);
+		//MapGenerator demoLevel = new SimpleMap(15,15,20,20);
 		
-		TileDisplay tileDisplay = new TileDisplay(125,125);
+
+		TileDisplay tileDisplay = new TileDisplay(300,300);
 		// Get the image resources
 		Map map = MapInterpreter.interpretMap(demoLevel, ImageManager.getInstance().getAllTileSets("map"));
 		tileDisplay.drawMap(map);
@@ -43,6 +45,7 @@ public class Driver {
 		PlayerLog console = new PlayerLog();
 		StatusBar status = new StatusBar();
 		Frame frame = new Frame(tileDisplay, console, status, controller);
+		frame.centerMap(map.getSpawn().x, map.getSpawn().y);
 		frame.setVisible(true);
 		
 		//write some messages

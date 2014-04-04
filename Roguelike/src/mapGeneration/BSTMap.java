@@ -102,13 +102,6 @@ public class BSTMap extends MapGenerator {
 			areas.add(node.area);
 
 
-			/*
-			Point roomLocation = MapRand.randPoint(new Rectangle(node.area.x + AREA_PADDING, node.area.y + AREA_PADDING, Math.max(node.area.width/6,1), Math.max(node.area.height /6, 1)));		//pick point from first sixth
-			int width = MapRand.randInt((int) (Math.abs(roomLocation.x - (node.area.x + node.area.width)) * FILL_SCALE), Math.abs(roomLocation.x - (node.area.x + node.area.width)) - AREA_PADDING);
-			int height = MapRand.randInt((int) (Math.abs(roomLocation.y - (node.area.y + node.area.height)) * FILL_SCALE), Math.abs(roomLocation.y - (node.area.y + node.area.height)) - AREA_PADDING);
-			Rectangle room = new Rectangle(roomLocation.x, roomLocation.y, Math.max(width, MIN_ROOM_WIDTH), Math.max(height, MIN_ROOM_HEIGHT));
-			 */
-
 			//randomly determine if the room is hidden or not.
 			if(MapRand.randBool(HIDDEN_ROOM_PROB) == false){
 				//create room within this area by the given padding

@@ -3,6 +3,7 @@ package graphics;
 import game.*;
 
 import java.awt.EventQueue;
+import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -49,6 +50,8 @@ public class Frame extends JFrame {
 	
 	private JScrollBar mapScrHorizontal;
 	private JScrollBar mapScrVertical;
+	
+	private JScrollPane scrollPaneMap;
 
 	/**
 	 * Create the frame.
@@ -98,12 +101,12 @@ public class Frame extends JFrame {
 		//====================================================================================
 		
 		
-		JScrollPane scrollPaneConsole = new JScrollPane();
+		JScrollPane scrollPaneConsole = console;
 		scrollPaneConsole.setBounds(0, 0, 894, 132);
 		contentPane.add(scrollPaneConsole);
 		
 		this.console = console;
-		scrollPaneConsole.setViewportView(console);
+
 		controller.getMessenger().setPlayerLog(console); // Set up Messenger to be able to write to console
 		// Connect key stroke commands to Messenger actions
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "quit");
@@ -126,7 +129,7 @@ public class Frame extends JFrame {
 		this.statusBar = status;
 		scrollPaneStatusBar.setViewportView(statusBar);
 		
-		JScrollPane scrollPaneMap = new JScrollPane();
+		scrollPaneMap = new JScrollPane();
 		scrollPaneMap.setBounds(0, 131, 894, 500);
 		contentPane.add(scrollPaneMap);
 		this.tileDisplay = display;
@@ -138,7 +141,7 @@ public class Frame extends JFrame {
 			public void adjustmentValueChanged(AdjustmentEvent arg0) {
 				//update the tile display for optimizations, give horizonal position of bar
 				int value = mapScrHorizontal.getValue();
-				tileDisplay.updateScrollHorizontal(value, value + mapScrHorizontal.getModel().getExtent() + (tileDisplay.TILE_SIZE*3));
+				tileDisplay.updateScrollHorizontal(value, value + mapScrHorizontal.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
 			}
 		});
 		scrollPaneMap.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
@@ -147,11 +150,22 @@ public class Frame extends JFrame {
 			public void adjustmentValueChanged(AdjustmentEvent arg0) {
 				//update the tile display for optimizations, give vertcial position of bar
 				int value = mapScrVertical.getValue();
-				tileDisplay.updateScrollVertical(value, value + mapScrVertical.getModel().getExtent() + (tileDisplay.TILE_SIZE*3));
+				tileDisplay.updateScrollVertical(value, value + mapScrHorizontal.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
 			}
 		});
 		tileDisplay.repaint();
-		
+		centerMap(100,100);
 	}
 	
+	/**
+	 * Given the tile coordinates of the map
+	 * centers the map to that coordinate point.
+	 * @param x
+	 * @param y
+	 */
+	public void centerMap(int x, int y){
+		Point focus = tileDisplay.getTileAbsolute(x, y);
+		mapScrHorizontal.setValue(focus.x-(mapScrHorizontal.getModel().getExtent()/2));
+		mapScrVertical.setValue(focus.y-(mapScrVertical.getModel().getExtent()/2));
+	}
 }

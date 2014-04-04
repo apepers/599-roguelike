@@ -1,5 +1,9 @@
 package game;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+
 import entities.Tile;
 
 public class Map {
@@ -8,6 +12,10 @@ public class Map {
 	private int height;
 	
 	private Tile[][] grid;
+	
+	private ArrayList<Rectangle> rooms = new ArrayList<Rectangle>();
+	private Point spawn;
+	
 	
 	/**
 	 * Creates an empty map of width x height.
@@ -20,6 +28,8 @@ public class Map {
 		grid = new Tile[width][height];
 	}
 	
+	
+	
 	public void setTile(int x, int y, Tile tile){
 		grid[x][y] = tile;
 		tile.setRow(y);
@@ -30,12 +40,41 @@ public class Map {
 		// TODO Auto-generated method stub
 		return grid[i][j];
 	}
+
+	public void addRoom(Rectangle room){
+		rooms.add(room);
+	}
 	
+	/**
+	 * Gets all the rooms currently represented by the map.
+	 * All rectangles include the walls of the room.
+	 * @return
+	 */
+	public Rectangle[] getRooms(){
+		Rectangle[] all = new Rectangle[rooms.size()];
+		rooms.toArray(all);
+		return all;
+	}
+
+
+
 	public int getWidth() {
 		return width;
 	}
-	
+
+
+
 	public int getHeight() {
 		return height;
+	}
+
+
+
+	public Point getSpawn() {
+		return spawn;
+	}
+
+	public void setSpawn(Point spawn) {
+		this.spawn = spawn;
 	}
 }
