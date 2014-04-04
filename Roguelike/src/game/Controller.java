@@ -144,4 +144,9 @@ public class Controller {
 		int randomIndex = MapRand.randInt(foods.size() - 1);
 		return (Holdable)duplicator.duplicate(foods.get(randomIndex));
 	}
+	
+	public Monster getRandMapMonster(int mapIndex) {
+		int randomIndex = MapRand.randInt(monsters.size() - 1);
+		return (Monster)duplicator.duplicate(monsters.get(randomIndex));
+	}
 }
