@@ -203,7 +203,7 @@ public class TileDisplay extends JPanel{
 	 */
 	@Override
 	public void paintComponent(Graphics g){
-		
+
 		//redraw only the tiles that have been updated.
 		for (int i = xScrMin/TILE_SIZE; i< Math.min(xScrMax/TILE_SIZE, xCells); i++){
 			for (int j = yScrMin/TILE_SIZE; j< Math.min(yScrMax/TILE_SIZE, yCells); j++){
@@ -229,6 +229,15 @@ public class TileDisplay extends JPanel{
 		this.width = map.getWidth() * TILE_SIZE;
 		this.height = map.getHeight() * TILE_SIZE;
 		this.setPreferredSize(new java.awt.Dimension(width,height));
+
+		//update later
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				repaint();
+			}
+
+		});
 	}
 
 
@@ -254,5 +263,6 @@ public class TileDisplay extends JPanel{
 	public Point getTileAbsolute(int x, int y){
 		return new Point(x*TILE_SIZE, y*TILE_SIZE);
 	}
+
 	
 }

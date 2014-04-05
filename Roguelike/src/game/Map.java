@@ -70,11 +70,11 @@ public class Map {
 
 
 
-	public Point getSpawn() {
+	public Point getPlayerSpawn() {
 		return spawn;
 	}
 
-	public void setSpawn(Point spawn) {
+	public void setPlayerSpawn(Point spawn) {
 		this.spawn = spawn;
 	}
 }

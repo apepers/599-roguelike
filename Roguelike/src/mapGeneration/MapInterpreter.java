@@ -3,6 +3,7 @@ package mapGeneration;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import game.Controller;
 import game.Map;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
@@ -19,8 +20,8 @@ import entities.Tile;
 public class MapInterpreter {
 
 	private static final int RETRY_COUNT = 100;				//If the retry count exceeds this value, the object being placed is not placed.
-	
-	
+
+
 	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries){
 
 		if(registries.length < 1){
@@ -30,7 +31,7 @@ public class MapInterpreter {
 
 		Map newMap = new Map(map.getWidth(), map.getHeight());
 
-		newMap.setSpawn(map.getPlayerSpawn());
+		newMap.setPlayerSpawn(map.getPlayerSpawn());
 
 		//for each tile in the map, convert to an entity tile. Images not yet added.
 		for(int i= 0; i< map.getWidth(); i++){
@@ -153,7 +154,7 @@ public class MapInterpreter {
 					stateTile.setBackground(skin.getTile("floor"));
 				}		
 				else if(tile == MapTile.PLAYER_SPAWN){
-					stateTile.setBackground(skin.getTile("flooddsr"));
+					stateTile.setBackground(skin.getTile("floor"));
 				}
 			}
 		}
@@ -177,22 +178,26 @@ public class MapInterpreter {
 
 		if (style == 0){
 			//single low tier treasure
-			
+			addItemsRoom(map, newMap, room, 1);
 		}
 		else if(style == 1){
 			//single low tier treasure with one monster
+			addItemsRoom(map, newMap, room, 1);
 			addMonstersRoom(map, newMap, room, 1);
 		}
 		else if(style == 2){
 			//single low tier treasure with two monsters
+			addItemsRoom(map, newMap, room, 1);
 			addMonstersRoom(map, newMap, room, 2);
 		}
 		else if(style == 3){
 			//single medium tier treasure with two to three monsters
+			addItemsRoom(map, newMap, room, 1);
 			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 3));
 		}
 		else if(style == 4){
 			//single high tier treasure with three monsters
+			addItemsRoom(map, newMap, room, 1);
 			addMonstersRoom(map, newMap, room, MapRand.randInt(3,4));
 		}
 		else if(style == 5){
@@ -203,7 +208,8 @@ public class MapInterpreter {
 		}
 		else if(style == 7){
 			//two low tier treasures
-
+			addItemsRoom(map, newMap, room, 1);
+			addItemsRoom(map, newMap, room, 1);
 		}
 		else if(style == 8){
 			//single monster
@@ -225,38 +231,38 @@ public class MapInterpreter {
 		}
 	}
 
-	
+
 	/**
-	 * Adds monsters into a room randomly without overlap
+	 * Adds a single item to a location. May overlap
+	 * other items, but this is okay since they stack.
 	 * @param room Entire room including walls
-	 * @param count
+	 * @param tier Item tier
 	 */
-	private static void addItemsRoom(MapGenerator map, Map newMap, Rectangle room, int count){
-		
+	private static void addItemsRoom(MapGenerator map, Map newMap, Rectangle room, int tier){
+
 		Rectangle placement = MapRand.innerRectangle(room);
-		for (int i = 0; i < count; i++){
-			Point tempPt = MapRand.randPoint(placement);
 
-			int j = 0;
-			j = 0;
-			//get new point if there's already a monster on the tile.
-			while ((map.getTile(tempPt.x, tempPt.y) == MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
-				tempPt = MapRand.randPoint(placement);
-				j++;
-			}
+		Point tempPt = MapRand.randPoint(placement);
+		int j = 0;
 
-			//create item and add to map.
-			//TODO
+		//get new point if there's already a monster on the tile.
+		while ((map.getTile(tempPt.x, tempPt.y) == MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
+			tempPt = MapRand.randPoint(placement);
+			j++;
 		}
+
+		//create item and add to map.
+		Tile selected = newMap.getTile(tempPt.x, tempPt.y);
+		selected.addItem(Controller.getInstance().getRandMapItem(tier));
 	}
-	
+
 	/**
 	 * Adds monsters into a room randomly without overlap
 	 * @param room Entire room including walls
 	 * @param count
 	 */
 	private static void addMonstersRoom(MapGenerator map, Map newMap, Rectangle room, int count){
-		
+
 		Rectangle placement = MapRand.innerRectangle(room);
 		for (int i = 0; i < count; i++){
 			Point tempPt = MapRand.randPoint(placement);
@@ -270,7 +276,8 @@ public class MapInterpreter {
 			}
 
 			//create monster and add to map.
-			//TODO
+			Tile selected = newMap.getTile(tempPt.x, tempPt.y);
+			selected.setOccupant(Controller.getInstance().getRandMapMonster(0));
 		}
 	}
 
