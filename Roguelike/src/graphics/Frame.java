@@ -165,7 +165,7 @@ public class Frame extends JFrame {
 	 */
 	public void centerMap(int x, int y){
 		Point focus = tileDisplay.getTileAbsolute(x, y);
-		mapScrHorizontal.setValue(focus.x - (scrollPaneMap.getWidth()/2)); //-(mapScrHorizontal.getModel().getExtent()/2));
-		mapScrVertical.setValue(focus.y-(scrollPaneMap.getHeight()/2));
+		mapScrHorizontal.setValue(focus.x - (scrollPaneMap.getWidth()/2)); 
+		mapScrVertical.setValue(focus.y - (scrollPaneMap.getHeight()/2));
 	}
 }

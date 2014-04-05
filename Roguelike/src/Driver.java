@@ -34,7 +34,7 @@ public class Driver {
 		tileDisplay.drawMap(map);
 		tileDisplay.repaint();
 		
-		Controller controller = new Controller();
+		Controller controller = Controller.getInstance();
 		// Setup the game, only continue if it succeeded
 		if (!controller.setup(map)) {
 			System.err.println("Setup did not complete successfully. Exiting now.");

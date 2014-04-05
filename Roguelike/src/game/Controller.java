@@ -23,7 +23,17 @@ public class Controller {
 	private Messenger messenger;
 	boolean gameRunning;
 	
-	public Controller() { };
+	
+	private static Controller global;
+	
+	private Controller() { };
+	
+	public static Controller getInstance(){
+		if (global == null){
+			global = new Controller();
+		}
+		return global;
+	}
 	
 	public boolean setup(Map m) {
 		foods = new ArrayList<Food>();
