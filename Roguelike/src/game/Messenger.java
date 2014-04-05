@@ -8,6 +8,7 @@ package game;
 
 import entities.*;
 import graphics.PlayerLog;
+import graphics.StatusBar;
 import graphics.TileDisplay;
 
 import java.util.ArrayList;
@@ -30,10 +31,14 @@ public class Messenger {
 	private Action downAction;
 	private PlayerLog log;
 	private TileDisplay display;
-	
-	public Messenger(Controller cont, Player p) {
-		controller = cont;
-		player = p;
+	private StatusBar status;
+
+	public Messenger(Controller cont, TileDisplay tileDisplay, PlayerLog logDisplay, StatusBar statusDisplay) {
+		this.controller = cont;
+		this.display = tileDisplay;
+		this.log = logDisplay;
+		this.status = statusDisplay;
+		
 		// Set up scanner to read from the console
 		reader = new Scanner(System.in);
 		
@@ -80,37 +85,32 @@ public class Messenger {
 		};
 	}
 	
-	public void setPlayerLog(PlayerLog p) {
-		log = p;
+	
+	
+	public void drawMap(Map m){
+		display.drawMap(m);
 	}
 	
-	public void setTileDisplay(TileDisplay d) {
-		display = d;
+	public void repaintDisplay(){
+		display.repaint();
 	}
 	
-	public Action getQuitAction() {
-		return quitAction;
+	/**
+	 * Updates the status bar for the player stats
+	 * @param text
+	 */
+	public void updateStatus(String text){
+		status.setText(text);
 	}
 	
-	public Action getPAction() {
-		return pAction;
+	/**
+	 * Writes a line to the player's console
+	 * @param text
+	 */
+	public void println(String text){
+		log.println(text);
 	}
 	
-	public Action getIAction() {
-		return iAction;
-	}
-	
-	public Action getEAction() {
-		return eAction;
-	}
-	
-	public Action getUpAction() {
-		return upAction;
-	}
-	
-	public Action getDownAction() {
-		return downAction;
-	}
 	
 	// Eat a food item from the current tile or inventory
 	// If the item is stackable, just eats one. Only one food item can be selected.
@@ -306,7 +306,43 @@ public class Messenger {
 		}
 	}
 
+
 	public void closeReader() {
 		reader.close();
+	}
+	
+	//========================================================================================
+	//getters and setters
+	
+	public void setPlayerLog(PlayerLog p) {
+		log = p;
+	}
+	
+	public void setTileDisplay(TileDisplay d) {
+		display = d;
+	}
+	
+	public Action getQuitAction() {
+		return quitAction;
+	}
+	
+	public Action getPAction() {
+		return pAction;
+	}
+	
+	public Action getIAction() {
+		return iAction;
+	}
+	
+	public Action getEAction() {
+		return eAction;
+	}
+	
+	public Action getUpAction() {
+		return upAction;
+	}
+	
+	public Action getDownAction() {
+		return downAction;
 	}
 }

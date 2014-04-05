@@ -6,7 +6,6 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import entities.*;
 import graphics.ImageManager;
@@ -46,7 +45,7 @@ public class Controller {
 
 		//prepare duplicator and player
 		duplicator = new ItemDuplicator();
-		player = new Player();
+		
 
 
 	};
@@ -58,20 +57,25 @@ public class Controller {
 		return global;
 	}
 
-	public void setup(TileDisplay display){
+	public void setup(Messenger messenger, Player p){
+		
+		this.messenger = messenger;
+		this.player = p;
+		
 		//create the map.
 		MapGenerator map = new SimpleMap(15,15,3,3);
 		Map m = MapInterpreter.interpretMap(map, ImageManager.getInstance().getAllTileSets("map"));
 
 		
+		
 		// Place player on the map
 		Point spawn = m.getPlayerSpawn();
 		m.getTile(spawn.x, spawn.y).setOccupant(player);
-		messenger = new Messenger(this, player);
+		
 		
 		//setup the display
-		messenger.setTileDisplay(display);
-		display.drawMap(m);
+		messenger.drawMap(m);
+		messenger.updateStatus(playerStatus());
 		
 	}
 
