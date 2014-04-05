@@ -3,6 +3,7 @@ package mapGeneration;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import game.Controller;
 import game.Map;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
@@ -232,8 +233,8 @@ public class MapInterpreter {
 
 
 	/**
-	 * Adds monsters into a room randomly without overlap
-	 * Adds a single item
+	 * Adds a single item to a location. May overlap
+	 * other items, but this is okay since they stack.
 	 * @param room Entire room including walls
 	 * @param tier Item tier
 	 */
@@ -247,11 +248,12 @@ public class MapInterpreter {
 		//get new point if there's already a monster on the tile.
 		while ((map.getTile(tempPt.x, tempPt.y) == MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
 			tempPt = MapRand.randPoint(placement);
+			j++;
 		}
 
 		//create item and add to map.
-		//TODO
-
+		Tile selected = newMap.getTile(tempPt.x, tempPt.y);
+		selected.addItem(Controller.getInstance().getRandMapItem(tier));
 	}
 
 	/**
@@ -270,10 +272,12 @@ public class MapInterpreter {
 			//get new point if there's already a monster on the tile.
 			while ((map.getTile(tempPt.x, tempPt.y) != MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
 				tempPt = MapRand.randPoint(placement);
+				j++;
 			}
 
 			//create monster and add to map.
-			//TODO
+			Tile selected = newMap.getTile(tempPt.x, tempPt.y);
+			selected.setOccupant(Controller.getInstance().getRandMapMonster(0));
 		}
 	}
 
