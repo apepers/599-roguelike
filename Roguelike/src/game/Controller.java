@@ -109,7 +109,7 @@ public class Controller {
 		while (!testMonster.isDead()) {
 			System.out.println("The monster attacks!");
 			if (this.monsterAttack(testMonster))
-				System.out.println("The monster hits!");
+				System.out.println("The monster " + testMonster.getBaseMeleeDescription() + " you!");
 			else
 				System.out.println("The monster misses!");
 			System.out.println(playerStatus());

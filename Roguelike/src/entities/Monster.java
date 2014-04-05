@@ -8,7 +8,7 @@ public class Monster extends Sentient {
 	public Monster() { };
 	
 	public static String[] csvHeaders() {
-		String[] headers = {"Name", "HP", "NaturalArmour", "Strength", "Dexterity", "AttackBonus", "BaseMeleeDamage", "Difficulty", "Special"};
+		String[] headers = {"Name", "HP", "NaturalArmour", "Strength", "Dexterity", "AttackBonus", "BaseMeleeDamage", "BaseMeleeDescription", "Difficulty", "Special"};
 		return headers;
 	}
 	
@@ -26,9 +26,10 @@ public class Monster extends Sentient {
 			monster.setDexterity(Integer.parseInt(values[4]));
 			monster.setAttackBonus(Integer.parseInt(values[5]));
 			monster.setBaseDamage(Integer.parseInt(values[6]));
-			monster.setDifficulty(Integer.parseInt(values[7]));
-			if (values.length == 9 && values[8] != "") {
-				String[] specials = values[8].split(" ");
+			monster.setBaseMeleeDescription(values[7]);
+			monster.setDifficulty(Integer.parseInt(values[8]));
+			if (values.length == 10 && values[9] != "") {
+				String[] specials = values[9].split(" ");
 				monster = Monster.applySpecialTraits(monster, specials);
 			}
 		} catch (Exception e) {

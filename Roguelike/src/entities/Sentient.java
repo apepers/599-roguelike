@@ -18,6 +18,7 @@ public abstract class Sentient extends Entity {
 	private int naturalAC;
 	private int attackBonus;
 	private int baseDamage;
+	private String baseMeleeDescription;
 	private int strength;
 	private int dexterity;
 	
@@ -112,6 +113,14 @@ public abstract class Sentient extends Entity {
 
 	public void setBaseDamage(int baseDamage) {
 		this.baseDamage = baseDamage;
+	}
+
+	public String getBaseMeleeDescription() {
+		return baseMeleeDescription;
+	}
+
+	public void setBaseMeleeDescription(String baseMeleeDescription) {
+		this.baseMeleeDescription = baseMeleeDescription;
 	}
 
 	public int getStrength() {
