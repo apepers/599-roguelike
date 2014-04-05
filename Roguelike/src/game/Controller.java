@@ -14,7 +14,6 @@ import mapGeneration.MapGenerator;
 import mapGeneration.MapInterpreter;
 import mapGeneration.MapRand;
 import mapGeneration.SimpleMap;
-import graphics.TileDisplay;
 
 import java.awt.Point;
 import java.io.*;
@@ -66,7 +65,7 @@ public class Controller {
 		MapGenerator map = new SimpleMap(20,20,3,3);
 		Map m = MapInterpreter.interpretMap(map, ImageManager.getInstance().getAllTileSets("map"));
 
-		
+		this.map = m;
 		
 		// Place player on the map
 		Point spawn = m.getPlayerSpawn();
