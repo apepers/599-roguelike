@@ -31,7 +31,7 @@ public class MapInterpreter {
 
 		Map newMap = new Map(map.getWidth(), map.getHeight());
 
-		newMap.setSpawn(map.getPlayerSpawn());
+		newMap.setPlayerSpawn(map.getPlayerSpawn());
 
 		//for each tile in the map, convert to an entity tile. Images not yet added.
 		for(int i= 0; i< map.getWidth(); i++){

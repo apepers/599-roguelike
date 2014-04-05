@@ -24,28 +24,15 @@ import mapGeneration.SimpleMap;
 public class Driver {
 
 	public static void main(String args[]){
-		MapGenerator demoLevel = new BSTMap(125,125);
-		//MapGenerator demoLevel = new SimpleMap(15,15,20,20);
-		
 
 		TileDisplay tileDisplay = new TileDisplay(300,300);
-		// Get the image resources
-		Map map = MapInterpreter.interpretMap(demoLevel, ImageManager.getInstance().getAllTileSets("map"));
-		tileDisplay.drawMap(map);
-		tileDisplay.repaint();
-		
+
 		Controller controller = Controller.getInstance();
-		// Setup the game, only continue if it succeeded
-		if (!controller.setup(map)) {
-			System.err.println("Setup did not complete successfully. Exiting now.");
-			System.exit(0);
-		}	
-		controller.getMessenger().setTileDisplay(tileDisplay);
+		controller.setup(tileDisplay);
 		
 		PlayerLog console = new PlayerLog();
 		StatusBar status = new StatusBar();
 		Frame frame = new Frame(tileDisplay, console, status, controller);
-		frame.centerMap(map.getSpawn().x, map.getSpawn().y);
 		frame.setVisible(true);
 		
 		//write some messages
