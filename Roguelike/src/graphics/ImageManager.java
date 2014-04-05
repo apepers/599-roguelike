@@ -35,8 +35,6 @@ public class ImageManager {
 		return global;
 	}
 	
-	
-	
 	/**
 	 * Creates an Image tile manager. Gets tilesets from the
 	 * set of
