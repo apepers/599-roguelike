@@ -16,14 +16,25 @@ import java.io.*;
 
 public class Controller {
 	private Player player;
-	ArrayList<Food> foods;
-	ArrayList<Monster> monsters;
+	private ArrayList<Food> foods;
+	private ArrayList<Monster> monsters;
 	private ItemDuplicator duplicator;
 	private Map map;
 	private Messenger messenger;
 	boolean gameRunning;
 	
-	public Controller() { };
+	
+	private static Controller global;
+	
+	private Controller() { };
+	
+	public static Controller getInstance(){
+		if (global == null){
+			global = new Controller();
+		}
+		
+		return global;
+	}
 	
 	public boolean setup(Map m) {
 		foods = new ArrayList<Food>();
