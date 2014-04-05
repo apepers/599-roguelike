@@ -56,6 +56,8 @@ public class Driver {
 			console.println("T = " + (i+1));
 		}
 		
-		status.setText("Player: ");
+		status.setText(controller.playerStatus());
+		
+		controller.combatTest();
 	}
 }

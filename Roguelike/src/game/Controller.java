@@ -92,6 +92,25 @@ public class Controller {
 		in.close();
 	}
 	
+	public void combatTest() {
+		Monster testMonster = getRandMapMonster(0);
+		System.out.println("A wild " + testMonster.getName() +" appears!");
+		while (!testMonster.isDead()) {
+			System.out.println("The monster attacks!");
+			if (this.monsterAttack(testMonster))
+				System.out.println("The monster hits!");
+			else
+				System.out.println("The monster misses!");
+			System.out.println(playerStatus());
+			System.out.println("The player attacks!");
+			if (playerAttack(testMonster)) 
+				System.out.println("You hit!");
+			else
+				System.out.println("You miss!");
+		}
+		System.out.println("The " + testMonster.getName() + " is slain!");
+	}
+	
 	// Make sure that the headers of the food section match what we expect
 	private boolean headersMatch(String[] headers, String input) {
 		String[] inHeaders = input.split(",");
@@ -136,6 +155,30 @@ public class Controller {
 			if (newTile.isPassable())
 				player.setLocation(newTile);
 		}
+	}
+	
+	public boolean monsterAttack(Monster monster) {
+		int attackRoll = MapRand.randInt(20) + monster.getAttack();
+		if (attackRoll >= player.getAC()) {
+			player.takeDamage(monster.getMeleeDamage());
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean playerAttack(Monster monster) {
+		int attackRoll = MapRand.randInt(20) + player.getAttack();
+		if (attackRoll >= monster.getAC()) {
+			monster.takeDamage(player.getMeleeDamage());
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public String playerStatus() {
+		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity();
 	}
 	
 	// Return a random item for the map, given the current depth in the station
