@@ -242,6 +242,7 @@ public class MapInterpreter {
 			//get new point if there's already a monster on the tile.
 			while ((map.getTile(tempPt.x, tempPt.y) == MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
 				tempPt = MapRand.randPoint(placement);
+				j++;
 			}
 
 			//create item and add to map.
@@ -265,6 +266,7 @@ public class MapInterpreter {
 			//get new point if there's already a monster on the tile.
 			while ((map.getTile(tempPt.x, tempPt.y) != MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
 				tempPt = MapRand.randPoint(placement);
+				j++;
 			}
 
 			//create monster and add to map.
