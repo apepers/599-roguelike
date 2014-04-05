@@ -16,16 +16,18 @@ public class Driver {
 
 	public static void main(String args[]){
 
+		
+		//intialize GUI elements
 		TileDisplay tileDisplay = new TileDisplay(300,300);
 		PlayerLog console = new PlayerLog();
 		StatusBar status = new StatusBar();
-		
+		Frame frame = new Frame(tileDisplay, console, status);
 		
 		Controller controller = Controller.getInstance();
-		controller.setup(new Messenger(controller, tileDisplay, console, status), new Player());
+		controller.setup(new Messenger(controller, frame, tileDisplay, console, status), new Player());
+		frame.registerController(controller);
 		
-		
-		Frame frame = new Frame(tileDisplay, console, status, controller);
+		//show game
 		frame.setVisible(true);
 		
 		

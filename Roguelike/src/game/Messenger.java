@@ -7,6 +7,7 @@
 package game;
 
 import entities.*;
+import graphics.Frame;
 import graphics.PlayerLog;
 import graphics.StatusBar;
 import graphics.TileDisplay;
@@ -14,6 +15,7 @@ import graphics.TileDisplay;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.security.InvalidKeyException;
 
@@ -29,15 +31,23 @@ public class Messenger {
 	private Action eAction;
 	private Action upAction;
 	private Action downAction;
+	
+	
+	//GUI elements
+	private Frame frame;
 	private PlayerLog log;
 	private TileDisplay display;
 	private StatusBar status;
 
-	public Messenger(Controller cont, TileDisplay tileDisplay, PlayerLog logDisplay, StatusBar statusDisplay) {
+	
+	
+	public Messenger(Controller cont, Frame frame, TileDisplay tileDisplay, PlayerLog logDisplay, StatusBar statusDisplay) {
 		this.controller = cont;
 		this.display = tileDisplay;
 		this.log = logDisplay;
 		this.status = statusDisplay;
+		this.frame = frame;
+		
 		
 		// Set up scanner to read from the console
 		reader = new Scanner(System.in);
@@ -86,11 +96,34 @@ public class Messenger {
 	}
 	
 	
-	
+	/**
+	 * Loads an entire map onto the tile display.
+	 * @param m
+	 */
 	public void drawMap(Map m){
 		display.drawMap(m);
 	}
 	
+	/**
+	 * Centers the display onto a specified point.
+	 * @param pt
+	 */
+	public void centerMap(Point pt){
+		frame.centerMap(pt.x, pt.y);
+	}
+	
+	/**
+	 * Centers the display onto a specified point.
+	 * @param x
+	 * @param y
+	 */
+	public void centerMap(int x, int y){
+		frame.centerMap(x,y);
+	}
+	
+	/**
+	 * Asks the tileDisplay to update its screen
+	 */
 	public void repaintDisplay(){
 		display.repaint();
 	}
@@ -111,6 +144,7 @@ public class Messenger {
 		log.println(text);
 	}
 	
+
 	
 	// Eat a food item from the current tile or inventory
 	// If the item is stackable, just eats one. Only one food item can be selected.

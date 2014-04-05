@@ -63,7 +63,7 @@ public class Controller {
 		this.player = p;
 		
 		//create the map.
-		MapGenerator map = new SimpleMap(15,15,3,3);
+		MapGenerator map = new SimpleMap(20,20,3,3);
 		Map m = MapInterpreter.interpretMap(map, ImageManager.getInstance().getAllTileSets("map"));
 
 		
@@ -76,7 +76,7 @@ public class Controller {
 		//setup the display
 		messenger.drawMap(m);
 		messenger.updateStatus(playerStatus());
-		
+		messenger.centerMap(spawn);
 	}
 
 	private void loadFoods() throws IOException {
