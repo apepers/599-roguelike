@@ -30,7 +30,7 @@ public class ImageManager {
 	
 	public static ImageManager getInstance(){
 		if (global == null){
-			global = new ImageManager(System.getProperty("user.dir") + "\\src" + RESOURCE_PATH);
+			global = new ImageManager(System.getProperty("user.dir") + RESOURCE_PATH);
 		}
 		return global;
 	}
