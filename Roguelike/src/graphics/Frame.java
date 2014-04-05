@@ -117,10 +117,18 @@ public class Frame extends JFrame {
 		console.getActionMap().put("inventory", controller.getMessenger().getIAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0), "eat");
 		console.getActionMap().put("eat", controller.getMessenger().getEAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_SLASH, KeyEvent.SHIFT_DOWN_MASK), "question");
+		console.getActionMap().put("question", controller.getMessenger().getQuestionAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
+		console.getActionMap().put("enter", controller.getMessenger().getEnterAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
 		console.getActionMap().put("up", controller.getMessenger().getUpAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
 		console.getActionMap().put("down", controller.getMessenger().getDownAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
+		console.getActionMap().put("left", controller.getMessenger().getLeftAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
+		console.getActionMap().put("right", controller.getMessenger().getRightAction());
 		
 		JScrollPane scrollPaneStatusBar = new JScrollPane();
 		scrollPaneStatusBar.setBounds(0, 632, 894, 46);

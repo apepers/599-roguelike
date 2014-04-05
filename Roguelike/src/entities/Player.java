@@ -9,6 +9,8 @@ public class Player extends Sentient {
 	private int hunger;
 	
 	public Player() {
+		this.setName("You!");
+		this.setDescription("A normal, boring person.");
 		hunger = 0;
 	}
 	

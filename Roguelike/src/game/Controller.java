@@ -16,6 +16,7 @@ import java.io.*;
 
 public class Controller {
 	private Player player;
+	private Cursor cursor;
 	ArrayList<Food> foods;
 	ArrayList<Monster> monsters;
 	private ItemDuplicator duplicator;
@@ -33,6 +34,7 @@ public class Controller {
 			loadMonsters();
 		} catch (IOException e) {
 			System.err.println("Error reading the data CSV files.");
+			e.printStackTrace();
 			return false;
 		}
 		duplicator = new ItemDuplicator();
@@ -120,21 +122,98 @@ public class Controller {
 	}
 	
 	public void movePlayerUp() {
-		System.out.println("Moving up");
 		if (player.getLocation().getRow() > 0) {
 			Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() - 1);
-			if (newTile.isPassable()) {
+			if (newTile.isPassable()) 
 				player.setLocation(newTile);
-				System.out.println("In new tile!");
-			}
+			else
+				System.out.println("Collision");
+			
+		} else {
+			System.out.println("At top boundary");
 		}
 	}
 	
 	public void movePlayerDown() {
-		if (player.getLocation().getRow() < map.getWidth() - 1) {
+		if (player.getLocation().getRow() < map.getHeight() - 1) {
 			Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() + 1);
 			if (newTile.isPassable())
 				player.setLocation(newTile);
+			else
+				System.out.println("Collision");
+		}
+		else {
+			System.out.println("At bottom boundary");
+		}
+	}
+	
+	public void movePlayerLeft() {
+		if (player.getLocation().getColumn() > 0) {
+			Tile newTile = map.getTile(player.getLocation().getColumn() - 1, player.getLocation().getRow());
+			if (newTile.isPassable())
+				player.setLocation(newTile);
+			else
+				System.out.println("Collision");
+		} else {
+			System.out.println("At left boundary");
+		}
+	}
+
+	
+	public void movePlayerRight() {
+		if (player.getLocation().getColumn() < map.getWidth() - 1) {
+			Tile newTile = map.getTile(player.getLocation().getColumn() + 1, player.getLocation().getRow());
+			if (newTile.isPassable())
+				player.setLocation(newTile);
+			else
+				System.out.println("Collision");
+		} else {
+			System.out.println("At right boundary");
+		}
+	}
+	
+	
+	public void createCursor() {
+		cursor = new Cursor(player.getLocation());
+	}
+	
+	
+	public String select() {
+		return cursor.getTopEntity();
+	}
+	
+	
+	public void deleteCursor() {
+		cursor = null;
+	}
+	
+	
+	public void moveCursorUp() {
+		if (cursor.getLocation().getRow() > 0) {
+			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() - 1);
+			cursor.setLocation(newTile);
+		}
+	}
+	
+	public void moveCursorDown() {
+		if (cursor.getLocation().getRow() < map.getHeight() - 1) {
+			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() + 1);
+			cursor.setLocation(newTile);
+		}
+	}
+	
+	public void moveCursorLeft() {
+		if (cursor.getLocation().getColumn() > 0) {
+			Tile newTile = map.getTile(cursor.getLocation().getColumn() - 1, cursor.getLocation().getRow());
+			cursor.setLocation(newTile);
+		}
+	}
+
+	
+	public void moveCursorRight() {
+		if (cursor.getLocation().getColumn() < map.getWidth() - 1) {
+			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() + 1);
+			cursor.setLocation(newTile);
 		}
 	}
 	

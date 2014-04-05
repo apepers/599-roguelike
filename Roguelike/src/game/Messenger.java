@@ -26,14 +26,22 @@ public class Messenger {
 	private Action pAction;
 	private Action iAction;
 	private Action eAction;
+	private Action enterAction;
+	private Action questionAction;
 	private Action upAction;
 	private Action downAction;
+	private Action leftAction;
+	private Action rightAction;
+	private Action invalidAction;
+	
 	private PlayerLog log;
 	private TileDisplay display;
+	private boolean cursorMode;
 	
 	public Messenger(Controller cont, Player p) {
 		controller = cont;
 		player = p;
+		cursorMode = false;
 		// Set up scanner to read from the console
 		reader = new Scanner(System.in);
 		
@@ -47,35 +55,106 @@ public class Messenger {
 		
 		pAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				pickUpNew();
+				if(cursorMode) {
+					log.println("Invalid key");
+				} else {
+					pickUpNew();
+				}
 			}
 		};
 		
 		iAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				viewInventory();
+				if(cursorMode) {
+					log.println("Invalid key");
+				} else {
+					viewInventory();
+				}
 			}
 		};
 		
 		eAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				eat();
+				if(cursorMode) {
+					log.println("Invalid key");
+				} else {
+					eat();
+				}
 			}
 		};
 		
 		upAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				log.println("Moving up");
-				controller.movePlayerUp();
+				if(cursorMode) {
+					log.println("Moving cursor up");
+					controller.moveCursorUp();
+				} else {
+					log.println("Moving up");
+					controller.movePlayerUp();
+				}
 				display.repaint();
 			}
 		};
 		
 		downAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				log.println("Moving down");
-				controller.movePlayerDown();
+				if(cursorMode) {
+					log.println("Moving cursor down");
+					controller.moveCursorDown();
+				} else {
+					log.println("Moving down");
+					controller.movePlayerDown();
+				}
 				display.repaint();
+			}
+		};
+		
+		leftAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if(cursorMode) {
+					log.println("Moving cursor left");
+					controller.moveCursorLeft();
+				} else {
+					log.println("Moving left");
+					controller.movePlayerLeft();
+				}
+				display.repaint();
+			}
+		};
+		
+		rightAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if(cursorMode) {
+					log.println("Moving cursor right");
+					controller.moveCursorRight();
+				} else {
+					log.println("Moving right");
+					controller.movePlayerRight();
+				}
+				display.repaint();
+			}
+		};
+		
+		questionAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if(cursorMode) {
+					log.println("Invalid key");
+				} else {
+					log.println("Identify what? (Use arrow keys to move and enter to select)");
+					identify();
+					display.repaint();
+				}
+			}
+		};
+		
+		enterAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if(cursorMode) {
+					select();
+					display.repaint();
+				} else {
+					log.println("Invalid key");
+				}
 			}
 		};
 	}
@@ -110,6 +189,22 @@ public class Messenger {
 	
 	public Action getDownAction() {
 		return downAction;
+	}
+	
+	public Action getLeftAction() {
+		return leftAction;
+	}
+	
+	public Action getRightAction() {
+		return rightAction;
+	}
+	
+	public Action getQuestionAction() {
+		return questionAction;
+	}
+	
+	public Action getEnterAction() {
+		return enterAction;
 	}
 	
 	// Eat a food item from the current tile or inventory
@@ -227,6 +322,7 @@ public class Messenger {
 		}
 	}
 	
+	
 	// Open a dialog to find out which of the tile's contents the player wishes to pick up.
 	// Note that this method will need alteration to deal with upper case IDs
 	private void pickUpNew() {
@@ -305,7 +401,21 @@ public class Messenger {
 			}
 		}
 	}
+	
+	
+	public void identify() {
+		cursorMode = true;
+		controller.createCursor();
+	}
+	
+	
+	public void select() {
+		log.println(controller.select());
+		controller.deleteCursor();
+		cursorMode = false;
+	}
 
+	
 	public void closeReader() {
 		reader.close();
 	}

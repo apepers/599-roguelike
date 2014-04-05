@@ -8,6 +8,7 @@ public abstract class Entity implements java.io.Serializable {
 	private char ascii;
 	private Color colour;
 	private String name;
+	private String description = "Nothing too interesting";
 	
 	private Image img;
 	
@@ -25,6 +26,14 @@ public abstract class Entity implements java.io.Serializable {
 	
 	public Color getColour() {
 		return colour;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	public String throwMsg() {
