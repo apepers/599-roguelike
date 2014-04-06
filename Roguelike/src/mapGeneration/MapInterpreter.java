@@ -171,12 +171,15 @@ public class MapInterpreter {
 	 */
 	private static void decorateRoom(MapGenerator map, Map newMap, ImageRegistry[] registries, Rectangle room) {
 
-		double[] probs = {0.2, 0.2, 0.10, 
+		double[] probs = {0.1, 0.2, 0.10, 
 				0.05, 0.01, 0.3, 
-				0.1, 0.2,};
+				0.1, 0.04};
 		int style = MapRand.randArray(probs);
 
 		if (style == 0){
+			//nothing placed in room.
+		}
+		else if(style == 1){
 			//single low tier treasure
 			addItemsRoom(map, newMap, room, 1);
 		}
@@ -201,33 +204,33 @@ public class MapInterpreter {
 			addMonstersRoom(map, newMap, room, MapRand.randInt(3,4));
 		}
 		else if(style == 5){
-
-		}
-		else if(style == 6){
-
-		}
-		else if(style == 7){
 			//two low tier treasures
 			addItemsRoom(map, newMap, room, 1);
 			addItemsRoom(map, newMap, room, 1);
 		}
-		else if(style == 8){
+		else if(style == 6){
 			//single monster
 			addMonstersRoom(map, newMap, room, 1);
 		}
-		else if(style == 9){
+		else if(style == 7){
 			//1-2 monsters
 			addMonstersRoom(map, newMap, room, MapRand.randInt(1, 2));
+		}
+		else if(style == 8){
+			//2-4 monsters
+			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 4));
+		}
+		else if(style == 9){
+			//four monsters
+			addMonstersRoom(map, newMap, room, 4);
 
 		}
 		else if(style == 10){
-			//2-4 monsters
-			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 4));
+
 
 		}
 		else if(style == 11){
-			//four monsters
-			addMonstersRoom(map, newMap, room, 4);
+
 		}
 	}
 
@@ -254,6 +257,7 @@ public class MapInterpreter {
 		//create item and add to map.
 		Tile selected = newMap.getTile(tempPt.x, tempPt.y);
 		selected.addItem(Controller.getInstance().getRandMapItem(tier));
+		selected.setBackground(ImageManager.getGlobalRegistry().getTile("item"));
 	}
 
 	/**
@@ -278,6 +282,7 @@ public class MapInterpreter {
 			//create monster and add to map.
 			Tile selected = newMap.getTile(tempPt.x, tempPt.y);
 			selected.setOccupant(Controller.getInstance().getRandMapMonster(0));
+			selected.setBackground(ImageManager.getGlobalRegistry().getTile("monster"));
 		}
 	}
 
