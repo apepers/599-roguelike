@@ -5,8 +5,6 @@ import java.awt.Image;
 
 @SuppressWarnings("serial")
 public abstract class Entity implements java.io.Serializable {
-	private char ascii;
-	private Color colour;
 	private String name;
 	
 	private Image img;
@@ -17,14 +15,6 @@ public abstract class Entity implements java.io.Serializable {
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public char getAscii() {
-		return ascii;
-	}
-	
-	public Color getColour() {
-		return colour;
 	}
 	
 	public String throwMsg() {

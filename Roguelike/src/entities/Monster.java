@@ -1,7 +1,5 @@
 package entities;
 
-import java.awt.Color;
-
 public class Monster extends Sentient {
 	private int difficulty;
 	
