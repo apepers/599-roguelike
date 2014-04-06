@@ -26,7 +26,7 @@ public class Controller {
 	private Map map;
 	private Messenger messenger;
 	boolean gameRunning;
-
+	private TimeQueue timeQueue;
 
 	private static Controller global;
 
@@ -44,8 +44,7 @@ public class Controller {
 
 		//prepare duplicator and player
 		duplicator = new ItemDuplicator();
-		
-
+		timeQueue = new TimeQueue();
 
 	};
 
