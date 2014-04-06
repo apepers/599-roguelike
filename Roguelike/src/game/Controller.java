@@ -63,7 +63,7 @@ public class Controller {
 		this.player = p;
 		
 		//create the map.
-		MapGenerator map = new SimpleMap(20, 20, 3,3);
+		MapGenerator map = new BSTMap(300,300, 6);
 		Map m = MapInterpreter.interpretMap(map, ImageManager.getInstance().getAllTileSets("map"));
 
 		this.map = m;

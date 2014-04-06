@@ -4,6 +4,8 @@
 
 package entities;
 
+import graphics.ImageManager;
+
 import java.awt.Color;
 
 @SuppressWarnings("serial")
@@ -36,6 +38,7 @@ public class Food extends Holdable {
 			food.setNutrition(Integer.parseInt(values[6]));
 			food.setTurnsToEat(Integer.parseInt(values[7]));
 			food.setEatMessage(values[8]);
+			food.setImage(ImageManager.getGlobalRegistry().getTile("item"));			//TEMPORARY
 			if (values.length == 10 && values[9] != "") {
 				String[] specials = values[9].split(" ");
 				food = Food.applySpecialTraits(food, specials);

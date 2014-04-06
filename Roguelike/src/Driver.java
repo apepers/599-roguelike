@@ -26,15 +26,18 @@ public class Driver {
 		StatusBar status = new StatusBar();
 		Frame frame = new Frame(tileDisplay, console, status);
 		
+		Player player = new Player();
+		
 		Controller controller = Controller.getInstance();
-		controller.setup(new Messenger(controller, frame, tileDisplay, console, status), new Player());
+		controller.setup(new Messenger(controller, frame, tileDisplay, console, status), player);
 		frame.registerController(controller);
 		
 		//show game
 		frame.setVisible(true);
 		
+		frame.centerMap(player.getLocation().getColumn(), player.getLocation().getRow());
 		
 		
-		controller.combatTest();
+		//controller.combatTest();
 	}
 }

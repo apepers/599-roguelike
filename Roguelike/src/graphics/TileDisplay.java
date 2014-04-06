@@ -3,10 +3,11 @@ import game.Map;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 
 
+
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -48,7 +49,7 @@ public class TileDisplay extends JPanel{
 	private int height;						//in pixels
 
 
-	private Image[][] buffer;
+	private ImageIcon[][] buffer;
 
 	private Map currentMap;
 
@@ -87,7 +88,7 @@ public class TileDisplay extends JPanel{
 		this.yScrMax = height;
 
 		//drawing canvas
-		buffer = new Image[xCells][yCells];
+		buffer = new ImageIcon[xCells][yCells];
 
 
 		//clear all cells.
@@ -120,7 +121,7 @@ public class TileDisplay extends JPanel{
 	 * @param y cell coordinate
 	 * @see super.repaint()
 	 */
-	public void drawTile(Image tile, int x, int y){
+	public void drawTile(ImageIcon tile, int x, int y){
 		buffer[x][y] = tile;
 
 	}
@@ -226,7 +227,9 @@ public class TileDisplay extends JPanel{
 		for (int i = xScrMin/TILE_SIZE; i< Math.min(xScrMax/TILE_SIZE, xCells); i++){
 			for (int j = yScrMin/TILE_SIZE; j< Math.min(yScrMax/TILE_SIZE, yCells); j++){
 				Point location = getCellLocation(i, j);
-				g.drawImage(buffer[i][j], location.x, location.y, BACKGROUND, null);
+				if (buffer[i][j] != null){
+					buffer[i][j].paintIcon(this, g, location.x, location.y);
+				}
 			}
 		}
 	}

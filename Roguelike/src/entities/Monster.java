@@ -1,5 +1,7 @@
 package entities;
 
+import graphics.ImageManager;
+
 import java.awt.Color;
 
 public class Monster extends Sentient {
@@ -27,6 +29,7 @@ public class Monster extends Sentient {
 			monster.setAttackBonus(Integer.parseInt(values[5]));
 			monster.setBaseDamage(Integer.parseInt(values[6]));
 			monster.setDifficulty(Integer.parseInt(values[7]));
+			monster.setImage(ImageManager.getGlobalRegistry().getTile("monster"));
 			if (values.length == 9 && values[8] != "") {
 				String[] specials = values[8].split(" ");
 				monster = Monster.applySpecialTraits(monster, specials);
@@ -37,6 +40,8 @@ public class Monster extends Sentient {
 				System.out.println(monster.getName() + " has some incorrect parameter.");
 			return null;
 		}
+		
+		
 		return monster;
 	}
 	
