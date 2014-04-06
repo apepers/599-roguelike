@@ -262,7 +262,7 @@ public class MapInterpreter {
 		//create item and add to map.
 		Tile selected = newMap.getTile(tempPt.x, tempPt.y);
 		selected.addItem(Controller.getInstance().getRandMapItem(tier));
-		selected.setBackground(ImageManager.getGlobalRegistry().getTile("item"));
+
 	}
 
 	/**
@@ -287,7 +287,7 @@ public class MapInterpreter {
 			//create monster and add to map.
 			Tile selected = newMap.getTile(tempPt.x, tempPt.y);
 			selected.setOccupant(Controller.getInstance().getRandMapMonster(0));
-			selected.setBackground(ImageManager.getGlobalRegistry().getTile("monster"));
+			
 		}
 	}
 
