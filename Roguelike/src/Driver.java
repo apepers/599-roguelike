@@ -1,6 +1,7 @@
 import entities.Player;
 import game.Controller;
 import game.Messenger;
+import graphics.ImageManager;
 import graphics.PlayerLog;
 import graphics.Frame;
 import graphics.StatusBar;
@@ -16,6 +17,8 @@ public class Driver {
 
 	public static void main(String args[]){
 
+		//load image resources
+		ImageManager.initInstance();
 		
 		//intialize GUI elements
 		TileDisplay tileDisplay = new TileDisplay(300,300);

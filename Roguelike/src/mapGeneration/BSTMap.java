@@ -25,7 +25,7 @@ public class BSTMap extends MapGenerator {
 	private static final int MIN_ROOM_WIDTH = 4;				//minimum room width
 	private static final int MIN_ROOM_HEIGHT = 4;				//minimum room height
 
-	private static final double HIDDEN_ROOM_PROB = 0.0;
+	private static final double HIDDEN_ROOM_PROB = 0.2;
 
 
 	private static final int DEPTH_FACTOR = 25;					//modifies the  minimum room size for a certain depth. Change if errors occur.

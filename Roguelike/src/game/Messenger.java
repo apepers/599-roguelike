@@ -82,7 +82,6 @@ public class Messenger {
 			public void actionPerformed(ActionEvent e) {
 				log.println("Moving up");
 				controller.movePlayerUp();
-				display.repaint();
 			}
 		};
 		
@@ -90,7 +89,6 @@ public class Messenger {
 			public void actionPerformed(ActionEvent e) {
 				log.println("Moving down");
 				controller.movePlayerDown();
-				display.repaint();
 			}
 		};
 	}
@@ -128,6 +126,22 @@ public class Messenger {
 		display.repaint();
 	}
 	
+	/**
+	 * Updates a tile on the tile display
+	 * @param pt
+	 */
+	public void updateTile(Point pt){
+		display.refreshTile(pt.x, pt.y);
+	}
+	
+	/**
+	 * Updates a tile on the tile display
+	 * @param x
+	 * @param y
+	 */
+	public void updateTile(int x, int y){
+		display.refreshTile(x, y);
+	}
 	/**
 	 * Updates the status bar for the player stats
 	 * @param text

@@ -8,8 +8,8 @@ import game.Map;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
 import entities.StairTile;
-import entities.TileFactory;
 import entities.Tile;
+import entities.TileFactory;
 
 /**
  * Interprets map created by the Map generator. 
@@ -48,11 +48,16 @@ public class MapInterpreter {
 					newTile = TileFactory.makeWall();
 				}
 				else if((tile == MapTile.CORRIDOR_FLOOR) ||
-						(tile == MapTile.ROOM_FLOOR) ||
-						(tile == MapTile.PLAYER_SPAWN)){
+						(tile == MapTile.ROOM_FLOOR)){
+
 					//any type of floor
 					newTile = TileFactory.makeFloor();
+				}
 
+
+				else if (tile == MapTile.PLAYER_SPAWN){
+					newTile = TileFactory.makeFloor();
+					newMap.setPlayerSpawn(new Point(i, j));
 				}
 				else if((tile == MapTile.WALL_H) || 
 						(tile == MapTile.WALL_V) || 
@@ -320,6 +325,8 @@ public class MapInterpreter {
 		map1.setTile(stair1.x, stair1.y, new StairTile(map1, map2, stair1, stair2));
 		map2.setTile(stair2.x, stair2.y, new StairTile(map2, map1, stair2, stair1));
 	}
+	
+	
 }
 
 

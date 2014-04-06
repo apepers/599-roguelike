@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import entities.*;
 import graphics.ImageManager;
 import serialization.ItemDuplicator;
+import mapGeneration.BSTMap;
 import mapGeneration.MapGenerator;
 import mapGeneration.MapInterpreter;
 import mapGeneration.MapRand;
@@ -62,7 +63,7 @@ public class Controller {
 		this.player = p;
 		
 		//create the map.
-		MapGenerator map = new SimpleMap(20,20,3,3);
+		MapGenerator map = new SimpleMap(20, 20, 3,3);
 		Map m = MapInterpreter.interpretMap(map, ImageManager.getInstance().getAllTileSets("map"));
 
 		this.map = m;
@@ -175,11 +176,24 @@ public class Controller {
 	}
 
 	public void movePlayerDown() {
-		if (player.getLocation().getRow() < map.getWidth() - 1) {
-			Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() + 1);
-			if (newTile.isPassable())
-				player.setLocation(newTile);
+		if (player.getLocation().getColumn() < map.getWidth() - 1) {
+			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+			Point newPt = new Point(oldPt.x, oldPt.y + 1);
+			
+			Tile nextTile = map.getTile(newPt.x, newPt.y);
+			if (nextTile.isPassable()){
+				player.setLocation(nextTile);
+				map.getTile(oldPt.x, oldPt.y).removeOccupant();
+				map.getTile(newPt.x, newPt.y).setOccupant(player);
+				
+				//update the tile
+				messenger.updateTile(oldPt);
+				messenger.updateTile(newPt);
+				
+			}
+				
 		}
+		
 	}
 
 	public boolean monsterAttack(Monster monster) {

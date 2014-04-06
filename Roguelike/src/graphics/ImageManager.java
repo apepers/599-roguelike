@@ -35,7 +35,11 @@ public class ImageManager {
 		return global;
 	}
 	
-	
+	public static void initInstance(){
+		if (global == null){
+			global = new ImageManager(System.getProperty("user.dir") + RESOURCE_PATH);
+		}
+	}
 	
 	/**
 	 * Creates an Image tile manager. Gets tilesets from the

@@ -50,6 +50,7 @@ public class TileDisplay extends JPanel{
 
 	private Image[][] buffer;
 
+	private Map currentMap;
 
 	/**
 	 * Default constructor for the display
@@ -125,6 +126,16 @@ public class TileDisplay extends JPanel{
 	}
 
 
+	/**
+	 * Updates a map tile on the screen
+	 * @param x
+	 * @param y
+	 */
+	public void refreshTile(int x, int y){
+		buffer[x][y] = currentMap.getTile(x, y).getTopImage();
+		repaint();
+	}
+	
 	/**
 	 * Clears a tile to the background color
 	 * @param x
@@ -218,11 +229,13 @@ public class TileDisplay extends JPanel{
 	 */
 	public void drawMap(Map map){
 		clearDisplay();
-
+		
+		this.currentMap = map;
+		
 		//fill array
 		for (int i = 0; i< map.getWidth(); i++){
 			for (int j = 0; j< map.getHeight(); j++){
-				buffer[i][j] = map.getTile(i, j).getBackground();
+				buffer[i][j] = map.getTile(i, j).getTopImage();
 			}
 		}
 
@@ -230,6 +243,7 @@ public class TileDisplay extends JPanel{
 		this.height = map.getHeight() * TILE_SIZE;
 		this.setPreferredSize(new java.awt.Dimension(width,height));
 
+		
 		//update later
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
