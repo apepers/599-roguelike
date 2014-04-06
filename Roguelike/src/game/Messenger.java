@@ -12,7 +12,7 @@ import graphics.PlayerLog;
 import graphics.StatusBar;
 import graphics.TileDisplay;
 
-import java.util.ArrayList;
+
 import java.util.Scanner;
 import java.awt.GridLayout;
 import java.awt.Point;
