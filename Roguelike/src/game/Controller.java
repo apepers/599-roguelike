@@ -165,7 +165,6 @@ public class Controller {
 	}
 
 	public void movePlayerUp() {
-		System.out.println("Moving up");
 		if (player.getLocation().getRow() > 0) {
 			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
 			Point newPt = new Point(oldPt.x, oldPt.y-1);

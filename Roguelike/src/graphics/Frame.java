@@ -126,7 +126,6 @@ public class Frame extends JFrame {
 			public void adjustmentValueChanged(AdjustmentEvent arg0) {
 				//update the tile display for optimizations, give horizonal position of bar
 				int value = mapScrHorizontal.getValue();
-				System.out.println(value);
 				tileDisplay.updateScrollHorizontal(value, value + mapScrHorizontal.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
 			}
 		});
@@ -136,7 +135,6 @@ public class Frame extends JFrame {
 			public void adjustmentValueChanged(AdjustmentEvent arg0) {
 				//update the tile display for optimizations, give vertcial position of bar
 				int value = mapScrVertical.getValue();
-				System.out.println(value);
 				tileDisplay.updateScrollVertical(value, value + mapScrVertical.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
 			}
 		});
@@ -172,9 +170,6 @@ public class Frame extends JFrame {
 	 */
 	public void centerMap(int x, int y){
 		Point focus = new Point(TileDisplay.TILE_SIZE*x, TileDisplay.TILE_SIZE *y);
-		System.out.println(focus);
-		System.out.println(focus.x- (scrollPaneMap.getWidth()/2));
-		System.out.println(focus.y - (scrollPaneMap.getHeight()/2));
 		mapScrHorizontal.setValue(focus.x- (scrollPaneMap.getWidth()/2)); 
 		mapScrVertical.setValue(focus.y - (scrollPaneMap.getHeight()/2));
 	}

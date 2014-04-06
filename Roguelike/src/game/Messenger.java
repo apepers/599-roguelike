@@ -81,24 +81,26 @@ public class Messenger {
 		
 		upAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				log.println("Moving up");
+				//log.println("Moving up");
 				controller.movePlayerUp();
 			}
 		};
 		
 		downAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				log.println("Moving down");
+				//log.println("Moving down");
 				controller.movePlayerDown();
 			}
 		};
 		rightAction = new AbstractAction(){
 			public void actionPerformed(ActionEvent e) {
+				//log.println("Moving right");
 				controller.movePlayerRight();
 			}
 		};
 		leftAction = new AbstractAction(){
 			public void actionPerformed(ActionEvent e) {
+				//log.println("Moving left");
 				controller.movePlayerLeft();
 			}
 		};
