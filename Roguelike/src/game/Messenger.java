@@ -31,7 +31,8 @@ public class Messenger {
 	private Action eAction;
 	private Action upAction;
 	private Action downAction;
-	
+	private Action rightAction;
+	private Action leftAction;
 	
 	//GUI elements
 	private Frame frame;
@@ -89,6 +90,16 @@ public class Messenger {
 			public void actionPerformed(ActionEvent e) {
 				log.println("Moving down");
 				controller.movePlayerDown();
+			}
+		};
+		rightAction = new AbstractAction(){
+			public void actionPerformed(ActionEvent e) {
+				controller.movePlayerRight();
+			}
+		};
+		leftAction = new AbstractAction(){
+			public void actionPerformed(ActionEvent e) {
+				controller.movePlayerLeft();
 			}
 		};
 	}
@@ -393,4 +404,16 @@ public class Messenger {
 	public Action getDownAction() {
 		return downAction;
 	}
+
+
+	public Action getRightAction() {
+		return rightAction;
+	}
+
+
+	public Action getLeftAction() {
+		return leftAction;
+	}
+	
+	
 }

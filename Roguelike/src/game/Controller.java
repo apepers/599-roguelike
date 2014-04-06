@@ -167,16 +167,25 @@ public class Controller {
 	public void movePlayerUp() {
 		System.out.println("Moving up");
 		if (player.getLocation().getRow() > 0) {
-			Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() - 1);
-			if (newTile.isPassable()) {
-				player.setLocation(newTile);
-				System.out.println("In new tile!");
+			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+			Point newPt = new Point(oldPt.x, oldPt.y-1);
+			
+			Tile nextTile = map.getTile(newPt.x, newPt.y);
+			if (nextTile.isPassable()){
+				player.setLocation(nextTile);
+				map.getTile(oldPt.x, oldPt.y).removeOccupant();
+				map.getTile(newPt.x, newPt.y).setOccupant(player);
+				
+				//update the tile
+				messenger.updateTile(oldPt);
+				messenger.updateTile(newPt);
+				messenger.centerMap(newPt);
 			}
 		}
 	}
 
 	public void movePlayerDown() {
-		if (player.getLocation().getColumn() < map.getWidth() - 1) {
+		if (player.getLocation().getRow() < map.getHeight() - 1) {
 			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
 			Point newPt = new Point(oldPt.x, oldPt.y + 1);
 			
@@ -189,13 +198,53 @@ public class Controller {
 				//update the tile
 				messenger.updateTile(oldPt);
 				messenger.updateTile(newPt);
-				
+				messenger.centerMap(newPt);
 			}
 				
 		}
 		
 	}
 
+	public void movePlayerRight(){
+		if (player.getLocation().getColumn() < map.getWidth() - 1) {
+			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+			Point newPt = new Point(oldPt.x +1, oldPt.y);
+			
+			Tile nextTile = map.getTile(newPt.x, newPt.y);
+			if (nextTile.isPassable()){
+				player.setLocation(nextTile);
+				map.getTile(oldPt.x, oldPt.y).removeOccupant();
+				map.getTile(newPt.x, newPt.y).setOccupant(player);
+				
+				//update the tile
+				messenger.updateTile(oldPt);
+				messenger.updateTile(newPt);
+				messenger.centerMap(newPt);
+			}
+				
+		}
+	}
+	
+	public void movePlayerLeft(){
+		if (player.getLocation().getColumn() > 0) {
+			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+			Point newPt = new Point(oldPt.x-1, oldPt.y);
+			
+			Tile nextTile = map.getTile(newPt.x, newPt.y);
+			if (nextTile.isPassable()){
+				player.setLocation(nextTile);
+				map.getTile(oldPt.x, oldPt.y).removeOccupant();
+				map.getTile(newPt.x, newPt.y).setOccupant(player);
+				
+				//update the tile
+				messenger.updateTile(oldPt);
+				messenger.updateTile(newPt);
+				messenger.centerMap(newPt);
+			}
+				
+		}
+	}
+	
 	public boolean monsterAttack(Monster monster) {
 		int attackRoll = MapRand.randInt(20) + monster.getAttack();
 		if (attackRoll >= player.getAC()) {

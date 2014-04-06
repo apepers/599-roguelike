@@ -158,6 +158,10 @@ public class Frame extends JFrame {
 		console.getActionMap().put("up", controller.getMessenger().getUpAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
 		console.getActionMap().put("down", controller.getMessenger().getDownAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
+		console.getActionMap().put("left", controller.getMessenger().getLeftAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
+		console.getActionMap().put("right", controller.getMessenger().getRightAction());
 	}
 
 	/**
