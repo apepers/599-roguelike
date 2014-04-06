@@ -24,7 +24,7 @@ public class ImageManager {
 	private static HashMap<String, ImageRegistry> tileSets = new HashMap<String, ImageRegistry>();
 	
 	//global tileset accessable regardless of tilesets.
-	private static final String GLOBAL_KEY = "global";
+	public static final String GLOBAL_KEY = "global";
 	private static ImageRegistry globalReg;
 	
 	

@@ -2,17 +2,12 @@ package graphics;
 
 import game.*;
 
-import java.awt.EventQueue;
 import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -23,11 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+
 
 /**
  * This is a window builder compatible class. Edit with
@@ -35,6 +28,7 @@ import java.util.ArrayList;
  * @author Kevin
  *
  */
+@SuppressWarnings("serial")
 public class Frame extends JFrame {
 
 	private JPanel contentPane;

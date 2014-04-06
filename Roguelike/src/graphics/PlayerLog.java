@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
  * @author Kevin
  *
  */
+@SuppressWarnings("serial")
 public class PlayerLog extends JScrollPane {
 
 
