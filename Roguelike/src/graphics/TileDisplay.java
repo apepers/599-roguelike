@@ -50,7 +50,7 @@ public class TileDisplay extends JPanel{
 
 
 	private ImageIcon[][] buffer;
-
+	
 	private Map currentMap;
 
 	/**
@@ -133,7 +133,10 @@ public class TileDisplay extends JPanel{
 	 * @param y
 	 */
 	public void refreshTile(int x, int y){
+		
 		buffer[x][y] = currentMap.getTile(x, y).getTopImage();
+		
+		
 		//update later
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
@@ -151,6 +154,7 @@ public class TileDisplay extends JPanel{
 	 */
 	public void clearTile(int x, int y){
 		buffer[x][y] = null;
+		
 	}
 
 	/**
@@ -227,8 +231,11 @@ public class TileDisplay extends JPanel{
 		for (int i = xScrMin/TILE_SIZE; i< Math.min(xScrMax/TILE_SIZE, xCells); i++){
 			for (int j = yScrMin/TILE_SIZE; j< Math.min(yScrMax/TILE_SIZE, yCells); j++){
 				Point location = getCellLocation(i, j);
-				if (buffer[i][j] != null){
-					buffer[i][j].paintIcon(this, g, location.x, location.y);
+				
+				currentMap.getTile(i, j).getBackground().paintIcon(this, g, location.x, location.y);
+				ImageIcon top = currentMap.getTile(i, j).getTopImage();
+				if (top != null){
+					top.paintIcon(this, g, location.x, location.y);
 				}
 			}
 		}
