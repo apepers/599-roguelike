@@ -3,9 +3,12 @@ import game.Map;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 
+
+import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -49,7 +52,7 @@ public class TileDisplay extends JPanel{
 	private int height;						//in pixels
 
 
-	private ImageIcon[][] buffer;
+	private BufferedImage buffer;
 	
 	private Map currentMap;
 
@@ -88,7 +91,7 @@ public class TileDisplay extends JPanel{
 		this.yScrMax = height;
 
 		//drawing canvas
-		buffer = new ImageIcon[xCells][yCells];
+		buffer = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
 
 
 		//clear all cells.
@@ -106,7 +109,7 @@ public class TileDisplay extends JPanel{
 	public void clearDisplay(){
 		for (int i = 0; i< xCells; i++){
 			for (int j = 0; j< yCells; j++){
-				buffer[i][j] = null;
+	
 			}
 		}
 	}
@@ -122,7 +125,11 @@ public class TileDisplay extends JPanel{
 	 * @see super.repaint()
 	 */
 	public void drawTile(ImageIcon tile, int x, int y){
-		buffer[x][y] = tile;
+		Graphics pane = (Graphics) buffer.getGraphics();
+		if (tile != null){
+			pane.drawImage(tile.getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+		}
+	
 
 	}
 
@@ -134,7 +141,7 @@ public class TileDisplay extends JPanel{
 	 */
 	public void refreshTile(int x, int y){
 		
-		buffer[x][y] = currentMap.getTile(x, y).getTopImage();
+		//buffer[x][y] = currentMap.getTile(x, y).getTopImage();
 		
 		
 		//update later
@@ -153,7 +160,7 @@ public class TileDisplay extends JPanel{
 	 * @param y
 	 */
 	public void clearTile(int x, int y){
-		buffer[x][y] = null;
+		//buffer[x][y] = null;
 		
 	}
 
@@ -226,19 +233,24 @@ public class TileDisplay extends JPanel{
 	 */
 	@Override
 	public void paintComponent(Graphics g){
-
+		
+		g.drawImage(buffer, 0, 0, null);
+		
+		/*
 		//redraw only the tiles that have been updated.
 		for (int i = xScrMin/TILE_SIZE; i< Math.min(xScrMax/TILE_SIZE, xCells); i++){
 			for (int j = yScrMin/TILE_SIZE; j< Math.min(yScrMax/TILE_SIZE, yCells); j++){
 				Point location = getCellLocation(i, j);
 				
-				currentMap.getTile(i, j).getBackground().paintIcon(this, g, location.x, location.y);
+				pane.drawImage(img, op, x, y);
+				currentMap.getTile(i, j).getBackground().paintIcon(this, buffer, location.x, location.y);
 				ImageIcon top = currentMap.getTile(i, j).getTopImage();
 				if (top != null){
 					top.paintIcon(this, g, location.x, location.y);
 				}
 			}
 		}
+		*/
 	}
 	/**
 	 * Loads an entire map into the tile display.
@@ -252,7 +264,7 @@ public class TileDisplay extends JPanel{
 		//fill array
 		for (int i = 0; i< map.getWidth(); i++){
 			for (int j = 0; j< map.getHeight(); j++){
-				buffer[i][j] = map.getTile(i, j).getTopImage();
+				drawTile(map.getTile(i, j).getTopImage(), i, j);
 			}
 		}
 
