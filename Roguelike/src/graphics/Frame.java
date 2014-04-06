@@ -121,24 +121,6 @@ public class Frame extends JFrame {
 		this.mapScrHorizontal = scrollPaneMap.getHorizontalScrollBar();
 		this.mapScrVertical = scrollPaneMap.getVerticalScrollBar();
 		scrollPaneMap.setViewportView(tileDisplay);
-		scrollPaneMap.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener(){
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				//update the tile display for optimizations, give horizonal position of bar
-				int value = mapScrHorizontal.getValue();
-				tileDisplay.updateScrollHorizontal(value, value + mapScrHorizontal.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
-			}
-		});
-		scrollPaneMap.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
-
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				//update the tile display for optimizations, give vertcial position of bar
-				int value = mapScrVertical.getValue();
-				tileDisplay.updateScrollVertical(value, value + mapScrVertical.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
-			}
-		});
-		
 		tileDisplay.repaint();
 	}
 

@@ -38,11 +38,6 @@ public class TileDisplay extends JPanel{
 
 	private static final Color BACKGROUND = Color.BLACK;
 	private static ImageIcon BLANK_TILE_IMAGE = createBlank();
-	//optimization controls.
-	private int xScrMin;
-	private int xScrMax;
-	private int yScrMin;
-	private int yScrMax;
 
 	private int xCells;
 	private int yCells;
@@ -86,10 +81,6 @@ public class TileDisplay extends JPanel{
 		this.width = xCells * TILE_SIZE;
 		this.height = yCells * TILE_SIZE;
 
-		this.xScrMin =0;
-		this.xScrMax = width;
-		this.yScrMin =0;
-		this.yScrMax = height;
 
 		//drawing canvas
 		buffer = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
@@ -166,37 +157,6 @@ public class TileDisplay extends JPanel{
 
 	}
 
-
-	/**
-	 * Updates the horizontal viewable area of the tile display as to not
-	 * waste time repainting unseen tiles.
-	 * 
-	 * Parameters expected to the clipping area of the tile display
-	 * @param min
-	 * @param max
-	 */
-	protected void updateScrollHorizontal(int min, int max){
-		xScrMin = min;
-		xScrMax = max;
-
-		repaint();
-	}
-
-	/**
-	 * Updates the vertical viewable area of the tile display as to not
-	 * waste time repainting unseen tiles.
-	 * 
-	 * Parameters expected to be the clipping area of the tile display.
-	 * @param min
-	 * @param max
-	 */
-	protected void updateScrollVertical(int min, int max){
-		yScrMin = min;
-		yScrMax = max;
-
-		//update later
-		repaint();
-	}
 
 	/**
 	 * This method calls the super's repaint method for a 
