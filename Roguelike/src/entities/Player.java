@@ -22,6 +22,7 @@ public class Player extends Sentient {
 		setStrength(16);
 		setSpeed(2);
 		setDexterity(16);
+		setBaseMeleeDescription("hit");
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));
 	}
@@ -59,5 +60,10 @@ public class Player extends Sentient {
 			return "Fainting";
 		else
 			return "Starved";
+	}
+	
+	@Override
+	public String getPronoun() {
+		return "you";
 	}
 }
