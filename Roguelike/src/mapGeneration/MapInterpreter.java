@@ -3,12 +3,13 @@ package mapGeneration;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import game.Controller;
 import game.Map;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
 import entities.StairTile;
-import entities.TileFactory;
 import entities.Tile;
+import entities.TileFactory;
 
 /**
  * Interprets map created by the Map generator. 
@@ -19,8 +20,8 @@ import entities.Tile;
 public class MapInterpreter {
 
 	private static final int RETRY_COUNT = 100;				//If the retry count exceeds this value, the object being placed is not placed.
-	
-	
+
+
 	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries){
 
 		if(registries.length < 1){
@@ -30,7 +31,7 @@ public class MapInterpreter {
 
 		Map newMap = new Map(map.getWidth(), map.getHeight());
 
-		newMap.setSpawn(map.getPlayerSpawn());
+		newMap.setPlayerSpawn(map.getPlayerSpawn());
 
 		//for each tile in the map, convert to an entity tile. Images not yet added.
 		for(int i= 0; i< map.getWidth(); i++){
@@ -47,11 +48,16 @@ public class MapInterpreter {
 					newTile = TileFactory.makeWall();
 				}
 				else if((tile == MapTile.CORRIDOR_FLOOR) ||
-						(tile == MapTile.ROOM_FLOOR) ||
-						(tile == MapTile.PLAYER_SPAWN)){
+						(tile == MapTile.ROOM_FLOOR)){
+
 					//any type of floor
 					newTile = TileFactory.makeFloor();
+				}
 
+
+				else if (tile == MapTile.PLAYER_SPAWN){
+					newTile = TileFactory.makeFloor();
+					newMap.setPlayerSpawn(new Point(i, j));
 				}
 				else if((tile == MapTile.WALL_H) || 
 						(tile == MapTile.WALL_V) || 
@@ -153,7 +159,7 @@ public class MapInterpreter {
 					stateTile.setBackground(skin.getTile("floor"));
 				}		
 				else if(tile == MapTile.PLAYER_SPAWN){
-					stateTile.setBackground(skin.getTile("flooddsr"));
+					stateTile.setBackground(skin.getTile("floor"));
 				}
 			}
 		}
@@ -170,92 +176,104 @@ public class MapInterpreter {
 	 */
 	private static void decorateRoom(MapGenerator map, Map newMap, ImageRegistry[] registries, Rectangle room) {
 
-		double[] probs = {0.2, 0.2, 0.10, 
-				0.05, 0.01, 0.3, 
-				0.1, 0.2,};
+		double[] probs = {0.14, 0.20, 0.15, 
+				0.05, 0.01, 0.30, 
+				0.104, 0.04, 
+				0.005, 0.001};
 		int style = MapRand.randArray(probs);
 
 		if (style == 0){
-			//single low tier treasure
-			
+			//nothing placed in room.
 		}
 		else if(style == 1){
-			//single low tier treasure with one monster
-			addMonstersRoom(map, newMap, room, 1);
+			//single low tier treasure
+			addItemsRoom(map, newMap, room, 1);
 		}
 		else if(style == 2){
-			//single low tier treasure with two monsters
-			addMonstersRoom(map, newMap, room, 2);
+			//single low tier treasure with one monster
+			addItemsRoom(map, newMap, room, 1);
+			addMonstersRoom(map, newMap, room, 1);
 		}
 		else if(style == 3){
-			//single medium tier treasure with two to three monsters
-			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 3));
+			//single low tier treasure with two monsters
+			addItemsRoom(map, newMap, room, 1);
+			addMonstersRoom(map, newMap, room, 2);
 		}
 		else if(style == 4){
-			//single high tier treasure with three monsters
-			addMonstersRoom(map, newMap, room, MapRand.randInt(3,4));
+			//single medium tier treasure with two to three monsters
+			addItemsRoom(map, newMap, room, 1);
+			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 3));
 		}
 		else if(style == 5){
-
+			//single high tier treasure with three monsters
+			addItemsRoom(map, newMap, room, 1);
+			addMonstersRoom(map, newMap, room, MapRand.randInt(3,4));
 		}
 		else if(style == 6){
-
+			//two low tier treasures
+			addItemsRoom(map, newMap, room, 1);
+			addItemsRoom(map, newMap, room, 1);
 		}
 		else if(style == 7){
-			//two low tier treasures
-
-		}
-		else if(style == 8){
 			//single monster
 			addMonstersRoom(map, newMap, room, 1);
 		}
-		else if(style == 9){
+		else if(style == 8){
 			//1-2 monsters
 			addMonstersRoom(map, newMap, room, MapRand.randInt(1, 2));
-
 		}
-		else if(style == 10){
+		else if(style == 9){
 			//2-4 monsters
 			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 4));
+		}
+		else if(style == 10){
+			//four monsters
+			addMonstersRoom(map, newMap, room, 4);
 
 		}
 		else if(style == 11){
-			//four monsters
-			addMonstersRoom(map, newMap, room, 4);
+			//single mid tier item
+			addItemsRoom(map, newMap, room, 2);
+		}
+		else if(style == 12){
+			//single high tier item
+			addItemsRoom(map, newMap, room, 3);
 		}
 	}
 
-	
+
 	/**
-	 * Adds monsters into a room randomly without overlap
+	 * Adds a single item to a location. May overlap
+	 * other items, but this is okay since they stack.
 	 * @param room Entire room including walls
-	 * @param count
+	 * @param tier Item tier
 	 */
-	private static void addItemsRoom(MapGenerator map, Map newMap, Rectangle room, int count){
-		
+	private static void addItemsRoom(MapGenerator map, Map newMap, Rectangle room, int tier){
+
 		Rectangle placement = MapRand.innerRectangle(room);
-		for (int i = 0; i < count; i++){
-			Point tempPt = MapRand.randPoint(placement);
 
-			int j = 0;
-			j = 0;
-			//get new point if there's already a monster on the tile.
-			while ((map.getTile(tempPt.x, tempPt.y) == MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
-				tempPt = MapRand.randPoint(placement);
-			}
+		Point tempPt = MapRand.randPoint(placement);
+		int j = 0;
 
-			//create item and add to map.
-			//TODO
+		//get new point if there's already a monster on the tile.
+		while ((map.getTile(tempPt.x, tempPt.y) == MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
+			tempPt = MapRand.randPoint(placement);
+			j++;
 		}
+
+		//create item and add to map.
+		Tile selected = newMap.getTile(tempPt.x, tempPt.y);
+		selected.addItem(Controller.getInstance().getRandMapItem(tier));
+
 	}
-	
+
 	/**
 	 * Adds monsters into a room randomly without overlap
 	 * @param room Entire room including walls
 	 * @param count
 	 */
 	private static void addMonstersRoom(MapGenerator map, Map newMap, Rectangle room, int count){
-		
+
 		Rectangle placement = MapRand.innerRectangle(room);
 		for (int i = 0; i < count; i++){
 			Point tempPt = MapRand.randPoint(placement);
@@ -265,10 +283,13 @@ public class MapInterpreter {
 			//get new point if there's already a monster on the tile.
 			while ((map.getTile(tempPt.x, tempPt.y) != MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
 				tempPt = MapRand.randPoint(placement);
+				j++;
 			}
 
 			//create monster and add to map.
-			//TODO
+			Tile selected = newMap.getTile(tempPt.x, tempPt.y);
+			selected.setOccupant(Controller.getInstance().getRandMapMonster(0));
+			
 		}
 	}
 
@@ -306,6 +327,8 @@ public class MapInterpreter {
 		map1.setTile(stair1.x, stair1.y, new StairTile(map1, map2, stair1, stair2));
 		map2.setTile(stair2.x, stair2.y, new StairTile(map2, map1, stair2, stair1));
 	}
+	
+	
 }
 
 

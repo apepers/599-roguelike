@@ -24,18 +24,22 @@ public class ImageManager {
 	private static HashMap<String, ImageRegistry> tileSets = new HashMap<String, ImageRegistry>();
 	
 	//global tileset accessable regardless of tilesets.
-	private static final String GLOBAL_KEY = "global";
+	public static final String GLOBAL_KEY = "global";
 	private static ImageRegistry globalReg;
 	
 	
 	public static ImageManager getInstance(){
 		if (global == null){
-			global = new ImageManager(System.getProperty("user.dir") + "\\src" + RESOURCE_PATH);
+			global = new ImageManager(System.getProperty("user.dir") + RESOURCE_PATH);
 		}
 		return global;
 	}
 	
-	
+	public static void initInstance(){
+		if (global == null){
+			global = new ImageManager(System.getProperty("user.dir") + RESOURCE_PATH);
+		}
+	}
 	
 	/**
 	 * Creates an Image tile manager. Gets tilesets from the

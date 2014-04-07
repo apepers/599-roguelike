@@ -4,9 +4,10 @@
 
 package entities;
 
-import java.awt.Image;
 import java.security.InvalidKeyException;
 import java.util.HashMap;
+
+import javax.swing.ImageIcon;
 
 
 public class Tile {
@@ -14,7 +15,7 @@ public class Tile {
 	private Container items = new Container();	// The items in the tile
 	private Sentient occupant = null;
 
-	private Image background;
+	private ImageIcon background;
 	private boolean passable;
 	
 	private int row;
@@ -153,7 +154,7 @@ public class Tile {
 	 * 2. Items
 	 * 3. Background of tile
 	 */
-	public Image getTopImage(){
+	public ImageIcon getTopImage(){
 		if(occupant != null){
 			return occupant.getImg();
 		}
@@ -164,6 +165,28 @@ public class Tile {
 		return background;
 	}
 	
+	/**
+	 * Gets the current occupant's image
+	 * @return
+	 */
+	public ImageIcon getOccupantImage(){
+		if(occupant != null){
+			return occupant.getImg();
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets the top most Item's image in the stack on the tile
+	 * @return
+	 */
+	public ImageIcon getTopItemImage(){
+		if (items.getSize() > 0){
+			//TODO horriable way to get first item... PLEASE FIX
+			return items.getItem(items.getUsedIDs().iterator().next()).getImg();
+		}
+		return null;
+	}
 	
 	/**
 	 * Gets the background image of the tile. 
@@ -172,11 +195,11 @@ public class Tile {
 	 * entity image.
 	 * @return
 	 */
-	public Image getBackground() {
+	public ImageIcon getBackground() {
 		return background;
 	}
 	
-	public void setBackground(Image background){
+	public void setBackground(ImageIcon background){
 		this.background = background;
 	}
 

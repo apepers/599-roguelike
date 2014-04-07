@@ -16,7 +16,6 @@ public abstract class FoodDecorator extends Food {
 		this.setID(decoratedFood.getID());
 		this.setName(decoratedFood.getName());
 		this.setCost(decoratedFood.getCost());
-		this.setColour(decoratedFood.getColour());
 		this.setWeight(decoratedFood.getWeight());
 		this.setNutrition(decoratedFood.getNutrition());
 		this.setTurnsToEat(decoratedFood.getTurnsToEat());

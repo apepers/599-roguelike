@@ -7,12 +7,15 @@
 package game;
 
 import entities.*;
+import graphics.Frame;
 import graphics.PlayerLog;
+import graphics.StatusBar;
 import graphics.TileDisplay;
 
-import java.util.ArrayList;
+
 import java.util.Scanner;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.security.InvalidKeyException;
 
@@ -30,17 +33,25 @@ public class Messenger {
 	private Action questionAction;
 	private Action upAction;
 	private Action downAction;
-	private Action leftAction;
 	private Action rightAction;
+	private Action leftAction;
 	private Action invalidAction;
 	
+	//GUI elements
+	private Frame frame;
 	private PlayerLog log;
 	private TileDisplay display;
+	private StatusBar status;
 	private boolean cursorMode;
 	
-	public Messenger(Controller cont, Player p) {
-		controller = cont;
-		player = p;
+	
+	public Messenger(Controller cont, Player p, Frame frame, TileDisplay tileDisplay, PlayerLog logDisplay, StatusBar statusDisplay) {
+		this.controller = cont;
+		this.player = p;
+		this.display = tileDisplay;
+		this.log = logDisplay;
+		this.status = statusDisplay;
+		this.frame = frame;
 		cursorMode = false;
 		// Set up scanner to read from the console
 		reader = new Scanner(System.in);
@@ -159,52 +170,69 @@ public class Messenger {
 		};
 	}
 	
-	public void setPlayerLog(PlayerLog p) {
-		log = p;
+	
+	/**
+	 * Loads an entire map onto the tile display.
+	 * @param m
+	 */
+	public void drawMap(Map m){
+		display.drawMap(m);
 	}
 	
-	public void setTileDisplay(TileDisplay d) {
-		display = d;
+	/**
+	 * Centers the display onto a specified point.
+	 * @param pt
+	 */
+	public void centerMap(Point pt){
+		frame.centerMap(pt.x, pt.y);
 	}
 	
-	public Action getQuitAction() {
-		return quitAction;
+	/**
+	 * Centers the display onto a specified point.
+	 * @param x
+	 * @param y
+	 */
+	public void centerMap(int x, int y){
+		frame.centerMap(x,y);
 	}
 	
-	public Action getPAction() {
-		return pAction;
+	/**
+	 * Asks the tileDisplay to update its screen
+	 */
+	public void repaintDisplay(){
+		display.repaint();
 	}
 	
-	public Action getIAction() {
-		return iAction;
+	/**
+	 * Updates a tile on the tile display
+	 * @param pt
+	 */
+	public void updateTile(Point pt){
+		display.refreshTile(pt.x, pt.y);
 	}
 	
-	public Action getEAction() {
-		return eAction;
+	/**
+	 * Updates a tile on the tile display
+	 * @param x
+	 * @param y
+	 */
+	public void updateTile(int x, int y){
+		display.refreshTile(x, y);
+	}
+	/**
+	 * Updates the status bar for the player stats
+	 * @param text
+	 */
+	public void updateStatus(String text){
+		status.setText(text);
 	}
 	
-	public Action getUpAction() {
-		return upAction;
-	}
-	
-	public Action getDownAction() {
-		return downAction;
-	}
-	
-	public Action getLeftAction() {
-		return leftAction;
-	}
-	
-	public Action getRightAction() {
-		return rightAction;
-	}
-	
-	public Action getQuestionAction() {
-		return questionAction;
-	}
-	
-	public Action getEnterAction() {
-		return enterAction;
+	/**
+	 * Writes a line to the player's console
+	 * @param text
+	 */
+	public void println(String text){
+		log.println(text);
 	}
 	
 	// Eat a food item from the current tile or inventory
@@ -415,8 +443,60 @@ public class Messenger {
 		cursorMode = false;
 	}
 
-	
 	public void closeReader() {
 		reader.close();
+	}
+	
+	//========================================================================================
+	//getters and setters
+	
+	public void setPlayerLog(PlayerLog p) {
+		log = p;
+	}
+	
+	public void setTileDisplay(TileDisplay d) {
+		display = d;
+	}
+	
+	public Action getQuitAction() {
+		return quitAction;
+	}
+	
+	public Action getPAction() {
+		return pAction;
+	}
+	
+	public Action getIAction() {
+		return iAction;
+	}
+	
+	public Action getEAction() {
+		return eAction;
+	}
+	
+	public Action getUpAction() {
+		return upAction;
+	}
+	
+	public Action getDownAction() {
+		return downAction;
+	}
+
+
+	public Action getRightAction() {
+		return rightAction;
+	}
+
+
+	public Action getLeftAction() {
+		return leftAction;
+	}
+	
+	public Action getQuestionAction() {
+		return questionAction;
+	}
+	
+	public Action getEnterAction() {
+		return enterAction;
 	}
 }

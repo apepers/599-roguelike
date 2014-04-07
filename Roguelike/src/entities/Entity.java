@@ -3,14 +3,14 @@ package entities;
 import java.awt.Color;
 import java.awt.Image;
 
+import javax.swing.ImageIcon;
+
 @SuppressWarnings("serial")
 public abstract class Entity implements java.io.Serializable {
-	private char ascii;
-	private Color colour;
 	private String name;
 	private String description = "Nothing too interesting";
 	
-	private Image img;
+	private ImageIcon img;
 	
 	public String getName() {
 		return name;
@@ -20,14 +20,6 @@ public abstract class Entity implements java.io.Serializable {
 		this.name = name;
 	}
 	
-	public char getAscii() {
-		return ascii;
-	}
-	
-	public Color getColour() {
-		return colour;
-	}
-	
 	public String getDescription() {
 		return description;
 	}
@@ -35,16 +27,16 @@ public abstract class Entity implements java.io.Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public String throwMsg() {
 		return "The " + name + " is thrown normally.";
 	}
 	
-	public Image getImg(){
+	public ImageIcon getImg(){
 		return img;
 	}
 	
-	protected void setImage(Image img){
+	protected void setImage(ImageIcon img){
 		this.img = img;
 	}
 }

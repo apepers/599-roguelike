@@ -4,19 +4,16 @@
 
 package entities;
 
-import java.awt.Color;
+import graphics.ImageManager;
 
 @SuppressWarnings("serial")
 public class Food extends Holdable {
-	private char ascii = '%';
-	private Color colour = Color.white;
 	private int nutrition;
 	private int turnsToEat;
 	private String eatMessage;
 	
 	public static String[] csvHeaders() {
-		String[] headers = {"Name", "Cost", "Weight", "Red", "Blue", "Green", 
-			"Nutrition", "TurnsToEat", "EatMsg", "Special"};
+		String[] headers = {"Name", "Cost", "Weight", "Nutrition", "TurnsToEat", "EatMsg", "Special"};
 		return headers;
 	}
 	
@@ -29,15 +26,12 @@ public class Food extends Holdable {
 			food.setName(values[0]);
 			food.setCost(Integer.parseInt(values[1]));
 			food.setWeight(Integer.parseInt(values[2]));
-			int red = Integer.parseInt(values[3]);
-			int blue = Integer.parseInt(values[4]);
-			int green = Integer.parseInt(values[5]);
-			food.setColour(new Color(red, blue, green));
-			food.setNutrition(Integer.parseInt(values[6]));
-			food.setTurnsToEat(Integer.parseInt(values[7]));
-			food.setEatMessage(values[8]);
-			if (values.length == 10 && values[9] != "") {
-				String[] specials = values[9].split(" ");
+			food.setNutrition(Integer.parseInt(values[3]));
+			food.setTurnsToEat(Integer.parseInt(values[4]));
+			food.setEatMessage(values[5].replaceAll("\\[comma\\]", ","));
+			food.setImage(ImageManager.getGlobalRegistry().getTile("item"));			//TEMPORARY
+			if (values.length == 7 && values[6] != "") {
+				String[] specials = values[6].split(" ");
 				food = Food.applySpecialTraits(food, specials);
 			}
 		} catch (Exception e) {
@@ -58,22 +52,6 @@ public class Food extends Holdable {
 				food = new Stackable(food);
 		}
 		return food;
-	}
-
-	public char getAscii() {
-		return ascii;
-	}
-
-	public void setAscii(char ascii) {
-		this.ascii = ascii;
-	}
-
-	public Color getColour() {
-		return colour;
-	}
-
-	public void setColour(Color colour) {
-		this.colour = colour;
 	}
 
 	public int getNutrition() {

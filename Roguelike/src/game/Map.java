@@ -25,7 +25,7 @@ public class Map {
 	public Map(int width, int height){
 		this.width = width;
 		this.height = height;
-		grid = new Tile[height][width];
+		grid = new Tile[width][height];
 	}
 	
 	
@@ -70,11 +70,11 @@ public class Map {
 
 
 
-	public Point getSpawn() {
+	public Point getPlayerSpawn() {
 		return spawn;
 	}
 
-	public void setSpawn(Point spawn) {
+	public void setPlayerSpawn(Point spawn) {
 		this.spawn = spawn;
 	}
 }

@@ -12,7 +12,7 @@ public class TileFactory {
 	 * @return
 	 */
 	public static Tile makeWall(){
-		return new Tile(true);
+		return new Tile(false);
 	}
 	
 	/**
@@ -21,7 +21,7 @@ public class TileFactory {
 	 * @return
 	 */
 	public static Tile makeFloor(){
-		return new Tile(false);
+		return new Tile(true);
 	}
 	
 	

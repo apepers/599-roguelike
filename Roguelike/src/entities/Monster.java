@@ -1,12 +1,14 @@
 package entities;
 
-import java.awt.Color;
+import graphics.ImageManager;
 
 public class Monster extends Sentient {
+	private int difficulty;
+	
 	public Monster() { };
 	
 	public static String[] csvHeaders() {
-		String[] headers = {"Name", "Special"};
+		String[] headers = {"Name", "HP", "NaturalArmour", "Strength", "Dexterity", "AttackBonus", "BaseMeleeDamage", "BaseMeleeDescription", "Difficulty", "Special"};
 		return headers;
 	}
 	
@@ -17,8 +19,18 @@ public class Monster extends Sentient {
 		Monster monster = new Monster();
 		try {
 			monster.setName(values[0]);
-			if (values.length == 2 && values[1] != "") {
-				String[] specials = values[1].split(" ");
+			monster.setMaxHP(Integer.parseInt(values[1]));
+			monster.setCurrentHP(Integer.parseInt(values[1]));
+			monster.setNaturalAC(Integer.parseInt(values[2]));
+			monster.setStrength(Integer.parseInt(values[3]));
+			monster.setDexterity(Integer.parseInt(values[4]));
+			monster.setAttackBonus(Integer.parseInt(values[5]));
+			monster.setBaseDamage(Integer.parseInt(values[6]));
+			monster.setBaseMeleeDescription(values[7]);
+			monster.setDifficulty(Integer.parseInt(values[8]));
+			monster.setImage(ImageManager.getGlobalRegistry().getTile("monster"));
+			if (values.length == 10 && values[9] != "") {
+				String[] specials = values[9].split(" ");
 				monster = Monster.applySpecialTraits(monster, specials);
 			}
 		} catch (Exception e) {
@@ -27,6 +39,8 @@ public class Monster extends Sentient {
 				System.out.println(monster.getName() + " has some incorrect parameter.");
 			return null;
 		}
+		
+		
 		return monster;
 	}
 	
@@ -35,5 +49,18 @@ public class Monster extends Sentient {
 		for (String trait : traits) {
 		}
 		return monster;
+	}
+	
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+	}
+	
+	@Override
+	public int getAttack() {
+		return getAttackBonus() + difficulty;
 	}
 }
