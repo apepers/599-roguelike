@@ -53,4 +53,9 @@ public class TimeQueue {
 		this.adjustPriority(-timePassed);
 		return sentientQueue.remove(0);
 	}
+	
+	public void clear() {
+		timeQueue.clear();
+		sentientQueue.clear();
+	}
 }
