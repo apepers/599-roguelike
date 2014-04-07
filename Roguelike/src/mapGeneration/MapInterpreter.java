@@ -176,9 +176,10 @@ public class MapInterpreter {
 	 */
 	private static void decorateRoom(MapGenerator map, Map newMap, ImageRegistry[] registries, Rectangle room) {
 
-		double[] probs = {0.1, 0.2, 0.10, 
-				0.05, 0.01, 0.3, 
-				0.1, 0.04};
+		double[] probs = {0.14, 0.20, 0.15, 
+				0.05, 0.01, 0.30, 
+				0.104, 0.04, 
+				0.005, 0.001};
 		int style = MapRand.randArray(probs);
 
 		if (style == 0){
@@ -188,54 +189,55 @@ public class MapInterpreter {
 			//single low tier treasure
 			addItemsRoom(map, newMap, room, 1);
 		}
-		else if(style == 1){
+		else if(style == 2){
 			//single low tier treasure with one monster
 			addItemsRoom(map, newMap, room, 1);
 			addMonstersRoom(map, newMap, room, 1);
 		}
-		else if(style == 2){
+		else if(style == 3){
 			//single low tier treasure with two monsters
 			addItemsRoom(map, newMap, room, 1);
 			addMonstersRoom(map, newMap, room, 2);
 		}
-		else if(style == 3){
+		else if(style == 4){
 			//single medium tier treasure with two to three monsters
 			addItemsRoom(map, newMap, room, 1);
 			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 3));
 		}
-		else if(style == 4){
+		else if(style == 5){
 			//single high tier treasure with three monsters
 			addItemsRoom(map, newMap, room, 1);
 			addMonstersRoom(map, newMap, room, MapRand.randInt(3,4));
 		}
-		else if(style == 5){
+		else if(style == 6){
 			//two low tier treasures
 			addItemsRoom(map, newMap, room, 1);
 			addItemsRoom(map, newMap, room, 1);
 		}
-		else if(style == 6){
+		else if(style == 7){
 			//single monster
 			addMonstersRoom(map, newMap, room, 1);
 		}
-		else if(style == 7){
+		else if(style == 8){
 			//1-2 monsters
 			addMonstersRoom(map, newMap, room, MapRand.randInt(1, 2));
 		}
-		else if(style == 8){
+		else if(style == 9){
 			//2-4 monsters
 			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 4));
 		}
-		else if(style == 9){
+		else if(style == 10){
 			//four monsters
 			addMonstersRoom(map, newMap, room, 4);
 
 		}
-		else if(style == 10){
-
-
-		}
 		else if(style == 11){
-
+			//single mid tier item
+			addItemsRoom(map, newMap, room, 2);
+		}
+		else if(style == 12){
+			//single high tier item
+			addItemsRoom(map, newMap, room, 3);
 		}
 	}
 
