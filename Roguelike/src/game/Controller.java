@@ -6,6 +6,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import entities.*;
 import graphics.ImageManager;
@@ -40,6 +41,7 @@ public class Controller {
 		try {
 			loadFoods();
 			loadMonsters();
+			addMonsterDescriptions();
 		} catch (IOException e) {
 			System.err.println("Error reading the data CSV files.");
 			e.printStackTrace();
@@ -122,6 +124,42 @@ public class Controller {
 			}
 			monster = in.readLine();
 		}
+		in.close();
+	}
+	
+	private void addMonsterDescriptions() throws IOException {
+		HashMap<String, String> quoteMap = new HashMap<String, String>();
+		BufferedReader in = null;
+		in = new BufferedReader(new FileReader("src\\monsterquotes.txt"));
+		String key = "";
+		String value = "";
+
+		String line = in.readLine();
+		while (line != null) {
+			//if(line.startsWith("##")) {
+			key = line.substring(2).trim();
+			value = "";
+			line = in.readLine();
+			while((line != null) && (!line.startsWith("##"))) {
+				if(line.startsWith("^^")) {
+					value += "\n" + line.substring(2).trim();
+				} else {
+					value += line.trim() + " ";
+				}
+				line = in.readLine();
+			}
+			System.out.println(key);
+			System.out.println(value + "\n");
+			quoteMap.put(key, value);
+		}
+		
+		for(Monster monster : monsters) {
+			String name = monster.getName();
+			if(quoteMap.containsKey(name)) {
+				monster.setDescription(quoteMap.get(name));
+			}
+		}
+		
 		in.close();
 	}
 
