@@ -71,46 +71,102 @@ public class Controller {
 	 * between maps and sets the player's spawn when starting.
 	 */
 	private void createMap(){
-	
+
 		ImageRegistry[] allTiles = ImageManager.getInstance().getAllTileSets("map");
-		
-		
+
+
 		//create level 1
 		MapGenerator map1 = new SimpleMap(20,15,3,3);
 		int[] level1Tiles = {1};
 		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(allTiles, level1Tiles));
 
 		this.map = m1;
-		
-		
+
+
 		//create level 2
 		MapGenerator map2 = new SimpleMap(20,15,3,3);
 		int[] level2Tiles = {0};
 		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles));
 
 		MapInterpreter.linkMaps(m1, m2);
-		
-		
-		MapGenerator map3 = new SimpleMap(20,15,3,3);
-		int[] level3Tiles = {0};
-		Map m3 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level3Tiles));
 
-		MapInterpreter.linkMaps(m1, m3);
+		//create level 3
+		MapGenerator map3 = new SimpleMap(20,15,4,4);
+		int[] level3Tiles = {0};
+		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(allTiles, level3Tiles));
+
+		MapInterpreter.linkMaps(m2, m3);
+
+		//create level 4
+		MapGenerator map4 = new SimpleMap(20,15,4,4);
+		int[] level4Tiles = {0};
+		Map m4 = MapInterpreter.interpretMap(map4, registrySubset(allTiles, level4Tiles));
+
+		MapInterpreter.linkMaps(m2, m4);
+
+		//create level 5
+		MapGenerator map5 = new BSTMap(75,75);
+		int[] level5Tiles = {0};
+		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(allTiles, level5Tiles));
+
+		MapInterpreter.linkMaps(m3, m5);
+		MapInterpreter.linkMaps(m4, m5);
+
 		
+		//=================================================================
+		//create level 6
+		MapGenerator map6 = new BSTMap(75,75);
+		int[] level6Tiles = {0};
+		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles));
+
+		MapInterpreter.linkMaps(m5, m6);
 		
+		//create level 7
+		MapGenerator map7 = new BSTMap(75,75);
+		int[] level7Tiles = {0};
+		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(allTiles, level7Tiles));
+
+		MapInterpreter.linkMaps(m5, m7);
+		
+		//create level 8
+		MapGenerator map8 = new BSTMap(75,75);
+		int[] level8Tiles = {0};
+		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles));
+
+		MapInterpreter.linkMaps(m5, m8);
+
+		MapInterpreter.linkMaps(m6, m7);
+		MapInterpreter.linkMaps(m7, m8);
+		
+		//===================================================================
+		//create level 9
+		MapGenerator map9 = new BSTMap(75,75);
+		int[] level9Tiles = {0};
+		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(allTiles, level9Tiles));
+
+		MapInterpreter.linkMaps(m6, m9);
+		MapInterpreter.linkMaps(m7, m9);
+		MapInterpreter.linkMaps(m8, m9);
+		
+		//create level 10
+		MapGenerator map10 = new BSTMap(75,75);
+		int[] level10Tiles = {0};
+		Map m10 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level10Tiles));
+
+		MapInterpreter.linkMaps(m9, m10);
 		
 		//=====================================================
 		// Place player on the first map
 		Point spawn = m1.getPlayerSpawn();
 		m1.getTile(spawn.x, spawn.y).setOccupant(player);
-		
+
 		//setup the display
 		messenger.drawMap(m1);
 		messenger.updateStatus(playerStatus());
 		messenger.centerMap(spawn);
-		
-		
-		
+
+
+
 	}
 
 	
