@@ -25,11 +25,14 @@ public class StairTile extends Tile {
 	 * @param p2
 	 */
 	public StairTile(Map mapA, Map mapB, Point pA, Point pB){
+		super(true);
 		this.mapA = mapA;
 		this.mapB = mapB;
 		
 		this.pA = pA;
 		this.pB = pB;
+		
+		
 	}
 
 
