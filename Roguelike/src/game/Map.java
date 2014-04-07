@@ -37,7 +37,6 @@ public class Map {
 	}
 
 	public Tile getTile(int i, int j) {
-		// TODO Auto-generated method stub
 		return grid[i][j];
 	}
 

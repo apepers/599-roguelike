@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import entities.*;
 import graphics.ImageManager;
+import graphics.ImageRegistry;
 import serialization.ItemDuplicator;
 import mapGeneration.BSTMap;
 import mapGeneration.MapGenerator;
@@ -25,7 +26,7 @@ public class Controller {
 	ArrayList<Food> foods;
 	ArrayList<Monster> monsters;
 	private ItemDuplicator duplicator;
-	private Map map;
+	private Map map;								//the current map loaded
 	private Messenger messenger;
 	boolean gameRunning;
 
@@ -70,22 +71,65 @@ public class Controller {
 	 * between maps and sets the player's spawn when starting.
 	 */
 	private void createMap(){
-		MapGenerator map = new SimpleMap(20,15,3,3);
-		Map m = MapInterpreter.interpretMap(map, ImageManager.getInstance().getAllTileSets("map"));
+	
+		ImageRegistry[] allTiles = ImageManager.getInstance().getAllTileSets("map");
+		
+		
+		//create level 1
+		MapGenerator map1 = new SimpleMap(20,15,3,3);
+		int[] level1Tiles = {1};
+		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(allTiles, level1Tiles));
 
-		this.map = m;
+		this.map = m1;
 		
-		// Place player on the map
-		Point spawn = m.getPlayerSpawn();
-		m.getTile(spawn.x, spawn.y).setOccupant(player);
 		
+		//create level 2
+		MapGenerator map2 = new SimpleMap(20,15,3,3);
+		int[] level2Tiles = {0};
+		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles));
+
+		MapInterpreter.linkMaps(m1, m2);
+		
+		
+		MapGenerator map3 = new SimpleMap(20,15,3,3);
+		int[] level3Tiles = {0};
+		Map m3 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level3Tiles));
+
+		MapInterpreter.linkMaps(m1, m3);
+		
+		
+		
+		//=====================================================
+		// Place player on the first map
+		Point spawn = m1.getPlayerSpawn();
+		m1.getTile(spawn.x, spawn.y).setOccupant(player);
 		
 		//setup the display
-		messenger.drawMap(m);
+		messenger.drawMap(m1);
 		messenger.updateStatus(playerStatus());
 		messenger.centerMap(spawn);
+		
+		
+		
 	}
 
+	
+	/**
+	 * Gets the subset of texture tiles given by the index.
+	 * @param superSet
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	private ImageRegistry[] registrySubset(ImageRegistry[] superSet, int[] indices){
+		ImageRegistry[] subset = new ImageRegistry[indices.length];
+		for (int i = 0; i < indices.length; i++){
+			subset[i] = superSet[indices[i]];
+		}
+		
+		return subset;
+	}
+	
 	private void loadFoods() throws IOException {
 		BufferedReader in = null;
 		in = new BufferedReader(new FileReader("src\\itemdata.txt"));

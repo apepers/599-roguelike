@@ -4,6 +4,8 @@ import game.Map;
 
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+
 public class StairTile extends Tile {
 
 	private Map mapA;
@@ -31,25 +33,40 @@ public class StairTile extends Tile {
 	}
 
 
+	/**
+	 * Gets the current map this stair tile is living on.
+	 * @return
+	 */
 	public Map getMapA() {
 		return mapA;
 	}
 
 
+	/**
+	 * Gets the sibling map that the tile is linked to.
+	 * @return
+	 */
 	public Map getMapB() {
 		return mapB;
 	}
 
 
+	/**
+	 * Gets the current position the stair tile is living on.
+	 * @return
+	 */
 	public Point getpA() {
 		return pA;
 	}
 
 
+	/**
+	 * Gets the sibling point that the stair tile is linked to.
+	 * @return
+	 */
 	public Point getpB() {
 		return pB;
 	}
-
 
 	
 }
