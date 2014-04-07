@@ -57,7 +57,7 @@ public class Controller {
 	
 	private void loadFoods() throws IOException {
 		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("itemdata.txt"));
+		in = new BufferedReader(new FileReader("src\\itemdata.txt"));
 		String line = in.readLine();
 		if (!headersMatch(Food.csvHeaders(), line)) {
 			System.out.println("Error: Food section is improperly defined in the headers");
@@ -77,7 +77,7 @@ public class Controller {
 	
 	private void loadMonsters() throws IOException {
 		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("monsterdata.txt"));
+		in = new BufferedReader(new FileReader("src\\monsterdata.txt"));
 		String line = in.readLine();
 		if (!headersMatch(Monster.csvHeaders(), line)) {
 			System.out.println("Error: Monster CSV file is improperly defined in the headers");
