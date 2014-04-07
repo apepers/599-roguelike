@@ -1,4 +1,0 @@
-Name,Cost,Weight,Red,Blue,Green,Nutrition,TurnsToEat,EatMsg,Special
-cream pie,10,10,0,50,50,100,1,The cream pie is sweet.,Splat
-lembas,45,5,0,0,0,800,2,The lembas is delicious!,
-ration,45,20,50,50,50,800,5,The ration is bland.,
