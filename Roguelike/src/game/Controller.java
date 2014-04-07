@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import entities.*;
 import graphics.ImageManager;
 import serialization.ItemDuplicator;
+import mapGeneration.BSTMap;
 import mapGeneration.MapGenerator;
 import mapGeneration.MapInterpreter;
 import mapGeneration.MapRand;
@@ -62,7 +63,7 @@ public class Controller {
 		this.player = p;
 		
 		//create the map.
-		MapGenerator map = new SimpleMap(20,20,3,3);
+		MapGenerator map = new BSTMap(300,300, 6);
 		Map m = MapInterpreter.interpretMap(map, ImageManager.getInstance().getAllTileSets("map"));
 
 		this.map = m;
@@ -164,24 +165,85 @@ public class Controller {
 	}
 
 	public void movePlayerUp() {
-		System.out.println("Moving up");
 		if (player.getLocation().getRow() > 0) {
-			Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() - 1);
-			if (newTile.isPassable()) {
-				player.setLocation(newTile);
-				System.out.println("In new tile!");
+			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+			Point newPt = new Point(oldPt.x, oldPt.y-1);
+			
+			Tile nextTile = map.getTile(newPt.x, newPt.y);
+			if (nextTile.isPassable()){
+				player.setLocation(nextTile);
+				map.getTile(oldPt.x, oldPt.y).removeOccupant();
+				map.getTile(newPt.x, newPt.y).setOccupant(player);
+				
+				//update the tile
+				messenger.updateTile(oldPt);
+				messenger.updateTile(newPt);
+				messenger.centerMap(newPt);
 			}
 		}
 	}
 
 	public void movePlayerDown() {
-		if (player.getLocation().getRow() < map.getWidth() - 1) {
-			Tile newTile = map.getTile(player.getLocation().getColumn(), player.getLocation().getRow() + 1);
-			if (newTile.isPassable())
-				player.setLocation(newTile);
+		if (player.getLocation().getRow() < map.getHeight() - 1) {
+			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+			Point newPt = new Point(oldPt.x, oldPt.y + 1);
+			
+			Tile nextTile = map.getTile(newPt.x, newPt.y);
+			if (nextTile.isPassable()){
+				player.setLocation(nextTile);
+				map.getTile(oldPt.x, oldPt.y).removeOccupant();
+				map.getTile(newPt.x, newPt.y).setOccupant(player);
+				
+				//update the tile
+				messenger.updateTile(oldPt);
+				messenger.updateTile(newPt);
+				messenger.centerMap(newPt);
+			}
+				
 		}
+		
 	}
 
+	public void movePlayerRight(){
+		if (player.getLocation().getColumn() < map.getWidth() - 1) {
+			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+			Point newPt = new Point(oldPt.x +1, oldPt.y);
+			
+			Tile nextTile = map.getTile(newPt.x, newPt.y);
+			if (nextTile.isPassable()){
+				player.setLocation(nextTile);
+				map.getTile(oldPt.x, oldPt.y).removeOccupant();
+				map.getTile(newPt.x, newPt.y).setOccupant(player);
+				
+				//update the tile
+				messenger.updateTile(oldPt);
+				messenger.updateTile(newPt);
+				messenger.centerMap(newPt);
+			}
+				
+		}
+	}
+	
+	public void movePlayerLeft(){
+		if (player.getLocation().getColumn() > 0) {
+			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+			Point newPt = new Point(oldPt.x-1, oldPt.y);
+			
+			Tile nextTile = map.getTile(newPt.x, newPt.y);
+			if (nextTile.isPassable()){
+				player.setLocation(nextTile);
+				map.getTile(oldPt.x, oldPt.y).removeOccupant();
+				map.getTile(newPt.x, newPt.y).setOccupant(player);
+				
+				//update the tile
+				messenger.updateTile(oldPt);
+				messenger.updateTile(newPt);
+				messenger.centerMap(newPt);
+			}
+				
+		}
+	}
+	
 	public boolean monsterAttack(Monster monster) {
 		int attackRoll = MapRand.randInt(20) + monster.getAttack();
 		if (attackRoll >= player.getAC()) {

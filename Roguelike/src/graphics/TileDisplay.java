@@ -3,10 +3,13 @@ import game.Map;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 
 
+
+import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -34,12 +37,7 @@ public class TileDisplay extends JPanel{
 	private static final boolean DOUBLE_BUFFERING = true;
 
 	private static final Color BACKGROUND = Color.BLACK;
-
-	//optimization controls.
-	private int xScrMin;
-	private int xScrMax;
-	private int yScrMin;
-	private int yScrMax;
+	private static ImageIcon BLANK_TILE_IMAGE = createBlank();
 
 	private int xCells;
 	private int yCells;
@@ -48,8 +46,11 @@ public class TileDisplay extends JPanel{
 	private int height;						//in pixels
 
 
-	private Image[][] buffer;
+	private BufferedImage buffer;
 
+
+
+	private Map currentMap;
 
 	/**
 	 * Default constructor for the display
@@ -80,13 +81,9 @@ public class TileDisplay extends JPanel{
 		this.width = xCells * TILE_SIZE;
 		this.height = yCells * TILE_SIZE;
 
-		this.xScrMin =0;
-		this.xScrMax = width;
-		this.yScrMin =0;
-		this.yScrMax = height;
 
 		//drawing canvas
-		buffer = new Image[xCells][yCells];
+		buffer = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB);
 
 
 		//clear all cells.
@@ -102,11 +99,15 @@ public class TileDisplay extends JPanel{
 	 * Clears the display of all tiles
 	 */
 	public void clearDisplay(){
+		Graphics pane = buffer.getGraphics();
+
 		for (int i = 0; i< xCells; i++){
 			for (int j = 0; j< yCells; j++){
-				buffer[i][j] = null;
+				pane.drawImage(BLANK_TILE_IMAGE.getImage(), i*TILE_SIZE, j*TILE_SIZE, null);
 			}
 		}
+
+		repaint();
 	}
 
 
@@ -119,11 +120,32 @@ public class TileDisplay extends JPanel{
 	 * @param y cell coordinate
 	 * @see super.repaint()
 	 */
-	public void drawTile(Image tile, int x, int y){
-		buffer[x][y] = tile;
+	public void drawTile(ImageIcon tile, int x, int y){
+		Graphics pane = buffer.getGraphics();
+		if (tile != null){
+			pane.drawImage(tile.getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+		}
+
 
 	}
 
+
+	/**
+	 * Updates a map tile on the screen
+	 * @param x
+	 * @param y
+	 */
+	public void refreshTile(int x, int y){
+
+		drawTile(currentMap.getTile(x, y).getBackground(), x, y);
+		drawTile(currentMap.getTile(x, y).getTopImage(), x, y);
+
+
+		//update later
+
+		repaintSuper();
+
+	}
 
 	/**
 	 * Clears a tile to the background color
@@ -131,68 +153,26 @@ public class TileDisplay extends JPanel{
 	 * @param y
 	 */
 	public void clearTile(int x, int y){
-		buffer[x][y] = null;
-	}
+		drawTile(BLANK_TILE_IMAGE,x,y);
 
-	/**
-	 * Gets the location on the game where to draw the image.
-	 * @param x
-	 * @param y
-	 * @return Top left corner of the cell is returned.
-	 */
-	private Point getCellLocation(int x, int y){
-		int deltaX = TILE_SIZE;
-		int deltaY = TILE_SIZE;
-
-		return new Point(x*deltaX, y*deltaY);
 	}
 
 
 	/**
-	 * Updates the horizontal viewable area of the tile display as to not
-	 * waste time repainting unseen tiles.
-	 * 
-	 * Parameters expected to the clipping area of the tile display
-	 * @param min
-	 * @param max
+	 * This method calls the super's repaint method for a 
+	 * later time.
 	 */
-	protected void updateScrollHorizontal(int min, int max){
-		xScrMin = min;
-		xScrMax = max;
-
-		//update later
-		SwingUtilities.invokeLater(new Runnable(){
-			@Override
-			public void run() {
-				repaint();
-			}
-
-		});
-	}
-
-	/**
-	 * Updates the vertical viewable area of the tile display as to not
-	 * waste time repainting unseen tiles.
-	 * 
-	 * Parameters expected to be the clipping area of the tile display.
-	 * @param min
-	 * @param max
-	 */
-	protected void updateScrollVertical(int min, int max){
-		yScrMin = min;
-		yScrMax = max;
-
-		//update later
-		SwingUtilities.invokeLater(new Runnable(){
-			@Override
-			public void run() {
-				repaint();
-			}
-
-		});
-	}
-
 	public void repaint(){
+		//update later
+		SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				repaintSuper();
+			}
+
+		});
+	}
+	private void repaintSuper(){
 		super.repaint();
 	}
 
@@ -204,13 +184,8 @@ public class TileDisplay extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 
-		//redraw only the tiles that have been updated.
-		for (int i = xScrMin/TILE_SIZE; i< Math.min(xScrMax/TILE_SIZE, xCells); i++){
-			for (int j = yScrMin/TILE_SIZE; j< Math.min(yScrMax/TILE_SIZE, yCells); j++){
-				Point location = getCellLocation(i, j);
-				g.drawImage(buffer[i][j], location.x, location.y, BACKGROUND, null);
-			}
-		}
+		g.drawImage(buffer, 0, 0, null);
+
 	}
 	/**
 	 * Loads an entire map into the tile display.
@@ -219,10 +194,13 @@ public class TileDisplay extends JPanel{
 	public void drawMap(Map map){
 		clearDisplay();
 
+		this.currentMap = map;
+
 		//fill array
 		for (int i = 0; i< map.getWidth(); i++){
 			for (int j = 0; j< map.getHeight(); j++){
-				buffer[i][j] = map.getTile(i, j).getBackground();
+				drawTile(map.getTile(i, j).getBackground(), i, j);
+				drawTile(map.getTile(i, j).getTopImage(), i, j);
 			}
 		}
 
@@ -230,14 +208,9 @@ public class TileDisplay extends JPanel{
 		this.height = map.getHeight() * TILE_SIZE;
 		this.setPreferredSize(new java.awt.Dimension(width,height));
 
-		//update later
-		SwingUtilities.invokeLater(new Runnable(){
-			@Override
-			public void run() {
-				repaint();
-			}
 
-		});
+		repaintSuper();
+
 	}
 
 
@@ -264,5 +237,15 @@ public class TileDisplay extends JPanel{
 		return new Point(x*TILE_SIZE, y*TILE_SIZE);
 	}
 
-	
+
+	/**
+	 * Creates a blank image icon that is the default background color
+	 * @return
+	 */
+	private static ImageIcon createBlank(){
+		BufferedImage blank = new BufferedImage(TILE_SIZE, TILE_SIZE, BufferedImage.TYPE_INT_RGB);
+		blank.getGraphics().fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+
+		return new ImageIcon(blank);
+	}
 }

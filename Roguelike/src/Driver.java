@@ -1,6 +1,7 @@
 import entities.Player;
 import game.Controller;
 import game.Messenger;
+import graphics.ImageManager;
 import graphics.PlayerLog;
 import graphics.Frame;
 import graphics.StatusBar;
@@ -16,6 +17,8 @@ public class Driver {
 
 	public static void main(String args[]){
 
+		//load image resources
+		ImageManager.initInstance();
 		
 		//intialize GUI elements
 		TileDisplay tileDisplay = new TileDisplay(300,300);
@@ -23,15 +26,18 @@ public class Driver {
 		StatusBar status = new StatusBar();
 		Frame frame = new Frame(tileDisplay, console, status);
 		
+		Player player = new Player();
+		
 		Controller controller = Controller.getInstance();
-		controller.setup(new Messenger(controller, frame, tileDisplay, console, status), new Player());
+		controller.setup(new Messenger(controller, frame, tileDisplay, console, status), player);
 		frame.registerController(controller);
 		
 		//show game
 		frame.setVisible(true);
 		
+		frame.centerMap(player.getLocation().getColumn(), player.getLocation().getRow());
 		
 		
-		controller.combatTest();
+		//controller.combatTest();
 	}
 }

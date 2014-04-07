@@ -2,17 +2,12 @@ package graphics;
 
 import game.*;
 
-import java.awt.EventQueue;
 import java.awt.Point;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -23,11 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+
 
 /**
  * This is a window builder compatible class. Edit with
@@ -35,6 +28,7 @@ import java.util.ArrayList;
  * @author Kevin
  *
  */
+@SuppressWarnings("serial")
 public class Frame extends JFrame {
 
 	private JPanel contentPane;
@@ -121,24 +115,6 @@ public class Frame extends JFrame {
 		this.mapScrHorizontal = scrollPaneMap.getHorizontalScrollBar();
 		this.mapScrVertical = scrollPaneMap.getVerticalScrollBar();
 		scrollPaneMap.setViewportView(tileDisplay);
-		scrollPaneMap.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener(){
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				//update the tile display for optimizations, give horizonal position of bar
-				int value = mapScrHorizontal.getValue();
-				tileDisplay.updateScrollHorizontal(value, value + mapScrHorizontal.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
-			}
-		});
-		scrollPaneMap.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener(){
-
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent arg0) {
-				//update the tile display for optimizations, give vertcial position of bar
-				int value = mapScrVertical.getValue();
-				tileDisplay.updateScrollVertical(value, value + mapScrVertical.getModel().getExtent() + (TileDisplay.TILE_SIZE *3));
-			}
-		});
-		
 		tileDisplay.repaint();
 	}
 
@@ -156,6 +132,10 @@ public class Frame extends JFrame {
 		console.getActionMap().put("up", controller.getMessenger().getUpAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
 		console.getActionMap().put("down", controller.getMessenger().getDownAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
+		console.getActionMap().put("left", controller.getMessenger().getLeftAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
+		console.getActionMap().put("right", controller.getMessenger().getRightAction());
 	}
 
 	/**
@@ -165,8 +145,8 @@ public class Frame extends JFrame {
 	 * @param y
 	 */
 	public void centerMap(int x, int y){
-		Point focus = tileDisplay.getTileAbsolute(x, y);
-		mapScrHorizontal.setValue(focus.x - (scrollPaneMap.getWidth()/2)); 
+		Point focus = new Point(TileDisplay.TILE_SIZE*x, TileDisplay.TILE_SIZE *y);
+		mapScrHorizontal.setValue(focus.x- (scrollPaneMap.getWidth()/2)); 
 		mapScrVertical.setValue(focus.y - (scrollPaneMap.getHeight()/2));
 	}
 }

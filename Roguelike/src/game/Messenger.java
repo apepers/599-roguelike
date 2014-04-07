@@ -12,7 +12,7 @@ import graphics.PlayerLog;
 import graphics.StatusBar;
 import graphics.TileDisplay;
 
-import java.util.ArrayList;
+
 import java.util.Scanner;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -31,7 +31,8 @@ public class Messenger {
 	private Action eAction;
 	private Action upAction;
 	private Action downAction;
-	
+	private Action rightAction;
+	private Action leftAction;
 	
 	//GUI elements
 	private Frame frame;
@@ -80,17 +81,27 @@ public class Messenger {
 		
 		upAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				log.println("Moving up");
+				//log.println("Moving up");
 				controller.movePlayerUp();
-				display.repaint();
 			}
 		};
 		
 		downAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				log.println("Moving down");
+				//log.println("Moving down");
 				controller.movePlayerDown();
-				display.repaint();
+			}
+		};
+		rightAction = new AbstractAction(){
+			public void actionPerformed(ActionEvent e) {
+				//log.println("Moving right");
+				controller.movePlayerRight();
+			}
+		};
+		leftAction = new AbstractAction(){
+			public void actionPerformed(ActionEvent e) {
+				//log.println("Moving left");
+				controller.movePlayerLeft();
 			}
 		};
 	}
@@ -128,6 +139,22 @@ public class Messenger {
 		display.repaint();
 	}
 	
+	/**
+	 * Updates a tile on the tile display
+	 * @param pt
+	 */
+	public void updateTile(Point pt){
+		display.refreshTile(pt.x, pt.y);
+	}
+	
+	/**
+	 * Updates a tile on the tile display
+	 * @param x
+	 * @param y
+	 */
+	public void updateTile(int x, int y){
+		display.refreshTile(x, y);
+	}
 	/**
 	 * Updates the status bar for the player stats
 	 * @param text
@@ -379,4 +406,16 @@ public class Messenger {
 	public Action getDownAction() {
 		return downAction;
 	}
+
+
+	public Action getRightAction() {
+		return rightAction;
+	}
+
+
+	public Action getLeftAction() {
+		return leftAction;
+	}
+	
+	
 }

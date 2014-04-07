@@ -5,6 +5,7 @@ import java.awt.Font;
 import javax.swing.JTextArea;
 
 
+@SuppressWarnings("serial")
 public class StatusBar extends JTextArea{
 
 	public StatusBar(){

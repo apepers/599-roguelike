@@ -1,5 +1,7 @@
 package entities;
 
+import graphics.ImageManager;
+
 public class Monster extends Sentient {
 	private int difficulty;
 	
@@ -26,6 +28,7 @@ public class Monster extends Sentient {
 			monster.setBaseDamage(Integer.parseInt(values[6]));
 			monster.setBaseMeleeDescription(values[7]);
 			monster.setDifficulty(Integer.parseInt(values[8]));
+			monster.setImage(ImageManager.getGlobalRegistry().getTile("monster"));
 			if (values.length == 10 && values[9] != "") {
 				String[] specials = values[9].split(" ");
 				monster = Monster.applySpecialTraits(monster, specials);
@@ -36,6 +39,8 @@ public class Monster extends Sentient {
 				System.out.println(monster.getName() + " has some incorrect parameter.");
 			return null;
 		}
+		
+		
 		return monster;
 	}
 	

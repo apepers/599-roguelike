@@ -1,6 +1,5 @@
 package graphics;
 
-import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,6 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * The registry that caches image resources for tiles.
@@ -37,7 +37,7 @@ public class ImageRegistry {
 
 	//for now, we're pretending to store images
 	//Uses a string to refer to the ID of tile.
-	private HashMap<String, Image> registry = new HashMap<String, Image>();
+	private HashMap<String, ImageIcon> registry = new HashMap<String, ImageIcon>();
 
 	private HashMap<String, Integer> keywordCount = new HashMap<String, Integer>();
 	private String dir;
@@ -79,7 +79,7 @@ public class ImageRegistry {
 						File imageFile = new File(textureDir + "\\" + image);
 						if (imageFile.exists() == true){
 							//key is at least length one, and image can be read
-							registry.put(key, ImageIO.read(imageFile));
+							registry.put(key, new ImageIcon(ImageIO.read(imageFile)));
 
 							for(int i = 0; i < keywords.length; i++){
 
@@ -129,7 +129,7 @@ public class ImageRegistry {
 	 * @param key
 	 * @return
 	 */
-	public Image getTile(String key){
+	public ImageIcon getTile(String key){
 
 		if (registry.containsKey(key) == false){
 			System.err.println("Warning! Tile key: "+ key + " was not found in the registry: "+dir);
