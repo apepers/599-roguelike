@@ -11,12 +11,14 @@ public class Cursor extends Entity{
 		setImage(ImageManager.getGlobalRegistry().getTile("cursor"));
 	}
 	
-	public String getTopEntity() {
+	public Entity getTopEntity() {
 		Entity topEntity = location.getTopEntity();
 		if(topEntity != null) {
-			return "Name: " + topEntity.getName() + "\nDescription: " + topEntity.getDescription();
+			return topEntity;
+			//return "Name: " + topEntity.getName() + "\nDescription: \n" + topEntity.getDescription();
 		} else {
-			return "There's nothing here!";
+			return null;
+			//return "There's nothing here!";
 		}
 	}
 	

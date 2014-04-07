@@ -438,9 +438,22 @@ public class Messenger {
 	
 	
 	public void select() {
-		log.println(controller.select());
+		Entity entity = controller.select();
+		//log.println(controller.select().getName());
 		controller.deleteCursor();
 		cursorMode = false;
+		
+		if (entity == null) {
+			log.println("There's nothing here.");
+		} else {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1, 0, 15));
+			
+			panel.add(new JLabel("Name: \n" + entity.getName()));
+			panel.add(new JTextArea(entity.getDescription()));
+			
+			JOptionPane.showMessageDialog(null, panel, "Identifying...", JOptionPane.PLAIN_MESSAGE);
+		}
 	}
 
 	public void closeReader() {
