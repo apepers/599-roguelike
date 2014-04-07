@@ -29,7 +29,7 @@ public class Controller {
 	private Map map;								//the current map loaded
 	private Messenger messenger;
 	boolean gameRunning;
-
+	private TimeQueue timeQueue;
 
 	private static Controller global;
 
@@ -48,6 +48,7 @@ public class Controller {
 
 		//prepare duplicator and player
 		duplicator = new ItemDuplicator();
+		timeQueue = new TimeQueue();
 	};
 
 	public static Controller getInstance(){
@@ -416,5 +417,18 @@ public class Controller {
 	public Monster getRandMapMonster(int mapIndex) {
 		int randomIndex = MapRand.randInt(monsters.size() - 1);
 		return (Monster)duplicator.duplicate(monsters.get(randomIndex));
+	}
+	
+	public void addPlayerEvent(int actionCost) {
+		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
+	}
+	
+	public void playTurn() {
+		Sentient topEventSentient = timeQueue.getNextEvent();
+		if (topEventSentient.equals(player))
+			return;
+		else {
+			System.out.println(topEventSentient.getName() + " takes an action");
+		}
 	}
 }

@@ -8,7 +8,7 @@ public class Monster extends Sentient {
 	public Monster() { };
 	
 	public static String[] csvHeaders() {
-		String[] headers = {"Name", "HP", "NaturalArmour", "Strength", "Dexterity", "AttackBonus", "BaseMeleeDamage", "BaseMeleeDescription", "Difficulty", "Special"};
+		String[] headers = {"Name", "HP", "NaturalArmour", "Strength", "Dexterity", "Speed", "AttackBonus", "BaseMeleeDamage", "BaseMeleeDescription", "Difficulty", "Special"};
 		return headers;
 	}
 	
@@ -24,13 +24,14 @@ public class Monster extends Sentient {
 			monster.setNaturalAC(Integer.parseInt(values[2]));
 			monster.setStrength(Integer.parseInt(values[3]));
 			monster.setDexterity(Integer.parseInt(values[4]));
-			monster.setAttackBonus(Integer.parseInt(values[5]));
-			monster.setBaseDamage(Integer.parseInt(values[6]));
-			monster.setBaseMeleeDescription(values[7]);
-			monster.setDifficulty(Integer.parseInt(values[8]));
+			monster.setSpeed(Integer.parseInt(values[5]));
+			monster.setAttackBonus(Integer.parseInt(values[6]));
+			monster.setBaseDamage(Integer.parseInt(values[7]));
+			monster.setBaseMeleeDescription(values[8]);
+			monster.setDifficulty(Integer.parseInt(values[9]));
 			monster.setImage(ImageManager.getGlobalRegistry().getTile("monster"));
-			if (values.length == 10 && values[9] != "") {
-				String[] specials = values[9].split(" ");
+			if (values.length == 11 && values[10] != "") {
+				String[] specials = values[10].split(" ");
 				monster = Monster.applySpecialTraits(monster, specials);
 			}
 		} catch (Exception e) {
