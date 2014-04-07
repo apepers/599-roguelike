@@ -1,11 +1,14 @@
 package entities;
 
-public class Cursor {
+import graphics.ImageManager;
+
+public class Cursor extends Entity{
 	
 	private Tile location;
 	
 	public Cursor(Tile location) {
 		this.location = location;
+		setImage(ImageManager.getGlobalRegistry().getTile("cursor"));
 	}
 	
 	public String getTopEntity() {
