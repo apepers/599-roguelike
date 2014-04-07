@@ -65,6 +65,11 @@ public class Controller {
 		
 		//create the map.
 		createMap();
+		resetTimeQueue();
+	}
+	
+	public void resetTimeQueue() {
+		timeQueue.clear();
 		Monster[] monsters = map.getMonsters();
 		for (int i = 0; i < monsters.length; i++) {
 			timeQueue.addEventToQueue(monsters[i], monsters[i].getActionCost());
