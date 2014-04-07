@@ -20,6 +20,7 @@ public class Player extends Sentient {
 		setAttackBonus(2);
 		setBaseDamage(4);
 		setStrength(16);
+		setSpeed(2);
 		setDexterity(16);
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));

@@ -70,6 +70,8 @@ public class Messenger {
 					log.println("Invalid key");
 				} else {
 					pickUpNew();
+					controller.addPlayerEvent(20);
+					controller.playTurn();
 				}
 			}
 		};

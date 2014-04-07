@@ -26,18 +26,25 @@ public class TimeQueue {
 			timeQueue.add(f);
 			sentientQueue.add(s);
 		} else {
+			boolean added = false;
 			for (int i = 0; i < this.size(); i++) {
 				if (timeQueue.get(i) > f) {
 					timeQueue.add(i, f);
 					sentientQueue.add(i, s);
+					added = true;
+					break;
 				}
+			}
+			if (!added) {
+				timeQueue.add(f);
+				sentientQueue.add(s);
 			}
 		}
 	}
 	
 	private void adjustPriority(float amount) {
-		for (Float f : timeQueue) {
-			f += amount;
+		for (int i = 0; i < timeQueue.size(); i++) {
+			timeQueue.set(i, timeQueue.get(i) + amount);
 		}
 	}
 	

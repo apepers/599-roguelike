@@ -65,6 +65,16 @@ public class Controller {
 		
 		//create the map.
 		createMap();
+		for (int row = 0; row < map.getHeight(); row++) {
+			for (int column = 0; column < map.getWidth(); column++) {
+				if (!player.getLocation().equals(map.getTile(column, row)) && map.getTile(column, row).isOccupied()) {
+					Sentient occupant = map.getTile(column, row).getOccupant();
+					timeQueue.addEventToQueue(occupant, ((Monster) occupant).getActionCost());
+				}
+			}
+		}
+		this.addPlayerEvent(10);
+		this.playTurn();
 	}
 	
 	/**
@@ -425,10 +435,10 @@ public class Controller {
 	
 	public void playTurn() {
 		Sentient topEventSentient = timeQueue.getNextEvent();
-		if (topEventSentient.equals(player))
-			return;
-		else {
+		while (!topEventSentient.equals(player)) {
 			System.out.println(topEventSentient.getName() + " takes an action");
+			timeQueue.addEventToQueue(topEventSentient, ((Monster) topEventSentient).getActionCost());
+			topEventSentient = timeQueue.getNextEvent();
 		}
 	}
 }
