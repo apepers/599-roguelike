@@ -183,12 +183,9 @@ public class Controller {
 					value += line.substring(2).trim();
 				} else {
 					value += line + "\n";
-					//value += line.trim() + " ";
 				}
 				line = in.readLine();
 			}
-			System.out.println(key);
-			System.out.println(value + "\n");
 			descMap.put(key, value);
 		}
 		in.close();
