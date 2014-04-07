@@ -452,7 +452,6 @@ public class Controller {
 	public void playTurn() {
 		Sentient topEventSentient = timeQueue.getNextEvent();
 		while (!topEventSentient.equals(player)) {
-			System.out.println(topEventSentient.getName() + " takes an action");
 			moveRandomly(topEventSentient);
 			timeQueue.addEventToQueue(topEventSentient, ((Monster) topEventSentient).getActionCost());
 			topEventSentient = timeQueue.getNextEvent();
