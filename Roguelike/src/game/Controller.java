@@ -62,7 +62,15 @@ public class Controller {
 		this.player = p;
 		
 		//create the map.
-		MapGenerator map = new BSTMap(300,300, 6);
+		createMap();
+	}
+	
+	/**
+	 * Creates the map for the entire game. Does all linking
+	 * between maps and sets the player's spawn when starting.
+	 */
+	private void createMap(){
+		MapGenerator map = new SimpleMap(20,15,3,3);
 		Map m = MapInterpreter.interpretMap(map, ImageManager.getInstance().getAllTileSets("map"));
 
 		this.map = m;

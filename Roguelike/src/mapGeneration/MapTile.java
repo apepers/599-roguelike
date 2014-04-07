@@ -24,6 +24,8 @@ public enum MapTile {
 		switch (this){
 		case BLANK:
 			return " ";
+		case SPACE:
+			return " ";
 		case ROOM_FLOOR:
 			return ".";
 		case CORRIDOR_FLOOR:
