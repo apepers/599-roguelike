@@ -30,7 +30,7 @@ public class Controller {
 	private Map map;								//the current map loaded
 	private Messenger messenger;
 	boolean gameRunning;
-
+	private TimeQueue timeQueue;
 
 	private static Controller global;
 
@@ -51,6 +51,7 @@ public class Controller {
 
 		//prepare duplicator and player
 		duplicator = new ItemDuplicator();
+		timeQueue = new TimeQueue();
 	};
 
 	public static Controller getInstance(){
@@ -67,6 +68,16 @@ public class Controller {
 		
 		//create the map.
 		createMap();
+		for (int row = 0; row < map.getHeight(); row++) {
+			for (int column = 0; column < map.getWidth(); column++) {
+				if (!player.getLocation().equals(map.getTile(column, row)) && map.getTile(column, row).isOccupied()) {
+					Sentient occupant = map.getTile(column, row).getOccupant();
+					timeQueue.addEventToQueue(occupant, ((Monster) occupant).getActionCost());
+				}
+			}
+		}
+		this.addPlayerEvent(10);
+		this.playTurn();
 	}
 	
 	/**
@@ -74,31 +85,89 @@ public class Controller {
 	 * between maps and sets the player's spawn when starting.
 	 */
 	private void createMap(){
-	
+
 		ImageRegistry[] allTiles = ImageManager.getInstance().getAllTileSets("map");
-		
-		
+
+
 		//create level 1
 		MapGenerator map1 = new SimpleMap(20,15,3,3);
-		int[] level1Tiles = {1};
+		int[] level1Tiles = {0};
 		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(allTiles, level1Tiles));
 
 		this.map = m1;
-		
-		
+
+
 		//create level 2
 		MapGenerator map2 = new SimpleMap(20,15,3,3);
-		int[] level2Tiles = {0};
+		int[] level2Tiles = {1};
 		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles));
 
 		MapInterpreter.linkMaps(m1, m2);
-		
-		
-		MapGenerator map3 = new SimpleMap(20,15,3,3);
-		int[] level3Tiles = {0};
-		Map m3 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level3Tiles));
 
-		MapInterpreter.linkMaps(m1, m3);
+		//create level 3
+		MapGenerator map3 = new SimpleMap(20,15,4,4);
+		int[] level3Tiles = {2};
+		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(allTiles, level3Tiles));
+
+		MapInterpreter.linkMaps(m2, m3);
+
+		//create level 4
+		MapGenerator map4 = new SimpleMap(20,15,4,4);
+		int[] level4Tiles = {3};
+		Map m4 = MapInterpreter.interpretMap(map4, registrySubset(allTiles, level4Tiles));
+
+		MapInterpreter.linkMaps(m2, m4);
+
+		//create level 5
+		MapGenerator map5 = new BSTMap(75,75);
+		int[] level5Tiles = {4};
+		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(allTiles, level5Tiles));
+
+		MapInterpreter.linkMaps(m3, m5);
+		MapInterpreter.linkMaps(m4, m5);
+
+		
+		//=================================================================
+		//create level 6
+		MapGenerator map6 = new BSTMap(75,75);
+		int[] level6Tiles = {5};
+		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles));
+
+		MapInterpreter.linkMaps(m5, m6);
+		
+		//create level 7
+		MapGenerator map7 = new BSTMap(75,75);
+		int[] level7Tiles = {6};
+		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(allTiles, level7Tiles));
+
+		MapInterpreter.linkMaps(m5, m7);
+		
+		//create level 8
+		MapGenerator map8 = new BSTMap(75,75);
+		int[] level8Tiles = {7};
+		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles));
+
+		MapInterpreter.linkMaps(m5, m8);
+
+		MapInterpreter.linkMaps(m6, m7);
+		MapInterpreter.linkMaps(m7, m8);
+		
+		//===================================================================
+		//create level 9
+		MapGenerator map9 = new BSTMap(75,75);
+		int[] level9Tiles = {8};
+		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(allTiles, level9Tiles));
+
+		MapInterpreter.linkMaps(m6, m9);
+		MapInterpreter.linkMaps(m7, m9);
+		MapInterpreter.linkMaps(m8, m9);
+		
+		//create level 10
+		MapGenerator map10 = new BSTMap(75,75);
+		int[] level10Tiles = {9};
+		Map m10 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level10Tiles));
+
+		MapInterpreter.linkMaps(m9, m10);
 		
 		
 		
@@ -106,14 +175,14 @@ public class Controller {
 		// Place player on the first map
 		Point spawn = m1.getPlayerSpawn();
 		m1.getTile(spawn.x, spawn.y).setOccupant(player);
-		
+
 		//setup the display
 		messenger.drawMap(m1);
 		messenger.updateStatus(playerStatus());
 		messenger.centerMap(spawn);
-		
-		
-		
+
+
+
 	}
 
 	
@@ -279,54 +348,71 @@ public class Controller {
 	}
 
 	public String playerEat(Food food) {
-		player.reduceHunger(food.getNutrition());
-		return food.eatMsg();
+		player.increaseNutrition(food.getNutrition());
+		messenger.updateStatus(playerStatus());
+		return "You eat the " + food.properName()+ ".\n" + food.eatMsg();
 	}
 
 	public void movePlayerUp() {
 		if (player.getLocation().getRow() > 0) {
-			movePlayer(0, -1);
+			moveSentient(player, 0, -1);
 		}
 	}
 
 	public void movePlayerDown() {
 		if (player.getLocation().getRow() < map.getHeight() - 1) {
-			movePlayer(0, 1);
+			moveSentient(player, 0, 1);
 		}
 	}
 
 	public void movePlayerRight(){
 		if (player.getLocation().getColumn() < map.getWidth() - 1) {
-			movePlayer(1, 0);
+			moveSentient(player, 1, 0);
 		}
 	}
 	
 	public void movePlayerLeft(){
 		if (player.getLocation().getColumn() > 0) {
-			movePlayer(-1, 0);
+			moveSentient(player, -1, 0);
 		}
 	}
 	
+	public void moveRandomly(Sentient s) {
+		ArrayList<Point> directions = new ArrayList<Point>(4);
+		Tile location = s.getLocation();
+		if (location.getRow() > 0)
+			directions.add(new Point(0, -1));
+		if (location.getRow() < map.getHeight() - 1)
+			directions.add(new Point(0, 1));
+		if (location.getColumn() < map.getWidth() - 1)
+			directions.add(new Point(1, 0));
+		if (location.getColumn() > 0)
+			directions.add(new Point(-1, 0));
+		int random = MapRand.randInt(directions.size() - 1);
+		moveSentient(s, directions.get(random).x, directions.get(random).y);
+	}
+	
 	/**
-	 * Moves the player in any of the specified directions
-	 * Player position is then updated on screen and in game state.
+	 * Moves a sentient object in any of the specified directions
+	 * Sentient position is then updated on screen and in game state.
 	 * @param deltaX
 	 * @param deltaY
 	 */
-	private void movePlayer(int deltaX, int deltaY){
-		Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+	private void moveSentient(Sentient s, int deltaX, int deltaY) {
+		Point oldPt = new Point(s.getLocation().getColumn(), s.getLocation().getRow());
 		Point newPt = new Point(oldPt.x + deltaX, oldPt.y + deltaY);
 		
 		Tile nextTile = map.getTile(newPt.x, newPt.y);
 		if (nextTile.isPassable() && !nextTile.isOccupied()){
-			player.setLocation(nextTile);
+			s.setLocation(nextTile);
 			map.getTile(oldPt.x, oldPt.y).removeOccupant();
-			map.getTile(newPt.x, newPt.y).setOccupant(player);
+			map.getTile(newPt.x, newPt.y).setOccupant(s);
 			
 			//update the tile
 			messenger.updateTile(oldPt);
 			messenger.updateTile(newPt);
-			messenger.centerMap(newPt);
+			if (s.equals(player))
+				messenger.centerMap(newPt);
 		}
 	}
 	
@@ -413,7 +499,7 @@ public class Controller {
 	}
 
 	public String playerStatus() {
-		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity();
+		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + ", Nutrition = " + player.getNutrition();
 	}
 
 	// Return a random item for the map, given the current depth in the station
@@ -426,5 +512,20 @@ public class Controller {
 	public Monster getRandMapMonster(int mapIndex) {
 		int randomIndex = MapRand.randInt(monsters.size() - 1);
 		return (Monster)duplicator.duplicate(monsters.get(randomIndex));
+	}
+	
+	public void addPlayerEvent(int actionCost) {
+		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
+		player.increaseHunger(actionCost);
+		messenger.updateStatus(playerStatus());
+	}
+	
+	public void playTurn() {
+		Sentient topEventSentient = timeQueue.getNextEvent();
+		while (!topEventSentient.equals(player)) {
+			moveRandomly(topEventSentient);
+			timeQueue.addEventToQueue(topEventSentient, ((Monster) topEventSentient).getActionCost());
+			topEventSentient = timeQueue.getNextEvent();
+		}
 	}
 }

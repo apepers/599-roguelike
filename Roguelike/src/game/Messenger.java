@@ -35,6 +35,7 @@ public class Messenger {
 	private Action downAction;
 	private Action rightAction;
 	private Action leftAction;
+	private Action waitAction;
 	private Action invalidAction;
 	
 	//GUI elements
@@ -70,6 +71,8 @@ public class Messenger {
 					log.println("Invalid key");
 				} else {
 					pickUpNew();
+					controller.addPlayerEvent(20);
+					controller.playTurn();
 				}
 			}
 		};
@@ -89,7 +92,11 @@ public class Messenger {
 				if(cursorMode) {
 					log.println("Invalid key");
 				} else {
-					eat();
+					int eatTime = eat();
+					if (eatTime != -1) {
+						controller.addPlayerEvent(eatTime);
+						controller.playTurn();
+					}
 				}
 			}
 		};
@@ -100,6 +107,8 @@ public class Messenger {
 					controller.moveCursorUp();
 				} else {
 					controller.movePlayerUp();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
 				}
 				display.repaint();
 			}
@@ -111,6 +120,8 @@ public class Messenger {
 					controller.moveCursorDown();
 				} else {
 					controller.movePlayerDown();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
 				}
 				display.repaint();
 			}
@@ -122,6 +133,8 @@ public class Messenger {
 					controller.moveCursorLeft();
 				} else {
 					controller.movePlayerLeft();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
 				}
 				display.repaint();
 			}
@@ -133,6 +146,8 @@ public class Messenger {
 					controller.moveCursorRight();
 				} else {
 					controller.movePlayerRight();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
 				}
 				display.repaint();
 			}
@@ -158,6 +173,13 @@ public class Messenger {
 				} else {
 					log.println("Invalid key");
 				}
+			}
+		};
+		
+		waitAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				controller.addPlayerEvent(10);
+				controller.playTurn();
 			}
 		};
 	}
@@ -237,12 +259,13 @@ public class Messenger {
 	
 	// Eat a food item from the current tile or inventory
 	// If the item is stackable, just eats one. Only one food item can be selected.
-	private void eat() {
+	private int eat() {
 		// Get all available food
 		String[] tileFood = player.getLocation().getItems().getFoodsTexts();
 		String[] playerFood = player.getInventory().getFoodsTexts();
 		if (tileFood.length + playerFood.length == 0) {
 			log.println("There is nothing to eat.");
+			return -1;
 		} else {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(0, 1));
@@ -306,12 +329,15 @@ public class Messenger {
 								food = (Food) player.getInventory().removeItem(id);
 						}
 						log.println(controller.playerEat(food));
+						return food.getTurnsToEat() * 10;
 					} catch (InvalidKeyException e) {
 						log.println("The item you picked was invalid");
+						return -1;
 					}
 				}
 			}
 		}
+		return -1;
 	}
 	
 	private String descriptionsToIDString(String[] descriptions) {
@@ -511,5 +537,9 @@ public class Messenger {
 	
 	public Action getEnterAction() {
 		return enterAction;
+	}
+	
+	public Action getWaitAction() {
+		return waitAction;
 	}
 }

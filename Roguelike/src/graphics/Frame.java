@@ -132,6 +132,8 @@ public class Frame extends JFrame {
 		console.getActionMap().put("question", controller.getMessenger().getQuestionAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
 		console.getActionMap().put("enter", controller.getMessenger().getEnterAction());
+		
+		//arrow keys
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
 		console.getActionMap().put("up", controller.getMessenger().getUpAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
@@ -140,6 +142,8 @@ public class Frame extends JFrame {
 		console.getActionMap().put("left", controller.getMessenger().getLeftAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
 		console.getActionMap().put("right", controller.getMessenger().getRightAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "wait");
+		console.getActionMap().put("wait", controller.getMessenger().getWaitAction());
 	}
 
 	/**
