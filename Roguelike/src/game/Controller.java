@@ -6,6 +6,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import entities.*;
 import graphics.ImageManager;
@@ -40,7 +41,9 @@ public class Controller {
 		monsters = new ArrayList<Monster>();
 		try {
 			loadFoods();
+			addFoodDescriptions();
 			loadMonsters();
+			addMonsterDescriptions();
 		} catch (IOException e) {
 			System.err.println("Error reading the data CSV files.");
 			e.printStackTrace();
@@ -168,6 +171,71 @@ public class Controller {
 		}
 		in.close();
 	}
+	
+	
+	/*
+	 * Add descriptions and quotes to already existing food
+	 */
+	private void addFoodDescriptions() throws IOException {
+		HashMap<String, String> descMap = new HashMap<String, String>();
+		descMap = parseDescriptionFile("src\\itemquotes.txt");
+		
+		for(Food food : foods) {
+			String name = food.getName().toLowerCase();
+			if(descMap.containsKey(name)) {
+				food.setDescription(descMap.get(name));
+			}
+		}
+	}
+	
+	
+	/*
+	 * Add descriptions and quotes to already existing monsters
+	 */
+	private void addMonsterDescriptions() throws IOException {
+		HashMap<String, String> descMap = new HashMap<String, String>();
+		descMap = parseDescriptionFile("src\\monsterquotes.txt");
+		
+		for(Monster monster : monsters) {
+			String name = monster.getName().toLowerCase();
+			if(descMap.containsKey(name)) {
+				monster.setDescription(descMap.get(name));
+			}
+		}
+	}
+	
+	
+	/*
+	 * Parse through a given description/quotes .txt file and
+	 * convert it into a HashMap with the Entity name as the key
+	 */
+	private HashMap<String, String> parseDescriptionFile(String filename) throws IOException {
+		HashMap<String, String> descMap = new HashMap<String, String>();
+		BufferedReader in = null;
+		in = new BufferedReader(new FileReader(filename));
+		String key = "";
+		String value = "";
+
+		String line = in.readLine();
+		while (line != null) {
+			//This line should always be the monster name.
+			key = line.substring(2).trim().toLowerCase();
+			value = "";
+			line = in.readLine();
+			while((line != null) && (!line.startsWith("##"))) {
+				if(line.startsWith("^^")) {
+					value += line.substring(2).trim();
+				} else {
+					value += line + "\n";
+				}
+				line = in.readLine();
+			}
+			descMap.put(key, value);
+		}
+		in.close();
+		return descMap;
+	}
+	
 
 	public void combatTest() {
 		Monster testMonster = getRandMapMonster(0);
@@ -269,7 +337,7 @@ public class Controller {
 	}
 	
 	
-	public String select() {
+	public Entity select() {
 		return cursor.getTopEntity();
 	}
 	
