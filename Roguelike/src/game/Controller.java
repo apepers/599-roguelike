@@ -216,4 +216,17 @@ public class Controller {
 		int randomIndex = MapRand.randInt(monsters.size() - 1);
 		return (Monster)duplicator.duplicate(monsters.get(randomIndex));
 	}
+	
+	public void addPlayerEvent(int actionCost) {
+		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
+	}
+	
+	public void playTurn() {
+		Sentient topEventSentient = timeQueue.getNextEvent();
+		if (topEventSentient.equals(player))
+			return;
+		else {
+			System.out.println(topEventSentient.getName() + " takes an action");
+		}
+	}
 }

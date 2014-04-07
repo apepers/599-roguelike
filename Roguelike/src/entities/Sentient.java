@@ -21,6 +21,7 @@ public abstract class Sentient extends Entity {
 	private String baseMeleeDescription;
 	private int strength;
 	private int dexterity;
+	private int speed;
 	
 	public Holdable getItem(Character itemID) {
 		return getInventory().getItem(itemID);
@@ -137,6 +138,14 @@ public abstract class Sentient extends Entity {
 
 	public void setDexterity(int dexterity) {
 		this.dexterity = dexterity;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
 	// Return a list version of the inventory
