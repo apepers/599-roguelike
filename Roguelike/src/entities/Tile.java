@@ -165,6 +165,28 @@ public class Tile {
 		return background;
 	}
 	
+	/**
+	 * Gets the current occupant's image
+	 * @return
+	 */
+	public ImageIcon getOccupantImage(){
+		if(occupant != null){
+			return occupant.getImg();
+		}
+		return null;
+	}
+	
+	/**
+	 * Gets the top most Item's image in the stack on the tile
+	 * @return
+	 */
+	public ImageIcon getTopItemImage(){
+		if (items.getSize() > 0){
+			//TODO horriable way to get first item... PLEASE FIX
+			return items.getItem(items.getUsedIDs().iterator().next()).getImg();
+		}
+		return null;
+	}
 	
 	/**
 	 * Gets the background image of the tile. 

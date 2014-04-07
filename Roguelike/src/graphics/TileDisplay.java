@@ -132,17 +132,17 @@ public class TileDisplay extends JPanel{
 
 	/**
 	 * Updates a map tile on the screen
+	 * Display is refreshed.
 	 * @param x
 	 * @param y
 	 */
 	public void refreshTile(int x, int y){
 
 		drawTile(currentMap.getTile(x, y).getBackground(), x, y);
-		drawTile(currentMap.getTile(x, y).getTopImage(), x, y);
+		drawTile(currentMap.getTile(x, y).getTopItemImage(), x, y);
+		drawTile(currentMap.getTile(x, y).getOccupantImage(), x, y);
 
-
-		//update later
-
+		//update now
 		repaintSuper();
 
 	}
@@ -200,7 +200,8 @@ public class TileDisplay extends JPanel{
 		for (int i = 0; i< map.getWidth(); i++){
 			for (int j = 0; j< map.getHeight(); j++){
 				drawTile(map.getTile(i, j).getBackground(), i, j);
-				drawTile(map.getTile(i, j).getTopImage(), i, j);
+				drawTile(map.getTile(i, j).getTopItemImage(), i, j);
+				drawTile(map.getTile(i, j).getOccupantImage(), i, j);
 			}
 		}
 
