@@ -451,6 +451,8 @@ public class Controller {
 		stairs.getMapA().getTile(oldPt.x, oldPt.y).removeOccupant();
 		stairs.getMapB().getTile(nextPt.x, nextPt.y).setOccupant(player);
 
+		this.map = nextMap;
+		
 		//update the tile
 		messenger.drawMap(nextMap);
 		messenger.updateTile(nextPt);
