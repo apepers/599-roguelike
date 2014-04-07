@@ -283,24 +283,18 @@ public class Controller {
 	public void moveCursorUp() {
 		if (cursor.getLocation().getRow() > 0) {
 			moveCursor(0,-1);
-//			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() - 1);
-//			cursor.setLocation(newTile);
 		}
 	}
 	
 	public void moveCursorDown() {
 		if (cursor.getLocation().getRow() < map.getHeight() - 1) {
 			moveCursor(0,1);
-//			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() + 1);
-//			cursor.setLocation(newTile);
 		}
 	}
 	
 	public void moveCursorLeft() {
 		if (cursor.getLocation().getColumn() > 0) {
 			moveCursor(-1,0);
-//			Tile newTile = map.getTile(cursor.getLocation().getColumn() - 1, cursor.getLocation().getRow());
-//			cursor.setLocation(newTile);
 		}
 	}
 
@@ -308,8 +302,6 @@ public class Controller {
 	public void moveCursorRight() {
 		if (cursor.getLocation().getColumn() < map.getWidth() - 1) {
 			moveCursor(1,0);
-//			Tile newTile = map.getTile(cursor.getLocation().getColumn() + 1, cursor.getLocation().getRow());
-//			cursor.setLocation(newTile);
 		}
 	}
 	
