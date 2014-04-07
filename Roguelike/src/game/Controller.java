@@ -473,7 +473,7 @@ public class Controller {
 		messenger.drawMap(nextMap);
 		messenger.updateTile(nextPt);
 		messenger.centerMap(nextPt);
-
+		resetTimeQueue();
 
 	}
 
