@@ -29,7 +29,7 @@ public class Driver {
 		Player player = new Player();
 		
 		Controller controller = Controller.getInstance();
-		controller.setup(new Messenger(controller, frame, tileDisplay, console, status), player);
+		controller.setup(new Messenger(controller, player, frame, tileDisplay, console, status), player);
 		frame.registerController(controller);
 		
 		//show game

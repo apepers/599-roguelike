@@ -45,8 +45,9 @@ public class Messenger {
 	private boolean cursorMode;
 	
 	
-	public Messenger(Controller cont, Frame frame, TileDisplay tileDisplay, PlayerLog logDisplay, StatusBar statusDisplay) {
+	public Messenger(Controller cont, Player p, Frame frame, TileDisplay tileDisplay, PlayerLog logDisplay, StatusBar statusDisplay) {
 		this.controller = cont;
+		this.player = p;
 		this.display = tileDisplay;
 		this.log = logDisplay;
 		this.status = statusDisplay;
