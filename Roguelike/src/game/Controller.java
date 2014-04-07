@@ -169,7 +169,7 @@ public class Controller {
 			Point newPt = new Point(oldPt.x, oldPt.y-1);
 			
 			Tile nextTile = map.getTile(newPt.x, newPt.y);
-			if (nextTile.isPassable()){
+			if (nextTile.isPassable() && !nextTile.isOccupied()){
 				player.setLocation(nextTile);
 				map.getTile(oldPt.x, oldPt.y).removeOccupant();
 				map.getTile(newPt.x, newPt.y).setOccupant(player);
@@ -192,7 +192,7 @@ public class Controller {
 			Point newPt = new Point(oldPt.x, oldPt.y + 1);
 			
 			Tile nextTile = map.getTile(newPt.x, newPt.y);
-			if (nextTile.isPassable()){
+			if (nextTile.isPassable() && !nextTile.isOccupied()){
 				player.setLocation(nextTile);
 				map.getTile(oldPt.x, oldPt.y).removeOccupant();
 				map.getTile(newPt.x, newPt.y).setOccupant(player);
@@ -214,7 +214,7 @@ public class Controller {
 			Point newPt = new Point(oldPt.x +1, oldPt.y);
 			
 			Tile nextTile = map.getTile(newPt.x, newPt.y);
-			if (nextTile.isPassable()){
+			if (nextTile.isPassable() && !nextTile.isOccupied()){
 				player.setLocation(nextTile);
 				map.getTile(oldPt.x, oldPt.y).removeOccupant();
 				map.getTile(newPt.x, newPt.y).setOccupant(player);
@@ -237,7 +237,7 @@ public class Controller {
 			Point newPt = new Point(oldPt.x-1, oldPt.y);
 			
 			Tile nextTile = map.getTile(newPt.x, newPt.y);
-			if (nextTile.isPassable()){
+			if (nextTile.isPassable() && !nextTile.isOccupied()){
 				player.setLocation(nextTile);
 				map.getTile(oldPt.x, oldPt.y).removeOccupant();
 				map.getTile(newPt.x, newPt.y).setOccupant(player);
