@@ -102,6 +102,8 @@ public class Messenger {
 					controller.moveCursorUp();
 				} else {
 					controller.movePlayerUp();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
 				}
 				display.repaint();
 			}
@@ -113,6 +115,8 @@ public class Messenger {
 					controller.moveCursorDown();
 				} else {
 					controller.movePlayerDown();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
 				}
 				display.repaint();
 			}
@@ -124,6 +128,8 @@ public class Messenger {
 					controller.moveCursorLeft();
 				} else {
 					controller.movePlayerLeft();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
 				}
 				display.repaint();
 			}
@@ -135,6 +141,8 @@ public class Messenger {
 					controller.moveCursorRight();
 				} else {
 					controller.movePlayerRight();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
 				}
 				display.repaint();
 			}
