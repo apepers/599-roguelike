@@ -21,8 +21,9 @@ import java.io.*;
 
 public class Controller {
 	private Player player;
-	private ArrayList<Food> foods;
-	private ArrayList<Monster> monsters;
+	private Cursor cursor;
+	ArrayList<Food> foods;
+	ArrayList<Monster> monsters;
 	private ItemDuplicator duplicator;
 	private Map map;
 	private Messenger messenger;
@@ -41,13 +42,11 @@ public class Controller {
 			loadMonsters();
 		} catch (IOException e) {
 			System.err.println("Error reading the data CSV files.");
+			e.printStackTrace();
 		}
 
 		//prepare duplicator and player
 		duplicator = new ItemDuplicator();
-		
-
-
 	};
 
 	public static Controller getInstance(){
@@ -180,6 +179,10 @@ public class Controller {
 				messenger.updateTile(newPt);
 				messenger.centerMap(newPt);
 			}
+			else
+				System.out.println("Collision");
+		} else {
+			System.out.println("At top boundary");
 		}
 	}
 
@@ -199,9 +202,10 @@ public class Controller {
 				messenger.updateTile(newPt);
 				messenger.centerMap(newPt);
 			}
-				
-		}
-		
+			else
+				System.out.println("Collision");	
+		} else 
+			System.out.println("At bottom boundary");
 	}
 
 	public void movePlayerRight(){
@@ -220,7 +224,10 @@ public class Controller {
 				messenger.updateTile(newPt);
 				messenger.centerMap(newPt);
 			}
-				
+			else
+				System.out.println("Collision");	
+		} else {
+			System.out.println("At right boundary");
 		}
 	}
 	
@@ -240,7 +247,55 @@ public class Controller {
 				messenger.updateTile(newPt);
 				messenger.centerMap(newPt);
 			}
-				
+			else
+				System.out.println("Collision");
+		}
+		else {
+			System.out.println("At left boundary");
+		}
+	}
+	
+	public void createCursor() {
+		cursor = new Cursor(player.getLocation());
+	}
+	
+	
+	public String select() {
+		return cursor.getTopEntity();
+	}
+	
+	
+	public void deleteCursor() {
+		cursor = null;
+	}
+	
+	
+	public void moveCursorUp() {
+		if (cursor.getLocation().getRow() > 0) {
+			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() - 1);
+			cursor.setLocation(newTile);
+		}
+	}
+	
+	public void moveCursorDown() {
+		if (cursor.getLocation().getRow() < map.getHeight() - 1) {
+			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() + 1);
+			cursor.setLocation(newTile);
+		}
+	}
+	
+	public void moveCursorLeft() {
+		if (cursor.getLocation().getColumn() > 0) {
+			Tile newTile = map.getTile(cursor.getLocation().getColumn() - 1, cursor.getLocation().getRow());
+			cursor.setLocation(newTile);
+		}
+	}
+
+	
+	public void moveCursorRight() {
+		if (cursor.getLocation().getColumn() < map.getWidth() - 1) {
+			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() + 1);
+			cursor.setLocation(newTile);
 		}
 	}
 	

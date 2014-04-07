@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 @SuppressWarnings("serial")
 public abstract class Entity implements java.io.Serializable {
 	private String name;
+	private String description = "Nothing too interesting";
 	
 	private ImageIcon img;
 	
@@ -19,6 +20,14 @@ public abstract class Entity implements java.io.Serializable {
 		this.name = name;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public String throwMsg() {
 		return "The " + name + " is thrown normally.";
 	}

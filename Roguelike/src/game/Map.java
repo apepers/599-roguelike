@@ -25,7 +25,7 @@ public class Map {
 	public Map(int width, int height){
 		this.width = width;
 		this.height = height;
-		grid = new Tile[width][height];
+		grid = new Tile[height][width];
 	}
 	
 	

@@ -131,6 +131,21 @@ public class Tile {
 
 	
 	/**
+	 * Gets the top most item on the stack.
+	 */
+	public Entity getTopEntity(){
+		if(occupant != null){
+			return occupant;
+		}
+		else if (items.getSize() > 0){
+			//TODO horriable way to get first item... PLEASE FIX
+			return items.getItem(items.getUsedIDs().iterator().next());
+		}
+		return null;
+	}
+	
+	
+	/**
 	 * Gets the top most appropriate image to display on
 	 * the screen.
 	 * 
