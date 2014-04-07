@@ -174,34 +174,24 @@ public class Controller {
 	public void movePlayerUp() {
 		if (player.getLocation().getRow() > 0) {
 			movePlayer(0, -1);
-		} else {
-			System.out.println("At top boundary");
 		}
 	}
 
 	public void movePlayerDown() {
 		if (player.getLocation().getRow() < map.getHeight() - 1) {
 			movePlayer(0, 1);
-		} else 
-			System.out.println("At bottom boundary");
+		}
 	}
 
 	public void movePlayerRight(){
 		if (player.getLocation().getColumn() < map.getWidth() - 1) {
 			movePlayer(1, 0);
-			
-			
-		} else {
-			System.out.println("At right boundary");
 		}
 	}
 	
 	public void movePlayerLeft(){
 		if (player.getLocation().getColumn() > 0) {
 			movePlayer(-1, 0);
-		}
-		else {
-			System.out.println("At left boundary");
 		}
 	}
 	
@@ -226,12 +216,12 @@ public class Controller {
 			messenger.updateTile(newPt);
 			messenger.centerMap(newPt);
 		}
-		else
-			System.out.println("Collision");
 	}
 	
 	public void createCursor() {
 		cursor = new Cursor(player.getLocation());
+		Point point = new Point(cursor.getLocation().getColumn(), cursor.getLocation().getRow());
+		messenger.drawImage(cursor.getImg(), point);
 	}
 	
 	
@@ -241,38 +231,62 @@ public class Controller {
 	
 	
 	public void deleteCursor() {
+		messenger.updateTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow());
 		cursor = null;
 	}
 	
 	
 	public void moveCursorUp() {
 		if (cursor.getLocation().getRow() > 0) {
-			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() - 1);
-			cursor.setLocation(newTile);
+			moveCursor(0,-1);
+//			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() - 1);
+//			cursor.setLocation(newTile);
 		}
 	}
 	
 	public void moveCursorDown() {
 		if (cursor.getLocation().getRow() < map.getHeight() - 1) {
-			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() + 1);
-			cursor.setLocation(newTile);
+			moveCursor(0,1);
+//			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() + 1);
+//			cursor.setLocation(newTile);
 		}
 	}
 	
 	public void moveCursorLeft() {
 		if (cursor.getLocation().getColumn() > 0) {
-			Tile newTile = map.getTile(cursor.getLocation().getColumn() - 1, cursor.getLocation().getRow());
-			cursor.setLocation(newTile);
+			moveCursor(-1,0);
+//			Tile newTile = map.getTile(cursor.getLocation().getColumn() - 1, cursor.getLocation().getRow());
+//			cursor.setLocation(newTile);
 		}
 	}
 
 	
 	public void moveCursorRight() {
 		if (cursor.getLocation().getColumn() < map.getWidth() - 1) {
-			Tile newTile = map.getTile(cursor.getLocation().getColumn() + 1, cursor.getLocation().getRow());
-			cursor.setLocation(newTile);
+			moveCursor(1,0);
+//			Tile newTile = map.getTile(cursor.getLocation().getColumn() + 1, cursor.getLocation().getRow());
+//			cursor.setLocation(newTile);
 		}
 	}
+	
+	
+	/**
+	 * Moves the cursor in any of the specified directions
+	 * Cursor position is then updated on screen and in game state.
+	 * @param deltaX
+	 * @param deltaY
+	 */
+	private void moveCursor(int deltaX, int deltaY){
+		Point oldPt = new Point(cursor.getLocation().getColumn(), cursor.getLocation().getRow());
+		Point newPt = new Point(oldPt.x + deltaX, oldPt.y + deltaY);
+		
+		Tile nextTile = map.getTile(newPt.x, newPt.y);
+		cursor.setLocation(nextTile);
+		
+		messenger.updateTile(oldPt);
+		messenger.drawImage(cursor.getImg(), newPt);
+	}
+	
 	
 	public boolean monsterAttack(Monster monster) {
 		int attackRoll = MapRand.randInt(20) + monster.getAttack();
