@@ -65,13 +65,9 @@ public class Controller {
 		
 		//create the map.
 		createMap();
-		for (int row = 0; row < map.getHeight(); row++) {
-			for (int column = 0; column < map.getWidth(); column++) {
-				if (!player.getLocation().equals(map.getTile(column, row)) && map.getTile(column, row).isOccupied()) {
-					Sentient occupant = map.getTile(column, row).getOccupant();
-					timeQueue.addEventToQueue(occupant, ((Monster) occupant).getActionCost());
-				}
-			}
+		Monster[] monsters = map.getMonsters();
+		for (int i = 0; i < monsters.length; i++) {
+			timeQueue.addEventToQueue(monsters[i], monsters[i].getActionCost());
 		}
 		this.addPlayerEvent(10);
 		this.playTurn();
