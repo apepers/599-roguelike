@@ -77,7 +77,7 @@ public class Controller {
 
 		//create level 1
 		MapGenerator map1 = new SimpleMap(20,15,3,3);
-		int[] level1Tiles = {1};
+		int[] level1Tiles = {0};
 		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(allTiles, level1Tiles));
 
 		this.map = m1;
@@ -85,28 +85,28 @@ public class Controller {
 
 		//create level 2
 		MapGenerator map2 = new SimpleMap(20,15,3,3);
-		int[] level2Tiles = {0};
+		int[] level2Tiles = {1};
 		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles));
 
 		MapInterpreter.linkMaps(m1, m2);
 
 		//create level 3
 		MapGenerator map3 = new SimpleMap(20,15,4,4);
-		int[] level3Tiles = {0};
+		int[] level3Tiles = {2};
 		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(allTiles, level3Tiles));
 
 		MapInterpreter.linkMaps(m2, m3);
 
 		//create level 4
 		MapGenerator map4 = new SimpleMap(20,15,4,4);
-		int[] level4Tiles = {0};
+		int[] level4Tiles = {3};
 		Map m4 = MapInterpreter.interpretMap(map4, registrySubset(allTiles, level4Tiles));
 
 		MapInterpreter.linkMaps(m2, m4);
 
 		//create level 5
 		MapGenerator map5 = new BSTMap(75,75);
-		int[] level5Tiles = {0};
+		int[] level5Tiles = {4};
 		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(allTiles, level5Tiles));
 
 		MapInterpreter.linkMaps(m3, m5);
@@ -116,21 +116,21 @@ public class Controller {
 		//=================================================================
 		//create level 6
 		MapGenerator map6 = new BSTMap(75,75);
-		int[] level6Tiles = {0};
+		int[] level6Tiles = {5};
 		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles));
 
 		MapInterpreter.linkMaps(m5, m6);
 		
 		//create level 7
 		MapGenerator map7 = new BSTMap(75,75);
-		int[] level7Tiles = {0};
+		int[] level7Tiles = {6};
 		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(allTiles, level7Tiles));
 
 		MapInterpreter.linkMaps(m5, m7);
 		
 		//create level 8
 		MapGenerator map8 = new BSTMap(75,75);
-		int[] level8Tiles = {0};
+		int[] level8Tiles = {7};
 		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles));
 
 		MapInterpreter.linkMaps(m5, m8);
@@ -141,7 +141,7 @@ public class Controller {
 		//===================================================================
 		//create level 9
 		MapGenerator map9 = new BSTMap(75,75);
-		int[] level9Tiles = {0};
+		int[] level9Tiles = {8};
 		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(allTiles, level9Tiles));
 
 		MapInterpreter.linkMaps(m6, m9);
@@ -150,10 +150,12 @@ public class Controller {
 		
 		//create level 10
 		MapGenerator map10 = new BSTMap(75,75);
-		int[] level10Tiles = {0};
+		int[] level10Tiles = {9};
 		Map m10 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level10Tiles));
 
 		MapInterpreter.linkMaps(m9, m10);
+		
+		
 		
 		//=====================================================
 		// Place player on the first map
