@@ -125,19 +125,22 @@ public class TileDisplay extends JPanel{
 		if (tile != null){
 			pane.drawImage(tile.getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
 		}
-
-
+		
 	}
 
 
 	/**
 	 * Updates a map tile on the screen
 	 * Display is refreshed.
+	 * 
+	 * The method assumes that the background tile covers the
+	 * entire tile. 
 	 * @param x
 	 * @param y
 	 */
 	public void refreshTile(int x, int y){
 
+		
 		drawTile(currentMap.getTile(x, y).getBackground(), x, y);
 		drawTile(currentMap.getTile(x, y).getTopItemImage(), x, y);
 		drawTile(currentMap.getTile(x, y).getOccupantImage(), x, y);

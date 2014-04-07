@@ -136,8 +136,11 @@ public class MapInterpreter {
 				}
 			}
 
+			//decorate room with monsters, items, and other tiles
 			decorateRoom(map, newMap, registries, room);
-
+			
+			//add all rooms into the map
+			newMap.addRoom(room);
 		}
 
 		//fill the rest of the map with tiles. These are non room tiles supposedly
@@ -192,22 +195,22 @@ public class MapInterpreter {
 		else if(style == 2){
 			//single low tier treasure with one monster
 			addItemsRoom(map, newMap, room, 1);
-			addMonstersRoom(map, newMap, room, 1);
+			addMonstersRoom(map, newMap, room, 1, 1);
 		}
 		else if(style == 3){
 			//single low tier treasure with two monsters
 			addItemsRoom(map, newMap, room, 1);
-			addMonstersRoom(map, newMap, room, 2);
+			addMonstersRoom(map, newMap, room, 1, 2);
 		}
 		else if(style == 4){
 			//single medium tier treasure with two to three monsters
 			addItemsRoom(map, newMap, room, 1);
-			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 3));
+			addMonstersRoom(map, newMap, room, 1, MapRand.randInt(2, 3));
 		}
 		else if(style == 5){
 			//single high tier treasure with three monsters
 			addItemsRoom(map, newMap, room, 1);
-			addMonstersRoom(map, newMap, room, MapRand.randInt(3,4));
+			addMonstersRoom(map, newMap, room, 1, MapRand.randInt(3,4));
 		}
 		else if(style == 6){
 			//two low tier treasures
@@ -216,19 +219,19 @@ public class MapInterpreter {
 		}
 		else if(style == 7){
 			//single monster
-			addMonstersRoom(map, newMap, room, 1);
+			addMonstersRoom(map, newMap, room, 1, 1);
 		}
 		else if(style == 8){
 			//1-2 monsters
-			addMonstersRoom(map, newMap, room, MapRand.randInt(1, 2));
+			addMonstersRoom(map, newMap, room, 1, MapRand.randInt(1, 2));
 		}
 		else if(style == 9){
 			//2-4 monsters
-			addMonstersRoom(map, newMap, room, MapRand.randInt(2, 4));
+			addMonstersRoom(map, newMap, room, 1,  MapRand.randInt(2, 4));
 		}
 		else if(style == 10){
 			//four monsters
-			addMonstersRoom(map, newMap, room, 4);
+			addMonstersRoom(map, newMap, room, 1, 4);
 
 		}
 		else if(style == 11){
@@ -272,7 +275,7 @@ public class MapInterpreter {
 	 * @param room Entire room including walls
 	 * @param count
 	 */
-	private static void addMonstersRoom(MapGenerator map, Map newMap, Rectangle room, int count){
+	private static void addMonstersRoom(MapGenerator map, Map newMap, Rectangle room, int tier, int count){
 
 		Rectangle placement = MapRand.innerRectangle(room);
 		for (int i = 0; i < count; i++){
@@ -288,7 +291,7 @@ public class MapInterpreter {
 
 			//create monster and add to map.
 			Tile selected = newMap.getTile(tempPt.x, tempPt.y);
-			selected.setOccupant(Controller.getInstance().getRandMapMonster(0));
+			selected.setOccupant(Controller.getInstance().getRandMapMonster(tier));
 			
 		}
 	}
