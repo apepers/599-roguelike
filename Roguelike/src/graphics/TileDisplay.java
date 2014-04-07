@@ -125,8 +125,7 @@ public class TileDisplay extends JPanel{
 		if (tile != null){
 			pane.drawImage(tile.getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
 		}
-
-
+		
 	}
 
 
