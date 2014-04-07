@@ -308,6 +308,21 @@ public class Controller {
 		}
 	}
 	
+	public void moveRandomly(Sentient s) {
+		ArrayList<Point> directions = new ArrayList<Point>(4);
+		Tile location = s.getLocation();
+		if (location.getRow() > 0)
+			directions.add(new Point(0, -1));
+		if (location.getRow() < map.getHeight() - 1)
+			directions.add(new Point(0, 1));
+		if (location.getColumn() < map.getWidth() - 1)
+			directions.add(new Point(1, 0));
+		if (location.getColumn() > 0)
+			directions.add(new Point(-1, 0));
+		int random = MapRand.randInt(directions.size() - 1);
+		moveSentient(s, directions.get(random).x, directions.get(random).y);
+	}
+	
 	/**
 	 * Moves a sentient object in any of the specified directions
 	 * Sentient position is then updated on screen and in game state.
@@ -327,7 +342,8 @@ public class Controller {
 			//update the tile
 			messenger.updateTile(oldPt);
 			messenger.updateTile(newPt);
-			messenger.centerMap(newPt);
+			if (s.equals(player))
+				messenger.centerMap(newPt);
 		}
 	}
 	
@@ -437,6 +453,7 @@ public class Controller {
 		Sentient topEventSentient = timeQueue.getNextEvent();
 		while (!topEventSentient.equals(player)) {
 			System.out.println(topEventSentient.getName() + " takes an action");
+			moveRandomly(topEventSentient);
 			timeQueue.addEventToQueue(topEventSentient, ((Monster) topEventSentient).getActionCost());
 			topEventSentient = timeQueue.getNextEvent();
 		}
