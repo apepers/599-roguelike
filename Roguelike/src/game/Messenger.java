@@ -204,6 +204,14 @@ public class Messenger {
 	}
 	
 	/**
+	 * draws an image on top of the existing tile
+	 * @param pt
+	 */
+	public void drawImage(ImageIcon img, Point pt){
+		display.drawTile(img, pt.x, pt.y);
+	}
+	
+	/**
 	 * Updates a tile on the tile display
 	 * @param pt
 	 */
