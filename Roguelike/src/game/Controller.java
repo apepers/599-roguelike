@@ -165,22 +165,7 @@ public class Controller {
 
 	public void movePlayerUp() {
 		if (player.getLocation().getRow() > 0) {
-			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
-			Point newPt = new Point(oldPt.x, oldPt.y-1);
-			
-			Tile nextTile = map.getTile(newPt.x, newPt.y);
-			if (nextTile.isPassable() && !nextTile.isOccupied()){
-				player.setLocation(nextTile);
-				map.getTile(oldPt.x, oldPt.y).removeOccupant();
-				map.getTile(newPt.x, newPt.y).setOccupant(player);
-				
-				//update the tile
-				messenger.updateTile(oldPt);
-				messenger.updateTile(newPt);
-				messenger.centerMap(newPt);
-			}
-			else
-				System.out.println("Collision");
+			movePlayer(0, -1);
 		} else {
 			System.out.println("At top boundary");
 		}
@@ -188,44 +173,16 @@ public class Controller {
 
 	public void movePlayerDown() {
 		if (player.getLocation().getRow() < map.getHeight() - 1) {
-			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
-			Point newPt = new Point(oldPt.x, oldPt.y + 1);
-			
-			Tile nextTile = map.getTile(newPt.x, newPt.y);
-			if (nextTile.isPassable() && !nextTile.isOccupied()){
-				player.setLocation(nextTile);
-				map.getTile(oldPt.x, oldPt.y).removeOccupant();
-				map.getTile(newPt.x, newPt.y).setOccupant(player);
-				
-				//update the tile
-				messenger.updateTile(oldPt);
-				messenger.updateTile(newPt);
-				messenger.centerMap(newPt);
-			}
-			else
-				System.out.println("Collision");	
+			movePlayer(0, 1);
 		} else 
 			System.out.println("At bottom boundary");
 	}
 
 	public void movePlayerRight(){
 		if (player.getLocation().getColumn() < map.getWidth() - 1) {
-			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
-			Point newPt = new Point(oldPt.x +1, oldPt.y);
+			movePlayer(1, 0);
 			
-			Tile nextTile = map.getTile(newPt.x, newPt.y);
-			if (nextTile.isPassable() && !nextTile.isOccupied()){
-				player.setLocation(nextTile);
-				map.getTile(oldPt.x, oldPt.y).removeOccupant();
-				map.getTile(newPt.x, newPt.y).setOccupant(player);
-				
-				//update the tile
-				messenger.updateTile(oldPt);
-				messenger.updateTile(newPt);
-				messenger.centerMap(newPt);
-			}
-			else
-				System.out.println("Collision");	
+			
 		} else {
 			System.out.println("At right boundary");
 		}
@@ -233,26 +190,36 @@ public class Controller {
 	
 	public void movePlayerLeft(){
 		if (player.getLocation().getColumn() > 0) {
-			Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
-			Point newPt = new Point(oldPt.x-1, oldPt.y);
-			
-			Tile nextTile = map.getTile(newPt.x, newPt.y);
-			if (nextTile.isPassable() && !nextTile.isOccupied()){
-				player.setLocation(nextTile);
-				map.getTile(oldPt.x, oldPt.y).removeOccupant();
-				map.getTile(newPt.x, newPt.y).setOccupant(player);
-				
-				//update the tile
-				messenger.updateTile(oldPt);
-				messenger.updateTile(newPt);
-				messenger.centerMap(newPt);
-			}
-			else
-				System.out.println("Collision");
+			movePlayer(-1, 0);
 		}
 		else {
 			System.out.println("At left boundary");
 		}
+	}
+	
+	/**
+	 * Moves the player in any of the specified directions
+	 * Player position is then updated on screen and in game state.
+	 * @param deltaX
+	 * @param deltaY
+	 */
+	private void movePlayer(int deltaX, int deltaY){
+		Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+		Point newPt = new Point(oldPt.x + deltaX, oldPt.y + deltaY);
+		
+		Tile nextTile = map.getTile(newPt.x, newPt.y);
+		if (nextTile.isPassable() && !nextTile.isOccupied()){
+			player.setLocation(nextTile);
+			map.getTile(oldPt.x, oldPt.y).removeOccupant();
+			map.getTile(newPt.x, newPt.y).setOccupant(player);
+			
+			//update the tile
+			messenger.updateTile(oldPt);
+			messenger.updateTile(newPt);
+			messenger.centerMap(newPt);
+		}
+		else
+			System.out.println("Collision");
 	}
 	
 	public void createCursor() {
