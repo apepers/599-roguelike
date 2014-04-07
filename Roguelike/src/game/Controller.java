@@ -286,43 +286,43 @@ public class Controller {
 
 	public void movePlayerUp() {
 		if (player.getLocation().getRow() > 0) {
-			movePlayer(0, -1);
+			moveSentient(player, 0, -1);
 		}
 	}
 
 	public void movePlayerDown() {
 		if (player.getLocation().getRow() < map.getHeight() - 1) {
-			movePlayer(0, 1);
+			moveSentient(player, 0, 1);
 		}
 	}
 
 	public void movePlayerRight(){
 		if (player.getLocation().getColumn() < map.getWidth() - 1) {
-			movePlayer(1, 0);
+			moveSentient(player, 1, 0);
 		}
 	}
 	
 	public void movePlayerLeft(){
 		if (player.getLocation().getColumn() > 0) {
-			movePlayer(-1, 0);
+			moveSentient(player, -1, 0);
 		}
 	}
 	
 	/**
-	 * Moves the player in any of the specified directions
-	 * Player position is then updated on screen and in game state.
+	 * Moves a sentient object in any of the specified directions
+	 * Sentient position is then updated on screen and in game state.
 	 * @param deltaX
 	 * @param deltaY
 	 */
-	private void movePlayer(int deltaX, int deltaY){
-		Point oldPt = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+	private void moveSentient(Sentient s, int deltaX, int deltaY) {
+		Point oldPt = new Point(s.getLocation().getColumn(), s.getLocation().getRow());
 		Point newPt = new Point(oldPt.x + deltaX, oldPt.y + deltaY);
 		
 		Tile nextTile = map.getTile(newPt.x, newPt.y);
 		if (nextTile.isPassable() && !nextTile.isOccupied()){
-			player.setLocation(nextTile);
+			s.setLocation(nextTile);
 			map.getTile(oldPt.x, oldPt.y).removeOccupant();
-			map.getTile(newPt.x, newPt.y).setOccupant(player);
+			map.getTile(newPt.x, newPt.y).setOccupant(s);
 			
 			//update the tile
 			messenger.updateTile(oldPt);
