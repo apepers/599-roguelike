@@ -31,12 +31,17 @@ public class Messenger {
 	private Action eAction;
 	private Action enterAction;
 	private Action questionAction;
+	
 	private Action upAction;
 	private Action downAction;
 	private Action rightAction;
 	private Action leftAction;
+	
 	private Action waitAction;
 	private Action invalidAction;
+	
+	private Action stairsUp;
+	private Action stairsDown;
 	
 	//GUI elements
 	private Frame frame;
@@ -180,6 +185,20 @@ public class Messenger {
 			public void actionPerformed(ActionEvent e) {
 				controller.addPlayerEvent(10);
 				controller.playTurn();
+			}
+		};
+		
+		stairsUp = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				controller.addPlayerEvent(10);
+				controller.stairsUp();
+			}
+		};
+		
+		stairsDown = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				controller.addPlayerEvent(10);
+				controller.stairsDown();
 			}
 		};
 	}
@@ -542,4 +561,15 @@ public class Messenger {
 	public Action getWaitAction() {
 		return waitAction;
 	}
+
+
+	public Action getStairsUp() {
+		return stairsUp;
+	}
+
+	public Action getStairsDown() {
+		return stairsDown;
+	}
+
+	
 }

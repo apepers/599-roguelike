@@ -13,7 +13,7 @@ public class Player extends Sentient {
 	public Player() {
 		this.setName("You!");
 		this.setDescription("A normal, boring person.");
-		nutrition = 900;
+		nutrition = 1500;
 		setMaxHP(15);
 		setCurrentHP(15);
 		setNaturalAC(0);
@@ -22,6 +22,7 @@ public class Player extends Sentient {
 		setStrength(16);
 		setSpeed(2);
 		setDexterity(16);
+		setBaseMeleeDescription("hit");
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));
 	}
@@ -42,5 +43,27 @@ public class Player extends Sentient {
 	
 	public int getNutrition() {
 		return nutrition;
+	}
+	
+	public String hungerText() {
+		if (nutrition >= 4000)
+			return "Oversatiated";
+		else if (nutrition >= 2000)
+			return "Satiated";
+		else if (nutrition >= 1200)
+			return "Not hungry";
+		else if (nutrition >= 600)
+			return "Hungry";
+		else if (nutrition >= 0)
+			return "Weak";
+		else if (nutrition > -600)
+			return "Fainting";
+		else
+			return "Starved";
+	}
+	
+	@Override
+	public String getPronoun() {
+		return "you";
 	}
 }
