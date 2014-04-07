@@ -147,6 +147,10 @@ public abstract class Sentient extends Entity {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+	
+	public String getPronoun() {
+		return "the " + this.getName();
+	}
 
 	// Return a list version of the inventory
 	public HashMap<Character, Holdable> getInventoryList() {

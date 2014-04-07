@@ -239,13 +239,13 @@ public class Controller {
 		System.out.println("A wild " + testMonster.getName() +" appears!");
 		while (!testMonster.isDead()) {
 			System.out.println("The monster attacks!");
-			if (this.monsterAttack(testMonster))
+			if (sentientAttack(testMonster, player))
 				System.out.println("The monster " + testMonster.getBaseMeleeDescription() + " you!");
 			else
 				System.out.println("The monster misses!");
 			System.out.println(playerStatus());
 			System.out.println("The player attacks!");
-			if (playerAttack(testMonster)) 
+			if (sentientAttack(player, testMonster))
 				System.out.println("You hit!");
 			else
 				System.out.println("You miss!");
@@ -341,6 +341,16 @@ public class Controller {
 			messenger.updateTile(newPt);
 			if (s.equals(player))
 				messenger.centerMap(newPt);
+		} else if (nextTile.isOccupied()) {
+			String attackerUppercase = s.getPronoun().substring(0, 1).toUpperCase() + s.getPronoun().substring(1);
+			if (sentientAttack(s, nextTile.getOccupant())) {
+				messenger.println(attackerUppercase + " " + s.getBaseMeleeDescription() + " " + nextTile.getOccupant().getPronoun());
+			} else {
+				if (attackerUppercase.contains("The"))
+					messenger.println(attackerUppercase + " misses " + nextTile.getOccupant().getPronoun());
+				else
+					messenger.println(attackerUppercase + " miss " + nextTile.getOccupant().getPronoun());	
+			}
 		}
 	}
 	
@@ -404,28 +414,17 @@ public class Controller {
 		messenger.updateTile(oldPt);
 		messenger.drawImage(cursor.getImg(), newPt);
 	}
-	
-	
-	public boolean monsterAttack(Monster monster) {
-		int attackRoll = MapRand.randInt(20) + monster.getAttack();
-		if (attackRoll >= player.getAC()) {
-			player.takeDamage(monster.getMeleeDamage());
+
+	public boolean sentientAttack(Sentient attacker, Sentient attackee) {
+		int attackRoll = MapRand.randInt(20) + attacker.getAttack();
+		if (attackRoll >= attackee.getAC()) {
+			attackee.takeDamage(attacker.getMeleeDamage());
 			return true;
 		} else {
 			return false;
 		}
 	}
-
-	public boolean playerAttack(Monster monster) {
-		int attackRoll = MapRand.randInt(20) + player.getAttack();
-		if (attackRoll >= monster.getAC()) {
-			monster.takeDamage(player.getMeleeDamage());
-			return true;
-		} else {
-			return false;
-		}
-	}
-
+	
 	public String playerStatus() {
 		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + ", Nutrition = " + player.hungerText();
 	}
