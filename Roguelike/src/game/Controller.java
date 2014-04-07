@@ -212,7 +212,7 @@ public class Controller {
 	
 	public void moveCursorRight() {
 		if (cursor.getLocation().getColumn() < map.getWidth() - 1) {
-			Tile newTile = map.getTile(cursor.getLocation().getColumn(), cursor.getLocation().getRow() + 1);
+			Tile newTile = map.getTile(cursor.getLocation().getColumn() + 1, cursor.getLocation().getRow());
 			cursor.setLocation(newTile);
 		}
 	}
