@@ -35,6 +35,7 @@ public class Messenger {
 	private Action downAction;
 	private Action rightAction;
 	private Action leftAction;
+	private Action waitAction;
 	private Action invalidAction;
 	
 	//GUI elements
@@ -172,6 +173,13 @@ public class Messenger {
 				} else {
 					log.println("Invalid key");
 				}
+			}
+		};
+		
+		waitAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				controller.addPlayerEvent(10);
+				controller.playTurn();
 			}
 		};
 	}
@@ -516,5 +524,9 @@ public class Messenger {
 	
 	public Action getEnterAction() {
 		return enterAction;
+	}
+	
+	public Action getWaitAction() {
+		return waitAction;
 	}
 }
