@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import entities.Monster;
 import entities.Tile;
 
 public class Map {
@@ -16,6 +17,7 @@ public class Map {
 	private ArrayList<Rectangle> rooms = new ArrayList<Rectangle>();
 	private Point spawn;
 	
+	private ArrayList<Monster> monsters = new ArrayList<Monster>();
 	
 	/**
 	 * Creates an empty map of width x height.
@@ -75,5 +77,23 @@ public class Map {
 
 	public void setPlayerSpawn(Point spawn) {
 		this.spawn = spawn;
+	}
+	
+	public void addMonster(Monster m){
+		monsters.add(m);
+	}
+	
+	public Monster[] getMonsters(){
+		Monster[] all = new Monster[monsters.size()];
+		monsters.toArray(all);
+		return all;
+	}
+	
+	public Monster getMonster(int i){
+		return monsters.get(i);
+	}
+	
+	public int monsterCount(){
+		return monsters.size();
 	}
 }

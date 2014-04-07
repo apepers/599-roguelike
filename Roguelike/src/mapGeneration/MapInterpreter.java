@@ -7,6 +7,7 @@ import game.Controller;
 import game.Map;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
+import entities.Monster;
 import entities.StairTile;
 import entities.Tile;
 import entities.TileFactory;
@@ -291,8 +292,9 @@ public class MapInterpreter {
 
 			//create monster and add to map.
 			Tile selected = newMap.getTile(tempPt.x, tempPt.y);
-			selected.setOccupant(Controller.getInstance().getRandMapMonster(tier));
-			
+			Monster babyMonster = Controller.getInstance().getRandMapMonster(tier);
+			selected.setOccupant(babyMonster);
+			newMap.addMonster(babyMonster);
 		}
 	}
 
