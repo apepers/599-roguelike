@@ -459,13 +459,14 @@ public class Controller {
 		Point nextPt = stairs.getpB();
 		Map nextMap = stairs.getMapB();
 		
-		
+		//set player location
 		Tile nextLocation = nextMap.getTile(nextPt.x, nextPt.y);
 		player.setLocation(nextLocation);
 
 		stairs.getMapA().getTile(oldPt.x, oldPt.y).removeOccupant();
 		stairs.getMapB().getTile(nextPt.x, nextPt.y).setOccupant(player);
 
+		//set the current map
 		this.map = nextMap;
 		
 		//update the tile
