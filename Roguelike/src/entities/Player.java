@@ -8,12 +8,12 @@ import graphics.ImageManager;
 
 @SuppressWarnings("serial")
 public class Player extends Sentient {
-	private int hunger;
+	private int nutrition;
 	
 	public Player() {
 		this.setName("You!");
 		this.setDescription("A normal, boring person.");
-		hunger = 0;
+		nutrition = 900;
 		setMaxHP(15);
 		setCurrentHP(15);
 		setNaturalAC(0);
@@ -32,13 +32,15 @@ public class Player extends Sentient {
 		getInventory().display();
 	}
 	
-	public void reduceHunger(int nutrition) {
-		hunger -= nutrition;
-		if (hunger < 0)
-			hunger = 0;
+	public void increaseNutrition(int n) {
+		nutrition += n;
 	}
 	
-	public int getHunger() {
-		return hunger;
+	public void increaseHunger(int hunger) {
+		nutrition -= hunger;
+	}
+	
+	public int getNutrition() {
+		return nutrition;
 	}
 }

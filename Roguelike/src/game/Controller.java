@@ -280,8 +280,9 @@ public class Controller {
 	}
 
 	public String playerEat(Food food) {
-		player.reduceHunger(food.getNutrition());
-		return food.eatMsg();
+		player.increaseNutrition(food.getNutrition());
+		messenger.updateStatus(playerStatus());
+		return "You eat the " + food.properName()+ ".\n" + food.eatMsg();
 	}
 
 	public void movePlayerUp() {
@@ -430,7 +431,7 @@ public class Controller {
 	}
 
 	public String playerStatus() {
-		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity();
+		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + ", Nutrition = " + player.getNutrition();
 	}
 
 	// Return a random item for the map, given the current depth in the station
@@ -447,6 +448,8 @@ public class Controller {
 	
 	public void addPlayerEvent(int actionCost) {
 		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
+		player.increaseHunger(actionCost);
+		messenger.updateStatus(playerStatus());
 	}
 	
 	public void playTurn() {
