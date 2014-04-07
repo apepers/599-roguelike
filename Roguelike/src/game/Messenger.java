@@ -97,10 +97,8 @@ public class Messenger {
 		upAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if(cursorMode) {
-					log.println("Moving cursor up");
 					controller.moveCursorUp();
 				} else {
-					log.println("Moving up");
 					controller.movePlayerUp();
 				}
 				display.repaint();
@@ -110,10 +108,8 @@ public class Messenger {
 		downAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if(cursorMode) {
-					log.println("Moving cursor down");
 					controller.moveCursorDown();
 				} else {
-					log.println("Moving down");
 					controller.movePlayerDown();
 				}
 				display.repaint();
@@ -123,10 +119,8 @@ public class Messenger {
 		leftAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if(cursorMode) {
-					log.println("Moving cursor left");
 					controller.moveCursorLeft();
 				} else {
-					log.println("Moving left");
 					controller.movePlayerLeft();
 				}
 				display.repaint();
@@ -136,10 +130,8 @@ public class Messenger {
 		rightAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if(cursorMode) {
-					log.println("Moving cursor right");
 					controller.moveCursorRight();
 				} else {
-					log.println("Moving right");
 					controller.movePlayerRight();
 				}
 				display.repaint();
