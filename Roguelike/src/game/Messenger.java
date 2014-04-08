@@ -14,6 +14,7 @@ import graphics.TileDisplay;
 
 
 
+
 import java.util.Scanner;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -46,6 +47,8 @@ public class Messenger {
 	private Action stairsUp;
 	private Action stairsDown;
 	
+	private Action centerMap;
+	
 	//GUI elements
 	private Frame frame;
 	private PlayerLog log;
@@ -54,6 +57,7 @@ public class Messenger {
 	private boolean cursorMode;
 	
 	
+
 	public Messenger(Controller cont, Player p, Frame frame, TileDisplay tileDisplay, PlayerLog logDisplay, StatusBar statusDisplay) {
 		this.controller = cont;
 		this.player = p;
@@ -224,6 +228,12 @@ public class Messenger {
 			public void actionPerformed(ActionEvent e) {
 				controller.addPlayerEvent(10);
 				controller.stairsDown();
+			}
+		};
+		
+		centerMap = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				controller.centerMapEvent();
 			}
 		};
 	}
@@ -678,6 +688,11 @@ public class Messenger {
 
 	public Action getStairsDown() {
 		return stairsDown;
+	}
+
+
+	public Action getCenterMap() {
+		return centerMap;
 	}
 
 	

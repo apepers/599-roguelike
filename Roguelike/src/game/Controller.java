@@ -553,6 +553,7 @@ public class Controller {
 	 * @param nextPoint
 	 */
 	private void switchMap(StairTile stairs){
+		
 		Point oldPt = stairs.getpA();
 		Point nextPt = stairs.getpB();
 		Map nextMap = stairs.getMapB();
@@ -636,5 +637,9 @@ public class Controller {
 			JOptionPane.showMessageDialog(null, panel, "Game Over", JOptionPane.PLAIN_MESSAGE);
 			endGame();
 		}
+	}
+	
+	public void centerMapEvent(){
+		messenger.centerMap(player.getLocation().getColumn(), player.getLocation().getRow());
 	}
 }
