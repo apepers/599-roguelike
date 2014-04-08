@@ -362,7 +362,7 @@ public class MapRand {
 	 * @param alpha
 	 * @return
 	 */
-	public static double Interpolate(double x0, double x1, double alpha){
+	private static double Interpolate(double x0, double x1, double alpha){
 		return x0 * (1 - alpha) + alpha * x1;
 	}
 

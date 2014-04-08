@@ -3,6 +3,8 @@ package mapGeneration;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import javax.swing.ImageIcon;
+
 import game.Controller;
 import game.Map;
 import graphics.ImageManager;
@@ -22,16 +24,37 @@ public class MapInterpreter {
 
 	private static final int RETRY_COUNT = 100;				//If the retry count exceeds this value, the object being placed is not placed.
 
+	private static final int OCTAVE_COUNT = 4;
+	
+	
+	/**
+	 * Creates a Map with space as the background gradient.
+	 * @param map
+	 * @param registries
+	 * @return
+	 */
+	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries, int difficulty){
+		ImageIcon[] space = {ImageManager.getGlobalRegistry().getTile("space"), ImageManager.getGlobalRegistry().getTile("space")};
 
-	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries){
+		return interpretMap(map, registries, space, difficulty);
+	}
 
+	/**
+	 * Interprets a map and fills it with monsters and items.
+	 * @param map
+	 * @param registries
+	 * @param gradients [0] the base icon for the majority [1] the edge gradient
+	 * @return
+	 */
+	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries, ImageIcon[] gradientImage, int difficulty){
+		
 		if(registries.length < 1){
 			throw new IllegalArgumentException("Cannot interpret map with "+ registries.length + " registries.");
 		}
 
 
 		Map newMap = new Map(map.getWidth(), map.getHeight());
-
+		double[][] gradient = MapRand.randPerlin(map.getWidth(), map.getHeight(), OCTAVE_COUNT);
 		newMap.setPlayerSpawn(map.getPlayerSpawn());
 
 		//for each tile in the map, convert to an entity tile. Images not yet added.
@@ -91,7 +114,7 @@ public class MapInterpreter {
 					Tile stateTile = newMap.getTile(i, j);
 					if (tile == MapTile.BLANK){}
 					else if(tile == MapTile.SPACE){
-						stateTile.setBackground(skin.getTile("space"));
+						stateTile.setBackground(chooseTile(gradientImage, gradient[i][j]));
 					}
 					else if(tile == MapTile.CORRIDOR_FLOOR){
 						stateTile.setBackground(skin.getTile("floor"));
@@ -157,7 +180,7 @@ public class MapInterpreter {
 					stateTile.setBackground(ImageManager.getGlobalRegistry().getTile("blank"));
 				}
 				else if(tile == MapTile.SPACE){
-					stateTile.setBackground(ImageManager.getGlobalRegistry().getTile("space"));
+					stateTile.setBackground(chooseTile(gradientImage, gradient[i][j]));
 				}
 				else if(tile == MapTile.CORRIDOR_FLOOR){
 					stateTile.setBackground(skin.getTile("floor"));
@@ -171,6 +194,27 @@ public class MapInterpreter {
 		return newMap;
 	}
 
+
+	/**
+	 * Chooses a tile from the array based on the double given each
+	 * tile has an uniform chance of being chosen
+	 * assuming the double is uniformily distributed
+	 * @param icons
+	 * @param sample
+	 * @return
+	 */
+	private static ImageIcon chooseTile(ImageIcon[] icons, double sample){
+		double threshold = 1.0 / icons.length;
+		
+		int index = 0;
+		while (threshold < sample){
+			threshold += threshold;
+			index++;
+		}
+		
+		return icons[index];
+	}
+	
 
 	/**
 	 * This method decorates a room with a number of items
