@@ -134,6 +134,8 @@ public class Frame extends JFrame {
 		console.getActionMap().put("question", controller.getMessenger().getQuestionAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
 		console.getActionMap().put("enter", controller.getMessenger().getEnterAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0), "look");
+		console.getActionMap().put("look", controller.getMessenger().getLAction());
 		
 		//arrrow keys
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");

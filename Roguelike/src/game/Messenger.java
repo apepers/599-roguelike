@@ -33,6 +33,7 @@ public class Messenger {
 	private Action dAction;
 	private Action enterAction;
 	private Action questionAction;
+	private Action LAction;
 	
 	private Action upAction;
 	private Action downAction;
@@ -180,6 +181,16 @@ public class Messenger {
 					log.println("Identify what? (Use arrow keys to move and enter to select)");
 					identify();
 					display.repaint();
+				}
+			}
+		};
+		
+		LAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if (cursorMode) {
+					log.println("Invalid key");
+				} else {
+					look();
 				}
 			}
 		};
@@ -409,6 +420,34 @@ public class Messenger {
 		}
 	}	
 	
+	private void look() {
+		Tile location = player.getLocation();
+		String[] weapons = location.getItems().getWeaponTexts();
+		String[] foods = location.getItems().getFoodsTexts();
+		String[] misc = location.getItems().getMiscTexts();
+		int inventoryLength = weapons.length + foods.length + misc.length;
+		if (inventoryLength == 0) 
+			log.println("There is nothing here.");
+		else {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1));
+			if (weapons.length > 0)
+				panel.add(new JLabel("WEAPONS:"));
+			for (String w : weapons)
+				panel.add(new JLabel(w));
+			if (foods.length > 0)
+				panel.add(new JLabel("FOOD:"));
+			for (String f : foods) 
+				panel.add(new JLabel(f));
+			if (misc.length > 0)
+				panel.add(new JLabel("MISC:"));
+			for (String m : misc)
+				panel.add(new JLabel(m));
+			
+			JOptionPane.showMessageDialog(null, panel, "Ground", JOptionPane.PLAIN_MESSAGE);
+		}
+	}
+	
 	// Open a dialog to find out which of the tile's contents the player wishes to pick up.
 	// Note that this method will need alteration to deal with upper case IDs
 	private void pickUpNew() {
@@ -618,6 +657,10 @@ public class Messenger {
 	
 	public Action getQuestionAction() {
 		return questionAction;
+	}
+	
+	public Action getLAction() {
+		return LAction;
 	}
 	
 	public Action getEnterAction() {
