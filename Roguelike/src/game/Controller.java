@@ -383,10 +383,80 @@ public class Controller {
 			moveSentient(player, -1, 0);
 		}
 	}
+	
+	
+	public boolean lineOfSight(Sentient source, Tile destination) {
+		int x = source.getLocation().getColumn();
+		int y = source.getLocation().getRow();
+		int deltaX = destination.getColumn() - x;
+		int deltaY = destination.getRow() - y;
+		int absX = Math.abs(deltaX) * 2;
+		int absY = Math.abs(deltaY) * 2;
+		int signX = (deltaX < 0) ? -1 : ((deltaX > 0) ? 1 : 0);
+		int signY = (deltaY < 0) ? -1 : ((deltaY > 0) ? 1 : 0);
+		int t;
+		
+		// If the line between the two locations is x dominant
+		if(absX > absY) {
+			t = absY - (absX / 2);
+			// Each loop iteration steps one closer to the desination
+			do {
+				if(t >= 0) {
+					y += signY;
+					t -= absX;
+				}
+				x += signX;
+				t += absY;
+				
+				if( (x == destination.getColumn()) && (y == destination.getRow())) {
+					System.out.println(source.getName() + " sees you!");
+					return true;
+				}
+				//System.out.println(x + ", " + y);
+			} while(map.getTile(x, y).isPassable());
+			
+			return false;
+		
+		// Else the line between the two locations is Y dominant
+		} else {
+			t = absX - (absY / 2);
+			// Each loop iteration steps one closer to the desination
+			do {
+				if(t >= 0) {
+					y += signX;
+					t -= absY;
+				}
+				x += signY;
+				t += absX;
+				
+				if( (x == destination.getColumn()) && (y == destination.getRow())) {
+					System.out.println(source.getName() + " sees you!");
+					return true;
+				}
+				//System.out.println(x + ", " + y);
+			} while(map.getTile(x, y).isPassable());
+			
+			return false;
+		}
+		
+		
+		/*
+		if ( (Math.abs(deltaX) + Math.abs(deltaY)) <= this.getSightRange() ) {
+			System.out.println(this.getName() + "sees you!");
+			return true;
+		} else {
+			return false;
+		}
+		*/
+		
+	}
+	
 
 	public void moveRandomly(Sentient s) {
 		ArrayList<Point> directions = new ArrayList<Point>(4);
 		Tile location = s.getLocation();
+		lineOfSight(s, player.getLocation());
+		
 		if (location.getRow() > 0)
 			directions.add(new Point(0, -1));
 		if (location.getRow() < map.getHeight() - 1)

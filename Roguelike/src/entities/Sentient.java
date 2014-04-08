@@ -22,6 +22,7 @@ public abstract class Sentient extends Entity {
 	private int strength;
 	private int dexterity;
 	private int speed;
+	private int sightRange;
 	private Sentient killer = null;
 	
 	public Holdable getItem(Character itemID) {
@@ -157,6 +158,14 @@ public abstract class Sentient extends Entity {
 	
 	public String getPronoun() {
 		return "the " + this.getName();
+	}
+	
+	public int getSightRange() {
+		return sightRange;
+	}
+	
+	public void setSightRange(int range) {
+		sightRange = range;
 	}
 
 	// Return a list version of the inventory

@@ -29,6 +29,7 @@ public class Monster extends Sentient {
 			monster.setBaseDamage(Integer.parseInt(values[7]));
 			monster.setBaseMeleeDescription(values[8]);
 			monster.setDifficulty(Integer.parseInt(values[9]));
+			monster.setSightRange(3);
 			monster.setImage(ImageManager.getGlobalRegistry().getTile("monster"));
 			if (values.length == 11 && values[10] != "") {
 				String[] specials = values[10].split(" ");
@@ -69,4 +70,7 @@ public class Monster extends Sentient {
 	public float getActionCost() {
 		return 20 / this.getSpeed();
 	}
+	
 }
+
+
