@@ -425,22 +425,27 @@ public class Controller {
 			Sentient occupant = nextTile.getOccupant();
 			if (sentientAttack(s, occupant)) {
 				messenger.println(attackerUppercase + " " + s.getBaseMeleeDescription() + " " + occupant.getPronoun());
-				if (occupant.isDead()) {
-					if (s.equals(player)) {
+				if (s.equals(player)) {
+					if (occupant.isDead()) {
 						messenger.println(occupant.getPronoun() + " is slain!");
 						player.giveXP(((Monster)occupant).getDifficulty() * 100);
 						map.removeMonster((Monster)occupant);
 						timeQueue.removeSentient(occupant);
 						messenger.updateTile(newPt);
 					}
+					player.incrementStrength();
 				}
 				updatePlayerStatus();
 			} else {
+				if (occupant.equals(player)) {
+					player.incrementDexterity();
+				}
 				if (attackerUppercase.contains("The"))
 					messenger.println(attackerUppercase + " misses " + occupant.getPronoun());
 				else
 					messenger.println(attackerUppercase + " miss " + occupant.getPronoun());	
 			}
+			updatePlayerStatus();
 		}
 	}
 
@@ -607,6 +612,7 @@ public class Controller {
 			topEventSentient = timeQueue.getNextEvent();
 		}
 		checkGameOver();
+		player.increaseCurrentHP(1);
 	}
 	
 	public void checkGameOver() {

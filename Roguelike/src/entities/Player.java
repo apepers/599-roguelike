@@ -4,12 +4,16 @@
 
 package entities;
 
+import game.Controller;
 import graphics.ImageManager;
 
 @SuppressWarnings("serial")
 public class Player extends Sentient {
 	private int nutrition;
 	private int xp;
+	private int level;
+	private int strIncrement;
+	private int dexIncrement;
 	
 	public Player() {
 		this.setName("You!");
@@ -25,6 +29,9 @@ public class Player extends Sentient {
 		setDexterity(16);
 		setBaseMeleeDescription("hit");
 		xp = 0;
+		level = 1;
+		strIncrement = 0;
+		dexIncrement = 0;
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));
 	}
@@ -41,6 +48,34 @@ public class Player extends Sentient {
 	
 	public void increaseHunger(int hunger) {
 		nutrition -= hunger;
+	}
+	
+	public void increaseCurrentHP(int increase) {
+		setCurrentHP(getCurrentHP() + increase);
+		if (getCurrentHP() > getMaxHP())
+			setCurrentHP(getMaxHP());
+	}
+	
+	public void incrementStrength() {
+		strIncrement++;
+		if (strIncrement >= 15) {
+			strIncrement -= 15;
+			setStrength(getStrength() + 1);
+			Controller.getInstance().getMessenger().println("You feel stronger!");
+		}
+	}
+	
+	public void incrementDexterity() {
+		dexIncrement++;
+		if (dexIncrement >= 5) {
+			dexIncrement -= 5;
+			setDexterity(getDexterity() + 1);
+			Controller.getInstance().getMessenger().println("You feel more nimble!");
+		}
+		if (getDexterity() - 16 >= getSpeed() * 2 - 2) {
+			setSpeed(getSpeed() + 1);
+			Controller.getInstance().getMessenger().println("You feel quicker!");
+		}
 	}
 	
 	@Override
@@ -80,6 +115,15 @@ public class Player extends Sentient {
 	
 	public void giveXP(int amount) {
 		xp += amount;
+		if (xp >= level * 1000) {
+			Controller.getInstance().getMessenger().println("You have levelled up!");
+			this.setMaxHP(getMaxHP() + 15);
+			this.increaseCurrentHP(15);
+			setAttackBonus(getAttackBonus() + 1);
+			setStrength(getStrength() + 1);
+			setDexterity(getDexterity() + 1);
+			level++;
+		}
 	}
 	
 	public int getXP() {
