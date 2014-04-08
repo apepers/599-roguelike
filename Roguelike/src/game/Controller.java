@@ -422,14 +422,24 @@ public class Controller {
 				messenger.centerMap(newPt);
 		} else if (nextTile.isOccupied()) {
 			String attackerUppercase = s.getPronoun().substring(0, 1).toUpperCase() + s.getPronoun().substring(1);
-			if (sentientAttack(s, nextTile.getOccupant())) {
+			Sentient occupant = nextTile.getOccupant();
+			if (sentientAttack(s, occupant)) {
+				messenger.println(attackerUppercase + " " + s.getBaseMeleeDescription() + " " + occupant.getPronoun());
+				if (occupant.isDead()) {
+					if (s.equals(player)) {
+						messenger.println(occupant.getPronoun() + " is slain!");
+						player.giveXP(((Monster)occupant).getDifficulty() * 100);
+						map.removeMonster((Monster)occupant);
+						timeQueue.removeSentient(occupant);
+						messenger.updateTile(newPt);
+					}
+				}
 				updatePlayerStatus();
-				messenger.println(attackerUppercase + " " + s.getBaseMeleeDescription() + " " + nextTile.getOccupant().getPronoun());
 			} else {
 				if (attackerUppercase.contains("The"))
-					messenger.println(attackerUppercase + " misses " + nextTile.getOccupant().getPronoun());
+					messenger.println(attackerUppercase + " misses " + occupant.getPronoun());
 				else
-					messenger.println(attackerUppercase + " miss " + nextTile.getOccupant().getPronoun());	
+					messenger.println(attackerUppercase + " miss " + occupant.getPronoun());	
 			}
 		}
 	}
@@ -567,7 +577,8 @@ public class Controller {
 	}
 	
 	public String playerStatus() {
-		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + ", Nutrition = " + player.hungerText();
+		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + 
+				", Nutrition = " + player.hungerText() + ", XP = " + player.getXP();
 	}
 
 	// Return a random item for the map, given the current depth in the station

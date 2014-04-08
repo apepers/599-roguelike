@@ -54,6 +54,12 @@ public class TimeQueue {
 		return sentientQueue.remove(0);
 	}
 	
+	public void removeSentient(Sentient sentient) {
+		int index = sentientQueue.indexOf(sentient);
+		sentientQueue.remove(index);
+		timeQueue.remove(index);
+	}
+	
 	public void clear() {
 		timeQueue.clear();
 		sentientQueue.clear();

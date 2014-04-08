@@ -93,6 +93,12 @@ public class Map {
 		return monsters.get(i);
 	}
 	
+	public void removeMonster(Monster monster) {
+		monster.getLocation().removeOccupant();
+		monster.setLocation(null);
+		monsters.remove(monster);
+	}
+	
 	public int monsterCount(){
 		return monsters.size();
 	}

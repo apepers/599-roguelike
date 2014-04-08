@@ -9,6 +9,7 @@ import graphics.ImageManager;
 @SuppressWarnings("serial")
 public class Player extends Sentient {
 	private int nutrition;
+	private int xp;
 	
 	public Player() {
 		this.setName("You!");
@@ -23,6 +24,7 @@ public class Player extends Sentient {
 		setSpeed(2);
 		setDexterity(16);
 		setBaseMeleeDescription("hit");
+		xp = 0;
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));
 	}
@@ -48,7 +50,7 @@ public class Player extends Sentient {
 	
 	public String causeOfDeath() {
 		if (this.getCurrentHP() <= 0) 
-			return "You were slain by " + this.getKiller().getName() + ".";
+			return "You were slain by " + this.getKiller().getPronoun() + ".";
 		else if (this.hungerText().equals("Starved"))
 			return "You starved to death.";
 		else
@@ -74,6 +76,14 @@ public class Player extends Sentient {
 			return "Fainting";
 		else
 			return "Starved";
+	}
+	
+	public void giveXP(int amount) {
+		xp += amount;
+	}
+	
+	public int getXP() {
+		return xp;
 	}
 	
 	@Override
