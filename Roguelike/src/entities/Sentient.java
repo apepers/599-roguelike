@@ -22,6 +22,7 @@ public abstract class Sentient extends Entity {
 	private int strength;
 	private int dexterity;
 	private int speed;
+	private Sentient killer = null;
 	
 	public Holdable getItem(Character itemID) {
 		return getInventory().getItem(itemID);
@@ -60,8 +61,14 @@ public abstract class Sentient extends Entity {
 		return attackBonus;
 	}
 	
-	public void takeDamage(int damage) {
+	public void takeDamage(int damage, Sentient attacker) {
 		currentHP -= damage;
+		if (currentHP <= 0)
+			killer = attacker;
+	}
+	
+	public Sentient getKiller() {
+		return killer;
 	}
 	
 	public boolean isDead() {

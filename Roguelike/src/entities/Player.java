@@ -41,6 +41,20 @@ public class Player extends Sentient {
 		nutrition -= hunger;
 	}
 	
+	@Override
+	public boolean isDead() {
+		return (this.getCurrentHP() <= 0 || this.hungerText().equals("Starved"));
+	}
+	
+	public String causeOfDeath() {
+		if (this.getCurrentHP() <= 0) 
+			return "You were slain by " + this.getKiller().getName() + ".";
+		else if (this.hungerText().equals("Starved"))
+			return "You starved to death.";
+		else
+			return "You died of unknown causes.";
+	}
+	
 	public int getNutrition() {
 		return nutrition;
 	}

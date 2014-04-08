@@ -18,8 +18,14 @@ import mapGeneration.MapInterpreter;
 import mapGeneration.MapRand;
 import mapGeneration.SimpleMap;
 
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.io.*;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class Controller {
 	private Player player;
@@ -350,7 +356,7 @@ public class Controller {
 
 	public String playerEat(Food food) {
 		player.increaseNutrition(food.getNutrition());
-		messenger.updateStatus(playerStatus());
+		updatePlayerStatus();
 		return "You eat the " + food.properName()+ ".\n" + food.eatMsg();
 	}
 
@@ -417,6 +423,7 @@ public class Controller {
 		} else if (nextTile.isOccupied()) {
 			String attackerUppercase = s.getPronoun().substring(0, 1).toUpperCase() + s.getPronoun().substring(1);
 			if (sentientAttack(s, nextTile.getOccupant())) {
+				updatePlayerStatus();
 				messenger.println(attackerUppercase + " " + s.getBaseMeleeDescription() + " " + nextTile.getOccupant().getPronoun());
 			} else {
 				if (attackerUppercase.contains("The"))
@@ -548,11 +555,15 @@ public class Controller {
 	public boolean sentientAttack(Sentient attacker, Sentient attackee) {
 		int attackRoll = MapRand.randInt(20) + attacker.getAttack();
 		if (attackRoll >= attackee.getAC()) {
-			attackee.takeDamage(attacker.getMeleeDamage());
+			attackee.takeDamage(attacker.getMeleeDamage(), attacker);
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	public void updatePlayerStatus() {
+		messenger.updateStatus(playerStatus());
 	}
 	
 	public String playerStatus() {
@@ -583,6 +594,20 @@ public class Controller {
 			moveRandomly(topEventSentient);
 			timeQueue.addEventToQueue(topEventSentient, ((Monster) topEventSentient).getActionCost());
 			topEventSentient = timeQueue.getNextEvent();
+		}
+		checkGameOver();
+	}
+	
+	public void checkGameOver() {
+		if (player.isDead()) {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1, 0, 10));
+			
+			panel.add(new JLabel("You have died!"));
+			panel.add(new JLabel(player.causeOfDeath()));
+			
+			JOptionPane.showMessageDialog(null, panel, "Game Over", JOptionPane.PLAIN_MESSAGE);
+			endGame();
 		}
 	}
 }
