@@ -13,6 +13,7 @@ import graphics.StatusBar;
 import graphics.TileDisplay;
 
 
+
 import java.util.Scanner;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -29,6 +30,7 @@ public class Messenger {
 	private Action pAction;
 	private Action iAction;
 	private Action eAction;
+	private Action dAction;
 	private Action enterAction;
 	private Action questionAction;
 	
@@ -102,6 +104,18 @@ public class Messenger {
 						controller.addPlayerEvent(eatTime);
 						controller.playTurn();
 					}
+				}
+			}
+		};
+		
+		dAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if (cursorMode) {
+					log.println("Invalid key");
+				} else {
+					dropNew();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
 				}
 			}
 		};
@@ -393,8 +407,7 @@ public class Messenger {
 			
 			JOptionPane.showMessageDialog(null, panel, "Inventory", JOptionPane.PLAIN_MESSAGE);
 		}
-	}
-	
+	}	
 	
 	// Open a dialog to find out which of the tile's contents the player wishes to pick up.
 	// Note that this method will need alteration to deal with upper case IDs
@@ -475,6 +488,55 @@ public class Messenger {
 		}
 	}
 	
+	public void dropNew() {
+		// Get all available food
+		String[] playerItems = player.getInventory().getItemTexts();
+		if (playerItems.length == 0) {
+			log.println("You have nothing to drop.");
+		} else {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1));
+			final JCheckBox[] checkBoxes = new JCheckBox[playerItems.length];
+			final String idsString = descriptionsToIDString(playerItems);
+			ButtonGroup buttons = new ButtonGroup();
+			// Set up actions for every ID to toggle the appropriate checkbox
+			Action charAction = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					int index = idsString.indexOf(e.getActionCommand());
+					JCheckBox box = checkBoxes[index];
+					box.setSelected(!box.isSelected());
+				}
+			};
+			int itemCount = 0;
+			panel.add(new JLabel("INVENTORY"));
+			for (String f : playerItems) {
+				JCheckBox newBox = new JCheckBox(f);
+				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(itemCount, itemCount+1).toUpperCase()), f);
+				newBox.getActionMap().put(f, charAction);
+				checkBoxes[itemCount] = newBox;
+				panel.add(newBox);
+				itemCount++;
+			}
+			JOptionPane.showMessageDialog(null, panel, "What would you like to drop?", JOptionPane.PLAIN_MESSAGE);
+			for (JCheckBox box : checkBoxes) {
+				if (box.isSelected()) {
+					// Get the selected item
+					Character id = box.getText().charAt(0);
+					Holdable item;
+					try {
+						item = player.getInventory().getItem(id);
+						if (item.isStackable())
+							item = player.getInventory().removeStackedItem(id, 1);
+						else
+							item = player.getInventory().removeItem(id);
+						player.getLocation().addItem(item);
+					} catch (InvalidKeyException e) {
+						log.println("The item you picked was invalid");
+					}
+				}
+			}
+		}
+	}
 	
 	public void identify() {
 		cursorMode = true;
@@ -530,6 +592,10 @@ public class Messenger {
 	
 	public Action getEAction() {
 		return eAction;
+	}
+	
+	public Action getDAction() {
+		return dAction;
 	}
 	
 	public Action getUpAction() {
