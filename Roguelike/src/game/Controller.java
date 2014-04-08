@@ -34,7 +34,9 @@ public class Controller {
 	ArrayList<Food> foods;
 	ArrayList<Monster> monsters;
 	private ItemDuplicator duplicator;
+	
 	private Map map;								//the current map loaded
+	
 	private Messenger messenger;
 	boolean gameRunning;
 	private TimeQueue timeQueue;
@@ -614,7 +616,7 @@ public class Controller {
 	}
 
 	public void playTurn() {
-		/*
+		
 		Sentient topEventSentient = timeQueue.getNextEvent();
 		while (!topEventSentient.equals(player)) {
 			moveRandomly(topEventSentient);
@@ -623,7 +625,7 @@ public class Controller {
 		}
 		checkGameOver();
 		player.increaseCurrentHP(1);
-		*/
+		
 	}
 	
 	public void checkGameOver() {
