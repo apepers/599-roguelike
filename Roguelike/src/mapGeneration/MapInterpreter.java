@@ -24,7 +24,7 @@ public class MapInterpreter {
 
 	private static final int RETRY_COUNT = 100;				//If the retry count exceeds this value, the object being placed is not placed.
 
-	private static final int OCTAVE_COUNT = 4;
+	private static final int OCTAVE_COUNT = 5;
 	
 	
 	/**
@@ -53,6 +53,11 @@ public class MapInterpreter {
 		}
 
 
+		if (gradientImage.length <1){
+			ImageIcon[] temp = {ImageManager.getGlobalRegistry().getTile("blank")};
+			gradientImage = temp;
+		}
+		
 		Map newMap = new Map(map.getWidth(), map.getHeight());
 		double[][] gradient = MapRand.randPerlin(map.getWidth(), map.getHeight(), OCTAVE_COUNT);
 		newMap.setPlayerSpawn(map.getPlayerSpawn());
