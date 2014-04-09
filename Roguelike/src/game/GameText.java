@@ -1,6 +1,5 @@
 package game;
 
-import graphics.ImageRegistry;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,8 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+
 
 /**
  * Gets game text.
