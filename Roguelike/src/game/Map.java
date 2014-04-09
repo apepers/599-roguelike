@@ -19,6 +19,11 @@ public class Map {
 	
 	private ArrayList<Monster> monsters = new ArrayList<Monster>();
 	
+	private String tag;
+	
+
+
+
 	/**
 	 * Creates an empty map of width x height.
 	 * @param width
@@ -105,5 +110,15 @@ public class Map {
 	
 	public int monsterCount(){
 		return monsters.size();
+	}
+	
+	
+	
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 }
