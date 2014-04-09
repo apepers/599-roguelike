@@ -37,6 +37,7 @@ public class Messenger {
 	private Action questionAction;
 	private Action LAction;
 	private Action equipAction;
+	private Action putOnAction;
 	
 	//cursor events
 	private Action upAction;
@@ -140,6 +141,18 @@ public class Messenger {
 				} else {
 					equipWeapon();
 					controller.addPlayerEvent(10);
+					controller.playTurn();
+				}
+			}
+		};
+		
+		putOnAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if (cursorMode) {
+					log.println("Invalid key");
+				} else {
+					equipArmour();
+					controller.addPlayerEvent(30);
 					controller.playTurn();
 				}
 			}
@@ -804,6 +817,10 @@ public class Messenger {
 	
 	public Action getEquipAction() {
 		return equipAction;
+	}
+	
+	public Action getPutOnAction() {
+		return putOnAction;
 	}
 	
 	public Action getUpAction() {
