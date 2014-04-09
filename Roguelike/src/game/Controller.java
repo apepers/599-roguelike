@@ -33,6 +33,7 @@ public class Controller {
 	private Cursor cursor;
 	ArrayList<Food> foods;
 	ArrayList<Monster> monsters;
+	ArrayList<Weapon> weapons;
 	private ItemDuplicator duplicator;
 
 	private Map map;								//the current map loaded
@@ -47,10 +48,13 @@ public class Controller {
 
 		//load the food and monster CSV files.
 		foods = new ArrayList<Food>();
+		weapons = new ArrayList<Weapon>();
 		monsters = new ArrayList<Monster>();
 		try {
 			loadFoods();
 			addFoodDescriptions();
+			loadWeapons();
+			addWeaponDescriptions();
 			loadMonsters();
 			addMonsterDescriptions();
 		} catch (IOException e) {
@@ -240,6 +244,26 @@ public class Controller {
 
 		in.close();
 	}
+	
+	private void loadWeapons() throws IOException {
+		BufferedReader in = null;
+		in = new BufferedReader(new FileReader("src\\weapondata.txt"));
+		String line = in.readLine();
+		if (!headersMatch(Weapon.csvHeaders(), line)) {
+			System.out.println("Error: Weapon section is improperly defined in the headers");
+			System.exit(0);
+		}
+		// Check headers
+		String weapon = in.readLine();
+		while (weapon != null) {
+			Weapon newWeapon = Weapon.createWeaponFromReader(weapon);
+			if (newWeapon != null)
+				weapons.add(newWeapon);
+			weapon = in.readLine();
+		}
+
+		in.close();
+	}
 
 	private void loadMonsters() throws IOException {
 		BufferedReader in = null;
@@ -276,7 +300,22 @@ public class Controller {
 		}
 	}
 
+	/*
+	 * Add descriptions and quotes to already existing weapons
+	 */
+	private void addWeaponDescriptions() throws IOException {
+		HashMap<String, String> descMap = new HashMap<String, String>();
+		descMap = parseDescriptionFile("src\\weaponquotes.txt");
 
+		for(Weapon weapon : weapons) {
+			String name = weapon.getName().toLowerCase();
+			if(descMap.containsKey(name)) {
+				weapon.setDescription(descMap.get(name));
+			}
+		}
+	}
+	
+	
 	/*
 	 * Add descriptions and quotes to already existing monsters
 	 */
@@ -602,8 +641,14 @@ public class Controller {
 	// Return a random item for the map, given the current depth in the station
 	// Currently just returns one of our foods randomly.
 	public Holdable getRandMapItem(int mapIndex) {
-		int randomIndex = MapRand.randInt(foods.size() - 1);
-		return (Holdable)duplicator.duplicate(foods.get(randomIndex));
+		if (MapRand.randInt(7) == 0) {
+			// 1/8 chance of spawning a weapon
+			int randomIndex = MapRand.randInt(weapons.size() - 1);
+			return (Holdable)duplicator.duplicate(weapons.get(randomIndex));
+		} else {
+			int randomIndex = MapRand.randInt(foods.size() - 1);
+			return (Holdable)duplicator.duplicate(foods.get(randomIndex));
+		}
 	}
 
 	public Monster getRandMapMonster(int mapIndex) {

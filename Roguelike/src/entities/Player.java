@@ -4,6 +4,7 @@
 
 package entities;
 
+import mapGeneration.MapRand;
 import game.Controller;
 import graphics.ImageManager;
 
@@ -14,6 +15,7 @@ public class Player extends Sentient {
 	private int level;
 	private int strIncrement;
 	private int dexIncrement;
+	private Weapon equippedWeapon;
 	
 	public Player() {
 		this.setName("You!");
@@ -32,6 +34,7 @@ public class Player extends Sentient {
 		level = 1;
 		strIncrement = 0;
 		dexIncrement = 0;
+		setEquippedWeapon(null);
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));
 	}
@@ -128,6 +131,22 @@ public class Player extends Sentient {
 	
 	public int getXP() {
 		return xp;
+	}
+	
+	public Weapon getEquippedWeapon() {
+		return equippedWeapon;
+	}
+
+	public void setEquippedWeapon(Weapon equippedWeapon) {
+		this.equippedWeapon = equippedWeapon;
+	}
+
+	@Override
+	public int getMeleeDamage() {
+		if (equippedWeapon != null) 
+			return MapRand.randInt(equippedWeapon.getMinDamage(), equippedWeapon.getMaxDamage()) + getStrength() % 10; 
+		else
+			return MapRand.randInt(this.getBaseDamage()) + getStrength() % 10;
 	}
 	
 	@Override
