@@ -143,9 +143,9 @@ public class Player extends Sentient {
 
 	@Override
 	public int getMeleeDamage() {
-		if (equippedWeapon != null) 
+		if (equippedWeapon != null) {
 			return MapRand.randInt(equippedWeapon.getMinDamage(), equippedWeapon.getMaxDamage()) + getStrength() % 10; 
-		else
+		} else
 			return MapRand.randInt(this.getBaseDamage()) + getStrength() % 10;
 	}
 	

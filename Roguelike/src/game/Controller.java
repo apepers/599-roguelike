@@ -485,10 +485,8 @@ public class Controller {
 			if (s.equals(player))
 				messenger.centerMap(newPt);
 		} else if (nextTile.isOccupied()) {
-			String attackerUppercase = s.getPronoun().substring(0, 1).toUpperCase() + s.getPronoun().substring(1);
 			Sentient occupant = nextTile.getOccupant();
 			if (sentientAttack(s, occupant)) {
-				messenger.println(attackerUppercase + " " + s.getBaseMeleeDescription() + " " + occupant.getPronoun());
 				if (s.equals(player)) {
 					if (occupant.isDead()) {
 						messenger.println(occupant.getPronoun() + " is slain!");
@@ -504,10 +502,6 @@ public class Controller {
 				if (occupant.equals(player)) {
 					player.incrementDexterity();
 				}
-				if (attackerUppercase.contains("The"))
-					messenger.println(attackerUppercase + " misses " + occupant.getPronoun());
-				else
-					messenger.println(attackerUppercase + " miss " + occupant.getPronoun());	
 			}
 			updatePlayerStatus();
 		}
@@ -634,10 +628,17 @@ public class Controller {
 
 	public boolean sentientAttack(Sentient attacker, Sentient attackee) {
 		int attackRoll = MapRand.randInt(20) + attacker.getAttack();
+		String attackerUppercase = attacker.getPronoun().substring(0, 1).toUpperCase() + attacker.getPronoun().substring(1);
 		if (attackRoll >= attackee.getAC()) {
-			attackee.takeDamage(attacker.getMeleeDamage(), attacker);
+			int damage = attacker.getMeleeDamage();
+			attackee.takeDamage(damage, attacker);
+			messenger.println(attackerUppercase + " " + attacker.getBaseMeleeDescription() + " " + attackee.getPronoun() + " for " + damage + " damage!");
 			return true;
 		} else {
+			if (attackerUppercase.contains("The"))
+				messenger.println(attackerUppercase + " misses " + attackee.getPronoun());
+			else
+				messenger.println(attackerUppercase + " miss " + attackee.getPronoun());	
 			return false;
 		}
 	}
