@@ -184,9 +184,8 @@ public class Controller {
 		MapInterpreter.linkMaps(m8, m9);
 
 		//create level 10
-		MapGenerator map10 = new BSTMap(75,75, 4);
 		int[] level10Tiles = {10};
-		Map m10 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level10Tiles), 3);
+		Map m10 = new FinalMap(registrySubset(allTiles, level10Tiles).clone()[0]).getMap();
 
 		MapInterpreter.linkMaps(m9, m10);
 
@@ -854,26 +853,6 @@ public class Controller {
 		if(map.getTile(north) instanceof DoorTile){
 			doorLoc = north;
 			activate = (DoorTile) map.getTile(north);
-		}
-		else if(map.getTile(south) instanceof DoorTile){
-			doorLoc = south;
-			activate = (DoorTile) map.getTile(south);
-		}
-		else if(map.getTile(east) instanceof DoorTile){
-			doorLoc = east;
-			activate = (DoorTile) map.getTile(east);
-		}
-		else if(map.getTile(west) instanceof DoorTile){
-			doorLoc = west;
-			activate = (DoorTile) map.getTile(west);
-		}
-		else{
-			messenger.println("There are no doors around you to " + (open ? "open" : "close") + ".");
-		}
-
-
-		//proceed to open door if there is one.
-		if(activate != null){
 			if(open == true){
 				//open door
 				activate.openDoor();
@@ -891,7 +870,81 @@ public class Controller {
 					activate.closeDoor();
 				}
 			}
+			messenger.updateTile(doorLoc);
 		}
+		
+		if(map.getTile(south) instanceof DoorTile){
+			doorLoc = south;
+			activate = (DoorTile) map.getTile(south);
+			if(open == true){
+				//open door
+				activate.openDoor();
+			}
+			else{
+				if (activate.tileFree() == false){
+					//cannot close door if monster in the way.
+					messenger.println("The door seems to be stuck! There's a " + activate.getOccupant().getName() + " in the way!");
+				}
+				else if(activate.getItemCount() > 0){
+					//cannot close door if items in there.
+					messenger.println("The door seems to be stuck! Maybe there are items blocking the way.");
+				}
+				else{
+					activate.closeDoor();
+				}
+			}
+			messenger.updateTile(doorLoc);
+		}
+		if(map.getTile(east) instanceof DoorTile){
+			doorLoc = east;
+			activate = (DoorTile) map.getTile(east);
+			if(open == true){
+				//open door
+				activate.openDoor();
+			}
+			else{
+				if (activate.tileFree() == false){
+					//cannot close door if monster in the way.
+					messenger.println("The door seems to be stuck! There's a " + activate.getOccupant().getName() + " in the way!");
+				}
+				else if(activate.getItemCount() > 0){
+					//cannot close door if items in there.
+					messenger.println("The door seems to be stuck! Maybe there are items blocking the way.");
+				}
+				else{
+					activate.closeDoor();
+				}
+			}
+			messenger.updateTile(doorLoc);
+		}
+		if(map.getTile(west) instanceof DoorTile){
+			doorLoc = west;
+			activate = (DoorTile) map.getTile(west);
+			if(open == true){
+				//open door
+				activate.openDoor();
+			}
+			else{
+				if (activate.tileFree() == false){
+					//cannot close door if monster in the way.
+					messenger.println("The door seems to be stuck! There's a " + activate.getOccupant().getName() + " in the way!");
+				}
+				else if(activate.getItemCount() > 0){
+					//cannot close door if items in there.
+					messenger.println("The door seems to be stuck! Maybe there are items blocking the way.");
+				}
+				else{
+					activate.closeDoor();
+				}
+			}
+			messenger.updateTile(doorLoc);
+		}
+		
+		
+		if (activate == null){
+			messenger.println("There are no doors around you to " + (open ? "open" : "close") + ".");
+		}
+
 		messenger.updateTile(doorLoc);
 	}
 }
