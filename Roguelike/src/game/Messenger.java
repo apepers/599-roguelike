@@ -447,9 +447,10 @@ public class Messenger {
 	// Display the inventory in a popup, or if the player isn't holding anything say so in the log
 	private void viewInventory() {
 		String[] weapons = player.getInventory().getWeaponTexts();
+		String[] armour = player.getInventory().getArmourTexts();
 		String[] foods = player.getInventory().getFoodsTexts();
 		String[] misc = player.getInventory().getMiscTexts();
-		int inventoryLength = weapons.length + foods.length + misc.length;
+		int inventoryLength = weapons.length + armour.length + foods.length + misc.length;
 		if (inventoryLength == 0) {
 			log.println("You are not holding anything");
 		} else {
@@ -459,6 +460,10 @@ public class Messenger {
 				panel.add(new JLabel("WEAPONS:"));
 			for (String w : weapons)
 				panel.add(new JLabel(w));
+			if (armour.length > 0)
+				panel.add(new JLabel("ARMOUR:"));
+			for (String a : armour)
+				panel.add(new JLabel(a));
 			if (foods.length > 0)
 				panel.add(new JLabel("FOOD:"));
 			for (String f : foods)
@@ -475,9 +480,10 @@ public class Messenger {
 	private void look() {
 		Tile location = player.getLocation();
 		String[] weapons = location.getItems().getWeaponTexts();
+		String[] armour = location.getItems().getArmourTexts();
 		String[] foods = location.getItems().getFoodsTexts();
 		String[] misc = location.getItems().getMiscTexts();
-		int inventoryLength = weapons.length + foods.length + misc.length;
+		int inventoryLength = weapons.length + armour.length + foods.length + misc.length;
 		if (inventoryLength == 0) 
 			log.println("There is nothing here.");
 		else {
@@ -487,6 +493,10 @@ public class Messenger {
 				panel.add(new JLabel("WEAPONS:"));
 			for (String w : weapons)
 				panel.add(new JLabel(w));
+			if (armour.length > 0)
+				panel.add(new JLabel("ARMOUR:"));
+			for (String a : armour)
+				panel.add(new JLabel(a));
 			if (foods.length > 0)
 				panel.add(new JLabel("FOOD:"));
 			for (String f : foods) 
@@ -506,9 +516,10 @@ public class Messenger {
 		Tile playerLocation = player.getLocation();
 		final String idsString = playerLocation.getItems().getIDString();
 		String[] weapons = playerLocation.getItems().getWeaponTexts();
+		String[] armour = playerLocation.getItems().getArmourTexts();
 		String[] foods = playerLocation.getItems().getFoodsTexts();
 		String[] misc = playerLocation.getItems().getMiscTexts();
-		int itemLength = weapons.length + foods.length + misc.length;
+		int itemLength = weapons.length + armour.length + foods.length + misc.length;
 		if (itemLength == 0) 
 			log.println("There is nothing here.");
 		else {
@@ -536,6 +547,16 @@ public class Messenger {
 				JCheckBox newBox = new JCheckBox(weapons[i]);
 				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), weapons[i]);
 				newBox.getActionMap().put(weapons[i], charAction);
+				checkBoxes[itemCounter] = newBox;
+				panel.add(newBox);
+				itemCounter++;
+			}
+			if (armour.length > 0)
+				panel.add(new JLabel("ARMOUR:"));
+			for (int i = 0; i < armour.length; i++) {
+				JCheckBox newBox = new JCheckBox(armour[i]);
+				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), armour[i]);
+				newBox.getActionMap().put(armour[i], charAction);
 				checkBoxes[itemCounter] = newBox;
 				panel.add(newBox);
 				itemCounter++;
@@ -586,7 +607,7 @@ public class Messenger {
 	}
 	
 	public void dropNew() {
-		// Get all available food
+		// Get all available items
 		String[] playerItems = player.getInventory().getItemTexts();
 		if (playerItems.length == 0) {
 			log.println("You have nothing to drop.");
