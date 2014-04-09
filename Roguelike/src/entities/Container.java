@@ -188,7 +188,7 @@ public class Container extends Holdable {
 			Character itemID = assignID(item);
 			if (item instanceof Weapon) 
 				weapons.put(itemID, (Weapon) item);
-			if (item instanceof Armour)
+			else if (item instanceof Armour)
 				armours.put(itemID, (Armour) item);
 			else if (item instanceof Food)
 				foods.put(itemID, (Food) item);

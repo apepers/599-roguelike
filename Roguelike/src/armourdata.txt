@@ -1,2 +1,4 @@
 Name,Cost,Weight,AC,Special
 stormtrooper armour,800,10,4,
+power armour,1200,8,6,
+space marine armour,2000,20,10,
