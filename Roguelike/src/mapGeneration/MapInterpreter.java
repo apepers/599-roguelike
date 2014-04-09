@@ -285,13 +285,17 @@ public class MapInterpreter {
 			int j= 0;
 			j = 0;
 			//get new point if there's already a monster on the tile.
-			while ((map.getTile(tempPt.x, tempPt.y) != MapTile.ROOM_FLOOR) && (j < RETRY_COUNT)){
+			while (( (map.getTile(tempPt.x, tempPt.y) != MapTile.ROOM_FLOOR) || (newMap.getTile(tempPt.x, tempPt.y).isOccupied()) ) && (j < RETRY_COUNT) ) {
 				tempPt = MapRand.randPoint(placement);
 				j++;
 			}
 
+			
+			
 			//create monster and add to map.
 			Tile selected = newMap.getTile(tempPt.x, tempPt.y);
+			if(selected.isOccupied())
+				continue;
 			Monster babyMonster = Controller.getInstance().getRandMapMonster(tier);
 			selected.setOccupant(babyMonster);
 			newMap.addMonster(babyMonster);
