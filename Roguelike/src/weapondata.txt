@@ -1,0 +1,2 @@
+Name,Cost,Weight,MinDamage,MaxDamage,DamageMsg,Special
+lightsaber,2000,2,4,20,slices with a hum,

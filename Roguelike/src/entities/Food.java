@@ -4,7 +4,10 @@
 
 package entities;
 
+import javax.swing.ImageIcon;
+
 import graphics.ImageManager;
+import graphics.ImageRegistry;
 
 @SuppressWarnings("serial")
 public class Food extends Holdable {
@@ -29,7 +32,7 @@ public class Food extends Holdable {
 			food.setNutrition(Integer.parseInt(values[3]));
 			food.setTurnsToEat(Integer.parseInt(values[4]));
 			food.setEatMessage(values[5].replaceAll("\\[comma\\]", ","));
-			food.setImage(ImageManager.getGlobalRegistry().getTile("item"));			//TEMPORARY
+			
 			if (values.length == 7 && values[6] != "") {
 				String[] specials = values[6].split(" ");
 				food = Food.applySpecialTraits(food, specials);
@@ -82,7 +85,20 @@ public class Food extends Holdable {
 	public String eatMsg() {
 		return this.getEatMessage();
 	}
+	
+	@Override
+	public ImageIcon getImg(){
+		ImageRegistry reg = ImageManager.getInstance().getTileSet("items");
+		if (reg == null){
+			return null;
+		}
+		else{
+			return reg.getTile(this.getName());
+		}
+	}
 }
+
+
 
 /*
 // The basic food object, with no extra functionality

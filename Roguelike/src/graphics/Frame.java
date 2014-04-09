@@ -122,7 +122,7 @@ public class Frame extends JFrame {
 		// Connect key stroke commands to Messenger actions
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), "quit");
 		console.getActionMap().put("quit", controller.getMessenger().getQuitAction());
-		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "pickup");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, 0), "pickup");
 		console.getActionMap().put("pickup", controller.getMessenger().getPAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_I, 0), "inventory");
 		console.getActionMap().put("inventory", controller.getMessenger().getIAction());
@@ -136,6 +136,10 @@ public class Frame extends JFrame {
 		console.getActionMap().put("enter", controller.getMessenger().getEnterAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0), "look");
 		console.getActionMap().put("look", controller.getMessenger().getLAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "wield");
+		console.getActionMap().put("wield", controller.getMessenger().getEquipAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "put-on");
+		console.getActionMap().put("put-on", controller.getMessenger().getPutOnAction());
 		
 		//arrrow keys
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
@@ -152,11 +156,19 @@ public class Frame extends JFrame {
 		console.getActionMap().put("wait", controller.getMessenger().getWaitAction());
 	
 		//stair use key
-		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, 0), "stair_up");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, KeyEvent.SHIFT_DOWN_MASK), "stair_up");
 		console.getActionMap().put("stair_up", controller.getMessenger().getStairsUp());
-		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, 0), "stair_down");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, KeyEvent.SHIFT_DOWN_MASK), "stair_down");
 		console.getActionMap().put("stair_down", controller.getMessenger().getStairsDown());
 		 
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), "center_map");
+		console.getActionMap().put("center_map", controller.getMessenger().getCenterMap());
+		
+		//open/close door keys
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0), "open_door");
+		console.getActionMap().put("open_door", controller.getMessenger().getOpenDoor());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "close_door");
+		console.getActionMap().put("close_door", controller.getMessenger().getCloseDoor());
 	}
 
 	/**

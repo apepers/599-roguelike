@@ -19,6 +19,11 @@ public class Map {
 	
 	private ArrayList<Monster> monsters = new ArrayList<Monster>();
 	
+	private String tag;
+	
+
+
+
 	/**
 	 * Creates an empty map of width x height.
 	 * @param width
@@ -40,6 +45,10 @@ public class Map {
 
 	public Tile getTile(int i, int j) {
 		return grid[i][j];
+	}
+	
+	public Tile getTile(Point pt){
+		return grid[pt.x][pt.y];
 	}
 
 	public void addRoom(Rectangle room){
@@ -101,5 +110,15 @@ public class Map {
 	
 	public int monsterCount(){
 		return monsters.size();
+	}
+	
+	
+	
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 }

@@ -3,10 +3,13 @@ package mapGeneration;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import javax.swing.ImageIcon;
+
 import game.Controller;
 import game.Map;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
+import entities.DoorTile;
 import entities.Monster;
 import entities.StairTile;
 import entities.Tile;
@@ -22,16 +25,56 @@ public class MapInterpreter {
 
 	private static final int RETRY_COUNT = 100;				//If the retry count exceeds this value, the object being placed is not placed.
 
+	private static final int OCTAVE_COUNT = 5;
+	
+	
+	/**
+	 * Creates a Map with space as the background gradient.
+	 * @param map
+	 * @param registries
+	 * @return
+	 */
+	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries, int difficulty){
+		ImageIcon[] space = {
+				ImageManager.getGlobalRegistry().getTile("space1"),
+				ImageManager.getGlobalRegistry().getTile("space2"),
+				ImageManager.getGlobalRegistry().getTile("space3"),
+				ImageManager.getGlobalRegistry().getTile("space4"),
+				ImageManager.getGlobalRegistry().getTile("space5"),
+				ImageManager.getGlobalRegistry().getTile("space6")
+				};
 
-	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries){
+		return interpretMap(map, registries, space, true, difficulty);
+	}
 
+	/**
+	 * Interprets a map and fills it with monsters and items.
+	 * @param map
+	 * @param registries
+	 * @param gradients [0] the base icon for the majority [1] the edge gradient
+	 * @return
+	 */
+	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries, ImageIcon[] gradientImage, boolean whiteNoise, int difficulty){
+		
 		if(registries.length < 1){
 			throw new IllegalArgumentException("Cannot interpret map with "+ registries.length + " registries.");
 		}
+		
 
+		
+		//generate a gradient for the white noise.
+		double[][] gradient;
 
+		if (whiteNoise == false){
+			//create gradient for tiles.
+			gradient = MapRand.randPerlin(map.getWidth(), map.getHeight(), OCTAVE_COUNT);
+		}
+		else{
+			gradient = MapRand.genWhiteNoise(map.getWidth(), map.getHeight());
+		}
+		
+		
 		Map newMap = new Map(map.getWidth(), map.getHeight());
-
 		newMap.setPlayerSpawn(map.getPlayerSpawn());
 
 		//for each tile in the map, convert to an entity tile. Images not yet added.
@@ -70,8 +113,7 @@ public class MapInterpreter {
 					newTile = TileFactory.makeWall();
 				}
 				else if((tile == MapTile.DOOR_FRONT) || (tile == MapTile.DOOR_LEFT)|| (tile == MapTile.DOOR_RIGHT)){
-					//TODO Doors are passable for now.
-					newTile = TileFactory.makeFloor();
+					newTile = TileFactory.makeDoor(null, null);
 				}
 
 
@@ -91,7 +133,7 @@ public class MapInterpreter {
 					Tile stateTile = newMap.getTile(i, j);
 					if (tile == MapTile.BLANK){}
 					else if(tile == MapTile.SPACE){
-						stateTile.setBackground(skin.getTile("space"));
+						stateTile.setBackground(chooseTile(gradientImage, gradient[i][j]));
 					}
 					else if(tile == MapTile.CORRIDOR_FLOOR){
 						stateTile.setBackground(skin.getTile("floor"));
@@ -126,13 +168,19 @@ public class MapInterpreter {
 						stateTile.setBackground(skin.getTile("floor"));
 					} 
 					else if(tile == MapTile.DOOR_FRONT){
-						stateTile.setBackground(skin.getTile("frontdoorclosed" + MapRand.randInt(1, skin.keyCount("frontdoorclosed"))));
+						DoorTile door = (DoorTile) stateTile;
+						door.setClosedImage(skin.getTile("frontdoorclosed" + MapRand.randInt(1, skin.keyCount("frontdoorclosed"))));
+						door.setOpenedImage(skin.getTile("frontdooropen" + MapRand.randInt(1, skin.keyCount("frontdooropen"))));
 					}
 					else if(tile == MapTile.DOOR_LEFT){
-						stateTile.setBackground(skin.getTile("leftdoorclosed" + MapRand.randInt(1, skin.keyCount("leftdoorclosed"))));
+						DoorTile door = (DoorTile) stateTile;
+						door.setClosedImage(skin.getTile("leftdoorclosed" + MapRand.randInt(1, skin.keyCount("leftdoorclosed"))));
+						door.setOpenedImage(skin.getTile("leftdooropen" + MapRand.randInt(1, skin.keyCount("leftdooropen"))));
 					}
 					else if(tile == MapTile.DOOR_RIGHT){
-						stateTile.setBackground(skin.getTile("rightdoorclosed" + MapRand.randInt(1, skin.keyCount("rightdoorclosed"))));
+						DoorTile door = (DoorTile) stateTile;
+						door.setClosedImage(skin.getTile("rightdoorclosed" + MapRand.randInt(1, skin.keyCount("rightdoorclosed"))));
+						door.setOpenedImage(skin.getTile("rightdooropen" + MapRand.randInt(1, skin.keyCount("rightdooropen"))));
 					}
 				}
 			}
@@ -148,7 +196,7 @@ public class MapInterpreter {
 
 		ImageRegistry skin = registries[MapRand.randInt(registries.length-1)];
 
-		//paint each room with the appropriate tile
+		//go through all tiles and paint them appropraitely.
 		for(int i= 0; i< map.getWidth(); i++){
 			for(int j =0; j < map.getHeight(); j++){
 				MapTile tile = map.getTile(i, j);
@@ -157,7 +205,7 @@ public class MapInterpreter {
 					stateTile.setBackground(ImageManager.getGlobalRegistry().getTile("blank"));
 				}
 				else if(tile == MapTile.SPACE){
-					stateTile.setBackground(ImageManager.getGlobalRegistry().getTile("space"));
+					stateTile.setBackground(chooseTile(gradientImage, gradient[i][j]));
 				}
 				else if(tile == MapTile.CORRIDOR_FLOOR){
 					stateTile.setBackground(skin.getTile("floor"));
@@ -171,6 +219,27 @@ public class MapInterpreter {
 		return newMap;
 	}
 
+
+	
+	/**
+	 * Chooses a tile from the array based on the double given each
+	 * tile has an uniform chance of being chosen
+	 * assuming the double is uniformily distributed
+	 * @param icons
+	 * @param sample
+	 * @return
+	 */
+	private static ImageIcon chooseTile(ImageIcon[] icons, double sample){
+		double threshold = 1.0 / icons.length;
+
+		int index = 0;
+		while (threshold < sample){
+			threshold += threshold;
+			index++;
+		}
+
+		return icons[index];
+	}
 
 	/**
 	 * This method decorates a room with a number of items

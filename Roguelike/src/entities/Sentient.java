@@ -31,7 +31,10 @@ public abstract class Sentient extends Entity {
 	
 	// Add an item to the players inventory
 	public void addItem(Holdable item) {
-		getInventory().addItem(item);
+		if (item.isStackable())
+			getInventory().addStackedItem(item);
+		else
+			getInventory().addItem(item);
 	}
 	
 	// Take an item out of the player's inventory

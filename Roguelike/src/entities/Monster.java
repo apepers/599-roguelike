@@ -1,6 +1,9 @@
 package entities;
 
+import javax.swing.ImageIcon;
+
 import graphics.ImageManager;
+import graphics.ImageRegistry;
 
 public class Monster extends Sentient {
 	private int difficulty;
@@ -30,7 +33,6 @@ public class Monster extends Sentient {
 			monster.setBaseMeleeDescription(values[8]);
 			monster.setSightRange(Integer.parseInt(values[9]));
 			monster.setDifficulty(Integer.parseInt(values[10]));
-			monster.setImage(ImageManager.getGlobalRegistry().getTile("monster"));
 			if (values.length == 12 && values[11] != "") {
 				String[] specials = values[11].split(" ");
 				monster = Monster.applySpecialTraits(monster, specials);
@@ -70,7 +72,18 @@ public class Monster extends Sentient {
 	public float getActionCost() {
 		return 20 / this.getSpeed();
 	}
-	
+
+	@Override
+	public ImageIcon getImg(){
+		ImageRegistry reg = ImageManager.getInstance().getTileSet("monsters");
+		if (reg == null){
+			return null;
+		}
+		else{
+			return reg.getTile(this.getName());
+		}
+
+	}
 }
 
 

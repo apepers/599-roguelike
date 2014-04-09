@@ -40,11 +40,11 @@ public class MapRand {
 		if ((bias < 0.0 )|| (bias > 1.0)){
 			throw new IllegalArgumentException("Invalid bias value: " + bias);
 		}
-		
+
 		int threshold =  (int) (bias * PRECISION);
 		return ((rand.nextInt((int)PRECISION)) <= threshold);
 	}
-	
+
 	/**
 	 * Gets the next random integer
 	 * @return
@@ -75,7 +75,7 @@ public class MapRand {
 		return (rand.nextInt((max-min)+1)+min);
 	}
 
-	
+
 
 	/**
 	 * Returns the next random Point within the bounds
@@ -90,7 +90,7 @@ public class MapRand {
 		return new Point(xPt, yPt);
 	}
 
-	
+
 	/**
 	 * Returns a randomly generated rectangle completely contained
 	 * within the specified rectangle.
@@ -99,10 +99,10 @@ public class MapRand {
 	 * @return
 	 */
 	public static Rectangle randRect(Rectangle rect){
-		
+
 		int x = randInt(rect.x, rect.x + rect.width -1);		
 		int y = randInt(rect.y, rect.y + rect.height -1);
-		
+
 		return new Rectangle(x, y, randInt(1, Math.abs(x - (rect.x + rect.width))), randInt(1, Math.abs(y - (rect.y + rect.height))));
 	}
 
@@ -148,17 +148,17 @@ public class MapRand {
 	 * @return
 	 */
 	public static Point randPerimeter(Rectangle r){
-		
+
 		//height is 1, special case
 		if (r.height <= 1){
 			return randPoint(r);
 		}
-		
+
 		//otherwise height is at least 2, choose along perimeter
 		int perimeter = (2* r.width)+(2*(r.height-2));					//discrete rectangle
-		
+
 		int index = randInt(perimeter-1);		
-		
+
 		//piecewise function
 		if(index < r.width){
 			//top row of rectangle
@@ -176,10 +176,10 @@ public class MapRand {
 			//bottom row of rectangle
 			return new Point(r.x + (index - (r.width + 2*(r.height-2))), r.y + r.height-1);
 		}
-		
+
 		return null;
 	}
-	
+
 	protected enum RectangleSide{
 		TOP,
 		BOTTOM,
@@ -208,8 +208,8 @@ public class MapRand {
 		}
 		return result;
 	}
-	
-	
+
+
 	private static final int ACCURACY = 10000000;
 	/**
 	 * Randomly picks an index according to the array of probabilities given.
@@ -223,24 +223,164 @@ public class MapRand {
 	 * @return An index of the array.
 	 */
 	public static int randArray(double[] probArray){
-		
+
 		int threshold = 0;
 		int randNum = rand.nextInt(ACCURACY-1);
-		
+
 		for (int i =0; i < probArray.length ;i++){
 			threshold += probArray[i] * ACCURACY;
-			
+
 			if(randNum < threshold){
 				return i;
 			}
-			
+
 		}
-	
+
 		//probabilites likely did not add to 1.
 		System.err.println("Warning! Probability array did not add to 1.");
 		return -1;
 	}
+
+
+	//=======================================================================
+	//Perlin noise generator, invented in 1985 by Ken Perlin according to wikipedia
+	//Code based on:
+	//http://devmag.org.za/2009/04/25/perlin-noise/
 	
+	
+	/**
+	 * 
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public static double[][] randPerlin(int width, int height, int octaveCount){
+		double[][] baseNoise = genWhiteNoise(width, height);
+
+		double[][][] smoothNoise = new double[octaveCount][][]; //an array of 2D arrays containing
+
+		double persistance = 0.5f;
+
+		//generate smooth noise
+		for (int i = 0; i < octaveCount; i++)
+		{
+			smoothNoise[i] = GenerateSmoothNoise(baseNoise, i);
+		}
+
+		double[][] perlinNoise = new double[width][height];
+		double amplitude = 1.0f;
+		double totalAmplitude = 0.0f;
+
+		//blend noise together
+		for (int octave = octaveCount - 1; octave >= 0; octave--)
+		{
+			amplitude *= persistance;
+			totalAmplitude += amplitude;
+
+			for (int i = 0; i < width; i++)
+			{
+				for (int j = 0; j < height; j++)
+				{
+					perlinNoise[i][j] += smoothNoise[octave][i][j] * amplitude;
+				}
+			}
+		}
+
+		//normalisation
+		for (int i = 0; i < width; i++)
+		{
+			for (int j = 0; j < height; j++)
+			{
+				perlinNoise[i][j] /= totalAmplitude;
+			}
+		}
+
+		return perlinNoise;
+
+	}
+
+
+	public static double[][] genWhiteNoise(int width, int height){
+		double[][] noise = new double[width][height];
+
+		for (int i=0; i < width; i++){
+			for (int j=0; j < height; j++){
+				noise[i][j] = rand.nextDouble() % 1;
+			}
+		}
+
+
+		return noise;
+	}
+
+
+	private static double[][] GenerateSmoothNoise(double[][] baseNoise, int octave)
+	{
+		int width = baseNoise.length;
+		int height = baseNoise[0].length;
+
+		double[][] smoothNoise = new double[width][height];
+
+		int samplePeriod = 1 << octave; // calculates 2 ^ k
+		double sampleFrequency = 1.0f / samplePeriod;
+
+		for (int i = 0; i < width; i++)
+		{
+			//calculate the horizontal sampling indices
+			int sample_i0 = (i / samplePeriod) * samplePeriod;
+			int sample_i1 = (sample_i0 + samplePeriod) % width; //wrap around
+			double horizontal_blend = (i - sample_i0) * sampleFrequency;
+
+			for (int j = 0; j < height; j++)
+			{
+				//calculate the vertical sampling indices
+				int sample_j0 = (j / samplePeriod) * samplePeriod;
+				int sample_j1 = (sample_j0 + samplePeriod) % height; //wrap around
+				double vertical_blend = (j - sample_j0) * sampleFrequency;
+
+				//blend the top two corners
+				double top = Interpolate(baseNoise[sample_i0][sample_j0],
+						baseNoise[sample_i1][sample_j0], horizontal_blend);
+
+				//blend the bottom two corners
+				double bottom = Interpolate(baseNoise[sample_i0][sample_j1],
+						baseNoise[sample_i1][sample_j1], horizontal_blend);
+
+				//final blend
+				smoothNoise[i][j] = Interpolate(top, bottom, vertical_blend);
+			}
+		}
+
+		return smoothNoise;
+	}
+
+
+	/**
+	 * 
+	 * @param x0
+	 * @param x1
+	 * @param alpha
+	 * @return
+	 */
+	private static double Interpolate(double x0, double x1, double alpha){
+		return x0 * (1 - alpha) + alpha * x1;
+	}
+
+
+
+
+
+
+
+
+	//======================================================================
+	//Rectangle utilities.
+
+
+
+
+
+
 	/**
 	 * Returns a rectangle that represents the original rectangle
 	 * with one layer of border removed.
@@ -256,10 +396,10 @@ public class MapRand {
 	 * dimensions.
 	 */
 	public static Rectangle innerRectangle(Rectangle rect){
-		
+
 		int height = rect.height;
 		int width = rect.width;
-		
+
 		//shrink width if possible.
 		if (height > 2){
 			height -= 2;
@@ -267,14 +407,14 @@ public class MapRand {
 		if (width > 2){
 			width -=2;
 		}
-		
-		
+
+
 		return new Rectangle(rect.x + 1, rect.y+1, width, height);
 	}
 
-	
 
-	
+
+
 	/**
 	 * Returns a rectangle that represents the original rectangle
 	 * with one layer of border added
@@ -313,7 +453,7 @@ public class MapRand {
 		else if(r1.contains(new Point(r2.x + r2.width, r2.y + r2.height))){
 			return true;
 		}
-		
+
 		//check if r1's verticies are contained in r2
 		if (r2.contains(r1.getLocation())){
 			return true;
@@ -327,13 +467,13 @@ public class MapRand {
 		else if(r2.contains(new Point(r1.x + r1.width, r1.y + r1.height))){
 			return true;
 		}
-		
+
 		return false;
 	}
-	
 
-	
-	
+
+
+
 	/**
 	 * Checks if a rectangle has negative coordinates
 	 * or width or height
@@ -353,15 +493,25 @@ public class MapRand {
 		else if (r.height < 0){
 			return false;
 		}
-		
-		
+
+
 		return true;
 	}
-	
-	
-	/*
-	public static void main(String args[]){
 
+
+/*
+	public static void main(String args[]){
+		double[][] noise = randPerlin(30, 30, 3);
+				for (int i =0; i< 30; i++ ){
+					for(int j = 0; j < 30; j++){
+						System.out.print(noise[i][j] + " ");
+
+					}
+					System.out.println("");
+				}
+
+
+		/*
 		double[] prob = {0.028, 0.95, 0.022};
 
 		//randomization test verification.
@@ -370,28 +520,28 @@ public class MapRand {
 		final int TESTS = 10000000;
 		int[] freq = new int[prob.length];
 
-		
+
 		for (int i = 0; i< TESTS ; i++){
 			freq[MapRand.randArray(prob)] ++;
 		}
 
-		
+
 		for (int i =0; i< freq.length; i++ ){
 
 			System.out.println("freq[" + i  +"] = "+ freq[i]);
 		}
-		
+
 		/*
 		Rectangle r = new Rectangle(0,0,10,10);
 		int freqRect[][] = new int[10][10];
-		
+
 		Point chosen = null;
 		for(int i=0; i < TESTS; i++){
 			chosen = randRectEdge(new Rectangle(1,1,3,4), RectangleSide.RIGHT);
 			freqRect[chosen.y][chosen.x]++;
 		}
-		
-		
+
+
 		for (int i =0; i< freqRect.length; i++ ){
 
 			for(int j = 0; j < freqRect[i].length; j++){
@@ -399,8 +549,8 @@ public class MapRand {
 			}
 			System.out.println("");
 		}
-		
+		 
 	}
-	*/
-	 
+*/
+
 }

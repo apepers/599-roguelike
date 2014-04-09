@@ -22,18 +22,23 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.io.*;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+
 
 public class Controller {
 	private Player player;
 	private Cursor cursor;
 	ArrayList<Food> foods;
 	ArrayList<Monster> monsters;
+	ArrayList<Weapon> weapons;
+	ArrayList<Armour> armours;
 	private ItemDuplicator duplicator;
+
 	private Map map;								//the current map loaded
+
 	private Messenger messenger;
 	boolean gameRunning;
 	private TimeQueue timeQueue;
@@ -44,10 +49,16 @@ public class Controller {
 
 		//load the food and monster CSV files.
 		foods = new ArrayList<Food>();
+		weapons = new ArrayList<Weapon>();
 		monsters = new ArrayList<Monster>();
+		armours = new ArrayList<Armour>();
 		try {
 			loadFoods();
 			addFoodDescriptions();
+			loadWeapons();
+			addWeaponDescriptions();
+			loadArmours();
+			addArmourDescriptions();
 			loadMonsters();
 			addMonsterDescriptions();
 		} catch (IOException e) {
@@ -58,6 +69,8 @@ public class Controller {
 		//prepare duplicator and player
 		duplicator = new ItemDuplicator();
 		timeQueue = new TimeQueue();
+		
+		
 	};
 
 	public static Controller getInstance(){
@@ -76,17 +89,8 @@ public class Controller {
 		createMap();
 		resetTimeQueue();
 	}
-	
-	public void resetTimeQueue() {
-		timeQueue.clear();
-		Monster[] monsters = map.getMonsters();
-		for (int i = 0; i < monsters.length; i++) {
-			timeQueue.addEventToQueue(monsters[i], monsters[i].getActionCost());
-		}
-		this.addPlayerEvent(10);
-		this.playTurn();
-	}
 
+	
 	/**
 	 * Creates the map for the entire game. Does all linking
 	 * between maps and sets the player's spawn when starting.
@@ -95,40 +99,50 @@ public class Controller {
 
 		ImageRegistry[] allTiles = ImageManager.getInstance().getAllTileSets("map");
 
+		//create space icons
+		ImageIcon[] lavas = { 
+				ImageManager.getGlobalRegistry().getTile("lava1"),
+				ImageManager.getGlobalRegistry().getTile("space1"),
+				ImageManager.getGlobalRegistry().getTile("lava2")};
+		ImageIcon[] ices = {
+				ImageManager.getGlobalRegistry().getTile("ice1"), 
+				ImageManager.getGlobalRegistry().getTile("space1"),
+				ImageManager.getGlobalRegistry().getTile("ice2")};
 
 		//create level 1
 		MapGenerator map1 = new SimpleMap(20,15,3,3);
-		int[] level1Tiles = {0};
-		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(allTiles, level1Tiles));
+		int[] level1Tiles = {1};
+		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(allTiles, level1Tiles), 1);
 
 		this.map = m1;
 
 
 		//create level 2
 		MapGenerator map2 = new SimpleMap(20,15,3,3);
-		int[] level2Tiles = {1};
-		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles));
-
+		int[] level2Tiles = {4,5};
+		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles), 1);
+		m2.setTag("ch2");
+		
 		MapInterpreter.linkMaps(m1, m2);
 
 		//create level 3
 		MapGenerator map3 = new SimpleMap(20,15,4,4);
-		int[] level3Tiles = {2};
-		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(allTiles, level3Tiles));
+		int[] level3Tiles = {3};
+		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(allTiles, level3Tiles), 1);
 
 		MapInterpreter.linkMaps(m2, m3);
 
 		//create level 4
 		MapGenerator map4 = new SimpleMap(20,15,4,4);
-		int[] level4Tiles = {3};
-		Map m4 = MapInterpreter.interpretMap(map4, registrySubset(allTiles, level4Tiles));
+		int[] level4Tiles = {4};
+		Map m4 = MapInterpreter.interpretMap(map4, registrySubset(allTiles, level4Tiles), 1);
 
 		MapInterpreter.linkMaps(m2, m4);
 
 		//create level 5
-		MapGenerator map5 = new BSTMap(75,75);
-		int[] level5Tiles = {4};
-		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(allTiles, level5Tiles));
+		MapGenerator map5 = new BSTMap(75,75,4);
+		int[] level5Tiles = {5};
+		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(allTiles, level5Tiles), 2);
 
 		MapInterpreter.linkMaps(m3, m5);
 		MapInterpreter.linkMaps(m4, m5);
@@ -136,23 +150,23 @@ public class Controller {
 
 		//=================================================================
 		//create level 6
-		MapGenerator map6 = new BSTMap(75,75);
-		int[] level6Tiles = {5};
-		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles));
+		MapGenerator map6 = new BSTMap(75,75,4);
+		int[] level6Tiles = {6};
+		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles), lavas, false, 2);
 
 		MapInterpreter.linkMaps(m5, m6);
 
 		//create level 7
-		MapGenerator map7 = new BSTMap(75,75);
-		int[] level7Tiles = {6};
-		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(allTiles, level7Tiles));
+		MapGenerator map7 = new BSTMap(75,75,4);
+		int[] level7Tiles = {7};
+		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(allTiles, level7Tiles), 2);
 
 		MapInterpreter.linkMaps(m5, m7);
 
 		//create level 8
-		MapGenerator map8 = new BSTMap(75,75);
-		int[] level8Tiles = {7};
-		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles));
+		MapGenerator map8 = new BSTMap(75,75,4);
+		int[] level8Tiles = {8};
+		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles), ices, false, 2);
 
 		MapInterpreter.linkMaps(m5, m8);
 
@@ -161,18 +175,18 @@ public class Controller {
 
 		//===================================================================
 		//create level 9
-		MapGenerator map9 = new BSTMap(75,75);
-		int[] level9Tiles = {8};
-		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(allTiles, level9Tiles));
+		MapGenerator map9 = new BSTMap(90,90,4);
+		int[] level9Tiles = {9};
+		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(allTiles, level9Tiles), 3);
 
 		MapInterpreter.linkMaps(m6, m9);
 		MapInterpreter.linkMaps(m7, m9);
 		MapInterpreter.linkMaps(m8, m9);
 
 		//create level 10
-		MapGenerator map10 = new BSTMap(75,75);
-		int[] level10Tiles = {9};
-		Map m10 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level10Tiles));
+		MapGenerator map10 = new BSTMap(75,75, 4);
+		int[] level10Tiles = {10};
+		Map m10 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level10Tiles), 3);
 
 		MapInterpreter.linkMaps(m9, m10);
 
@@ -203,11 +217,13 @@ public class Controller {
 	private ImageRegistry[] registrySubset(ImageRegistry[] superSet, int[] indices){
 		ImageRegistry[] subset = new ImageRegistry[indices.length];
 		for (int i = 0; i < indices.length; i++){
-			subset[i] = superSet[indices[i]];
+			subset[i] = superSet[indices[i]-1];
 		}
 
 		return subset;
 	}
+	
+	
 
 	private void loadFoods() throws IOException {
 		BufferedReader in = null;
@@ -224,6 +240,46 @@ public class Controller {
 			if (newFood != null)
 				foods.add(newFood);
 			food = in.readLine();
+		}
+
+		in.close();
+	}
+	
+	private void loadWeapons() throws IOException {
+		BufferedReader in = null;
+		in = new BufferedReader(new FileReader("src\\weapondata.txt"));
+		String line = in.readLine();
+		if (!headersMatch(Weapon.csvHeaders(), line)) {
+			System.out.println("Error: Weapon section is improperly defined in the headers");
+			System.exit(0);
+		}
+		// Check headers
+		String weapon = in.readLine();
+		while (weapon != null) {
+			Weapon newWeapon = Weapon.createWeaponFromReader(weapon);
+			if (newWeapon != null)
+				weapons.add(newWeapon);
+			weapon = in.readLine();
+		}
+
+		in.close();
+	}
+	
+	private void loadArmours() throws IOException {
+		BufferedReader in = null;
+		in = new BufferedReader(new FileReader("src\\armourdata.txt"));
+		String line = in.readLine();
+		if (!headersMatch(Armour.csvHeaders(), line)) {
+			System.out.println("Error: Armour section is improperly defined in the headers");
+			System.exit(0);
+		}
+		// Check headers
+		String armour = in.readLine();
+		while (armour != null) {
+			Armour newArmour = Armour.createArmourFromReader(armour);
+			if (newArmour != null)
+				armours.add(newArmour);
+			armour = in.readLine();
 		}
 
 		in.close();
@@ -247,15 +303,15 @@ public class Controller {
 		}
 		in.close();
 	}
-	
-	
+
+
 	/*
 	 * Add descriptions and quotes to already existing food
 	 */
 	private void addFoodDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
 		descMap = parseDescriptionFile("src\\itemquotes.txt");
-		
+
 		for(Food food : foods) {
 			String name = food.getName().toLowerCase();
 			if(descMap.containsKey(name)) {
@@ -263,7 +319,36 @@ public class Controller {
 			}
 		}
 	}
+
+	/*
+	 * Add descriptions and quotes to already existing weapons
+	 */
+	private void addWeaponDescriptions() throws IOException {
+		HashMap<String, String> descMap = new HashMap<String, String>();
+		descMap = parseDescriptionFile("src\\weaponquotes.txt");
+
+		for(Weapon weapon : weapons) {
+			String name = weapon.getName().toLowerCase();
+			if(descMap.containsKey(name)) {
+				weapon.setDescription(descMap.get(name));
+			}
+		}
+	}
 	
+	/*
+	 * Add descriptions and quotes to already existing weapons
+	 */
+	private void addArmourDescriptions() throws IOException {
+		HashMap<String, String> descMap = new HashMap<String, String>();
+		descMap = parseDescriptionFile("src\\armourquotes.txt");
+
+		for(Armour armour : armours) {
+			String name = armour.getName().toLowerCase();
+			if(descMap.containsKey(name)) {
+				armour.setDescription(descMap.get(name));
+			}
+		}
+	}
 	
 	/*
 	 * Add descriptions and quotes to already existing monsters
@@ -271,7 +356,7 @@ public class Controller {
 	private void addMonsterDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
 		descMap = parseDescriptionFile("src\\monsterquotes.txt");
-		
+
 		for(Monster monster : monsters) {
 			String name = monster.getName().toLowerCase();
 			if(descMap.containsKey(name)) {
@@ -279,8 +364,8 @@ public class Controller {
 			}
 		}
 	}
-	
-	
+
+
 	/*
 	 * Parse through a given description/quotes .txt file and
 	 * convert it into a HashMap with the Entity name as the key
@@ -311,8 +396,19 @@ public class Controller {
 		in.close();
 		return descMap;
 	}
-	
 
+	public void resetTimeQueue() {
+		timeQueue.clear();
+		Monster[] monsters = map.getMonsters();
+		for (int i = 0; i < monsters.length; i++) {
+			timeQueue.addEventToQueue(monsters[i], monsters[i].getActionCost());
+		}
+		this.addPlayerEvent(10);
+		this.playTurn();
+	}
+
+	
+	
 	public void combatTest() {
 		Monster testMonster = getRandMapMonster(0);
 		System.out.println("A wild " + testMonster.getName() +" appears!");
@@ -344,6 +440,13 @@ public class Controller {
 		return true;
 	}
 
+	/**
+	 * Begins the game
+	 */
+	public void startGame(){
+		messenger.showTextDialog(GameText.getText("intro"), "Welcome to Severed Space!");
+	}
+	
 	public void endGame() {
 		gameRunning = false;
 		// Handle any serialization or other game ending logic
@@ -494,10 +597,8 @@ public class Controller {
 			if (s.equals(player))
 				messenger.centerMap(newPt);
 		} else if (nextTile.isOccupied()) {
-			String attackerUppercase = s.getPronoun().substring(0, 1).toUpperCase() + s.getPronoun().substring(1);
 			Sentient occupant = nextTile.getOccupant();
 			if (sentientAttack(s, occupant)) {
-				messenger.println(attackerUppercase + " " + s.getBaseMeleeDescription() + " " + occupant.getPronoun());
 				if (s.equals(player)) {
 					if (occupant.isDead()) {
 						messenger.println(occupant.getPronoun() + " is slain!");
@@ -513,10 +614,6 @@ public class Controller {
 				if (occupant.equals(player)) {
 					player.incrementDexterity();
 				}
-				if (attackerUppercase.contains("The"))
-					messenger.println(attackerUppercase + " misses " + occupant.getPronoun());
-				else
-					messenger.println(attackerUppercase + " miss " + occupant.getPronoun());	
 			}
 			updatePlayerStatus();
 		}
@@ -527,8 +624,8 @@ public class Controller {
 		Point point = new Point(cursor.getLocation().getColumn(), cursor.getLocation().getRow());
 		messenger.drawImage(cursor.getImg(), point);
 	}
-	
-	
+
+
 	public Entity select() {
 		return cursor.getTopEntity();
 	}
@@ -618,10 +715,11 @@ public class Controller {
 	 * @param nextPoint
 	 */
 	private void switchMap(StairTile stairs){
+
 		Point oldPt = stairs.getpA();
 		Point nextPt = stairs.getpB();
 		Map nextMap = stairs.getMapB();
-		
+
 		//set player location
 		Tile nextLocation = nextMap.getTile(nextPt.x, nextPt.y);
 		player.setLocation(nextLocation);
@@ -631,39 +729,64 @@ public class Controller {
 
 		//set the current map
 		this.map = nextMap;
-		
+
 		//update the tile
 		messenger.drawMap(nextMap);
 		messenger.updateTile(nextPt);
 		messenger.centerMap(nextPt);
 		resetTimeQueue();
 
+		//show the chapter text.
+		if (nextMap.getTag() != null){
+			//has text on level entry
+			messenger.showTextDialog(GameText.getText(nextMap.getTag()), "");
+			nextMap.setTag(null);			// delete tag to not repeat.
+			
+		}
+	
 	}
 
 	public boolean sentientAttack(Sentient attacker, Sentient attackee) {
 		int attackRoll = MapRand.randInt(20) + attacker.getAttack();
+		String attackerUppercase = attacker.getPronoun().substring(0, 1).toUpperCase() + attacker.getPronoun().substring(1);
 		if (attackRoll >= attackee.getAC()) {
-			attackee.takeDamage(attacker.getMeleeDamage(), attacker);
+			int damage = attacker.getMeleeDamage();
+			attackee.takeDamage(damage, attacker);
+			messenger.println(attackerUppercase + " " + attacker.getBaseMeleeDescription() + " " + attackee.getPronoun() + " for " + damage + " damage!");
 			return true;
 		} else {
+			if (attackerUppercase.contains("The"))
+				messenger.println(attackerUppercase + " misses " + attackee.getPronoun());
+			else
+				messenger.println(attackerUppercase + " miss " + attackee.getPronoun());	
 			return false;
 		}
 	}
-	
+
 	public void updatePlayerStatus() {
 		messenger.updateStatus(playerStatus());
 	}
-	
+
 	public String playerStatus() {
 		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + 
-				", Nutrition = " + player.hungerText() + ", XP = " + player.getXP();
+				", Armour: " + player.getACBonus() + ", Nutrition = " + player.hungerText() + ", XP = " + player.getXP();
 	}
 
 	// Return a random item for the map, given the current depth in the station
 	// Currently just returns one of our foods randomly.
 	public Holdable getRandMapItem(int mapIndex) {
-		int randomIndex = MapRand.randInt(foods.size() - 1);
-		return (Holdable)duplicator.duplicate(foods.get(randomIndex));
+		int rand = MapRand.randInt(7);
+		if (rand == 0) {
+			// 1/8 chance of spawning a weapon
+			int randomIndex = MapRand.randInt(weapons.size() - 1);
+			return (Holdable)duplicator.duplicate(weapons.get(randomIndex));
+		} else if (rand == 1) {
+			int randomIndex = MapRand.randInt(armours.size() - 1);
+			return (Holdable)duplicator.duplicate(armours.get(randomIndex));
+		} else {
+			int randomIndex = MapRand.randInt(foods.size() - 1);
+			return (Holdable)duplicator.duplicate(foods.get(randomIndex));
+		}
 	}
 
 	public Monster getRandMapMonster(int mapIndex) {
@@ -675,9 +798,11 @@ public class Controller {
 		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
 		player.increaseHunger(actionCost);
 		messenger.updateStatus(playerStatus());
+		messenger.updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
 	}
 
 	public void playTurn() {
+		/*
 		Sentient topEventSentient = timeQueue.getNextEvent();
 		while (!topEventSentient.equals(player)) {
 			moveRandomly(topEventSentient);
@@ -686,18 +811,87 @@ public class Controller {
 		}
 		checkGameOver();
 		player.increaseCurrentHP(1);
+		 */
 	}
-	
+
 	public void checkGameOver() {
 		if (player.isDead()) {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(0, 1, 0, 10));
-			
+
 			panel.add(new JLabel("You have died!"));
 			panel.add(new JLabel(player.causeOfDeath()));
-			
+
 			JOptionPane.showMessageDialog(null, panel, "Game Over", JOptionPane.PLAIN_MESSAGE);
 			endGame();
 		}
+	}
+
+	public void centerMapEvent(){
+		messenger.centerMap(player.getLocation().getColumn(), player.getLocation().getRow());
+	}
+
+	public void openDoorEvent(){
+		doorEvent(true);
+	}
+	public void closeDoorEvent(){
+		doorEvent(false);
+	}
+
+	/**
+	 * Does the door open and close if a door exists for player.
+	 * @param open True to open the door, false to close it.
+	 */
+	private void doorEvent(boolean open){
+		Point doorLoc = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+
+		Point north = new Point(doorLoc.x, doorLoc.y-1);
+		Point south = new Point(doorLoc.x, doorLoc.y+1);
+		Point east = new Point(doorLoc.x+1, doorLoc.y);
+		Point west = new Point(doorLoc.x-1, doorLoc.y);
+
+		DoorTile activate = null;
+		if(map.getTile(north) instanceof DoorTile){
+			doorLoc = north;
+			activate = (DoorTile) map.getTile(north);
+		}
+		else if(map.getTile(south) instanceof DoorTile){
+			doorLoc = south;
+			activate = (DoorTile) map.getTile(south);
+		}
+		else if(map.getTile(east) instanceof DoorTile){
+			doorLoc = east;
+			activate = (DoorTile) map.getTile(east);
+		}
+		else if(map.getTile(west) instanceof DoorTile){
+			doorLoc = west;
+			activate = (DoorTile) map.getTile(west);
+		}
+		else{
+			messenger.println("There are no doors around you to " + (open ? "open" : "close") + ".");
+		}
+
+
+		//proceed to open door if there is one.
+		if(activate != null){
+			if(open == true){
+				//open door
+				activate.openDoor();
+			}
+			else{
+				if (activate.tileFree() == false){
+					//cannot close door if monster in the way.
+					messenger.println("The door seems to be stuck! There's a " + activate.getOccupant().getName() + " in the way!");
+				}
+				else if(activate.getItemCount() > 0){
+					//cannot close door if items in there.
+					messenger.println("The door seems to be stuck! Maybe there are items blocking the way.");
+				}
+				else{
+					activate.closeDoor();
+				}
+			}
+		}
+		messenger.updateTile(doorLoc);
 	}
 }

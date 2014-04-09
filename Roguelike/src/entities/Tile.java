@@ -81,16 +81,6 @@ public class Tile {
 		return item;
 	}
 
-	// Display the contents of the tile from the items list
-	public void displayItems() {
-		if (items.getSize() == 0)
-			System.out.println("There is nothing in this tile");
-		else {
-			System.out.println("Here there is:");
-			items.display();
-		}
-	}
-
 	// Get the sentient currently standing in the square
 	// Returns null if no sentient is on the square.
 	public Sentient getOccupant() {

@@ -211,4 +211,9 @@ public class BSTMap extends MapGenerator {
 		}
 
 	}
+	/*
+	public static void main(String args[]){
+		BSTMap test = new BSTMap(75, 75 ,4);
+	}
+	*/
 }

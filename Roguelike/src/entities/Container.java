@@ -17,51 +17,26 @@ import java.util.Set;
 public class Container extends Holdable {
 	private HashMap<Character, Weapon> weapons = new HashMap<Character, Weapon>();
 	private HashMap<Character, Food> foods = new HashMap<Character, Food>();
+	private HashMap<Character, Armour> armours = new HashMap<Character, Armour>();
 	private HashMap<Character, Holdable> misc = new HashMap<Character, Holdable>();
 	private int size = 0;
 	
-	// Display all items in the container under headers matching their
-	// subtype
-	@Override
-	public void display() {
-		if (size == 0) {
-			System.out.println("There's nothing here!");
-			return;
-		}
-		if (weapons.size() > 0) {
-			System.out.println("Weapons:");
-			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
-			while(iter.hasNext()) {
-				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
-				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
-			}
-		}
-		if (foods.size() > 0) {
-			System.out.println("Consumables:");
-			Iterator<Entry<Character, Food>> iter = foods.entrySet().iterator();
-			while(iter.hasNext()) {
-				Map.Entry<Character, Food> entry = (Map.Entry<Character, Food>)iter.next();
-				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
-			}
-		}
-		if (misc.size() > 0) {
-			System.out.println("Consumables:");
-			Iterator<Entry<Character, Holdable>> iter = misc.entrySet().iterator();
-			while(iter.hasNext()) {
-				Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
-				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
-			}
-		}
-	}
-	
 	// Get an array of strings which contain all item descriptions in the form "id - proper name"
 	public String[] getItemTexts() {
-		String[] itemText = new String[weapons.size() + foods.size() + misc.size()];
+		String[] itemText = new String[weapons.size() + armours.size() + foods.size() + misc.size()];
 		int itemCount = 0;
 		if (weapons.size() > 0) {
 			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
 			while(iter.hasNext()) {
 				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
+				itemText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}
+		}
+		if (armours.size() > 0) {
+			Iterator<Entry<Character, Armour>> iter = armours.entrySet().iterator();
+			while (iter.hasNext()) {
+				Map.Entry<Character, Armour> entry = (Map.Entry<Character, Armour>)iter.next();
 				itemText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
 				itemCount++;
 			}
@@ -97,6 +72,20 @@ public class Container extends Holdable {
 			}			
 		}
 		return weaponText;
+	}
+	
+	public String[] getArmourTexts() {
+		String[] armourText = new String[armours.size()];
+		int itemCount = 0;
+		if (armours.size() > 0) {
+			Iterator<Entry<Character, Armour>> iter = armours.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Armour> entry = (Map.Entry<Character, Armour>)iter.next();
+				armourText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}			
+		}
+		return armourText;
 	}
 	
 	public String[] getFoodsTexts() {
@@ -145,6 +134,10 @@ public class Container extends Holdable {
 		return weapons;
 	}
 	
+	public HashMap<Character, Armour> getArmours() {
+		return armours;
+	}
+	
 	public HashMap<Character, Food> getFood() {
 		return foods;
 	}
@@ -157,6 +150,7 @@ public class Container extends Holdable {
 	public HashMap<Character, Holdable> getAllItems() {
 		HashMap<Character, Holdable> allItems = new HashMap<Character, Holdable>(misc);
 		allItems.putAll(weapons);
+		allItems.putAll(armours);
 		allItems.putAll(foods);
 		return allItems;
 	}
@@ -194,6 +188,8 @@ public class Container extends Holdable {
 			Character itemID = assignID(item);
 			if (item instanceof Weapon) 
 				weapons.put(itemID, (Weapon) item);
+			else if (item instanceof Armour)
+				armours.put(itemID, (Armour) item);
 			else if (item instanceof Food)
 				foods.put(itemID, (Food) item);
 			else
@@ -211,6 +207,19 @@ public class Container extends Holdable {
 			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
 			while(iter.hasNext()) {
 				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
+				if (item.sameItem(entry.getValue())) {
+					entry.getValue().combineStack((Stackable)item);
+					alreadyExists = true;
+				}
+			}
+			if (!alreadyExists) {
+				weapons.put(itemID, (Weapon)item);
+				size++;
+			}
+		} else if (item instanceof Armour) {
+			Iterator<Entry<Character, Armour>> iter = armours.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Armour> entry = (Map.Entry<Character, Armour>)iter.next();
 				if (item.sameItem(entry.getValue())) {
 					entry.getValue().combineStack((Stackable)item);
 					alreadyExists = true;
@@ -262,6 +271,13 @@ public class Container extends Holdable {
 				weapons.remove(itemID);
 				size--;
 			}
+		} else if (armours.containsKey(itemID)) {
+			item = armours.get(itemID);
+			returnItem = item.reduceStack(count);
+			if (item.stackSize() == 0) {
+				armours.remove(itemID);
+				size--;
+			}
 		} else if (foods.containsKey(itemID)) {
 			item = foods.get(itemID);
 			returnItem = item.reduceStack(count);
@@ -288,6 +304,10 @@ public class Container extends Holdable {
 		if(weapons.containsKey(itemID)) {
 			item = weapons.get(itemID);
 			weapons.remove(itemID);
+			size--;
+		} else if (armours.containsKey(itemID)) {
+			item = armours.get(itemID);
+			armours.remove(itemID);
 			size--;
 		} else if (foods.containsKey(itemID)) {
 			item = foods.get(itemID);
