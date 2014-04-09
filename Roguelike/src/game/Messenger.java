@@ -661,6 +661,7 @@ public class Messenger {
 						else
 							item = player.getInventory().removeItem(id);
 						player.getLocation().addItem(item);
+						println("You drop the " + item.properName() + " on the floor.");
 					} catch (InvalidKeyException e) {
 						log.println("The item you picked was invalid");
 					}
@@ -707,6 +708,7 @@ public class Messenger {
 					Weapon weapon;
 					weapon = (Weapon) player.getInventory().getItem(id);
 					player.setEquippedWeapon(weapon);
+					println("You equipped the " + weapon.properName());
 				}
 			}
 		}
@@ -749,6 +751,7 @@ public class Messenger {
 					Armour armour;
 					armour = (Armour) player.getInventory().getItem(id);
 					player.setEquippedArmour(armour);
+					println("You equipped the " + armour.properName());
 				}
 			}
 		}
