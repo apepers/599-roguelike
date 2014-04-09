@@ -649,7 +649,7 @@ public class Controller {
 
 	public String playerStatus() {
 		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + 
-				", Nutrition = " + player.hungerText() + ", XP = " + player.getXP();
+				", Armour: " + player.getNaturalAC() + ", Nutrition = " + player.hungerText() + ", XP = " + player.getXP();
 	}
 
 	// Return a random item for the map, given the current depth in the station
