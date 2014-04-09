@@ -1,5 +1,6 @@
 import entities.Player;
 import game.Controller;
+import game.GameText;
 import game.Messenger;
 import graphics.ImageManager;
 import graphics.PlayerLog;
@@ -19,7 +20,7 @@ public class Driver {
 
 		//load image resources
 		ImageManager.initInstance();
-		
+		GameText.initInstance();
 		//intialize GUI elements
 		TileDisplay tileDisplay = new TileDisplay(300,300);
 		PlayerLog console = new PlayerLog();
@@ -38,6 +39,6 @@ public class Driver {
 		frame.centerMap(player.getLocation().getColumn(), player.getLocation().getRow());
 		
 		
-		//controller.combatTest();
+		controller.startGame();
 	}
 }

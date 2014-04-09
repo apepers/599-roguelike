@@ -345,6 +345,14 @@ public class Messenger {
 		log.println(text);
 	}
 	
+	/**
+	 * Shows a JOption pane with the given text
+	 * @param text
+	 */
+	public void showTextDialog(String text, String title, String confirmButtonText){
+		JOptionPane.showMessageDialog(null, text, title, JOptionPane.OK_OPTION);
+	}
+	
 	// Eat a food item from the current tile or inventory
 	// If the item is stackable, just eats one. Only one food item can be selected.
 	private int eat() {
@@ -694,6 +702,7 @@ public class Messenger {
 		reader.close();
 	}
 	
+
 	//========================================================================================
 	//getters and setters
 	

@@ -65,6 +65,8 @@ public class Controller {
 		//prepare duplicator and player
 		duplicator = new ItemDuplicator();
 		timeQueue = new TimeQueue();
+		
+		
 	};
 
 	public static Controller getInstance(){
@@ -84,16 +86,7 @@ public class Controller {
 		resetTimeQueue();
 	}
 
-	public void resetTimeQueue() {
-		timeQueue.clear();
-		Monster[] monsters = map.getMonsters();
-		for (int i = 0; i < monsters.length; i++) {
-			timeQueue.addEventToQueue(monsters[i], monsters[i].getActionCost());
-		}
-		this.addPlayerEvent(10);
-		this.playTurn();
-	}
-
+	
 	/**
 	 * Creates the map for the entire game. Does all linking
 	 * between maps and sets the player's spawn when starting.
@@ -224,6 +217,8 @@ public class Controller {
 
 		return subset;
 	}
+	
+	
 
 	private void loadFoods() throws IOException {
 		BufferedReader in = null;
@@ -363,7 +358,18 @@ public class Controller {
 		return descMap;
 	}
 
+	public void resetTimeQueue() {
+		timeQueue.clear();
+		Monster[] monsters = map.getMonsters();
+		for (int i = 0; i < monsters.length; i++) {
+			timeQueue.addEventToQueue(monsters[i], monsters[i].getActionCost());
+		}
+		this.addPlayerEvent(10);
+		this.playTurn();
+	}
 
+	
+	
 	public void combatTest() {
 		Monster testMonster = getRandMapMonster(0);
 		System.out.println("A wild " + testMonster.getName() +" appears!");
@@ -395,6 +401,13 @@ public class Controller {
 		return true;
 	}
 
+	/**
+	 * Begins the game
+	 */
+	public void startGame(){
+		messenger.showTextDialog(GameText.getText("intro"), "Welcome to Severed Space!", "");
+	}
+	
 	public void endGame() {
 		gameRunning = false;
 		// Handle any serialization or other game ending logic

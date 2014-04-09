@@ -16,7 +16,7 @@ import java.util.LinkedList;
  */
 public class ImageManager {
 
-	private static final String RESOURCE_PATH = "\\res";
+	private static final String RESOURCE_PATH = System.getProperty("user.dir") + "\\res";
 	private static ImageManager global;
 	
 	
@@ -30,14 +30,14 @@ public class ImageManager {
 	
 	public static ImageManager getInstance(){
 		if (global == null){
-			global = new ImageManager(System.getProperty("user.dir") + RESOURCE_PATH);
+			global = new ImageManager(RESOURCE_PATH);
 		}
 		return global;
 	}
 	
 	public static void initInstance(){
 		if (global == null){
-			global = new ImageManager(System.getProperty("user.dir") + RESOURCE_PATH);
+			global = new ImageManager(RESOURCE_PATH);
 		}
 	}
 	
