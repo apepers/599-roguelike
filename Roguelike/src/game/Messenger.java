@@ -671,11 +671,31 @@ public class Messenger {
 		updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
 	}
 	
+	public void unequipWeapon() {
+		if (player.getEquippedWeapon() == null) {
+			println("You already aren't wielding a weapon.");
+		} else {
+			Weapon w = player.getEquippedWeapon();
+			player.setEquippedWeapon(null);
+			println("You stop wielding the " + w.properName());
+		}
+	}
+	
+	public void unequipArmour() {
+		if (player.getEquippedArmour() == null) {
+			println("You already aren't wearing anything.");
+		} else {
+			Armour a = player.getEquippedArmour();
+			player.setEquippedArmour(null);
+			println("You take off the " + a.properName());
+		}
+	}
+	
 	public void equipWeapon() {
 		// Get all available weapons
 		String[] playerItems = player.getInventory().getWeaponTexts();
 		if (playerItems.length == 0) {
-			log.println("You have nothing to equip.");
+			log.println("You have nothing to wield.");
 		} else {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(0, 1));
@@ -700,15 +720,24 @@ public class Messenger {
 				panel.add(newButton);
 				itemCount++;
 			}
-			JOptionPane.showMessageDialog(null, panel, "What would you like to equip?", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null, panel, "What would you like to wield?", JOptionPane.PLAIN_MESSAGE);
 			for (JRadioButton button : radioButtons) {
 				if (button.isSelected()) {
 					// Get the selected item
 					Character id = button.getText().charAt(0);
 					Weapon weapon;
 					weapon = (Weapon) player.getInventory().getItem(id);
+					if (player.getEquippedWeapon() != null) {
+						if (!player.getEquippedWeapon().equals(weapon)) {
+							unequipWeapon();
+							println("You wield the " + weapon.properName());
+						} else {
+							println("You're already wielding the " + weapon.properName());
+						}
+					} else {
+						println("You wield the " + weapon.properName());
+					}
 					player.setEquippedWeapon(weapon);
-					println("You equipped the " + weapon.properName());
 				}
 			}
 		}
@@ -718,7 +747,7 @@ public class Messenger {
 		// Get all available armour
 		String[] playerItems = player.getInventory().getArmourTexts();
 		if (playerItems.length == 0) {
-			log.println("You have nothing to equip.");
+			log.println("You have nothing to put on.");
 		} else {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(0, 1));
@@ -743,15 +772,24 @@ public class Messenger {
 				panel.add(newButton);
 				itemCount++;
 			}
-			JOptionPane.showMessageDialog(null, panel, "What would you like to equip?", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null, panel, "What would you like to put on?", JOptionPane.PLAIN_MESSAGE);
 			for (JRadioButton button : radioButtons) {
 				if (button.isSelected()) {
 					// Get the selected item
 					Character id = button.getText().charAt(0);
 					Armour armour;
 					armour = (Armour) player.getInventory().getItem(id);
+					if (player.getEquippedArmour() != null) {
+						if (!player.getEquippedArmour().equals(armour)) {
+							unequipArmour();
+							println("You put on the " + armour.properName());
+						} else {
+							println("You've already put on the " + armour.properName());
+						}
+					} else {
+						println("You put on the " + armour.properName());
+					}
 					player.setEquippedArmour(armour);
-					println("You equipped the " + armour.properName());
 				}
 			}
 		}
