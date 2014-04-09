@@ -15,6 +15,7 @@ import graphics.TileDisplay;
 
 
 
+
 import java.util.Scanner;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -35,6 +36,7 @@ public class Messenger {
 	private Action enterAction;
 	private Action questionAction;
 	private Action LAction;
+	private Action equipAction;
 	
 	//cursor events
 	private Action upAction;
@@ -125,6 +127,18 @@ public class Messenger {
 					log.println("Invalid key");
 				} else {
 					dropNew();
+					controller.addPlayerEvent(10);
+					controller.playTurn();
+				}
+			}
+		};
+		
+		equipAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				if (cursorMode) {
+					log.println("Invalid key");
+				} else {
+					equipWeapon();
 					controller.addPlayerEvent(10);
 					controller.playTurn();
 				}
@@ -609,6 +623,48 @@ public class Messenger {
 		updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
 	}
 	
+	public void equipWeapon() {
+		// Get all available weapons
+		String[] playerItems = player.getInventory().getWeaponTexts();
+		if (playerItems.length == 0) {
+			log.println("You have nothing to drop.");
+		} else {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1));
+			final JRadioButton[] radioButtons = new JRadioButton[playerItems.length];
+			final String idsString = descriptionsToIDString(playerItems);
+			ButtonGroup buttons = new ButtonGroup();
+			// Set up actions for every ID to toggle the appropriate checkbox
+			Action charAction = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					int index = idsString.indexOf(e.getActionCommand());
+					JRadioButton button = radioButtons[index];
+					button.setSelected(!button.isSelected());
+				}
+			};
+			int itemCount = 0;
+			panel.add(new JLabel("INVENTORY"));
+			for (String f : playerItems) {
+				JRadioButton newButton = new JRadioButton(f);
+				newButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(itemCount, itemCount+1).toUpperCase()), f);
+				newButton.getActionMap().put(f, charAction);
+				radioButtons[itemCount] = newButton;
+				panel.add(newButton);
+				itemCount++;
+			}
+			JOptionPane.showMessageDialog(null, panel, "What would you like to equip?", JOptionPane.PLAIN_MESSAGE);
+			for (JRadioButton button : radioButtons) {
+				if (button.isSelected()) {
+					// Get the selected item
+					Character id = button.getText().charAt(0);
+					Weapon weapon;
+					weapon = (Weapon) player.getInventory().getItem(id);
+					player.setEquippedWeapon(weapon);
+				}
+			}
+		}
+	}
+	
 	public void identify() {
 		cursorMode = true;
 		controller.createCursor();
@@ -667,6 +723,10 @@ public class Messenger {
 	
 	public Action getDAction() {
 		return dAction;
+	}
+	
+	public Action getEquipAction() {
+		return equipAction;
 	}
 	
 	public Action getUpAction() {

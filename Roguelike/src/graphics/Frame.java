@@ -136,6 +136,8 @@ public class Frame extends JFrame {
 		console.getActionMap().put("enter", controller.getMessenger().getEnterAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_L, 0), "look");
 		console.getActionMap().put("look", controller.getMessenger().getLAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "wield");
+		console.getActionMap().put("wield", controller.getMessenger().getEquipAction());
 		
 		//arrrow keys
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
@@ -163,7 +165,7 @@ public class Frame extends JFrame {
 		//open/close door keys
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0), "open_door");
 		console.getActionMap().put("open_door", controller.getMessenger().getOpenDoor());
-		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), "close_door");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "close_door");
 		console.getActionMap().put("close_door", controller.getMessenger().getCloseDoor());
 	}
 
