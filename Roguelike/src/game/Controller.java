@@ -615,6 +615,7 @@ public class Controller {
 		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
 		player.increaseHunger(actionCost);
 		messenger.updateStatus(playerStatus());
+		messenger.updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
 	}
 
 	public void playTurn() {

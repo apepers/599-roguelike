@@ -555,6 +555,7 @@ public class Messenger {
 				}
 			}
 		}
+		updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
 	}
 	
 	public void dropNew() {
@@ -605,6 +606,7 @@ public class Messenger {
 				}
 			}
 		}
+		updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
 	}
 	
 	public void identify() {
