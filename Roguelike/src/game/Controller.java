@@ -121,7 +121,7 @@ public class Controller {
 		MapGenerator map2 = new SimpleMap(20,15,3,3);
 		int[] level2Tiles = {4,5};
 		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles), 1);
-		m2.setTag("ch2");
+		m2.setTag("Chapter 1");
 		
 		MapInterpreter.linkMaps(m1, m2);
 
@@ -129,7 +129,7 @@ public class Controller {
 		MapGenerator map3 = new SimpleMap(20,15,4,4);
 		int[] level3Tiles = {3};
 		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(allTiles, level3Tiles), 1);
-
+		
 		MapInterpreter.linkMaps(m2, m3);
 
 		//create level 4
@@ -143,7 +143,8 @@ public class Controller {
 		MapGenerator map5 = new BSTMap(75,75,4);
 		int[] level5Tiles = {5};
 		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(allTiles, level5Tiles), 2);
-
+		m5.setTag("Chapter 2");
+		
 		MapInterpreter.linkMaps(m3, m5);
 		MapInterpreter.linkMaps(m4, m5);
 
@@ -153,21 +154,23 @@ public class Controller {
 		MapGenerator map6 = new BSTMap(75,75,4);
 		int[] level6Tiles = {6};
 		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles), lavas, false, 2);
-
+		m6.setTag("Chapter 3a");
+		
 		MapInterpreter.linkMaps(m5, m6);
 
 		//create level 7
 		MapGenerator map7 = new BSTMap(75,75,4);
 		int[] level7Tiles = {7};
 		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(allTiles, level7Tiles), 2);
-
+		
 		MapInterpreter.linkMaps(m5, m7);
 
 		//create level 8
 		MapGenerator map8 = new BSTMap(75,75,4);
 		int[] level8Tiles = {8};
 		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles), ices, false, 2);
-
+		m8.setTag("Chapter 3b");
+		
 		MapInterpreter.linkMaps(m5, m8);
 
 		MapInterpreter.linkMaps(m6, m7);
@@ -185,9 +188,10 @@ public class Controller {
 
 		//create level 10
 		int[] level10Tiles = {10};
-		FinalMap m10 = new FinalMap(registrySubset(allTiles, level10Tiles)[0]);
-		m10.initMap();
-		m10.linkRoom(m1);
+		FinalMap finalMap = new FinalMap(registrySubset(allTiles, level10Tiles)[0]);
+		Map m10 = finalMap.initMap();
+		finalMap.linkRoom(m9);
+		m10.setTag("Final Chapter");
 
 
 
@@ -738,7 +742,7 @@ public class Controller {
 		//show the chapter text.
 		if (nextMap.getTag() != null){
 			//has text on level entry
-			messenger.showTextDialog(GameText.getText(nextMap.getTag()), "");
+			messenger.showTextDialog(GameText.getText(nextMap.getTag()), nextMap.getTag());
 			nextMap.setTag(null);			// delete tag to not repeat.
 			
 		}
