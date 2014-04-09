@@ -102,11 +102,11 @@ public class Controller {
 		//create space icons
 		ImageIcon[] lavas = { 
 				ImageManager.getGlobalRegistry().getTile("lava1"),
-				ImageManager.getGlobalRegistry().getTile("space1"),
+				ImageManager.getGlobalRegistry().getTile("space5"),
 				ImageManager.getGlobalRegistry().getTile("lava2")};
 		ImageIcon[] ices = {
 				ImageManager.getGlobalRegistry().getTile("ice1"), 
-				ImageManager.getGlobalRegistry().getTile("space1"),
+				ImageManager.getGlobalRegistry().getTile("space5"),
 				ImageManager.getGlobalRegistry().getTile("ice2")};
 
 		//create level 1
@@ -185,9 +185,9 @@ public class Controller {
 
 		//create level 10
 		int[] level10Tiles = {10};
-		Map m10 = new FinalMap(registrySubset(allTiles, level10Tiles).clone()[0]).getMap();
-
-		MapInterpreter.linkMaps(m9, m10);
+		FinalMap m10 = new FinalMap(registrySubset(allTiles, level10Tiles)[0]);
+		m10.initMap();
+		m10.linkRoom(m1);
 
 
 
