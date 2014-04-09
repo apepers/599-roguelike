@@ -117,7 +117,8 @@ public class Controller {
 		MapGenerator map2 = new SimpleMap(20,15,3,3);
 		int[] level2Tiles = {4,5};
 		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles), 1);
-
+		m2.setTag("ch2");
+		
 		MapInterpreter.linkMaps(m1, m2);
 
 		//create level 3
@@ -624,6 +625,14 @@ public class Controller {
 		messenger.centerMap(nextPt);
 		resetTimeQueue();
 
+		//show the chapter text.
+		if (nextMap.getTag() != null){
+			//has text on level entry
+			messenger.showTextDialog(GameText.getText(nextMap.getTag()), "");
+			nextMap.setTag(null);			// delete tag to not repeat.
+			
+		}
+	
 	}
 
 	public boolean sentientAttack(Sentient attacker, Sentient attackee) {

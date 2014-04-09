@@ -81,7 +81,7 @@ public class GameText {
 	
 	public static String getText(String key){
 		String text = textMapping.get(key);
-		return ((text == null) ? "" : text);
+		return ((text == null) ? "TEXT NOT FOUND!" : text);
 	}
 	
 	public int getCount(){
