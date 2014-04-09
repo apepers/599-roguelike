@@ -64,7 +64,7 @@ public class MapInterpreter {
 		
 		//generate a gradient for the white noise.
 		double[][] gradient;
-		double[][] spaceGradient = MapRand.genWhiteNoise(map.getWidth(), map.getHeight());
+
 		if (whiteNoise == false){
 			//create gradient for tiles.
 			gradient = MapRand.randPerlin(map.getWidth(), map.getHeight(), OCTAVE_COUNT);
