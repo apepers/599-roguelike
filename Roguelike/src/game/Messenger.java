@@ -67,7 +67,7 @@ public class Messenger {
 	
 	
 
-	public Messenger(Controller cont, Player p, Frame frame, TileDisplay tileDisplay, PlayerLog logDisplay, StatusBar statusDisplay) {
+	public Messenger(Controller cont, Player p, final Frame frame, TileDisplay tileDisplay, PlayerLog logDisplay, StatusBar statusDisplay) {
 		this.controller = cont;
 		this.player = p;
 		this.display = tileDisplay;
@@ -80,9 +80,12 @@ public class Messenger {
 		
 		quitAction = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				reader.close();
-				log.println("Goodbye");	// Not usually seen since it closes too quickly
-				controller.endGame();
+				int confirmation = JOptionPane.showConfirmDialog(frame, "Are you sure you want to quit?", "Exit Game", JOptionPane.YES_NO_OPTION);
+				if (confirmation == JOptionPane.YES_OPTION) {
+					reader.close();
+					log.println("Goodbye");	// Not usually seen since it closes too quickly
+					controller.endGame();
+				}
 			}
 		};
 		
