@@ -32,7 +32,7 @@ public class Monster extends Sentient {
 			monster.setBaseDamage(Integer.parseInt(values[7]));
 			monster.setBaseMeleeDescription(values[8]);
 			monster.setDifficulty(Integer.parseInt(values[9]));
-			monster.setImage(ImageManager.getGlobalRegistry().getTile("monster"));
+			
 			if (values.length == 11 && values[10] != "") {
 				String[] specials = values[10].split(" ");
 				monster = Monster.applySpecialTraits(monster, specials);
@@ -75,7 +75,7 @@ public class Monster extends Sentient {
 
 	@Override
 	public ImageIcon getImg(){
-		ImageRegistry reg = ImageManager.getInstance().getTileSet("monster");
+		ImageRegistry reg = ImageManager.getInstance().getTileSet("monsters");
 		if (reg == null){
 			return null;
 		}

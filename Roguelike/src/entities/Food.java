@@ -7,6 +7,7 @@ package entities;
 import javax.swing.ImageIcon;
 
 import graphics.ImageManager;
+import graphics.ImageRegistry;
 
 @SuppressWarnings("serial")
 public class Food extends Holdable {
@@ -31,7 +32,7 @@ public class Food extends Holdable {
 			food.setNutrition(Integer.parseInt(values[3]));
 			food.setTurnsToEat(Integer.parseInt(values[4]));
 			food.setEatMessage(values[5].replaceAll("\\[comma\\]", ","));
-		
+			
 			if (values.length == 7 && values[6] != "") {
 				String[] specials = values[6].split(" ");
 				food = Food.applySpecialTraits(food, specials);
@@ -87,7 +88,13 @@ public class Food extends Holdable {
 	
 	@Override
 	public ImageIcon getImg(){
-		return ImageManager.getInstance().getTileSet("items").getTile(this.getName());
+		ImageRegistry reg = ImageManager.getInstance().getTileSet("items");
+		if (reg == null){
+			return null;
+		}
+		else{
+			return reg.getTile(this.getName());
+		}
 	}
 }
 
