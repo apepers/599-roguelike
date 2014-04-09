@@ -349,8 +349,8 @@ public class Messenger {
 	 * Shows a JOption pane with the given text
 	 * @param text
 	 */
-	public void showTextDialog(String text, String title, String confirmButtonText){
-		JOptionPane.showMessageDialog(null, text, title, JOptionPane.OK_OPTION);
+	public void showTextDialog(String text, String title){
+		JOptionPane.showMessageDialog(null, text, title, JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	// Eat a food item from the current tile or inventory

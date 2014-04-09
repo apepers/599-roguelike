@@ -405,7 +405,7 @@ public class Controller {
 	 * Begins the game
 	 */
 	public void startGame(){
-		messenger.showTextDialog(GameText.getText("intro"), "Welcome to Severed Space!", "");
+		messenger.showTextDialog(GameText.getText("intro"), "Welcome to Severed Space!");
 	}
 	
 	public void endGame() {
