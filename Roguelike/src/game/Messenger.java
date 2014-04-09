@@ -36,6 +36,7 @@ public class Messenger {
 	private Action questionAction;
 	private Action LAction;
 	
+	//cursor events
 	private Action upAction;
 	private Action downAction;
 	private Action rightAction;
@@ -44,10 +45,15 @@ public class Messenger {
 	private Action waitAction;
 	private Action invalidAction;
 	
+	//stair events
 	private Action stairsUp;
 	private Action stairsDown;
 	
 	private Action centerMap;
+	
+	//door closing events
+	private Action openDoor;
+	private Action closeDoor;
 	
 	//GUI elements
 	private Frame frame;
@@ -234,6 +240,20 @@ public class Messenger {
 		centerMap = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				controller.centerMapEvent();
+			}
+		};
+		
+		openDoor = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				controller.addPlayerEvent(10);
+				controller.openDoorEvent();
+			}
+		};
+		
+		closeDoor = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				controller.addPlayerEvent(10);
+				controller.closeDoorEvent();
 			}
 		};
 	}
@@ -695,5 +715,16 @@ public class Messenger {
 		return centerMap;
 	}
 
+
+	public Action getOpenDoor() {
+		return openDoor;
+	}
+
+
+	public Action getCloseDoor() {
+		return closeDoor;
+	}
+
+	
 	
 }

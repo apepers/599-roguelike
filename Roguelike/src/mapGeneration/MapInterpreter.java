@@ -9,6 +9,7 @@ import game.Controller;
 import game.Map;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
+import entities.DoorTile;
 import entities.Monster;
 import entities.StairTile;
 import entities.Tile;
@@ -112,8 +113,7 @@ public class MapInterpreter {
 					newTile = TileFactory.makeWall();
 				}
 				else if((tile == MapTile.DOOR_FRONT) || (tile == MapTile.DOOR_LEFT)|| (tile == MapTile.DOOR_RIGHT)){
-					//TODO Doors are passable for now.
-					newTile = TileFactory.makeFloor();
+					newTile = TileFactory.makeDoor(null, null);
 				}
 
 
@@ -168,13 +168,19 @@ public class MapInterpreter {
 						stateTile.setBackground(skin.getTile("floor"));
 					} 
 					else if(tile == MapTile.DOOR_FRONT){
-						stateTile.setBackground(skin.getTile("frontdoorclosed" + MapRand.randInt(1, skin.keyCount("frontdoorclosed"))));
+						DoorTile door = (DoorTile) stateTile;
+						door.setClosedImage(skin.getTile("frontdoorclosed" + MapRand.randInt(1, skin.keyCount("frontdoorclosed"))));
+						door.setOpenedImage(skin.getTile("frontdooropen" + MapRand.randInt(1, skin.keyCount("frontdooropen"))));
 					}
 					else if(tile == MapTile.DOOR_LEFT){
-						stateTile.setBackground(skin.getTile("leftdoorclosed" + MapRand.randInt(1, skin.keyCount("leftdoorclosed"))));
+						DoorTile door = (DoorTile) stateTile;
+						door.setClosedImage(skin.getTile("leftdoorclosed" + MapRand.randInt(1, skin.keyCount("leftdoorclosed"))));
+						door.setOpenedImage(skin.getTile("leftdooropen" + MapRand.randInt(1, skin.keyCount("leftdooropen"))));
 					}
 					else if(tile == MapTile.DOOR_RIGHT){
-						stateTile.setBackground(skin.getTile("rightdoorclosed" + MapRand.randInt(1, skin.keyCount("rightdoorclosed"))));
+						DoorTile door = (DoorTile) stateTile;
+						door.setClosedImage(skin.getTile("rightdoorclosed" + MapRand.randInt(1, skin.keyCount("rightdoorclosed"))));
+						door.setOpenedImage(skin.getTile("rightdooropen" + MapRand.randInt(1, skin.keyCount("rightdooropen"))));
 					}
 				}
 			}

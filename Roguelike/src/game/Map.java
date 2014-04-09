@@ -41,6 +41,10 @@ public class Map {
 	public Tile getTile(int i, int j) {
 		return grid[i][j];
 	}
+	
+	public Tile getTile(Point pt){
+		return grid[pt.x][pt.y];
+	}
 
 	public void addRoom(Rectangle room){
 		rooms.add(room);

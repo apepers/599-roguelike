@@ -2,6 +2,8 @@ package entities;
 
 import java.awt.Image;
 
+import javax.swing.ImageIcon;
+
 public class TileFactory {
 
 	private static final Tile BLANK = new Tile();
@@ -24,6 +26,15 @@ public class TileFactory {
 		return new Tile(true);
 	}
 	
+	/**
+	 * Creates a door tile that is intitally closed.
+	 * @param closed
+	 * @param opened
+	 * @return
+	 */
+	public static DoorTile makeDoor(ImageIcon closed, ImageIcon opened){
+		return new DoorTile(closed, opened);
+	}
 	
 	
 	/**

@@ -646,4 +646,58 @@ public class Controller {
 	public void centerMapEvent(){
 		messenger.centerMap(player.getLocation().getColumn(), player.getLocation().getRow());
 	}
+
+	public void openDoorEvent(){
+		doorEvent(true);
+	}
+	public void closeDoorEvent(){
+		doorEvent(false);
+	}
+
+	/**
+	 * Does the door open and close if a door exists for player.
+	 * @param open True to open the door, false to close it.
+	 */
+	private void doorEvent(boolean open){
+		Point doorLoc = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
+
+		Point north = new Point(doorLoc.x, doorLoc.y-1);
+		Point south = new Point(doorLoc.x, doorLoc.y+1);
+		Point east = new Point(doorLoc.x+1, doorLoc.y);
+		Point west = new Point(doorLoc.x-1, doorLoc.y);
+		
+		DoorTile activate = null;
+		if(map.getTile(north) instanceof DoorTile){
+			doorLoc = north;
+			activate = (DoorTile) map.getTile(north);
+		}
+		else if(map.getTile(south) instanceof DoorTile){
+			doorLoc = south;
+			activate = (DoorTile) map.getTile(south);
+		}
+		else if(map.getTile(east) instanceof DoorTile){
+			doorLoc = east;
+			activate = (DoorTile) map.getTile(east);
+		}
+		else if(map.getTile(west) instanceof DoorTile){
+			doorLoc = west;
+			activate = (DoorTile) map.getTile(west);
+		}
+		else{
+			messenger.println("There are no doors around you to " + (open ? "open" : "close") + ".");
+		}
+		
+		
+		//proceed to open door if there is one.
+		if(activate != null){
+			if(open == true){
+				//open door
+				activate.openDoor();
+			}
+			else{
+				activate.closeDoor();
+			}
+		}
+		messenger.updateTile(doorLoc);
+	}
 }

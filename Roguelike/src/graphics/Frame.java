@@ -160,6 +160,11 @@ public class Frame extends JFrame {
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), "center_map");
 		console.getActionMap().put("center_map", controller.getMessenger().getCenterMap());
 		
+		//open/close door keys
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0), "open_door");
+		console.getActionMap().put("open_door", controller.getMessenger().getOpenDoor());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), "close_door");
+		console.getActionMap().put("close_door", controller.getMessenger().getCloseDoor());
 	}
 
 	/**
