@@ -666,7 +666,7 @@ public class Controller {
 		Point south = new Point(doorLoc.x, doorLoc.y+1);
 		Point east = new Point(doorLoc.x+1, doorLoc.y);
 		Point west = new Point(doorLoc.x-1, doorLoc.y);
-		
+
 		DoorTile activate = null;
 		if(map.getTile(north) instanceof DoorTile){
 			doorLoc = north;
@@ -687,8 +687,8 @@ public class Controller {
 		else{
 			messenger.println("There are no doors around you to " + (open ? "open" : "close") + ".");
 		}
-		
-		
+
+
 		//proceed to open door if there is one.
 		if(activate != null){
 			if(open == true){
@@ -696,7 +696,13 @@ public class Controller {
 				activate.openDoor();
 			}
 			else{
-				activate.closeDoor();
+				if (activate.getItemCount() > 0){
+					//cannot close door if items in there.
+					messenger.println("The door seems to be stuck! Maybe there are items blocking the way.");
+				}
+				else{
+					activate.closeDoor();
+				}
 			}
 		}
 		messenger.updateTile(doorLoc);
