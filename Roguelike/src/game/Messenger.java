@@ -640,7 +640,7 @@ public class Messenger {
 		// Get all available weapons
 		String[] playerItems = player.getInventory().getWeaponTexts();
 		if (playerItems.length == 0) {
-			log.println("You have nothing to drop.");
+			log.println("You have nothing to equip.");
 		} else {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(0, 1));
@@ -673,6 +673,48 @@ public class Messenger {
 					Weapon weapon;
 					weapon = (Weapon) player.getInventory().getItem(id);
 					player.setEquippedWeapon(weapon);
+				}
+			}
+		}
+	}
+	
+	public void equipArmour() {
+		// Get all available armour
+		String[] playerItems = player.getInventory().getArmourTexts();
+		if (playerItems.length == 0) {
+			log.println("You have nothing to equip.");
+		} else {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1));
+			final JRadioButton[] radioButtons = new JRadioButton[playerItems.length];
+			final String idsString = descriptionsToIDString(playerItems);
+			ButtonGroup buttons = new ButtonGroup();
+			// Set up actions for every ID to toggle the appropriate checkbox
+			Action charAction = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					int index = idsString.indexOf(e.getActionCommand());
+					JRadioButton button = radioButtons[index];
+					button.setSelected(!button.isSelected());
+				}
+			};
+			int itemCount = 0;
+			panel.add(new JLabel("INVENTORY"));
+			for (String f : playerItems) {
+				JRadioButton newButton = new JRadioButton(f);
+				newButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(itemCount, itemCount+1).toUpperCase()), f);
+				newButton.getActionMap().put(f, charAction);
+				radioButtons[itemCount] = newButton;
+				panel.add(newButton);
+				itemCount++;
+			}
+			JOptionPane.showMessageDialog(null, panel, "What would you like to equip?", JOptionPane.PLAIN_MESSAGE);
+			for (JRadioButton button : radioButtons) {
+				if (button.isSelected()) {
+					// Get the selected item
+					Character id = button.getText().charAt(0);
+					Armour armour;
+					armour = (Armour) player.getInventory().getItem(id);
+					player.setEquippedArmour(armour);
 				}
 			}
 		}

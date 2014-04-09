@@ -16,6 +16,7 @@ public class Player extends Sentient {
 	private int strIncrement;
 	private int dexIncrement;
 	private Weapon equippedWeapon;
+	private Armour equippedArmour;
 	
 	public Player() {
 		this.setName("You!");
@@ -35,6 +36,7 @@ public class Player extends Sentient {
 		strIncrement = 0;
 		dexIncrement = 0;
 		setEquippedWeapon(null);
+		setEquippedArmour(null);
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));
 	}
@@ -141,12 +143,35 @@ public class Player extends Sentient {
 		this.equippedWeapon = equippedWeapon;
 	}
 
+	public Armour getEquippedArmour() {
+		return equippedArmour;
+	}
+
+	public void setEquippedArmour(Armour equippedArmour) {
+		this.equippedArmour = equippedArmour;
+	}
+
+	public int getACBonus() {
+		if (equippedArmour != null)
+			return this.getNaturalAC() + equippedArmour.getAC();
+		else
+			return this.getNaturalAC();
+	}
+	
 	@Override
 	public int getMeleeDamage() {
 		if (equippedWeapon != null) {
 			return MapRand.randInt(equippedWeapon.getMinDamage(), equippedWeapon.getMaxDamage()) + getStrength() % 10; 
 		} else
 			return MapRand.randInt(this.getBaseDamage()) + getStrength() % 10;
+	}
+	
+	@Override
+	public int getAC() {
+		if (equippedArmour != null)
+			return 10 + getNaturalAC() + equippedArmour.getAC() + getDexterity() % 10;
+		else 
+			return 10 + this.getNaturalAC() + this.getDexterity() % 10;
 	}
 	
 	@Override

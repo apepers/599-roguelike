@@ -33,7 +33,7 @@ public class Weapon extends Holdable {
 				weapon = Weapon.applySpecialTraits(weapon, specials);
 			}
 		} catch (Exception e) {
-			System.out.println("Error reading food object");
+			System.out.println("Error reading weapon object");
 			if (weapon.getName() != null)
 				System.out.println(weapon.getName() + " has some incorrect parameter.");
 			return null;

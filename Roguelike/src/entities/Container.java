@@ -17,42 +17,9 @@ import java.util.Set;
 public class Container extends Holdable {
 	private HashMap<Character, Weapon> weapons = new HashMap<Character, Weapon>();
 	private HashMap<Character, Food> foods = new HashMap<Character, Food>();
+	private HashMap<Character, Armour> armours = new HashMap<Character, Armour>();
 	private HashMap<Character, Holdable> misc = new HashMap<Character, Holdable>();
 	private int size = 0;
-	
-	// Display all items in the container under headers matching their
-	// subtype
-	@Override
-	public void display() {
-		if (size == 0) {
-			System.out.println("There's nothing here!");
-			return;
-		}
-		if (weapons.size() > 0) {
-			System.out.println("Weapons:");
-			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
-			while(iter.hasNext()) {
-				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
-				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
-			}
-		}
-		if (foods.size() > 0) {
-			System.out.println("Consumables:");
-			Iterator<Entry<Character, Food>> iter = foods.entrySet().iterator();
-			while(iter.hasNext()) {
-				Map.Entry<Character, Food> entry = (Map.Entry<Character, Food>)iter.next();
-				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
-			}
-		}
-		if (misc.size() > 0) {
-			System.out.println("Consumables:");
-			Iterator<Entry<Character, Holdable>> iter = misc.entrySet().iterator();
-			while(iter.hasNext()) {
-				Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
-				System.out.println(entry.getKey() + " - " + entry.getValue().properName());
-			}
-		}
-	}
 	
 	// Get an array of strings which contain all item descriptions in the form "id - proper name"
 	public String[] getItemTexts() {
@@ -99,6 +66,20 @@ public class Container extends Holdable {
 		return weaponText;
 	}
 	
+	public String[] getArmourTexts() {
+		String[] armourText = new String[armours.size()];
+		int itemCount = 0;
+		if (armours.size() > 0) {
+			Iterator<Entry<Character, Armour>> iter = armours.entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Armour> entry = (Map.Entry<Character, Armour>)iter.next();
+				armourText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemCount++;
+			}			
+		}
+		return armourText;
+	}
+	
 	public String[] getFoodsTexts() {
 		String[] foodText = new String[foods.size()];
 		int itemCount = 0;
@@ -143,6 +124,10 @@ public class Container extends Holdable {
 	
 	public HashMap<Character, Weapon> getWeapons() {
 		return weapons;
+	}
+	
+	public HashMap<Character, Armour> getArmours() {
+		return armours;
 	}
 	
 	public HashMap<Character, Food> getFood() {

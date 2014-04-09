@@ -34,6 +34,7 @@ public class Controller {
 	ArrayList<Food> foods;
 	ArrayList<Monster> monsters;
 	ArrayList<Weapon> weapons;
+	ArrayList<Armour> armours;
 	private ItemDuplicator duplicator;
 
 	private Map map;								//the current map loaded
@@ -50,11 +51,14 @@ public class Controller {
 		foods = new ArrayList<Food>();
 		weapons = new ArrayList<Weapon>();
 		monsters = new ArrayList<Monster>();
+		armours = new ArrayList<Armour>();
 		try {
 			loadFoods();
 			addFoodDescriptions();
 			loadWeapons();
 			addWeaponDescriptions();
+			loadArmours();
+			addArmourDescriptions();
 			loadMonsters();
 			addMonsterDescriptions();
 		} catch (IOException e) {
@@ -260,6 +264,26 @@ public class Controller {
 
 		in.close();
 	}
+	
+	private void loadArmours() throws IOException {
+		BufferedReader in = null;
+		in = new BufferedReader(new FileReader("src\\armourdata.txt"));
+		String line = in.readLine();
+		if (!headersMatch(Armour.csvHeaders(), line)) {
+			System.out.println("Error: Armour section is improperly defined in the headers");
+			System.exit(0);
+		}
+		// Check headers
+		String armour = in.readLine();
+		while (armour != null) {
+			Armour newArmour = Armour.createArmourFromReader(armour);
+			if (newArmour != null)
+				armours.add(newArmour);
+			armour = in.readLine();
+		}
+
+		in.close();
+	}
 
 	private void loadMonsters() throws IOException {
 		BufferedReader in = null;
@@ -311,6 +335,20 @@ public class Controller {
 		}
 	}
 	
+	/*
+	 * Add descriptions and quotes to already existing weapons
+	 */
+	private void addArmourDescriptions() throws IOException {
+		HashMap<String, String> descMap = new HashMap<String, String>();
+		descMap = parseDescriptionFile("src\\armourquotes.txt");
+
+		for(Armour armour : armours) {
+			String name = armour.getName().toLowerCase();
+			if(descMap.containsKey(name)) {
+				armour.setDescription(descMap.get(name));
+			}
+		}
+	}
 	
 	/*
 	 * Add descriptions and quotes to already existing monsters
@@ -658,16 +696,20 @@ public class Controller {
 
 	public String playerStatus() {
 		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + 
-				", Armour: " + player.getNaturalAC() + ", Nutrition = " + player.hungerText() + ", XP = " + player.getXP();
+				", Armour: " + player.getACBonus() + ", Nutrition = " + player.hungerText() + ", XP = " + player.getXP();
 	}
 
 	// Return a random item for the map, given the current depth in the station
 	// Currently just returns one of our foods randomly.
 	public Holdable getRandMapItem(int mapIndex) {
-		if (MapRand.randInt(7) == 0) {
+		int rand = MapRand.randInt(7);
+		if (rand == 0) {
 			// 1/8 chance of spawning a weapon
 			int randomIndex = MapRand.randInt(weapons.size() - 1);
 			return (Holdable)duplicator.duplicate(weapons.get(randomIndex));
+		} else if (rand == 1) {
+			int randomIndex = MapRand.randInt(armours.size() - 1);
+			return (Holdable)duplicator.duplicate(armours.get(randomIndex));
 		} else {
 			int randomIndex = MapRand.randInt(foods.size() - 1);
 			return (Holdable)duplicator.duplicate(foods.get(randomIndex));
