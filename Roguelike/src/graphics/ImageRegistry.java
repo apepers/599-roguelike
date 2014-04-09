@@ -95,7 +95,7 @@ public class ImageRegistry {
 							}
 						}
 						else{
-							System.err.println("Warning! Invalid key->image mapping detected in index file from " + textureDir + " that does not exist.");
+							System.err.println("Warning! Invalid key->image mapping detected in index file from " + textureDir + " that does not exist for file: " + nextLine);
 						}
 
 

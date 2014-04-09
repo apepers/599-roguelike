@@ -34,9 +34,16 @@ public class MapInterpreter {
 	 * @return
 	 */
 	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries, int difficulty){
-		ImageIcon[] space = {ImageManager.getGlobalRegistry().getTile("space"), ImageManager.getGlobalRegistry().getTile("space")};
+		ImageIcon[] space = {
+				ImageManager.getGlobalRegistry().getTile("space1"),
+				ImageManager.getGlobalRegistry().getTile("space2"),
+				ImageManager.getGlobalRegistry().getTile("space3"),
+				ImageManager.getGlobalRegistry().getTile("space4"),
+				ImageManager.getGlobalRegistry().getTile("space5"),
+				ImageManager.getGlobalRegistry().getTile("space6")
+				};
 
-		return interpretMap(map, registries, space, difficulty);
+		return interpretMap(map, registries, space, true, difficulty);
 	}
 
 	/**
@@ -46,20 +53,27 @@ public class MapInterpreter {
 	 * @param gradients [0] the base icon for the majority [1] the edge gradient
 	 * @return
 	 */
-	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries, ImageIcon[] gradientImage, int difficulty){
+	public static Map interpretMap(MapGenerator map, ImageRegistry[] registries, ImageIcon[] gradientImage, boolean whiteNoise, int difficulty){
 		
 		if(registries.length < 1){
 			throw new IllegalArgumentException("Cannot interpret map with "+ registries.length + " registries.");
 		}
+		
 
-
-		if (gradientImage.length <1){
-			ImageIcon[] temp = {ImageManager.getGlobalRegistry().getTile("blank")};
-			gradientImage = temp;
+		
+		//generate a gradient for the white noise.
+		double[][] gradient;
+		double[][] spaceGradient = MapRand.genWhiteNoise(map.getWidth(), map.getHeight());
+		if (whiteNoise == false){
+			//create gradient for tiles.
+			gradient = MapRand.randPerlin(map.getWidth(), map.getHeight(), OCTAVE_COUNT);
+		}
+		else{
+			gradient = MapRand.genWhiteNoise(map.getWidth(), map.getHeight());
 		}
 		
+		
 		Map newMap = new Map(map.getWidth(), map.getHeight());
-		double[][] gradient = MapRand.randPerlin(map.getWidth(), map.getHeight(), OCTAVE_COUNT);
 		newMap.setPlayerSpawn(map.getPlayerSpawn());
 
 		//for each tile in the map, convert to an entity tile. Images not yet added.
@@ -176,7 +190,7 @@ public class MapInterpreter {
 
 		ImageRegistry skin = registries[MapRand.randInt(registries.length-1)];
 
-		//paint each room with the appropriate tile
+		//go through all tiles and paint them appropraitely.
 		for(int i= 0; i< map.getWidth(); i++){
 			for(int j =0; j < map.getHeight(); j++){
 				MapTile tile = map.getTile(i, j);
@@ -200,6 +214,7 @@ public class MapInterpreter {
 	}
 
 
+	
 	/**
 	 * Chooses a tile from the array based on the double given each
 	 * tile has an uniform chance of being chosen
@@ -210,16 +225,15 @@ public class MapInterpreter {
 	 */
 	private static ImageIcon chooseTile(ImageIcon[] icons, double sample){
 		double threshold = 1.0 / icons.length;
-		
+
 		int index = 0;
 		while (threshold < sample){
 			threshold += threshold;
 			index++;
 		}
-		
+
 		return icons[index];
 	}
-	
 
 	/**
 	 * This method decorates a room with a number of items

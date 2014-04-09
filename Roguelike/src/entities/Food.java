@@ -4,6 +4,8 @@
 
 package entities;
 
+import javax.swing.ImageIcon;
+
 import graphics.ImageManager;
 
 @SuppressWarnings("serial")
@@ -82,7 +84,14 @@ public class Food extends Holdable {
 	public String eatMsg() {
 		return this.getEatMessage();
 	}
+	
+	@Override
+	public ImageIcon getImg(){
+		return ImageManager.getInstance().getTileSet("items").getTile(this.getName());
+	}
 }
+
+
 
 /*
 // The basic food object, with no extra functionality

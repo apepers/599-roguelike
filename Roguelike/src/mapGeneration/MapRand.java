@@ -300,7 +300,7 @@ public class MapRand {
 	}
 
 
-	private static double[][] genWhiteNoise(int width, int height){
+	public static double[][] genWhiteNoise(int width, int height){
 		double[][] noise = new double[width][height];
 
 		for (int i=0; i < width; i++){

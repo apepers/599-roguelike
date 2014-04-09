@@ -1,6 +1,9 @@
 package entities;
 
+import javax.swing.ImageIcon;
+
 import graphics.ImageManager;
+import graphics.ImageRegistry;
 
 public class Monster extends Sentient {
 	private int difficulty;
@@ -68,5 +71,17 @@ public class Monster extends Sentient {
 	// When there is AI, the monster will have a next action saved and this will return its cost
 	public float getActionCost() {
 		return 20 / this.getSpeed();
+	}
+
+	@Override
+	public ImageIcon getImg(){
+		ImageRegistry reg = ImageManager.getInstance().getTileSet("monster");
+		if (reg == null){
+			return null;
+		}
+		else{
+			return reg.getTile(this.getName());
+		}
+
 	}
 }

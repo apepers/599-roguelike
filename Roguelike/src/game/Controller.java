@@ -34,9 +34,9 @@ public class Controller {
 	ArrayList<Food> foods;
 	ArrayList<Monster> monsters;
 	private ItemDuplicator duplicator;
-	
+
 	private Map map;								//the current map loaded
-	
+
 	private Messenger messenger;
 	boolean gameRunning;
 	private TimeQueue timeQueue;
@@ -79,7 +79,7 @@ public class Controller {
 		createMap();
 		resetTimeQueue();
 	}
-	
+
 	public void resetTimeQueue() {
 		timeQueue.clear();
 		Monster[] monsters = map.getMonsters();
@@ -97,13 +97,15 @@ public class Controller {
 	private void createMap(){
 
 		ImageRegistry[] allTiles = ImageManager.getInstance().getAllTileSets("map");
+
+		//create space icons
 		ImageIcon[] lavas = { 
 				ImageManager.getGlobalRegistry().getTile("lava1"),
-				ImageManager.getGlobalRegistry().getTile("space"),
+				ImageManager.getGlobalRegistry().getTile("space1"),
 				ImageManager.getGlobalRegistry().getTile("lava2")};
 		ImageIcon[] ices = {
 				ImageManager.getGlobalRegistry().getTile("ice1"), 
-				ImageManager.getGlobalRegistry().getTile("space"),
+				ImageManager.getGlobalRegistry().getTile("space1"),
 				ImageManager.getGlobalRegistry().getTile("ice2")};
 
 		//create level 1
@@ -148,7 +150,7 @@ public class Controller {
 		//create level 6
 		MapGenerator map6 = new BSTMap(75,75,4);
 		int[] level6Tiles = {4};
-		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles), lavas, 2);
+		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles), lavas, false, 2);
 
 		MapInterpreter.linkMaps(m5, m6);
 
@@ -162,7 +164,7 @@ public class Controller {
 		//create level 8
 		MapGenerator map8 = new BSTMap(75,75,4);
 		int[] level8Tiles = {7};
-		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles), ices, 2);
+		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles), ices, false, 2);
 
 		MapInterpreter.linkMaps(m5, m8);
 
@@ -257,15 +259,15 @@ public class Controller {
 		}
 		in.close();
 	}
-	
-	
+
+
 	/*
 	 * Add descriptions and quotes to already existing food
 	 */
 	private void addFoodDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
 		descMap = parseDescriptionFile("src\\itemquotes.txt");
-		
+
 		for(Food food : foods) {
 			String name = food.getName().toLowerCase();
 			if(descMap.containsKey(name)) {
@@ -273,15 +275,15 @@ public class Controller {
 			}
 		}
 	}
-	
-	
+
+
 	/*
 	 * Add descriptions and quotes to already existing monsters
 	 */
 	private void addMonsterDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
 		descMap = parseDescriptionFile("src\\monsterquotes.txt");
-		
+
 		for(Monster monster : monsters) {
 			String name = monster.getName().toLowerCase();
 			if(descMap.containsKey(name)) {
@@ -289,8 +291,8 @@ public class Controller {
 			}
 		}
 	}
-	
-	
+
+
 	/*
 	 * Parse through a given description/quotes .txt file and
 	 * convert it into a HashMap with the Entity name as the key
@@ -321,7 +323,7 @@ public class Controller {
 		in.close();
 		return descMap;
 	}
-	
+
 
 	public void combatTest() {
 		Monster testMonster = getRandMapMonster(0);
@@ -464,8 +466,8 @@ public class Controller {
 		Point point = new Point(cursor.getLocation().getColumn(), cursor.getLocation().getRow());
 		messenger.drawImage(cursor.getImg(), point);
 	}
-	
-	
+
+
 	public Entity select() {
 		return cursor.getTopEntity();
 	}
@@ -555,11 +557,11 @@ public class Controller {
 	 * @param nextPoint
 	 */
 	private void switchMap(StairTile stairs){
-		
+
 		Point oldPt = stairs.getpA();
 		Point nextPt = stairs.getpB();
 		Map nextMap = stairs.getMapB();
-		
+
 		//set player location
 		Tile nextLocation = nextMap.getTile(nextPt.x, nextPt.y);
 		player.setLocation(nextLocation);
@@ -569,7 +571,7 @@ public class Controller {
 
 		//set the current map
 		this.map = nextMap;
-		
+
 		//update the tile
 		messenger.drawMap(nextMap);
 		messenger.updateTile(nextPt);
@@ -587,11 +589,11 @@ public class Controller {
 			return false;
 		}
 	}
-	
+
 	public void updatePlayerStatus() {
 		messenger.updateStatus(playerStatus());
 	}
-	
+
 	public String playerStatus() {
 		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + 
 				", Nutrition = " + player.hungerText() + ", XP = " + player.getXP();
@@ -616,7 +618,7 @@ public class Controller {
 	}
 
 	public void playTurn() {
-		
+		/*
 		Sentient topEventSentient = timeQueue.getNextEvent();
 		while (!topEventSentient.equals(player)) {
 			moveRandomly(topEventSentient);
@@ -625,22 +627,22 @@ public class Controller {
 		}
 		checkGameOver();
 		player.increaseCurrentHP(1);
-		
+		 */
 	}
-	
+
 	public void checkGameOver() {
 		if (player.isDead()) {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(0, 1, 0, 10));
-			
+
 			panel.add(new JLabel("You have died!"));
 			panel.add(new JLabel(player.causeOfDeath()));
-			
+
 			JOptionPane.showMessageDialog(null, panel, "Game Over", JOptionPane.PLAIN_MESSAGE);
 			endGame();
 		}
 	}
-	
+
 	public void centerMapEvent(){
 		messenger.centerMap(player.getLocation().getColumn(), player.getLocation().getRow());
 	}
