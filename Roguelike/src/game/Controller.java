@@ -395,13 +395,16 @@ public class Controller {
 		int signX = (deltaX < 0) ? -1 : ((deltaX > 0) ? 1 : 0);
 		int signY = (deltaY < 0) ? -1 : ((deltaY > 0) ? 1 : 0);
 		int t;
+
+		if ((absX + absY) > (source.getSightRange() * 2))
+			return false;
 		
 		// If the line between the two locations is x dominant
-		if(absX > absY) {
+		if(absX >= absY) {
 			t = absY - (absX / 2);
 			// Each loop iteration steps one closer to the desination
 			do {
-				if(t >= 0) {
+				if((t >= 0) && ((t != 0) || (signX > 0))) {
 					y += signY;
 					t -= absX;
 				}
@@ -422,11 +425,11 @@ public class Controller {
 			t = absX - (absY / 2);
 			// Each loop iteration steps one closer to the desination
 			do {
-				if(t >= 0) {
-					y += signX;
+				if((t >= 0) && ((t != 0) || (signX > 0))) {
+					x += signX;
 					t -= absY;
 				}
-				x += signY;
+				y += signY;
 				t += absX;
 				
 				if( (x == destination.getColumn()) && (y == destination.getRow())) {

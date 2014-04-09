@@ -1,6 +1,6 @@
-Name,HP,NaturalArmour,Strength,Dexterity,Speed,AttackBonus,BaseMeleeDamage,BaseMeleeDescription,Difficulty,Special
-Grid Bug,5,1,10,10,1,0,2,zaps,1,
-Morlock,6,0,8,12,2,0,4,hits,1,
-The Hound,10,4,14,3,8,2,6,hits,2,
-Fireman,10,1,12,12,2,1,4,punches,1,
-Recognizer,25,4,16,12,2,4,8,stomps,4,
+Name,HP,NaturalArmour,Strength,Dexterity,Speed,AttackBonus,BaseMeleeDamage,BaseMeleeDescription,SightRange,Difficulty,Special
+Grid Bug,5,1,10,10,1,0,2,zaps,5,1,
+Morlock,6,0,8,12,2,0,4,hits,3,1,
+The Hound,10,4,14,3,8,2,6,hits,8,2,
+Fireman,10,1,12,12,2,1,4,punches,5,1,
+Recognizer,25,4,16,12,2,4,8,stomps,6,4,
