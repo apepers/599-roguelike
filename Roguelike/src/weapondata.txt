@@ -1,2 +1,10 @@
 Name,Cost,Weight,MinDamage,MaxDamage,DamageMsg,Special
-lightsaber,2000,2,4,20,slices with a hum,
+lightsaber,2000,2,4,20,hums as it slices,
+bat'leth,1500,5,2,12,slices,
+pneumatic glove,200,2,1,8,shoots forward and punches,
+shock whip,300,1,2,8,zaps,
+vibroblade,200,1,1,10,vibrates as it slices,
+hydrospanner,50,2,1,6,thumps,
+welding knife,80,2,1,8,scorches,
+kinetic staff,60,5,1,6,whacks,
+crysknife,300,1,1,6,snicks into,
