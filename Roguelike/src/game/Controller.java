@@ -696,7 +696,11 @@ public class Controller {
 				activate.openDoor();
 			}
 			else{
-				if (activate.getItemCount() > 0){
+				if (activate.tileFree() == false){
+					//cannot close door if monster in the way.
+					messenger.println("The door seems to be stuck! There's a " + activate.getOccupant().getName() + " in the way!");
+				}
+				else if(activate.getItemCount() > 0){
 					//cannot close door if items in there.
 					messenger.println("The door seems to be stuck! Maybe there are items blocking the way.");
 				}
