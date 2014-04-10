@@ -811,7 +811,13 @@ public class Controller {
 
 	public Monster getRandMapMonster(int mapIndex) {
 		int randomIndex = MapRand.randInt(monsters.size() - 1);
-		return (Monster)duplicator.duplicate(monsters.get(randomIndex));
+		Monster monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));
+		System.out.println(mapIndex);
+		while (monster.getDifficulty() != mapIndex) {
+			randomIndex = MapRand.randInt(monsters.size() - 1);
+			monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));
+		}
+		return monster;
 	}
 
 	public void addPlayerEvent(int actionCost) {

@@ -186,7 +186,7 @@ public class MapInterpreter {
 			}
 
 			//decorate room with monsters, items, and other tiles
-			decorateRoom(map, newMap, registries, room);
+			decorateRoom(map, newMap, registries, room, difficulty);
 			
 			//add all rooms into the map
 			newMap.addRoom(room);
@@ -247,7 +247,7 @@ public class MapInterpreter {
 	 * Do not add keys for doors here.
 	 * @param room An entire room including the walls
 	 */
-	private static void decorateRoom(MapGenerator map, Map newMap, ImageRegistry[] registries, Rectangle room) {
+	private static void decorateRoom(MapGenerator map, Map newMap, ImageRegistry[] registries, Rectangle room, int difficulty) {
 
 		double[] probs = {0.14, 0.20, 0.15, 
 				0.05, 0.01, 0.30, 
@@ -260,57 +260,57 @@ public class MapInterpreter {
 		}
 		else if(style == 1){
 			//single low tier treasure
-			addItemsRoom(map, newMap, room, 1);
+			addItemsRoom(map, newMap, room, difficulty);
 		}
 		else if(style == 2){
 			//single low tier treasure with one monster
-			addItemsRoom(map, newMap, room, 1);
-			addMonstersRoom(map, newMap, room, 1, 1);
+			addItemsRoom(map, newMap, room, difficulty);
+			addMonstersRoom(map, newMap, room, difficulty, 1);
 		}
 		else if(style == 3){
 			//single low tier treasure with two monsters
-			addItemsRoom(map, newMap, room, 1);
-			addMonstersRoom(map, newMap, room, 1, 2);
+			addItemsRoom(map, newMap, room, difficulty);
+			addMonstersRoom(map, newMap, room, difficulty, 2);
 		}
 		else if(style == 4){
 			//single medium tier treasure with two to three monsters
-			addItemsRoom(map, newMap, room, 1);
-			addMonstersRoom(map, newMap, room, 1, MapRand.randInt(2, 3));
+			addItemsRoom(map, newMap, room, difficulty);
+			addMonstersRoom(map, newMap, room, difficulty, MapRand.randInt(2, 3));
 		}
 		else if(style == 5){
 			//single high tier treasure with three monsters
-			addItemsRoom(map, newMap, room, 1);
-			addMonstersRoom(map, newMap, room, 1, MapRand.randInt(3,4));
+			addItemsRoom(map, newMap, room, difficulty);
+			addMonstersRoom(map, newMap, room, difficulty, MapRand.randInt(3,4));
 		}
 		else if(style == 6){
 			//two low tier treasures
-			addItemsRoom(map, newMap, room, 1);
-			addItemsRoom(map, newMap, room, 1);
+			addItemsRoom(map, newMap, room, difficulty);
+			addItemsRoom(map, newMap, room, difficulty);
 		}
 		else if(style == 7){
 			//single monster
-			addMonstersRoom(map, newMap, room, 1, 1);
+			addMonstersRoom(map, newMap, room, difficulty, 1);
 		}
 		else if(style == 8){
 			//1-2 monsters
-			addMonstersRoom(map, newMap, room, 1, MapRand.randInt(1, 2));
+			addMonstersRoom(map, newMap, room, difficulty, MapRand.randInt(1, 2));
 		}
 		else if(style == 9){
 			//2-4 monsters
-			addMonstersRoom(map, newMap, room, 1,  MapRand.randInt(2, 4));
+			addMonstersRoom(map, newMap, room, difficulty,  MapRand.randInt(2, 4));
 		}
 		else if(style == 10){
 			//four monsters
-			addMonstersRoom(map, newMap, room, 1, 4);
+			addMonstersRoom(map, newMap, room, difficulty, 4);
 
 		}
 		else if(style == 11){
 			//single mid tier item
-			addItemsRoom(map, newMap, room, 2);
+			addItemsRoom(map, newMap, room, difficulty + 1);
 		}
 		else if(style == 12){
 			//single high tier item
-			addItemsRoom(map, newMap, room, 3);
+			addItemsRoom(map, newMap, room, difficulty + 2);
 		}
 	}
 
