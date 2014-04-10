@@ -80,8 +80,8 @@ public class Player extends Sentient {
 	
 	public void incrementStrength() {
 		strIncrement++;
-		if (strIncrement >= 15) {
-			strIncrement -= 15;
+		if (strIncrement >= 10) {
+			strIncrement -= 10;
 			setStrength(getStrength() + 1);
 			Controller.getInstance().getMessenger().println("You feel stronger!");
 		}
@@ -89,8 +89,8 @@ public class Player extends Sentient {
 	
 	public void incrementDexterity() {
 		dexIncrement++;
-		if (dexIncrement >= 5) {
-			dexIncrement -= 5;
+		if (dexIncrement >= 10) {
+			dexIncrement -= 10;
 			setDexterity(getDexterity() + 1);
 			Controller.getInstance().getMessenger().println("You feel more nimble!");
 		}
