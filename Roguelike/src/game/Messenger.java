@@ -263,15 +263,19 @@ public class Messenger {
 		
 		stairsUp = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				controller.fieldOfView(false);
 				controller.addPlayerEvent(10);
 				controller.stairsUp();
+				controller.fieldOfView(true);
 			}
 		};
 		
 		stairsDown = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				controller.fieldOfView(false);
 				controller.addPlayerEvent(10);
 				controller.stairsDown();
+				controller.fieldOfView(true);
 			}
 		};
 		

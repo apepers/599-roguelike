@@ -4,6 +4,8 @@
 
 package entities;
 
+import graphics.ImageManager;
+
 import java.security.InvalidKeyException;
 import java.util.HashMap;
 
@@ -18,6 +20,7 @@ public class Tile {
 	private ImageIcon background;
 	private boolean passable;
 	
+	private ImageIcon undiscovered = ImageManager.getGlobalRegistry().getTile("undiscovered");
 	private boolean discovered = false;
 	private boolean visible = false;
 	
@@ -189,7 +192,11 @@ public class Tile {
 	 * @return
 	 */
 	public ImageIcon getBackground() {
-		return background;
+		if(discovered) {
+			return background;
+		} else {
+			return undiscovered;
+		}
 	}
 	
 	public void setBackground(ImageIcon background){

@@ -573,6 +573,7 @@ public class Controller {
 				Point target = new Point(start.x + i, start.y + j);
 				if(map.boundaryCheck(target)) {
 					if(lineOfSight(player, map.getTile(target))) {
+						map.getTile(target).setDiscovered(true);
 						map.getTile(target).setVisible(visible);
 						messenger.updateTile(target);
 						//messenger.drawImage(ImageManager.getGlobalRegistry().getTile("fog"), target);
