@@ -102,13 +102,11 @@ public class Food extends Holdable {
 	
 	public void eatEffects(Player player) {
 		for (String effect : getEatEffects()) {
-			switch (effect) {
-				case "Drunk":
-					player.setDrunk(true);
-					break;
-				case "Strengthening":
-					player.setTempStrength(true);
-					break;
+			if (effect.equals("Drunk")){
+				player.setDrunk(true);
+			}
+			else if (effect.equals("Strengthening")){
+				player.setTempStrength(true);
 			}
 		}
 	}
