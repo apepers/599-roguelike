@@ -277,6 +277,7 @@ public class Messenger {
 			public void actionPerformed(ActionEvent e) {
 				controller.addPlayerEvent(10);
 				controller.openDoorEvent();
+				controller.playTurn();
 			}
 		};
 		
@@ -284,6 +285,7 @@ public class Messenger {
 			public void actionPerformed(ActionEvent e) {
 				controller.addPlayerEvent(10);
 				controller.closeDoorEvent();
+				controller.playTurn();
 			}
 		};
 	}
@@ -561,7 +563,7 @@ public class Messenger {
 				panel.add(new JLabel("WEAPONS:"));
 			for (int i = 0; i < weapons.length; i++) {
 				JCheckBox newBox = new JCheckBox(weapons[i]);
-				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), weapons[i]);
+				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(itemCounter, itemCounter+1).toUpperCase()), weapons[i]);
 				newBox.getActionMap().put(weapons[i], charAction);
 				checkBoxes[itemCounter] = newBox;
 				panel.add(newBox);
@@ -571,7 +573,7 @@ public class Messenger {
 				panel.add(new JLabel("ARMOUR:"));
 			for (int i = 0; i < armour.length; i++) {
 				JCheckBox newBox = new JCheckBox(armour[i]);
-				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), armour[i]);
+				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(itemCounter, itemCounter+1).toUpperCase()), armour[i]);
 				newBox.getActionMap().put(armour[i], charAction);
 				checkBoxes[itemCounter] = newBox;
 				panel.add(newBox);
@@ -581,7 +583,7 @@ public class Messenger {
 				panel.add(new JLabel("FOODS:"));
 			for (int i = 0; i < foods.length; i++) {
 				JCheckBox newBox = new JCheckBox(foods[i]);
-				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), foods[i]);
+				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(itemCounter, itemCounter+1).toUpperCase()), foods[i]);
 				newBox.getActionMap().put(foods[i], charAction);
 				checkBoxes[itemCounter] = newBox;
 				panel.add(newBox);
@@ -591,7 +593,7 @@ public class Messenger {
 				panel.add(new JLabel("MISC:"));
 			for (int i = 0; i < misc.length; i++) {
 				JCheckBox newBox = new JCheckBox(misc[i]);
-				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(i, i+1).toUpperCase()), misc[i]);
+				newBox.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(itemCounter, itemCounter+1).toUpperCase()), misc[i]);
 				newBox.getActionMap().put(misc[i], charAction);
 				checkBoxes[itemCounter] = newBox;
 				panel.add(newBox);
