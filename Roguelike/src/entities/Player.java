@@ -30,6 +30,7 @@ public class Player extends Sentient {
 	private int drunkCounter;
 	private int tempStrengthCounter;
 	private int futuresightCounter;
+	private int tempSight;
 	
 	public Player() {
 		this.setName("You!");
@@ -234,7 +235,9 @@ public class Player extends Sentient {
 	
 	public void setFuturesight(boolean bool) {
 		if (bool) {
-			// Do the stuff in the Controller here //
+			tempSight = getSightRange();
+			setSightRange(0);
+			Controller.getInstance().revealMap(true);
 			futuresightCounter = 25;
 		}
 	}
@@ -289,10 +292,13 @@ public class Player extends Sentient {
 		}
 		futuresightCounter--;
 		if (futuresightCounter == 0) {
-			// Controller do the spice withdrawl
-			Controller.getInstance().getMessenger().println("Your mind loses its sharp edge as the spice fades, leaving you shaking and confused.");
-		} else if (futuresightCounter == 24) {
+			Controller controller = Controller.getInstance();
+			setSightRange(tempSight);
+			controller.revealMap(false);
+			controller.fieldOfView(true);
+			controller.getMessenger().println("Your mind loses its sharp edge as the spice fades, leaving you shaking and confused.");
+		} /*else if (futuresightCounter == 24) {
 			Controller.getInstance().getMessenger().println("The immediate is blurred. Only the future is clear.");
-		}
+		}*/
 	}
 }

@@ -596,7 +596,7 @@ public class Controller {
 		for(int i = 0; i < map.getWidth(); i++) {
 			for(int j = 0; j < map.getHeight(); j++) {
 				map.getTile(i, j).setDiscovered(reveal);
-				map.getTile(i, j).setDiscovered(reveal);
+				map.getTile(i, j).setVisible(reveal);
 				messenger.updateTile(i, j);
 			}
 		}

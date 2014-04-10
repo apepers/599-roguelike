@@ -113,7 +113,7 @@ public class Food extends Holdable {
 				player.setTempStrength(true);
 			}
 			else if (effect.equals("Futuresight")) {
-				Controller.getInstance().revealMap(true);
+				player.setFuturesight(true);
 			}
 		}
 	}

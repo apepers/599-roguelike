@@ -7,7 +7,7 @@ heart of targ,10,3,800,2,That was a very hearty meal,
 uttaberries,550,2,1300,1,So tasty you feel a little less blue,Stackable
 oskoid,600,2,1600,1,You could take it or leaf it,Stackable
 bloodwine,100,4,400,1,You wish you had a stick of celery,Drunk Strengthening
-spice,150,2,400,1,Better not eat too much[comma] I've heard it makes your eyes blue,Stackable Futuresight
+spice,150,2,400,1,Better not eat too much[comma] I've heard it makes your eyes blue,Futuresight
 blue milk,50,2,800,1,Does it come from sad cows?,
 tauntaun steak,50,4,600,2,And you thought it smelled bad on the outside,
 ramen,5,1,100,1,Decent[comma] but not good enough to bowl you over,Stackable,
