@@ -22,6 +22,8 @@ public class Player extends Sentient {
 	private Weapon equippedWeapon;
 	private Armour equippedArmour;
 	
+	private int textCollected = 0;
+	
 	private boolean drunk;
 	private int drunkCounter;
 	private int tempStrengthCounter;
@@ -117,6 +119,7 @@ public class Player extends Sentient {
 		score += getDexterity();
 		score += getStrength();
 		score += this.level * 500;
+		score += textCollected * 1000;
 		return score;
 	}
 	
@@ -172,6 +175,14 @@ public class Player extends Sentient {
 
 	public void setEquippedArmour(Armour equippedArmour) {
 		this.equippedArmour = equippedArmour;
+	}
+
+	public int getTextCollected() {
+		return textCollected;
+	}
+
+	public void setTextCollected(int textCollected) {
+		this.textCollected = textCollected;
 	}
 
 	public boolean isDrunk() {

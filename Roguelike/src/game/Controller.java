@@ -760,6 +760,7 @@ public class Controller {
 		if (nextMap.getTag() != null){
 			//has text on level entry
 			messenger.showTextDialog(GameText.getText(nextMap.getTag()), nextMap.getTag());
+			player.setTextCollected(player.getTextCollected() + 1);
 			nextMap.setTag(null);			// delete tag to not repeat.
 			
 		}
