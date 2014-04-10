@@ -98,7 +98,8 @@ public final class FinalMap extends MapGenerator {
 		
 		
 		//add the mcguffin item
-
+		
+		
 		return newMap;
 	}
 
