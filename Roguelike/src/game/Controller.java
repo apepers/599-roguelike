@@ -886,6 +886,7 @@ public class Controller {
 
 			panel.add(new JLabel("You have died!"));
 			panel.add(new JLabel(player.causeOfDeath()));
+			panel.add(new JLabel("Your score was: " + player.getScore()));
 
 			JOptionPane.showMessageDialog(null, panel, "Game Over", JOptionPane.PLAIN_MESSAGE);
 			endGame();

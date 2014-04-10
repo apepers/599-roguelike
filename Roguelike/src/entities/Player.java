@@ -4,6 +4,10 @@
 
 package entities;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import mapGeneration.MapRand;
 import game.Controller;
 import graphics.ImageManager;
@@ -101,6 +105,19 @@ public class Player extends Sentient {
 			return "You starved to death.";
 		else
 			return "You died of unknown causes.";
+	}
+	
+	public int getScore() {
+		int score = 0;
+		Iterator<Entry<Character, Holdable>> iter = this.getInventory().getAllItems().entrySet().iterator();
+		while(iter.hasNext()) {
+			Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
+			score += entry.getValue().getCost();
+		}
+		score += getDexterity();
+		score += getStrength();
+		score += this.level * 500;
+		return score;
 	}
 	
 	public int getNutrition() {
