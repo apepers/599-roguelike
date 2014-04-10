@@ -34,7 +34,7 @@ public class Player extends Sentient {
 		setStrength(16);
 		setSpeed(2);
 		setDexterity(16);
-		setSightRange(6);
+		setSightRange(8);
 		setBaseMeleeDescription("hit");
 		xp = 0;
 		level = 1;

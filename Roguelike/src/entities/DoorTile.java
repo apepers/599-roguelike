@@ -1,11 +1,14 @@
 package entities;
 
+import graphics.ImageManager;
+
 import javax.swing.ImageIcon;
 
 public class DoorTile extends Tile {
 
 	private ImageIcon closed;
 	private ImageIcon opened;
+	private ImageIcon undiscovered = ImageManager.getGlobalRegistry().getTile("undiscovered");
 	
 	/**
 	 * Creates a door tile intially closed
@@ -57,11 +60,15 @@ public class DoorTile extends Tile {
 	
 	@Override
 	public ImageIcon getBackground(){
-		if (this.isPassable() == true){
-			return opened;
-		}
-		else{
-			return closed;
+		if (this.isDiscovered()) {
+			if (this.isPassable() == true){
+				return opened;
+			}
+			else{
+				return closed;
+			}
+		} else {
+			return undiscovered;
 		}
 	}
 }
