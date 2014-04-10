@@ -155,6 +155,8 @@ public class ImageRegistry {
 		return registry.size();
 	}
 
-
+	protected String getDir(){
+		return dir;
+	}
 
 }

@@ -60,6 +60,7 @@ public class Food extends Holdable {
 				food = new Drunk(food);
 			if (trait.trim().equals("Strengthening"))
 				food = new Strengthening(food);
+			
 		}
 		return food;
 	}

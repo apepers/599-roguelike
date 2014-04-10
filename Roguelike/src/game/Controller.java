@@ -112,7 +112,7 @@ public class Controller {
 		//create level 1
 		MapGenerator map1 = new SimpleMap(20,15,3,3);
 		int[] level1Tiles = {1};
-		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(allTiles, level1Tiles), 1);
+		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(level1Tiles), 1);
 
 		this.map = m1;
 
@@ -120,7 +120,7 @@ public class Controller {
 		//create level 2
 		MapGenerator map2 = new SimpleMap(20,15,3,3);
 		int[] level2Tiles = {4,5};
-		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles), 1);
+		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(level2Tiles), 1);
 		m2.setTag("Chapter 1");
 		
 		MapInterpreter.linkMaps(m1, m2);
@@ -128,21 +128,21 @@ public class Controller {
 		//create level 3
 		MapGenerator map3 = new SimpleMap(20,15,4,4);
 		int[] level3Tiles = {3};
-		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(allTiles, level3Tiles), 1);
+		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(level3Tiles), 1);
 		
 		MapInterpreter.linkMaps(m2, m3);
 
 		//create level 4
 		MapGenerator map4 = new SimpleMap(20,15,4,4);
 		int[] level4Tiles = {4};
-		Map m4 = MapInterpreter.interpretMap(map4, registrySubset(allTiles, level4Tiles), 1);
+		Map m4 = MapInterpreter.interpretMap(map4, registrySubset(level4Tiles), 1);
 
 		MapInterpreter.linkMaps(m2, m4);
 
 		//create level 5
 		MapGenerator map5 = new BSTMap(75,75,4);
 		int[] level5Tiles = {5};
-		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(allTiles, level5Tiles), 2);
+		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(level5Tiles), 2);
 		m5.setTag("Chapter 2");
 		
 		MapInterpreter.linkMaps(m3, m5);
@@ -153,7 +153,7 @@ public class Controller {
 		//create level 6
 		MapGenerator map6 = new BSTMap(75,75,4);
 		int[] level6Tiles = {6};
-		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles), lavas, false, 2);
+		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(level6Tiles), lavas, false, 2);
 		m6.setTag("Chapter 3a");
 		
 		MapInterpreter.linkMaps(m5, m6);
@@ -161,14 +161,14 @@ public class Controller {
 		//create level 7
 		MapGenerator map7 = new BSTMap(75,75,4);
 		int[] level7Tiles = {7};
-		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(allTiles, level7Tiles), 2);
+		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(level7Tiles), 2);
 		
 		MapInterpreter.linkMaps(m5, m7);
 
 		//create level 8
 		MapGenerator map8 = new BSTMap(75,75,4);
 		int[] level8Tiles = {8};
-		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles), ices, false, 2);
+		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(level8Tiles), ices, false, 2);
 		m8.setTag("Chapter 3b");
 		
 		MapInterpreter.linkMaps(m5, m8);
@@ -180,7 +180,7 @@ public class Controller {
 		//create level 9
 		MapGenerator map9 = new BSTMap(90,90,4);
 		int[] level9Tiles = {9};
-		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(allTiles, level9Tiles), 3);
+		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(level9Tiles), 3);
 
 		MapInterpreter.linkMaps(m6, m9);
 		MapInterpreter.linkMaps(m7, m9);
@@ -188,7 +188,7 @@ public class Controller {
 
 		//create level 10
 		int[] level10Tiles = {10};
-		FinalMap finalMap = new FinalMap(registrySubset(allTiles, level10Tiles)[0]);
+		FinalMap finalMap = new FinalMap(registrySubset(level10Tiles)[0]);
 		Map m10 = finalMap.initMap();
 		finalMap.linkRoom(m9);
 		m10.setTag("Final Chapter");
@@ -217,10 +217,10 @@ public class Controller {
 	 * @param end
 	 * @return
 	 */
-	private ImageRegistry[] registrySubset(ImageRegistry[] superSet, int[] indices){
+	private ImageRegistry[] registrySubset(int[] indices){
 		ImageRegistry[] subset = new ImageRegistry[indices.length];
 		for (int i = 0; i < indices.length; i++){
-			subset[i] = superSet[indices[i]-1];
+			subset[i] = ImageManager.getInstance().getTileSet("map" + indices[i]);
 		}
 
 		return subset;
