@@ -23,6 +23,7 @@ public abstract class Sentient extends Entity {
 	private int dexterity;
 	private int speed;
 	private int sightRange;
+	private boolean inSight;
 	private Sentient killer = null;
 	
 	public Holdable getItem(Character itemID) {
@@ -169,6 +170,14 @@ public abstract class Sentient extends Entity {
 	
 	public void setSightRange(int range) {
 		sightRange = range;
+	}
+	
+	public boolean isInSight() {
+		return inSight;
+	}
+	
+	public void setInSight(boolean inSight) {
+		this.inSight = inSight;
 	}
 
 	// Return a list version of the inventory

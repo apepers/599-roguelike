@@ -37,6 +37,7 @@ public class Monster extends Sentient {
 				String[] specials = values[11].split(" ");
 				monster = Monster.applySpecialTraits(monster, specials);
 			}
+			monster.setInSight(false);
 		} catch (Exception e) {
 			System.out.println("Error reading monster object");
 			if (monster.getName() != null) 

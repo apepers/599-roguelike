@@ -536,7 +536,7 @@ public class Controller {
 				t += absY;
 				
 				if( (x == destination.getColumn()) && (y == destination.getRow())) {
-					System.out.println(source.getName() + " sees you!");
+					//System.out.println(source.getName() + " sees you!");
 					return true;
 				}
 			} while(map.getTile(x, y).isPassable());
@@ -556,7 +556,7 @@ public class Controller {
 				t += absX;
 				
 				if( (x == destination.getColumn()) && (y == destination.getRow())) {
-					System.out.println(source.getName() + " sees you!");
+					//System.out.println(source.getName() + " sees you!");
 					return true;
 				}
 			} while(map.getTile(x, y).isPassable());
@@ -573,8 +573,11 @@ public class Controller {
 				Point target = new Point(start.x + i, start.y + j);
 				if(map.boundaryCheck(target)) {
 					if(lineOfSight(player, map.getTile(target))) {
-						map.getTile(target).setDiscovered(true);
-						map.getTile(target).setVisible(visible);
+						Tile tile = map.getTile(target);
+						tile.setDiscovered(true);
+						tile.setVisible(visible);
+						if(tile.getOccupant() != null)
+							tile.getOccupant().setInSight(visible);
 						messenger.updateTile(target);
 						//messenger.drawImage(ImageManager.getGlobalRegistry().getTile("fog"), target);
 					}
@@ -587,7 +590,6 @@ public class Controller {
 	public void moveRandomly(Sentient s) {
 		ArrayList<Point> directions = new ArrayList<Point>(4);
 		Tile location = s.getLocation();
-		lineOfSight(s, player.getLocation());
 		
 		if (location.getRow() > 0)
 			directions.add(new Point(0, -1));
@@ -790,14 +792,18 @@ public class Controller {
 				Weapon w = player.getEquippedWeapon();
 				messenger.println("Your " + w.properName() + " " + w.getDamageMsg() + " " + attackee.getPronoun() + " for " + damage + " damage!");
 			} else {
-				messenger.println(attackerUppercase + " " + attacker.getBaseMeleeDescription() + " " + attackee.getPronoun() + " for " + damage + " damage!");
+				if(attacker.isInSight())
+					messenger.println(attackerUppercase + " " + attacker.getBaseMeleeDescription() + " " + attackee.getPronoun() + " for " + damage + " damage!");
 			}
 			return true;
 		} else {
-			if (attackerUppercase.contains("The"))
-				messenger.println(attackerUppercase + " misses " + attackee.getPronoun());
-			else
-				messenger.println(attackerUppercase + " miss " + attackee.getPronoun());	
+			if (attackerUppercase.contains("The")) {
+				if(attacker.isInSight())
+					messenger.println(attackerUppercase + " misses " + attackee.getPronoun());
+			} else {
+				messenger.println(attackerUppercase + " miss " + attackee.getPronoun());
+			}
+					
 			return false;
 		}
 	}
@@ -897,6 +903,8 @@ public class Controller {
 	}
 	
 	public void monsterAction(Monster monster) {
+		if(monster.isInSight())
+			System.out.println("You can see " + monster.getName());
 		if (lineOfSight(monster, player.getLocation())) {
 			// chase player
 			ArrayList<Point> directions = new ArrayList<Point>(2);
