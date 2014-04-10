@@ -119,7 +119,7 @@ public class Controller {
 
 		//create level 2
 		MapGenerator map2 = new SimpleMap(20,15,3,3);
-		int[] level2Tiles = {4,5};
+		int[] level2Tiles = {8};
 		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(level2Tiles), 1);
 		m2.setTag("Chapter 1");
 		
@@ -127,7 +127,7 @@ public class Controller {
 
 		//create level 3
 		MapGenerator map3 = new SimpleMap(20,15,4,4);
-		int[] level3Tiles = {3};
+		int[] level3Tiles = {17};
 		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(level3Tiles), 1);
 		
 		MapInterpreter.linkMaps(m2, m3);
@@ -141,7 +141,7 @@ public class Controller {
 
 		//create level 5
 		MapGenerator map5 = new BSTMap(75,75,4);
-		int[] level5Tiles = {5};
+		int[] level5Tiles = {12};
 		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(level5Tiles), 2);
 		m5.setTag("Chapter 2");
 		
@@ -160,14 +160,14 @@ public class Controller {
 
 		//create level 7
 		MapGenerator map7 = new BSTMap(75,75,4);
-		int[] level7Tiles = {7};
+		int[] level7Tiles = {21, 23};
 		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(level7Tiles), 2);
 		
 		MapInterpreter.linkMaps(m5, m7);
 
 		//create level 8
 		MapGenerator map8 = new BSTMap(75,75,4);
-		int[] level8Tiles = {8};
+		int[] level8Tiles = {9};
 		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(level8Tiles), ices, false, 2);
 		m8.setTag("Chapter 3b");
 		
@@ -179,7 +179,7 @@ public class Controller {
 		//===================================================================
 		//create level 9
 		MapGenerator map9 = new BSTMap(90,90,4);
-		int[] level9Tiles = {9};
+		int[] level9Tiles = {21, 23, 7};
 		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(level9Tiles), 3);
 
 		MapInterpreter.linkMaps(m6, m9);
@@ -187,7 +187,7 @@ public class Controller {
 		MapInterpreter.linkMaps(m8, m9);
 
 		//create level 10
-		int[] level10Tiles = {10};
+		int[] level10Tiles = {13};
 		FinalMap finalMap = new FinalMap(registrySubset(level10Tiles)[0]);
 		Map m10 = finalMap.initMap();
 		finalMap.linkRoom(m9);
@@ -862,10 +862,12 @@ public class Controller {
 	}
 
 	public void addPlayerEvent(int actionCost) {
+		
 		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
 		player.increaseHunger(actionCost);
 		messenger.updateStatus(playerStatus());
 		messenger.updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
+		
 	}
 
 	public void playTurn() {

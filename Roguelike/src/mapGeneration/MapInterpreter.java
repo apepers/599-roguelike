@@ -400,10 +400,15 @@ public class MapInterpreter {
 			stair2 = MapRand.randPoint(MapRand.innerRectangle(rooms2[MapRand.randInt(rooms2.length -1)]));
 		}
 
+		StairTile stairA = new StairTile(map1, map2, stair1, stair2);
+		StairTile stairB = new StairTile(map2, map1, stair2, stair1);
 
+		stairA.setImgUp(false);
+		stairB.setImgUp(true);
+		
 		//create the special staircase link
-		map1.setTile(stair1.x, stair1.y, new StairTile(map1, map2, stair1, stair2));
-		map2.setTile(stair2.x, stair2.y, new StairTile(map2, map1, stair2, stair1));
+		map1.setTile(stair1.x, stair1.y, stairA);
+		map2.setTile(stair2.x, stair2.y, stairB);
 	}
 	
 	
