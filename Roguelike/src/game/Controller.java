@@ -871,13 +871,40 @@ public class Controller {
 	public void playTurn() {
 		Sentient topEventSentient = timeQueue.getNextEvent();
 		while (!topEventSentient.equals(player)) {
-			moveRandomly(topEventSentient);
+			monsterAction((Monster)topEventSentient);
+			//moveRandomly(topEventSentient);
 			timeQueue.addEventToQueue(topEventSentient, ((Monster) topEventSentient).getActionCost());
 			topEventSentient = timeQueue.getNextEvent();
 		}
 		checkGameOver();
 		player.increaseCurrentHP(1);
 		player.checkCounters();
+	}
+	
+	public void monsterAction(Monster monster) {
+		if (lineOfSight(monster, player.getLocation())) {
+			// chase player
+			ArrayList<Point> directions = new ArrayList<Point>(2);
+			Tile location = monster.getLocation();
+			Tile playerTile = player.getLocation();
+			
+			// Down
+			if (location.getRow() > playerTile.getRow())
+				directions.add(new Point(0, -1));
+			// Up
+			if (location.getRow() < playerTile.getRow())
+				directions.add(new Point(0, 1));
+			// Right
+			if (location.getColumn() < playerTile.getColumn())
+				directions.add(new Point(1, 0));
+			// Left
+			if (location.getColumn() > playerTile.getColumn())
+				directions.add(new Point(-1, 0));
+			int random = MapRand.randInt(directions.size() - 1);
+			moveSentient(monster, directions.get(random).x, directions.get(random).y);
+		} else {
+			moveRandomly(monster);
+		}
 	}
 
 	public void checkGameOver() {
