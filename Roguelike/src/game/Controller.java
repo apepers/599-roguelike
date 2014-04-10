@@ -793,7 +793,7 @@ public class Controller {
 				Weapon w = player.getEquippedWeapon();
 				messenger.println("Your " + w.properName() + " " + w.getDamageMsg() + " " + attackee.getPronoun() + " for " + damage + " damage!");
 			} else {
-				if(attacker.isInSight())
+				if(attacker.isInSight() || attacker.equals(player))
 					messenger.println(attackerUppercase + " " + attacker.getBaseMeleeDescription() + " " + attackee.getPronoun() + " for " + damage + " damage!");
 			}
 			return true;
