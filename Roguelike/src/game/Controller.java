@@ -870,7 +870,7 @@ public class Controller {
 	public void addPlayerEvent(int actionCost) {
 		
 		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
-		player.increaseHunger(actionCost);
+		player.increaseHunger(actionCost/2);
 		messenger.updateStatus(playerStatus());
 		messenger.updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
 		
