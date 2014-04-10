@@ -113,9 +113,6 @@ public class ImageManager {
 		ImageRegistry[] all = new ImageRegistry[results.size()];
 		results.toArray(all);
 		
-		for (int i =0; i < all.length; i++){
-			System.out.println(all[i].getDir());
-		}
 		return all;
 	}
 	
