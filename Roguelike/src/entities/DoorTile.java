@@ -8,7 +8,6 @@ public class DoorTile extends Tile {
 
 	private ImageIcon closed;
 	private ImageIcon opened;
-	private ImageIcon undiscovered = ImageManager.getGlobalRegistry().getTile("undiscovered");
 	
 	/**
 	 * Creates a door tile intially closed
@@ -68,7 +67,7 @@ public class DoorTile extends Tile {
 				return closed;
 			}
 		} else {
-			return undiscovered;
+			return getUndiscoveredImage();
 		}
 	}
 }
