@@ -772,7 +772,12 @@ public class Controller {
 		if (attackRoll >= attackee.getAC()) {
 			int damage = attacker.getMeleeDamage();
 			attackee.takeDamage(damage, attacker);
-			messenger.println(attackerUppercase + " " + attacker.getBaseMeleeDescription() + " " + attackee.getPronoun() + " for " + damage + " damage!");
+			if (attacker.equals(player) && player.getEquippedWeapon() != null) {
+				Weapon w = player.getEquippedWeapon();
+				messenger.println("Your " + w.properName() + " " + w.getDamageMsg() + " " + attackee.getPronoun() + " for " + damage + " damage!");
+			} else {
+				messenger.println(attackerUppercase + " " + attacker.getBaseMeleeDescription() + " " + attackee.getPronoun() + " for " + damage + " damage!");
+			}
 			return true;
 		} else {
 			if (attackerUppercase.contains("The"))
