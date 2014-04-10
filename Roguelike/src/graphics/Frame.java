@@ -64,9 +64,6 @@ public class Frame extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 
-		JMenuItem mntmSave = new JMenuItem("Save");
-		mnFile.add(mntmSave);
-
 		JMenuItem mntmQuit = new JMenuItem("Quit");
 		mntmQuit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -74,18 +71,6 @@ public class Frame extends JFrame {
 			}
 		});
 		mnFile.add(mntmQuit);
-
-		JMenu mnSettings = new JMenu("Settings");
-		menuBar.add(mnSettings);
-
-		JMenuItem mntmConfigureKeys = new JMenuItem("Configure keys...");
-		mnSettings.add(mntmConfigureKeys);
-
-		JMenu mnHelp = new JMenu("Help");
-		menuBar.add(mnHelp);
-
-		JMenuItem mntmAbout = new JMenuItem("About...");
-		mnHelp.add(mntmAbout);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
