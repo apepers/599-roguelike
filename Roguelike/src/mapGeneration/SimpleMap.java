@@ -148,7 +148,7 @@ public class SimpleMap extends MapGenerator {
 	 * @param rooms
 	 */
 	private void linkCorridors(Rectangle[][] rooms){
-		double[] prob = {0.0, 0.0, 0.0, 1.0};
+		double[] prob = {0.3, 0.2, 0.2, 0.3};
 		int style = MapRand.randArray(prob);
 
 		if (style ==0){
