@@ -88,6 +88,16 @@ public class Controller {
 		for (Food f : foods) {
 			if (f.getName().equals("spice"))
 				p.addItem((Holdable)duplicator.duplicate(f));
+			else if (f.getName().equals("bloodwine"))
+				p.addItem((Holdable)duplicator.duplicate(f));
+		}
+		for (Weapon w : weapons) {
+			if (w.getName().equals("pneumatic glove"))
+				p.addItem((Holdable)duplicator.duplicate(w));
+		}
+		for (Armour a : armours) {
+			if (a.getName().equals("stormtrooper armour"))
+				p.addItem((Holdable)duplicator.duplicate(a));
 		}
 
 		//create the map.
