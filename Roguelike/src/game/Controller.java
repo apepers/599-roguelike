@@ -84,6 +84,10 @@ public class Controller {
 
 		this.messenger = messenger;
 		this.player = p;
+		for (Food f : foods) {
+			if (f.getName().equals("spice"))
+				p.addItem((Holdable)duplicator.duplicate(f));
+		}
 
 		//create the map.
 		createMap();
