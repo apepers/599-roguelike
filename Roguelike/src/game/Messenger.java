@@ -815,6 +815,47 @@ public class Messenger {
 		}
 	}
 	
+	public void equipMisc() {
+		// Get all available misc
+		String[] playerItems = player.getInventory().getMiscTexts();
+		if (playerItems.length == 0) {
+			log.println("You have nothing to apply.");
+		} else {
+			JPanel panel = new JPanel();
+			panel.setLayout(new GridLayout(0, 1));
+			final JCheckBox[] checkBoxes = new JCheckBox[playerItems.length];
+			final String idsString = descriptionsToIDString(playerItems);
+			// Set up actions for every ID to toggle the appropriate checkbox
+			Action charAction = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					int index = idsString.indexOf(e.getActionCommand());
+					JCheckBox box = checkBoxes[index];
+					box.setSelected(!box.isSelected());
+				}
+			};
+			int itemCount = 0;
+			panel.add(new JLabel("INVENTORY"));
+			for (String f : playerItems) {
+				JCheckBox newButton = new JCheckBox(f);
+				newButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(idsString.substring(itemCount, itemCount+1).toUpperCase()), f);
+				newButton.getActionMap().put(f, charAction);
+				checkBoxes[itemCount] = newButton;
+				panel.add(newButton);
+				itemCount++;
+			}
+			JOptionPane.showMessageDialog(null, panel, "What would you like to apply?", JOptionPane.PLAIN_MESSAGE);
+			for (JCheckBox box : checkBoxes) {
+				if (box.isSelected()) {
+					// Get the selected item
+					Character id = box.getText().charAt(0);
+					Holdable item;
+					item = player.getInventory().getItem(id);
+					player.addEquippedMisc(item);
+				}
+			}
+		}
+	}
+	
 	public void identify() {
 		cursorMode = true;
 		controller.createCursor();

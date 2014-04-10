@@ -54,6 +54,14 @@ public abstract class Holdable extends Entity {
 	void setStackable(boolean stackable) {
 		this.stackable = stackable;
 	}
+	
+	public void applyAbilities(Player player) {
+		
+	}
+	
+	public void deapplyAbilites(Player player) {
+		
+	}
 
 	public boolean sameItem(Holdable h) {
 		if (this.getName().equals(h.getName()) && this.getWeight() == h.getWeight() && this.getCost() == h.getCost()

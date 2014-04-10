@@ -4,6 +4,7 @@
 
 package entities;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,6 +22,7 @@ public class Player extends Sentient {
 	private int dexIncrement;
 	private Weapon equippedWeapon;
 	private Armour equippedArmour;
+	private ArrayList<Holdable> equippedMisc;
 	
 	private int textCollected = 0;
 	
@@ -35,7 +37,7 @@ public class Player extends Sentient {
 		setMaxHP(15);
 		setCurrentHP(15);
 		setNaturalAC(0);
-		setAttackBonus(2);
+		setAttackBonus(3);
 		setBaseDamage(4);
 		setStrength(16);
 		setSpeed(2);
@@ -50,6 +52,8 @@ public class Player extends Sentient {
 		setEquippedArmour(null);
 		drunkCounter = 0;
 		tempStrengthCounter = 0;
+		
+		setEquippedMisc(new ArrayList<Holdable>());
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));
 	}
@@ -180,6 +184,24 @@ public class Player extends Sentient {
 
 	public void setEquippedArmour(Armour equippedArmour) {
 		this.equippedArmour = equippedArmour;
+	}
+	
+	public void addEquippedMisc(Holdable h) {
+		equippedMisc.add(h);
+		h.applyAbilities(this);
+	}
+	
+	public void removeEquippedMisc(Holdable h) {
+		equippedMisc.remove(h);
+		h.deapplyAbilites(this);
+	}
+
+	public ArrayList<Holdable> getEquippedMisc() {
+		return equippedMisc;
+	}
+
+	public void setEquippedMisc(ArrayList<Holdable> equippedMisc) {
+		this.equippedMisc = equippedMisc;
 	}
 
 	public int getTextCollected() {
