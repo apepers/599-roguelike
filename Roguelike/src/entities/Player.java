@@ -234,7 +234,7 @@ public class Player extends Sentient {
 	
 	public void setFuturesight(boolean bool) {
 		if (bool) {
-			// Do the stuff in the Controller
+			// Do the stuff in the Controller here //
 			futuresightCounter = 25;
 		}
 	}
@@ -291,6 +291,8 @@ public class Player extends Sentient {
 		if (futuresightCounter == 0) {
 			// Controller do the spice withdrawl
 			Controller.getInstance().getMessenger().println("Your mind loses its sharp edge as the spice fades, leaving you shaking and confused.");
+		} else if (futuresightCounter == 24) {
+			Controller.getInstance().getMessenger().println("The immediate is blurred. Only the future is clear.");
 		}
 	}
 }
