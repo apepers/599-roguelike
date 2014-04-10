@@ -199,6 +199,10 @@ public class Tile {
 		}
 	}
 	
+	public ImageIcon getUndiscoveredImage() {
+		return undiscovered;
+	}
+	
 	public void setBackground(ImageIcon background){
 		this.background = background;
 	}

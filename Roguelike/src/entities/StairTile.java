@@ -84,11 +84,15 @@ public class StairTile extends Tile {
 	
 	@Override
 	public ImageIcon getBackground(){
-		if (imgUp == true){
-			return ImageManager.getGlobalRegistry().getTile("stairs_up");
-		}
-		else{
-			return ImageManager.getGlobalRegistry().getTile("stairs_down");
+		if(this.isDiscovered()) {
+			if (imgUp == true){
+				return ImageManager.getGlobalRegistry().getTile("stairs_up");
+			}
+			else{
+				return ImageManager.getGlobalRegistry().getTile("stairs_down");
+			}
+		} else {
+			return getUndiscoveredImage();
 		}
 		
 	}
