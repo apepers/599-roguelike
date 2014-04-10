@@ -20,6 +20,7 @@ public class Player extends Sentient {
 	
 	private boolean drunk;
 	private int drunkCounter;
+	private int tempStrengthCounter;
 	
 	public Player() {
 		this.setName("You!");
@@ -41,6 +42,7 @@ public class Player extends Sentient {
 		setEquippedWeapon(null);
 		setEquippedArmour(null);
 		drunkCounter = 0;
+		tempStrengthCounter = 0;
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));
 	}
@@ -164,6 +166,13 @@ public class Player extends Sentient {
 		if (drunk)
 			drunkCounter = 25;
 	}
+	
+	public void setTempStrength(boolean temp) {
+		if (temp) {
+			setStrength(getStrength() + 4);
+			tempStrengthCounter = 20;
+		}
+	}
 
 	public int getACBonus() {
 		if (equippedArmour != null)
@@ -175,14 +184,18 @@ public class Player extends Sentient {
 	@Override
 	public int getMeleeDamage() {
 		if (equippedWeapon != null) {
-			return MapRand.randInt(equippedWeapon.getMinDamage(), equippedWeapon.getMaxDamage()) + (getStrength() % 10); 
+			return MapRand.randInt(equippedWeapon.getMinDamage(), equippedWeapon.getMaxDamage()) + getAbilityBonus(getStrength()); 
 		} else
-			return MapRand.randInt(this.getBaseDamage()) + (getStrength() % 10);
+			return MapRand.randInt(this.getBaseDamage()) + getAbilityBonus(getStrength());
+	}
+	
+	private int getAbilityBonus(int score) {
+		return (score / 2) - 5;
 	}
 	
 	@Override
 	public int getAC() {
-		return 10 + getACBonus() + (getDexterity() % 10);
+		return 10 + getACBonus() + getAbilityBonus(getDexterity());
 	}
 	
 	@Override
@@ -195,6 +208,11 @@ public class Player extends Sentient {
 		if (drunkCounter == 0) {
 			setDrunk(false);
 			Controller.getInstance().getMessenger().println("You feel a little more stable now.");
+		}
+		tempStrengthCounter--;
+		if (tempStrengthCounter == 0) {
+			setStrength(getStrength() - 4);
+			Controller.getInstance().getMessenger().println("You remember that you are not a Klingon, but a puny weak human. How disappointing.");
 		}
 	}
 }

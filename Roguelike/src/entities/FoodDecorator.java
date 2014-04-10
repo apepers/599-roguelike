@@ -21,6 +21,7 @@ public abstract class FoodDecorator extends Food {
 		this.setTurnsToEat(decoratedFood.getTurnsToEat());
 		this.setEatMessage(decoratedFood.getEatMessage());
 		this.setStackable(decoratedFood.isStackable());
+		this.setEatEffects(decoratedFood.getEatEffects());
 	}
 }
 
@@ -75,15 +76,16 @@ class Stackable extends FoodDecorator {
 class Drunk extends FoodDecorator {
 	public Drunk(Food decoratedFood) {
 		super(decoratedFood);
+		this.addEatEffect("Drunk");
+		this.setEatMessage(getEatMessage() + "\n You feel a little tipsy...");
 	}
-	
-	@Override
-	public void eatEffects(Player player) {
-		player.setDrunk(true);
-	}
-	
-	@Override
-	public String eatMsg() {
-		return super.eatMsg() + "\n You feel a little tipsy...";
+}
+
+@SuppressWarnings("serial")
+class Strengthening extends FoodDecorator {
+	public Strengthening(Food decoratedFood) {
+		super(decoratedFood);
+		this.addEatEffect("Strengthening");
+		this.setEatMessage(getEatMessage() + "\n You are filled with Klingon blood lust! Heghlu'meH QaQ jajvam!");
 	}
 }

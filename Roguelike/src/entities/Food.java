@@ -4,6 +4,8 @@
 
 package entities;
 
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 
 import graphics.ImageManager;
@@ -14,6 +16,7 @@ public class Food extends Holdable {
 	private int nutrition;
 	private int turnsToEat;
 	private String eatMessage;
+	private ArrayList<String> eatEffects = new ArrayList<String>();
 	
 	public static String[] csvHeaders() {
 		String[] headers = {"Name", "Cost", "Weight", "Nutrition", "TurnsToEat", "EatMsg", "Special"};
@@ -55,6 +58,8 @@ public class Food extends Holdable {
 				food = new Stackable(food);
 			if (trait.trim().equals("Drunk"))
 				food = new Drunk(food);
+			if (trait.trim().equals("Strengthening"))
+				food = new Strengthening(food);
 		}
 		return food;
 	}
@@ -83,8 +88,29 @@ public class Food extends Holdable {
 		this.eatMessage = eatMessage;
 	}
 	
+	public ArrayList<String> getEatEffects() {
+		return eatEffects;
+	}
+
+	public void setEatEffects(ArrayList<String> effects) {
+		eatEffects = effects;
+	}
+	
+	public void addEatEffect(String effect) {
+		this.eatEffects.add(effect);
+	}
+	
 	public void eatEffects(Player player) {
-		
+		for (String effect : getEatEffects()) {
+			switch (effect) {
+				case "Drunk":
+					player.setDrunk(true);
+					break;
+				case "Strengthening":
+					player.setTempStrength(true);
+					break;
+			}
+		}
 	}
 	
 	@Override
