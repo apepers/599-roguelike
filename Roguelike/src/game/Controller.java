@@ -634,6 +634,13 @@ public class Controller {
 						messenger.updateTile(newPt);
 					}
 					player.incrementStrength();
+				} else {
+					if (occupant.isDead() && !occupant.equals(player)) {
+						messenger.println(occupant.getPronoun() + " is slain!");
+						map.removeMonster((Monster)occupant);
+						timeQueue.removeSentient(occupant);
+						messenger.updateTile(newPt);
+					}
 				}
 				updatePlayerStatus();
 			} else {

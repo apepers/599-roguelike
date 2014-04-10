@@ -65,7 +65,11 @@ public class Player extends Sentient {
 	}
 	
 	public void increaseHunger(int hunger) {
+		String oldText = hungerText();
 		nutrition -= hunger;
+		if (!hungerText().equals(oldText)) {
+			Controller.getInstance().getMessenger().println("You now feel " + hungerText());
+		}
 	}
 	
 	public void increaseCurrentHP(int increase) {
