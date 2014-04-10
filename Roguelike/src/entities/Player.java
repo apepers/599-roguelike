@@ -29,6 +29,7 @@ public class Player extends Sentient {
 	private boolean drunk;
 	private int drunkCounter;
 	private int tempStrengthCounter;
+	private int futuresightCounter;
 	
 	public Player() {
 		this.setName("You!");
@@ -53,6 +54,7 @@ public class Player extends Sentient {
 		setEquippedArmour(null);
 		drunkCounter = 0;
 		tempStrengthCounter = 0;
+		futuresightCounter = 0;
 		
 		setEquippedMisc(new ArrayList<Holdable>());
 		
@@ -229,6 +231,21 @@ public class Player extends Sentient {
 			tempStrengthCounter = 20;
 		}
 	}
+	
+	public void setFuturesight(boolean bool) {
+		if (bool) {
+			// Do the stuff in the Controller
+			futuresightCounter = 25;
+		}
+	}
+
+	public int getFuturesightCounter() {
+		return futuresightCounter;
+	}
+
+	public void setFuturesightCounter(int futuresightCounter) {
+		this.futuresightCounter = futuresightCounter;
+	}
 
 	public int getACBonus() {
 		if (equippedArmour != null)
@@ -269,6 +286,11 @@ public class Player extends Sentient {
 		if (tempStrengthCounter == 0) {
 			setStrength(getStrength() - 4);
 			Controller.getInstance().getMessenger().println("You remember that you are not a Klingon, but a puny weak human. How disappointing.");
+		}
+		futuresightCounter--;
+		if (futuresightCounter == 0) {
+			// Controller do the spice withdrawl
+			Controller.getInstance().getMessenger().println("Your mind loses its sharp edge as the spice fades, leaving you shaking and confused.");
 		}
 	}
 }
