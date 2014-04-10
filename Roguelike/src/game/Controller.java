@@ -795,24 +795,59 @@ public class Controller {
 	// Return a random item for the map, given the current depth in the station
 	// Currently just returns one of our foods randomly.
 	public Holdable getRandMapItem(int mapIndex) {
-		int rand = MapRand.randInt(7);
-		if (rand == 0) {
-			// 1/8 chance of spawning a weapon
-			int randomIndex = MapRand.randInt(weapons.size() - 1);
-			return (Holdable)duplicator.duplicate(weapons.get(randomIndex));
-		} else if (rand == 1) {
-			int randomIndex = MapRand.randInt(armours.size() - 1);
-			return (Holdable)duplicator.duplicate(armours.get(randomIndex));
-		} else {
-			int randomIndex = MapRand.randInt(foods.size() - 1);
-			return (Holdable)duplicator.duplicate(foods.get(randomIndex));
+		Holdable item;
+		do {
+			int rand = MapRand.randInt(7);
+			if (rand == 0) {
+				// 1/8 chance of spawning a weapon
+				int randomIndex = MapRand.randInt(weapons.size() - 1);
+				item = (Holdable)duplicator.duplicate(weapons.get(randomIndex));
+			} else if (rand == 1) {
+				int randomIndex = MapRand.randInt(armours.size() - 1);
+				item = (Holdable)duplicator.duplicate(armours.get(randomIndex));
+			} else {
+				int randomIndex = MapRand.randInt(foods.size() - 1);
+				item = (Holdable)duplicator.duplicate(foods.get(randomIndex));
+			}
+		} while (item.getCost() > tierToMaxCost(mapIndex) || item.getCost() < tierToMinCost(mapIndex));
+		return item;
+	}
+		
+	private int tierToMaxCost(int tier) {
+		switch (tier) {
+		case 1:
+			return 49;
+		case 2:
+			return 99;
+		case 3:
+			return 499;
+		case 4:
+			return 1000;
+		case 5:
+			return 5000;
 		}
+		return 0;
+	}
+	
+	private int tierToMinCost(int tier) {
+		switch (tier) {
+		case 1:
+			return 0;
+		case 2:
+			return 50;
+		case 3:
+			return 100;
+		case 4:
+			return 500;
+		case 5:
+			return 1000;
+		}
+		return 0;
 	}
 
 	public Monster getRandMapMonster(int mapIndex) {
 		int randomIndex = MapRand.randInt(monsters.size() - 1);
 		Monster monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));
-		System.out.println(mapIndex);
 		while (monster.getDifficulty() != mapIndex) {
 			randomIndex = MapRand.randInt(monsters.size() - 1);
 			monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));

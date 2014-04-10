@@ -31,19 +31,19 @@ public abstract class Holdable extends Entity {
 		System.out.println(this.properName());
 	}
 	
-	int getWeight() {
+	public int getWeight() {
 		return weight;
 	}
 
-	void setWeight(int weight) {
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 
-	int getCost() {
+	public int getCost() {
 		return cost;
 	}
 
-	void setCost(int cost) {
+	public void setCost(int cost) {
 		this.cost = cost;
 	}
 

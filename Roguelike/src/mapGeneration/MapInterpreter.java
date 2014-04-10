@@ -274,12 +274,12 @@ public class MapInterpreter {
 		}
 		else if(style == 4){
 			//single medium tier treasure with two to three monsters
-			addItemsRoom(map, newMap, room, difficulty);
+			addItemsRoom(map, newMap, room, difficulty + 1);
 			addMonstersRoom(map, newMap, room, difficulty, MapRand.randInt(2, 3));
 		}
 		else if(style == 5){
 			//single high tier treasure with three monsters
-			addItemsRoom(map, newMap, room, difficulty);
+			addItemsRoom(map, newMap, room, difficulty + 2);
 			addMonstersRoom(map, newMap, room, difficulty, MapRand.randInt(3,4));
 		}
 		else if(style == 6){

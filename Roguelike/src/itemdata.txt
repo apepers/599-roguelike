@@ -4,9 +4,9 @@ soylent red,40,2,600,1,You've heard the flavour varies from person to person,Sta
 soylent yellow,40,2,500,1,Tasty but lacking in (moral) fiber,Stackable
 gagh,5,4,700,1,Definitely worse than finding a worm in an apple,
 heart of targ,10,3,800,2,That was a very hearty meal,
-uttaberries,60,2,1000,1,So tasty you feel a little less blue,Stackable
-oskoid,60,2,800,1,You could take it or leaf it,Stackable
-bloodwine,80,4,400,1,You wish you had a stick of celery,Drunk Strengthening
+uttaberries,550,2,1300,1,So tasty you feel a little less blue,Stackable
+oskoid,600,2,1600,1,You could take it or leaf it,Stackable
+bloodwine,100,4,400,1,You wish you had a stick of celery,Drunk Strengthening
 spice,150,2,400,1,Better not eat too much[comma] I've heard it makes your eyes blue,Stackable
 blue milk,50,2,800,1,Does it come from sad cows?,
 tauntaun steak,50,4,600,2,And you thought it smelled bad on the outside,
