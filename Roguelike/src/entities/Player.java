@@ -18,6 +18,9 @@ public class Player extends Sentient {
 	private Weapon equippedWeapon;
 	private Armour equippedArmour;
 	
+	private boolean drunk;
+	private int drunkCounter;
+	
 	public Player() {
 		this.setName("You!");
 		this.setDescription("A normal, boring person.");
@@ -37,6 +40,7 @@ public class Player extends Sentient {
 		dexIncrement = 0;
 		setEquippedWeapon(null);
 		setEquippedArmour(null);
+		drunkCounter = 0;
 		
 		setImage(ImageManager.getGlobalRegistry().getTile("player"));
 	}
@@ -151,6 +155,16 @@ public class Player extends Sentient {
 		this.equippedArmour = equippedArmour;
 	}
 
+	public boolean isDrunk() {
+		return drunk;
+	}
+
+	public void setDrunk(boolean drunk) {
+		this.drunk = drunk;
+		if (drunk)
+			drunkCounter = 25;
+	}
+
 	public int getACBonus() {
 		if (equippedArmour != null)
 			return this.getNaturalAC() + equippedArmour.getAC();
@@ -174,5 +188,13 @@ public class Player extends Sentient {
 	@Override
 	public String getPronoun() {
 		return "you";
+	}
+	
+	public void checkCounters() {
+		drunkCounter--;
+		if (drunkCounter == 0) {
+			setDrunk(false);
+			Controller.getInstance().getMessenger().println("You feel a little more stable now.");
+		}
 	}
 }

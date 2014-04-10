@@ -53,6 +53,8 @@ public class Food extends Holdable {
 				food = new Splat(food);
 			if (trait.trim().equals("Stackable"))
 				food = new Stackable(food);
+			if (trait.trim().equals("Drunk"))
+				food = new Drunk(food);
 		}
 		return food;
 	}
@@ -79,6 +81,10 @@ public class Food extends Holdable {
 
 	void setEatMessage(String eatMessage) {
 		this.eatMessage = eatMessage;
+	}
+	
+	public void eatEffects(Player player) {
+		
 	}
 	
 	@Override

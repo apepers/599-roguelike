@@ -462,31 +462,48 @@ public class Controller {
 
 	public String playerEat(Food food) {
 		player.increaseNutrition(food.getNutrition());
+		food.eatEffects(player);
 		updatePlayerStatus();
 		return "You eat the " + food.properName()+ ".\n" + food.eatMsg();
 	}
 
 	public void movePlayerUp() {
-		if (player.getLocation().getRow() > 0) {
-			moveSentient(player, 0, -1);
+		if (!player.isDrunk()) {
+			if (player.getLocation().getRow() > 0) {
+				moveSentient(player, 0, -1);
+			}
+		} else {
+			moveRandomly(player);
 		}
 	}
 
 	public void movePlayerDown() {
-		if (player.getLocation().getRow() < map.getHeight() - 1) {
-			moveSentient(player, 0, 1);
+		if (!player.isDrunk()) {
+			if (player.getLocation().getRow() < map.getHeight() - 1) {
+				moveSentient(player, 0, 1);
+			}
+		} else {
+			moveRandomly(player);
 		}
 	}
 
 	public void movePlayerRight(){
-		if (player.getLocation().getColumn() < map.getWidth() - 1) {
-			moveSentient(player, 1, 0);
+		if (!player.isDrunk()) {
+			if (player.getLocation().getColumn() < map.getWidth() - 1) {
+				moveSentient(player, 1, 0);
+			}
+		} else {
+			moveRandomly(player);
 		}
 	}
 
 	public void movePlayerLeft(){
-		if (player.getLocation().getColumn() > 0) {
-			moveSentient(player, -1, 0);
+		if (!player.isDrunk()) {
+			if (player.getLocation().getColumn() > 0) {
+				moveSentient(player, -1, 0);
+			}
+		} else {
+			moveRandomly(player);
 		}
 	}
 	
@@ -805,7 +822,6 @@ public class Controller {
 	}
 
 	public void playTurn() {
-		/*
 		Sentient topEventSentient = timeQueue.getNextEvent();
 		while (!topEventSentient.equals(player)) {
 			moveRandomly(topEventSentient);
@@ -814,7 +830,7 @@ public class Controller {
 		}
 		checkGameOver();
 		player.increaseCurrentHP(1);
-		 */
+		player.checkCounters();
 	}
 
 	public void checkGameOver() {

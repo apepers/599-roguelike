@@ -70,3 +70,20 @@ class Stackable extends FoodDecorator {
 		return this.getName() + " (" + count + ")";
 	}
 }
+
+@SuppressWarnings("serial")
+class Drunk extends FoodDecorator {
+	public Drunk(Food decoratedFood) {
+		super(decoratedFood);
+	}
+	
+	@Override
+	public void eatEffects(Player player) {
+		player.setDrunk(true);
+	}
+	
+	@Override
+	public String eatMsg() {
+		return super.eatMsg() + "\n You feel a little tipsy...";
+	}
+}
