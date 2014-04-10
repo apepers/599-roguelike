@@ -89,3 +89,12 @@ class Strengthening extends FoodDecorator {
 		this.setEatMessage(getEatMessage() + "\n You are filled with Klingon blood lust! Heghlu'meH QaQ jajvam!");
 	}
 }
+
+@SuppressWarnings("serial")
+class Futuresight extends FoodDecorator {
+	public Futuresight(Food decoratedFood) {
+		super(decoratedFood);
+		this.addEatEffect("Futuresight");
+		this.setEatMessage(getEatMessage() + "\n You begin to see visions rushing through your mind. The spice must flow!");
+	}
+}

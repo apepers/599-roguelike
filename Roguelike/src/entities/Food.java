@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import game.Controller;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
 
@@ -60,6 +61,8 @@ public class Food extends Holdable {
 				food = new Drunk(food);
 			if (trait.trim().equals("Strengthening"))
 				food = new Strengthening(food);
+			if (trait.trim().equals("Futuresight"))
+				food = new Futuresight(food);
 			
 		}
 		return food;
@@ -108,6 +111,9 @@ public class Food extends Holdable {
 			}
 			else if (effect.equals("Strengthening")){
 				player.setTempStrength(true);
+			}
+			else if (effect.equals("Futuresight")) {
+				Controller.getInstance().revealMap(true);
 			}
 		}
 	}

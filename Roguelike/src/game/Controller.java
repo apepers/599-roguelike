@@ -84,6 +84,7 @@ public class Controller {
 
 		this.messenger = messenger;
 		this.player = p;
+		player.addItem((Holdable)duplicator.duplicate(foods.get(8)));
 
 		//create the map.
 		createMap();
@@ -582,6 +583,17 @@ public class Controller {
 						//messenger.drawImage(ImageManager.getGlobalRegistry().getTile("fog"), target);
 					}
 				}
+			}
+		}
+	}
+	
+	
+	public void revealMap(boolean reveal) {
+		for(int i = 0; i < map.getWidth(); i++) {
+			for(int j = 0; j < map.getHeight(); j++) {
+				map.getTile(i, j).setDiscovered(reveal);
+				map.getTile(i, j).setDiscovered(reveal);
+				messenger.updateTile(i, j);
 			}
 		}
 	}
