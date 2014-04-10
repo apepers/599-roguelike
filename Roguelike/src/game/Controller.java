@@ -113,37 +113,37 @@ public class Controller {
 		//create level 1
 		MapGenerator map1 = new SimpleMap(20,15,3,3);
 		int[] level1Tiles = {1};
-		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(allTiles, level1Tiles), 1);
+		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(level1Tiles), 1);
 
 		this.map = m1;
 
 
 		//create level 2
 		MapGenerator map2 = new SimpleMap(20,15,3,3);
-		int[] level2Tiles = {4,5};
-		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(allTiles, level2Tiles), 1);
+		int[] level2Tiles = {8};
+		Map m2 = MapInterpreter.interpretMap(map2, registrySubset(level2Tiles), 1);
 		m2.setTag("Chapter 1");
 		
 		MapInterpreter.linkMaps(m1, m2);
 
 		//create level 3
 		MapGenerator map3 = new SimpleMap(20,15,4,4);
-		int[] level3Tiles = {3};
-		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(allTiles, level3Tiles), 1);
+		int[] level3Tiles = {17};
+		Map m3 = MapInterpreter.interpretMap(map3, registrySubset(level3Tiles), 1);
 		
 		MapInterpreter.linkMaps(m2, m3);
 
 		//create level 4
 		MapGenerator map4 = new SimpleMap(20,15,4,4);
 		int[] level4Tiles = {4};
-		Map m4 = MapInterpreter.interpretMap(map4, registrySubset(allTiles, level4Tiles), 1);
+		Map m4 = MapInterpreter.interpretMap(map4, registrySubset(level4Tiles), 1);
 
 		MapInterpreter.linkMaps(m2, m4);
 
 		//create level 5
 		MapGenerator map5 = new BSTMap(75,75,4);
-		int[] level5Tiles = {5};
-		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(allTiles, level5Tiles), 2);
+		int[] level5Tiles = {12};
+		Map m5 = MapInterpreter.interpretMap(map5, registrySubset(level5Tiles), 2);
 		m5.setTag("Chapter 2");
 		
 		MapInterpreter.linkMaps(m3, m5);
@@ -154,22 +154,22 @@ public class Controller {
 		//create level 6
 		MapGenerator map6 = new BSTMap(75,75,4);
 		int[] level6Tiles = {6};
-		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(allTiles, level6Tiles), lavas, false, 2);
+		Map m6 = MapInterpreter.interpretMap(map6, registrySubset(level6Tiles), lavas, false, 2);
 		m6.setTag("Chapter 3a");
 		
 		MapInterpreter.linkMaps(m5, m6);
 
 		//create level 7
 		MapGenerator map7 = new BSTMap(75,75,4);
-		int[] level7Tiles = {7};
-		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(allTiles, level7Tiles), 2);
+		int[] level7Tiles = {21, 23};
+		Map m7 = MapInterpreter.interpretMap(map7, registrySubset(level7Tiles), 2);
 		
 		MapInterpreter.linkMaps(m5, m7);
 
 		//create level 8
 		MapGenerator map8 = new BSTMap(75,75,4);
-		int[] level8Tiles = {8};
-		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(allTiles, level8Tiles), ices, false, 2);
+		int[] level8Tiles = {9};
+		Map m8 = MapInterpreter.interpretMap(map8, registrySubset(level8Tiles), ices, false, 2);
 		m8.setTag("Chapter 3b");
 		
 		MapInterpreter.linkMaps(m5, m8);
@@ -180,16 +180,16 @@ public class Controller {
 		//===================================================================
 		//create level 9
 		MapGenerator map9 = new BSTMap(90,90,4);
-		int[] level9Tiles = {9};
-		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(allTiles, level9Tiles), 3);
+		int[] level9Tiles = {21, 23, 7};
+		Map m9 = MapInterpreter.interpretMap(map9, registrySubset(level9Tiles), 3);
 
 		MapInterpreter.linkMaps(m6, m9);
 		MapInterpreter.linkMaps(m7, m9);
 		MapInterpreter.linkMaps(m8, m9);
 
 		//create level 10
-		int[] level10Tiles = {10};
-		FinalMap finalMap = new FinalMap(registrySubset(allTiles, level10Tiles)[0]);
+		int[] level10Tiles = {13};
+		FinalMap finalMap = new FinalMap(registrySubset(level10Tiles)[0]);
 		Map m10 = finalMap.initMap();
 		finalMap.linkRoom(m9);
 		m10.setTag("Final Chapter");
@@ -218,10 +218,10 @@ public class Controller {
 	 * @param end
 	 * @return
 	 */
-	private ImageRegistry[] registrySubset(ImageRegistry[] superSet, int[] indices){
+	private ImageRegistry[] registrySubset(int[] indices){
 		ImageRegistry[] subset = new ImageRegistry[indices.length];
 		for (int i = 0; i < indices.length; i++){
-			subset[i] = superSet[indices[i]-1];
+			subset[i] = ImageManager.getInstance().getTileSet("map" + indices[i]);
 		}
 
 		return subset;
@@ -766,6 +766,7 @@ public class Controller {
 		if (nextMap.getTag() != null){
 			//has text on level entry
 			messenger.showTextDialog(GameText.getText(nextMap.getTag()), nextMap.getTag());
+			player.setTextCollected(player.getTextCollected() + 1);
 			nextMap.setTag(null);			// delete tag to not repeat.
 			
 		}
@@ -778,7 +779,12 @@ public class Controller {
 		if (attackRoll >= attackee.getAC()) {
 			int damage = attacker.getMeleeDamage();
 			attackee.takeDamage(damage, attacker);
-			messenger.println(attackerUppercase + " " + attacker.getBaseMeleeDescription() + " " + attackee.getPronoun() + " for " + damage + " damage!");
+			if (attacker.equals(player) && player.getEquippedWeapon() != null) {
+				Weapon w = player.getEquippedWeapon();
+				messenger.println("Your " + w.properName() + " " + w.getDamageMsg() + " " + attackee.getPronoun() + " for " + damage + " damage!");
+			} else {
+				messenger.println(attackerUppercase + " " + attacker.getBaseMeleeDescription() + " " + attackee.getPronoun() + " for " + damage + " damage!");
+			}
 			return true;
 		} else {
 			if (attackerUppercase.contains("The"))
@@ -801,24 +807,59 @@ public class Controller {
 	// Return a random item for the map, given the current depth in the station
 	// Currently just returns one of our foods randomly.
 	public Holdable getRandMapItem(int mapIndex) {
-		int rand = MapRand.randInt(7);
-		if (rand == 0) {
-			// 1/8 chance of spawning a weapon
-			int randomIndex = MapRand.randInt(weapons.size() - 1);
-			return (Holdable)duplicator.duplicate(weapons.get(randomIndex));
-		} else if (rand == 1) {
-			int randomIndex = MapRand.randInt(armours.size() - 1);
-			return (Holdable)duplicator.duplicate(armours.get(randomIndex));
-		} else {
-			int randomIndex = MapRand.randInt(foods.size() - 1);
-			return (Holdable)duplicator.duplicate(foods.get(randomIndex));
+		Holdable item;
+		do {
+			int rand = MapRand.randInt(7);
+			if (rand == 0) {
+				// 1/8 chance of spawning a weapon
+				int randomIndex = MapRand.randInt(weapons.size() - 1);
+				item = (Holdable)duplicator.duplicate(weapons.get(randomIndex));
+			} else if (rand == 1) {
+				int randomIndex = MapRand.randInt(armours.size() - 1);
+				item = (Holdable)duplicator.duplicate(armours.get(randomIndex));
+			} else {
+				int randomIndex = MapRand.randInt(foods.size() - 1);
+				item = (Holdable)duplicator.duplicate(foods.get(randomIndex));
+			}
+		} while (item.getCost() > tierToMaxCost(mapIndex) || item.getCost() < tierToMinCost(mapIndex));
+		return item;
+	}
+		
+	private int tierToMaxCost(int tier) {
+		switch (tier) {
+		case 1:
+			return 49;
+		case 2:
+			return 99;
+		case 3:
+			return 499;
+		case 4:
+			return 1000;
+		case 5:
+			return 5000;
 		}
+		return 0;
+	}
+	
+	private int tierToMinCost(int tier) {
+		switch (tier) {
+		case 1:
+			return 0;
+		case 2:
+			return 50;
+		case 3:
+			return 100;
+		case 4:
+			return 500;
+		case 5:
+			return 1000;
+		}
+		return 0;
 	}
 
 	public Monster getRandMapMonster(int mapIndex) {
 		int randomIndex = MapRand.randInt(monsters.size() - 1);
 		Monster monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));
-		System.out.println(mapIndex);
 		while (monster.getDifficulty() != mapIndex) {
 			randomIndex = MapRand.randInt(monsters.size() - 1);
 			monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));
@@ -827,22 +868,51 @@ public class Controller {
 	}
 
 	public void addPlayerEvent(int actionCost) {
+		
 		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
 		player.increaseHunger(actionCost);
 		messenger.updateStatus(playerStatus());
 		messenger.updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
+		
 	}
 
 	public void playTurn() {
 		Sentient topEventSentient = timeQueue.getNextEvent();
 		while (!topEventSentient.equals(player)) {
-			moveRandomly(topEventSentient);
+			monsterAction((Monster)topEventSentient);
+			//moveRandomly(topEventSentient);
 			timeQueue.addEventToQueue(topEventSentient, ((Monster) topEventSentient).getActionCost());
 			topEventSentient = timeQueue.getNextEvent();
 		}
 		checkGameOver();
 		player.increaseCurrentHP(1);
 		player.checkCounters();
+	}
+	
+	public void monsterAction(Monster monster) {
+		if (lineOfSight(monster, player.getLocation())) {
+			// chase player
+			ArrayList<Point> directions = new ArrayList<Point>(2);
+			Tile location = monster.getLocation();
+			Tile playerTile = player.getLocation();
+			
+			// Down
+			if (location.getRow() > playerTile.getRow())
+				directions.add(new Point(0, -1));
+			// Up
+			if (location.getRow() < playerTile.getRow())
+				directions.add(new Point(0, 1));
+			// Right
+			if (location.getColumn() < playerTile.getColumn())
+				directions.add(new Point(1, 0));
+			// Left
+			if (location.getColumn() > playerTile.getColumn())
+				directions.add(new Point(-1, 0));
+			int random = MapRand.randInt(directions.size() - 1);
+			moveSentient(monster, directions.get(random).x, directions.get(random).y);
+		} else {
+			moveRandomly(monster);
+		}
 	}
 
 	public void checkGameOver() {
@@ -852,6 +922,7 @@ public class Controller {
 
 			panel.add(new JLabel("You have died!"));
 			panel.add(new JLabel(player.causeOfDeath()));
+			panel.add(new JLabel("Your score was: " + player.getScore()));
 
 			JOptionPane.showMessageDialog(null, panel, "Game Over", JOptionPane.PLAIN_MESSAGE);
 			endGame();

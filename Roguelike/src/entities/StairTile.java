@@ -1,6 +1,8 @@
 package entities;
 
 import game.Map;
+import graphics.ImageManager;
+import graphics.ImageRegistry;
 
 import java.awt.Point;
 
@@ -14,6 +16,7 @@ public class StairTile extends Tile {
 	private Point pA;
 	private Point pB;
 	
+	private boolean imgUp = false;
 	
 	/**
 	 * Creates a tile with the specified link point between maps.
@@ -71,5 +74,22 @@ public class StairTile extends Tile {
 		return pB;
 	}
 
+	/**
+	 * Sets the display image of either stair up or stair down.
+	 * @param b
+	 */
+	public void setImgUp(boolean b){
+		imgUp = b;
+	}
 	
+	@Override
+	public ImageIcon getBackground(){
+		if (imgUp == true){
+			return ImageManager.getGlobalRegistry().getTile("stairs_up");
+		}
+		else{
+			return ImageManager.getGlobalRegistry().getTile("stairs_down");
+		}
+		
+	}
 }

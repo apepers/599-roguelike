@@ -10,15 +10,15 @@ soylent yellow, soylent yellow.png
 tauntaun steak, tauntaun steak.png
 uttaberries, uttaberries.png
 spice, spice.png
-lightsaber, obj_box1.png
-bat'leth, obj_box1.png
-pneumatic glove, obj_box1.png
-shock whip, obj_box1.png
-vibroblade, obj_box1.png
-hydrospanner, obj_box1.png
-welding knife, obj_box1.png
-kinetic staff, obj_box1.png
-crysknife, obj_box1.png
-stormtrooper armour, obj_box2.png
-power armour, obj_box2.png
-space marine armour, obj_box2.png
+lightsaber, w_lightsaber.png
+bat'leth, w_batleth.png
+pneumatic glove, a_pneumaticglove.png
+shock whip, w_shockwhip.png
+vibroblade, w_vibroblade.png
+hydrospanner, w_hydrospanner.png
+welding knife, w_weldingknife.png
+kinetic staff, weapon.png
+crysknife, weapon.png
+stormtrooper armour, clothesarmor.png
+power armour, clothesarmor.png
+space marine armour, clothesarmor.png

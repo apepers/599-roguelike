@@ -60,6 +60,7 @@ public class Food extends Holdable {
 				food = new Drunk(food);
 			if (trait.trim().equals("Strengthening"))
 				food = new Strengthening(food);
+			
 		}
 		return food;
 	}
@@ -102,13 +103,11 @@ public class Food extends Holdable {
 	
 	public void eatEffects(Player player) {
 		for (String effect : getEatEffects()) {
-			switch (effect) {
-				case "Drunk":
-					player.setDrunk(true);
-					break;
-				case "Strengthening":
-					player.setTempStrength(true);
-					break;
+			if (effect.equals("Drunk")){
+				player.setDrunk(true);
+			}
+			else if (effect.equals("Strengthening")){
+				player.setTempStrength(true);
 			}
 		}
 	}

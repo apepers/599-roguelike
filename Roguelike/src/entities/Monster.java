@@ -70,7 +70,7 @@ public class Monster extends Sentient {
 	
 	// When there is AI, the monster will have a next action saved and this will return its cost
 	public float getActionCost() {
-		return 20 / this.getSpeed();
+		return 10 / this.getSpeed();
 	}
 
 	@Override

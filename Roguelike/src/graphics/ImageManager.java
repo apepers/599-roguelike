@@ -1,6 +1,7 @@
 package graphics;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -111,6 +112,7 @@ public class ImageManager {
 		//return result
 		ImageRegistry[] all = new ImageRegistry[results.size()];
 		results.toArray(all);
+		
 		return all;
 	}
 	

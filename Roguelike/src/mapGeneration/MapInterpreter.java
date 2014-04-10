@@ -274,12 +274,12 @@ public class MapInterpreter {
 		}
 		else if(style == 4){
 			//single medium tier treasure with two to three monsters
-			addItemsRoom(map, newMap, room, difficulty);
+			addItemsRoom(map, newMap, room, difficulty + 1);
 			addMonstersRoom(map, newMap, room, difficulty, MapRand.randInt(2, 3));
 		}
 		else if(style == 5){
 			//single high tier treasure with three monsters
-			addItemsRoom(map, newMap, room, difficulty);
+			addItemsRoom(map, newMap, room, difficulty + 2);
 			addMonstersRoom(map, newMap, room, difficulty, MapRand.randInt(3,4));
 		}
 		else if(style == 6){
@@ -400,10 +400,15 @@ public class MapInterpreter {
 			stair2 = MapRand.randPoint(MapRand.innerRectangle(rooms2[MapRand.randInt(rooms2.length -1)]));
 		}
 
+		StairTile stairA = new StairTile(map1, map2, stair1, stair2);
+		StairTile stairB = new StairTile(map2, map1, stair2, stair1);
 
+		stairA.setImgUp(false);
+		stairB.setImgUp(true);
+		
 		//create the special staircase link
-		map1.setTile(stair1.x, stair1.y, new StairTile(map1, map2, stair1, stair2));
-		map2.setTile(stair2.x, stair2.y, new StairTile(map2, map1, stair2, stair1));
+		map1.setTile(stair1.x, stair1.y, stairA);
+		map2.setTile(stair2.x, stair2.y, stairB);
 	}
 	
 	
