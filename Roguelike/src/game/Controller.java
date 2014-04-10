@@ -638,7 +638,8 @@ public class Controller {
 					player.incrementStrength();
 				} else {
 					if (occupant.isDead() && !occupant.equals(player)) {
-						messenger.println(occupant.getPronoun() + " is slain!");
+						if(occupant.isInSight())
+							messenger.println(occupant.getPronoun() + " is slain!");
 						map.removeMonster((Monster)occupant);
 						timeQueue.removeSentient(occupant);
 						messenger.updateTile(newPt);
@@ -903,8 +904,7 @@ public class Controller {
 	}
 	
 	public void monsterAction(Monster monster) {
-		if(monster.isInSight())
-			System.out.println("You can see " + monster.getName());
+
 		if (lineOfSight(monster, player.getLocation())) {
 			// chase player
 			ArrayList<Point> directions = new ArrayList<Point>(2);
