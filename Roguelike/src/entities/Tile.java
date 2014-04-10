@@ -18,6 +18,9 @@ public class Tile {
 	private ImageIcon background;
 	private boolean passable;
 	
+	private boolean discovered = false;
+	private boolean visible = false;
+	
 	private int row;
 	private int column;
 	
@@ -200,6 +203,23 @@ public class Tile {
 	public void setPassable(boolean passable) {
 		this.passable = passable;
 	}
+	
+	public boolean isDiscovered() {
+		return discovered;
+	}
+
+	public void setDiscovered(boolean discovered) {
+		this.discovered = discovered;
+	}
+	
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+	
 
 	
 	

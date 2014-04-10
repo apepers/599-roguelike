@@ -77,6 +77,15 @@ public class Map {
 	public int getHeight() {
 		return height;
 	}
+	
+	public boolean boundaryCheck(Point point) {
+		if((point.x > 0) && point.x < width) {
+			if((point.y > 0) && point.y < height) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 

@@ -124,6 +124,9 @@ public class TileDisplay extends JPanel{
 		Graphics pane = buffer.getGraphics();
 		if (tile != null){
 			pane.drawImage(tile.getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+			if(!currentMap.getTile(x, y).isVisible()) {
+				pane.drawImage(ImageManager.getGlobalRegistry().getTile("fog").getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+			}
 		}
 		
 	}

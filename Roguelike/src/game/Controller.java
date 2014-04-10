@@ -88,6 +88,7 @@ public class Controller {
 		//create the map.
 		createMap();
 		resetTimeQueue();
+		fieldOfView(true);
 	}
 
 	
@@ -538,7 +539,6 @@ public class Controller {
 					System.out.println(source.getName() + " sees you!");
 					return true;
 				}
-				//System.out.println(x + ", " + y);
 			} while(map.getTile(x, y).isPassable());
 			
 			return false;
@@ -559,22 +559,27 @@ public class Controller {
 					System.out.println(source.getName() + " sees you!");
 					return true;
 				}
-				//System.out.println(x + ", " + y);
 			} while(map.getTile(x, y).isPassable());
 			
 			return false;
 		}
-		
-		
-		/*
-		if ( (Math.abs(deltaX) + Math.abs(deltaY)) <= this.getSightRange() ) {
-			System.out.println(this.getName() + "sees you!");
-			return true;
-		} else {
-			return false;
+	}
+	
+	
+	public void fieldOfView(boolean visible) {
+		Point start = new Point(player.getLocation().getColumn() - player.getSightRange(), player.getLocation().getRow() - player.getSightRange());
+		for(int i = 0; i < player.getSightRange() * 2; i++) {
+			for(int j = 0; j < player.getSightRange() * 2; j++) {
+				Point target = new Point(start.x + i, start.y + j);
+				if(map.boundaryCheck(target)) {
+					if(lineOfSight(player, map.getTile(target))) {
+						map.getTile(target).setVisible(visible);
+						messenger.updateTile(target);
+						//messenger.drawImage(ImageManager.getGlobalRegistry().getTile("fog"), target);
+					}
+				}
+			}
 		}
-		*/
-		
 	}
 	
 
