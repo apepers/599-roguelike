@@ -166,7 +166,9 @@ public class Messenger {
 				if(cursorMode) {
 					controller.moveCursorUp();
 				} else {
+					controller.fieldOfView(false);
 					controller.movePlayerUp();
+					controller.fieldOfView(true);
 					controller.addPlayerEvent(10);
 					controller.playTurn();
 				}
@@ -179,7 +181,9 @@ public class Messenger {
 				if(cursorMode) {
 					controller.moveCursorDown();
 				} else {
+					controller.fieldOfView(false);
 					controller.movePlayerDown();
+					controller.fieldOfView(true);
 					controller.addPlayerEvent(10);
 					controller.playTurn();
 				}
@@ -192,7 +196,9 @@ public class Messenger {
 				if(cursorMode) {
 					controller.moveCursorLeft();
 				} else {
+					controller.fieldOfView(false);
 					controller.movePlayerLeft();
+					controller.fieldOfView(true);
 					controller.addPlayerEvent(10);
 					controller.playTurn();
 				}
@@ -205,7 +211,9 @@ public class Messenger {
 				if(cursorMode) {
 					controller.moveCursorRight();
 				} else {
+					controller.fieldOfView(false);
 					controller.movePlayerRight();
+					controller.fieldOfView(true);
 					controller.addPlayerEvent(10);
 					controller.playTurn();
 				}
@@ -255,15 +263,19 @@ public class Messenger {
 		
 		stairsUp = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				controller.fieldOfView(false);
 				controller.addPlayerEvent(10);
 				controller.stairsUp();
+				controller.fieldOfView(true);
 			}
 		};
 		
 		stairsDown = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				controller.fieldOfView(false);
 				controller.addPlayerEvent(10);
 				controller.stairsDown();
+				controller.fieldOfView(true);
 			}
 		};
 		
@@ -278,14 +290,17 @@ public class Messenger {
 				controller.addPlayerEvent(10);
 				controller.openDoorEvent();
 				controller.playTurn();
+				controller.fieldOfView(true);
 			}
 		};
 		
 		closeDoor = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				controller.fieldOfView(false);
 				controller.addPlayerEvent(10);
 				controller.closeDoorEvent();
 				controller.playTurn();
+				controller.fieldOfView(true);
 			}
 		};
 	}

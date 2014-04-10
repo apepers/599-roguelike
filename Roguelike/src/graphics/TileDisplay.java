@@ -124,6 +124,9 @@ public class TileDisplay extends JPanel{
 		Graphics pane = buffer.getGraphics();
 		if (tile != null){
 			pane.drawImage(tile.getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+			if(!currentMap.getTile(x, y).isVisible()) {
+				pane.drawImage(ImageManager.getGlobalRegistry().getTile("fog").getImage(), x*TILE_SIZE, y*TILE_SIZE, null);
+			}
 		}
 		
 	}
@@ -142,8 +145,10 @@ public class TileDisplay extends JPanel{
 
 		
 		drawTile(currentMap.getTile(x, y).getBackground(), x, y);
-		drawTile(currentMap.getTile(x, y).getTopItemImage(), x, y);
-		drawTile(currentMap.getTile(x, y).getOccupantImage(), x, y);
+		if(currentMap.getTile(x, y).isVisible()) { 
+			drawTile(currentMap.getTile(x, y).getTopItemImage(), x, y);
+			drawTile(currentMap.getTile(x, y).getOccupantImage(), x, y);
+		}
 
 		//update now
 		repaintSuper();
@@ -203,8 +208,10 @@ public class TileDisplay extends JPanel{
 		for (int i = 0; i< map.getWidth(); i++){
 			for (int j = 0; j< map.getHeight(); j++){
 				drawTile(map.getTile(i, j).getBackground(), i, j);
-				drawTile(map.getTile(i, j).getTopItemImage(), i, j);
-				drawTile(map.getTile(i, j).getOccupantImage(), i, j);
+				if(currentMap.getTile(i, j).isVisible()) { 
+					drawTile(map.getTile(i, j).getTopItemImage(), i, j);
+					drawTile(map.getTile(i, j).getOccupantImage(), i, j);
+				}
 			}
 		}
 
