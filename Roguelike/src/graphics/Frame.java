@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -47,6 +48,7 @@ public class Frame extends JFrame {
 
 	private JScrollPane scrollPaneMap;
 
+
 	/**
 	 * Create the frame.
 	 */
@@ -71,6 +73,17 @@ public class Frame extends JFrame {
 			}
 		});
 		mnFile.add(mntmQuit);
+
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+
+		JMenuItem mntmControls = new JMenuItem("Controls...");
+		mntmControls.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, GameText.getText("Controls"), "Severed Space Controls", JOptionPane.PLAIN_MESSAGE);
+			}
+		});
+		mnHelp.add(mntmControls);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
@@ -125,7 +138,7 @@ public class Frame extends JFrame {
 		console.getActionMap().put("wield", controller.getMessenger().getEquipAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "put-on");
 		console.getActionMap().put("put-on", controller.getMessenger().getPutOnAction());
-		
+
 		//arrrow keys
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
 		console.getActionMap().put("up", controller.getMessenger().getUpAction());
@@ -135,20 +148,20 @@ public class Frame extends JFrame {
 		console.getActionMap().put("left", controller.getMessenger().getLeftAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
 		console.getActionMap().put("right", controller.getMessenger().getRightAction());
-		
+
 		//wait key
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "wait");
 		console.getActionMap().put("wait", controller.getMessenger().getWaitAction());
-	
+
 		//stair use key
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, KeyEvent.SHIFT_DOWN_MASK), "stair_up");
 		console.getActionMap().put("stair_up", controller.getMessenger().getStairsUp());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, KeyEvent.SHIFT_DOWN_MASK), "stair_down");
 		console.getActionMap().put("stair_down", controller.getMessenger().getStairsDown());
-		 
+
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), "center_map");
 		console.getActionMap().put("center_map", controller.getMessenger().getCenterMap());
-		
+
 		//open/close door keys
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0), "open_door");
 		console.getActionMap().put("open_door", controller.getMessenger().getOpenDoor());
