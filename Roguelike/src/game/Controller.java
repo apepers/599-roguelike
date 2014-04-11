@@ -246,7 +246,7 @@ public class Controller {
 
 	private void loadFoods() throws IOException {
 		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("src\\itemdata.txt"));
+		in = new BufferedReader(new FileReader("data\\itemdata.txt"));
 		String line = in.readLine();
 		if (!headersMatch(Food.csvHeaders(), line)) {
 			System.out.println("Error: Food section is improperly defined in the headers");
@@ -266,7 +266,7 @@ public class Controller {
 	
 	private void loadWeapons() throws IOException {
 		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("src\\weapondata.txt"));
+		in = new BufferedReader(new FileReader("data\\weapondata.txt"));
 		String line = in.readLine();
 		if (!headersMatch(Weapon.csvHeaders(), line)) {
 			System.out.println("Error: Weapon section is improperly defined in the headers");
@@ -286,7 +286,7 @@ public class Controller {
 	
 	private void loadArmours() throws IOException {
 		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("src\\armourdata.txt"));
+		in = new BufferedReader(new FileReader("data\\armourdata.txt"));
 		String line = in.readLine();
 		if (!headersMatch(Armour.csvHeaders(), line)) {
 			System.out.println("Error: Armour section is improperly defined in the headers");
@@ -306,7 +306,7 @@ public class Controller {
 
 	private void loadMonsters() throws IOException {
 		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("src\\monsterdata.txt"));
+		in = new BufferedReader(new FileReader("data\\monsterdata.txt"));
 		String line = in.readLine();
 		if (!headersMatch(Monster.csvHeaders(), line)) {
 			System.out.println("Error: Monster CSV file is improperly defined in the headers");
@@ -329,7 +329,7 @@ public class Controller {
 	 */
 	private void addFoodDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
-		descMap = parseDescriptionFile("src\\itemquotes.txt");
+		descMap = parseDescriptionFile("data\\itemquotes.txt");
 
 		for(Food food : foods) {
 			String name = food.getName().toLowerCase();
@@ -344,7 +344,7 @@ public class Controller {
 	 */
 	private void addWeaponDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
-		descMap = parseDescriptionFile("src\\weaponquotes.txt");
+		descMap = parseDescriptionFile("data\\weaponquotes.txt");
 
 		for(Weapon weapon : weapons) {
 			String name = weapon.getName().toLowerCase();
@@ -359,7 +359,7 @@ public class Controller {
 	 */
 	private void addArmourDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
-		descMap = parseDescriptionFile("src\\armourquotes.txt");
+		descMap = parseDescriptionFile("data\\armourquotes.txt");
 
 		for(Armour armour : armours) {
 			String name = armour.getName().toLowerCase();
@@ -374,7 +374,7 @@ public class Controller {
 	 */
 	private void addMonsterDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
-		descMap = parseDescriptionFile("src\\monsterquotes.txt");
+		descMap = parseDescriptionFile("data\\monsterquotes.txt");
 
 		for(Monster monster : monsters) {
 			String name = monster.getName().toLowerCase();
