@@ -1,0 +1,21 @@
+Severed Space Controls:
+
+q - quit
+, - pickup
+i - inventory
+e - eat
+d - drop
+l - look (at ground)
+w - wield (weapon)
+p - put on (armor)
+o - open door
+s - shut door
+> - go up stairs
+< - go down stairs
+c - center map
+? - identify
+enter - select (in menus and cursor)
+arrow keys - movement
+spacebar - wait
+
+
