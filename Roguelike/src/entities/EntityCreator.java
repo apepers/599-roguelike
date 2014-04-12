@@ -4,22 +4,32 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EntityCreator {
 	
 	ArrayList<String> foods;
-	ArrayList<String> monsters;
 	ArrayList<String> weapons;
 	ArrayList<String> armours;
+	ArrayList<String> monsters;
+	HashMap<String, String> foodQuotes;
+	HashMap<String, String> weaponQuotes;
+	HashMap<String, String> armourQuotes;
+	HashMap<String, String> monsterQuotes;
 	
 	public EntityCreator() {
 		foods = new ArrayList<String>();
 		weapons = new ArrayList<String>();
 		monsters = new ArrayList<String>();
 		armours = new ArrayList<String>();
+		foodQuotes = new HashMap<String, String>();
+		weaponQuotes = new HashMap<String, String>();
+		armourQuotes = new HashMap<String, String>();
+		monsterQuotes = new HashMap<String, String>();
 		
 		try {
 			loadEntities();
+			loadDescriptions();
 		} catch (IOException e) {
 			System.err.println("Error reading the data CSV files.");
 			e.printStackTrace();
@@ -36,6 +46,14 @@ public class EntityCreator {
 		loadFile("Weapon", weapons, "data\\weapondata.txt", Weapon.csvHeaders());
 		loadFile("Armour", armours, "data\\armourdata.txt", Armour.csvHeaders());
 		loadFile("Monster", monsters, "data\\monsterdata.txt", Monster.csvHeaders());
+	}
+	
+	
+	public void loadDescriptions() throws IOException {
+		foodQuotes = parseDescriptionFile("data\\itemquotes.txt");
+		weaponQuotes = parseDescriptionFile("data\\weaponquotes.txt");
+		armourQuotes = parseDescriptionFile("data\\armourquotes.txt");
+		monsterQuotes = parseDescriptionFile("data\\monsterquotes.txt");
 	}
 	
 	
@@ -129,6 +147,7 @@ public class EntityCreator {
 	public Food createFood(int index) {
 		Food newFood = Food.createFoodFromReader(foods.get(index));
 		if (newFood != null) {
+			addFoodDescription(newFood);
 			return newFood;
 		} else {
 			System.out.println("Created Food is null");
@@ -150,6 +169,7 @@ public class EntityCreator {
 	public Weapon createWeapon(int index) {
 		Weapon newWeapon = Weapon.createWeaponFromReader(weapons.get(index));
 		if (newWeapon != null) {
+			addWeaponDescription(newWeapon);
 			return newWeapon;
 		} else {
 			System.out.println("Created Weapon is null");
@@ -171,6 +191,7 @@ public class EntityCreator {
 	public Armour createArmour(int index) {
 		Armour newArmour = Armour.createArmourFromReader(armours.get(index));
 		if (newArmour != null) {
+			addArmourDescription(newArmour);
 			return newArmour;
 		} else {
 			System.out.println("Created Armour is null");
@@ -192,6 +213,7 @@ public class EntityCreator {
 	public Monster createMonster(int index) {
 		Monster newMonster = Monster.createMonsterFromReader(monsters.get(index));
 		if (newMonster != null) {
+			addMonsterDescription(newMonster);
 			return newMonster;
 		} else {
 			System.out.println("Created Monster is null");
@@ -239,4 +261,73 @@ public class EntityCreator {
 	public int numMonsters() {
 		return monsters.size();
 	}
+	
+	
+	/*
+	 * THE STUFF BELOW HAS TO DO WITH ADDING THE DESCRIPTIONS AND QUOTES TO ENTITIES
+	 */
+	
+	/*
+	 * Parse through a given description/quotes .txt file and
+	 * convert it into a HashMap with the Entity name as the key
+	 */
+	private HashMap<String, String> parseDescriptionFile(String filename) throws IOException {
+		HashMap<String, String> descMap = new HashMap<String, String>();
+		BufferedReader in = null;
+		in = new BufferedReader(new FileReader(filename));
+		String key = "";
+		String value = "";
+
+		String line = in.readLine();
+		while (line != null) {
+			//This line should always be the monster name.
+			key = line.substring(2).trim().toLowerCase();
+			value = "";
+			line = in.readLine();
+			while((line != null) && (!line.startsWith("##"))) {
+				if(line.startsWith("^^")) {
+					value += line.substring(2).trim();
+				} else {
+					value += line + "\n";
+				}
+				line = in.readLine();
+			}
+			descMap.put(key, value);
+		}
+		in.close();
+		return descMap;
+	}
+	
+	
+	private void addFoodDescription(Food food) {
+		String name = food.getName().toLowerCase();
+		if(foodQuotes.containsKey(name)) {
+			food.setDescription(foodQuotes.get(name));
+		}
+	}
+	
+	
+	private void addWeaponDescription(Weapon weapon) {
+		String name = weapon.getName().toLowerCase();
+		if(weaponQuotes.containsKey(name)) {
+			weapon.setDescription(weaponQuotes.get(name));
+		}
+	}
+	
+	
+	private void addArmourDescription(Armour armour) {
+		String name = armour.getName().toLowerCase();
+		if(armourQuotes.containsKey(name)) {
+			armour.setDescription(armourQuotes.get(name));
+		}
+	}
+	
+	
+	private void addMonsterDescription(Monster monster) {
+		String name = monster.getName().toLowerCase();
+		if(monsterQuotes.containsKey(name)) {
+			monster.setDescription(monsterQuotes.get(name));
+		}
+	}
+
 }
