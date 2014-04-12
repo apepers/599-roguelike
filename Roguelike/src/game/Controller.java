@@ -159,8 +159,9 @@ public class Controller {
 		//create level 10
 		int[] level10Tiles = {13};
 		FinalMap finalMap = new FinalMap(registrySubset(level10Tiles)[0]);
-		Map m10 = finalMap.initMap();
-		finalMap.linkRoom(m9);
+		finalMap.initMap();
+		Map m10 = finalMap.getMap();
+		finalMap.linkRoom(m1);
 		m10.setTag("Final Chapter");
 
 

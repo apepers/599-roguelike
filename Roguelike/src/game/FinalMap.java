@@ -21,8 +21,8 @@ import mapGeneration.MapTile;
  */
 public final class FinalMap extends MapGenerator {
 
-	private static final int HEIGHT = 31;
-	private static final int WIDTH = 55;
+	private static final int HEIGHT = 32;
+	private static final int WIDTH = 56;
 
 	private static final int ROOM_PADDING = 6;
 	private static final int RETRY_COUNT = 1000;
