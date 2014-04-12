@@ -169,13 +169,13 @@ public class Controller {
 		//=====================================================
 		// Place player on the first map
 		
-		this.map = m1;
+		this.map = m10;
 		
-		Point spawn = m1.getPlayerSpawn();
-		m1.getTile(spawn.x, spawn.y).setOccupant(player);
+		Point spawn = m10.getPlayerSpawn();
+		m10.getTile(spawn.x, spawn.y).setOccupant(player);
 
 		//setup the display
-		messenger.drawMap(m1);
+		messenger.drawMap(m10);
 		messenger.updateStatus(playerStatus());
 		messenger.centerMap(spawn);
 

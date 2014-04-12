@@ -31,7 +31,7 @@ public final class FinalMap extends MapGenerator {
 	private static final int MONSTER_TIER = 3;
 	
 	private static final Point STAIR_POINT = new Point(ROOM_PADDING+3, ROOM_PADDING+3);
-
+	private static final Point SPAWN_POINT = new Point(ROOM_PADDING+2,ROOM_PADDING+2);
 	private ImageRegistry skin;
 
 	
@@ -74,6 +74,7 @@ public final class FinalMap extends MapGenerator {
 	private Map createMap(){
 
 		ImageRegistry[] skinWrap = {skin};
+		super.setPlayerSpawn(SPAWN_POINT);
 		Map newMap = MapInterpreter.interpretMap(this, skinWrap, MONSTER_TIER);
 
 		//fill the room with monsters
@@ -97,12 +98,15 @@ public final class FinalMap extends MapGenerator {
 				Monster babyMonster = Controller.getInstance().getRandMapMonster(MONSTER_TIER);
 				selected.setOccupant(babyMonster);
 				newMap.addMonster(babyMonster);
+				System.out.println(newMap.getMonsters().length);
 			}
 				
 			
 		}
 		
 		
+		
+		newMap.setPlayerSpawn(SPAWN_POINT);
 		//add the mcguffin item
 		
 		
