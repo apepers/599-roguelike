@@ -11,7 +11,6 @@ import java.util.HashMap;
 import entities.*;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
-import serialization.ItemDuplicator;
 import mapGeneration.BSTMap;
 import mapGeneration.MapGenerator;
 import mapGeneration.MapInterpreter;
@@ -95,22 +94,6 @@ public class Controller {
 		p.addItem(creator.createFood("bloodwine"));
 		p.addItem(creator.createWeapon("pneumatic glove"));
 		p.addItem(creator.createArmour("stormtrooper armour"));
-/*
-		for (Food f : foods) {
-			if (f.getName().equals("spice"))
-				p.addItem((Holdable)duplicator.duplicate(f));
-			else if (f.getName().equals("bloodwine"))
-				p.addItem((Holdable)duplicator.duplicate(f));
-		}
-		for (Weapon w : weapons) {
-			if (w.getName().equals("pneumatic glove"))
-				p.addItem((Holdable)duplicator.duplicate(w));
-		}
-		for (Armour a : armours) {
-			if (a.getName().equals("stormtrooper armour"))
-				p.addItem((Holdable)duplicator.duplicate(a));
-		}
-*/
 
 		//create the map.
 		createMap();
@@ -255,88 +238,6 @@ public class Controller {
 	}
 	
 	
-/*
-	private void loadFoods() throws IOException {
-		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("data\\itemdata.txt"));
-		String line = in.readLine();
-		if (!headersMatch(Food.csvHeaders(), line)) {
-			System.out.println("Error: Food section is improperly defined in the headers");
-			System.exit(0);
-		}
-		// Check headers
-		String food = in.readLine();
-		while (food != null) {
-			Food newFood = Food.createFoodFromReader(food);
-			if (newFood != null)
-				foods.add(newFood);
-			food = in.readLine();
-		}
-
-		in.close();
-	}
-	
-	private void loadWeapons() throws IOException {
-		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("data\\weapondata.txt"));
-		String line = in.readLine();
-		if (!headersMatch(Weapon.csvHeaders(), line)) {
-			System.out.println("Error: Weapon section is improperly defined in the headers");
-			System.exit(0);
-		}
-		// Check headers
-		String weapon = in.readLine();
-		while (weapon != null) {
-			Weapon newWeapon = Weapon.createWeaponFromReader(weapon);
-			if (newWeapon != null)
-				weapons.add(newWeapon);
-			weapon = in.readLine();
-		}
-
-		in.close();
-	}
-	
-	private void loadArmours() throws IOException {
-		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("data\\armourdata.txt"));
-		String line = in.readLine();
-		if (!headersMatch(Armour.csvHeaders(), line)) {
-			System.out.println("Error: Armour section is improperly defined in the headers");
-			System.exit(0);
-		}
-		// Check headers
-		String armour = in.readLine();
-		while (armour != null) {
-			Armour newArmour = Armour.createArmourFromReader(armour);
-			if (newArmour != null)
-				armours.add(newArmour);
-			armour = in.readLine();
-		}
-
-		in.close();
-	}
-
-	private void loadMonsters() throws IOException {
-		BufferedReader in = null;
-		in = new BufferedReader(new FileReader("data\\monsterdata.txt"));
-		String line = in.readLine();
-		if (!headersMatch(Monster.csvHeaders(), line)) {
-			System.out.println("Error: Monster CSV file is improperly defined in the headers");
-			System.exit(0);
-		}
-		String monster = in.readLine();
-		while (monster != null) {
-			Monster newMonster = Monster.createMonsterFromReader(monster);
-			if (newMonster != null) {
-				monsters.add(newMonster);
-			}
-			monster = in.readLine();
-		}
-		in.close();
-	}
-*/
-
-	
 	/*
 	 * ADD DESCRIPTIONS AND QUOTES TO EXISTING ENTITIES METHODS
 	 */
@@ -390,39 +291,6 @@ public class Controller {
 				monster.setDescription(descMap.get(name));
 			}
 		}
-	}
-*/
-
-	/*
-	 * Parse through a given description/quotes .txt file and
-	 * convert it into a HashMap with the Entity name as the key
-	 */
-/*
-	private HashMap<String, String> parseDescriptionFile(String filename) throws IOException {
-		HashMap<String, String> descMap = new HashMap<String, String>();
-		BufferedReader in = null;
-		in = new BufferedReader(new FileReader(filename));
-		String key = "";
-		String value = "";
-
-		String line = in.readLine();
-		while (line != null) {
-			//This line should always be the monster name.
-			key = line.substring(2).trim().toLowerCase();
-			value = "";
-			line = in.readLine();
-			while((line != null) && (!line.startsWith("##"))) {
-				if(line.startsWith("^^")) {
-					value += line.substring(2).trim();
-				} else {
-					value += line + "\n";
-				}
-				line = in.readLine();
-			}
-			descMap.put(key, value);
-		}
-		in.close();
-		return descMap;
 	}
 */
 	
@@ -864,18 +732,12 @@ public class Controller {
 				// 1/8 chance of spawning a weapon
 				int randomIndex = MapRand.randInt(creator.numWeapons() - 1);
 				item = creator.createWeapon(randomIndex);
-//				int randomIndex = MapRand.randInt(weapons.size() - 1);
-//				item = (Holdable)duplicator.duplicate(weapons.get(randomIndex));
 			} else if (rand == 1) {
 				int randomIndex = MapRand.randInt(creator.numArmours() - 1);
 				item = creator.createArmour(randomIndex);
-//				int randomIndex = MapRand.randInt(armours.size() - 1);
-//				item = (Holdable)duplicator.duplicate(armours.get(randomIndex));
 			} else {
 				int randomIndex = MapRand.randInt(creator.numFoods() - 1);
 				item = creator.createFood(randomIndex);
-//				int randomIndex = MapRand.randInt(foods.size() - 1);
-//				item = (Holdable)duplicator.duplicate(foods.get(randomIndex));
 			}
 		} while (item.getCost() > tierToMaxCost(mapIndex) || item.getCost() < tierToMinCost(mapIndex));
 		return item;
@@ -920,14 +782,6 @@ public class Controller {
 			randomIndex = MapRand.randInt(creator.numMonsters() - 1);
 			monster = creator.createMonster(randomIndex);
 		}
-/*
-		int randomIndex = MapRand.randInt(monsters.size() - 1);
-		Monster monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));
-		while (monster.getDifficulty() != mapIndex) {
-			randomIndex = MapRand.randInt(monsters.size() - 1);
-			monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));
-		}
-*/
 		return monster;
 	}
 
