@@ -85,7 +85,6 @@ public class Controller {
 		int[] level1Tiles = {1};
 		Map m1 = MapInterpreter.interpretMap(map1, registrySubset(level1Tiles), 1);
 
-		this.map = m1;
 
 
 		//create level 2
@@ -168,6 +167,9 @@ public class Controller {
 
 		//=====================================================
 		// Place player on the first map
+		
+		this.map = m1;
+		
 		Point spawn = m1.getPlayerSpawn();
 		m1.getTile(spawn.x, spawn.y).setOccupant(player);
 
