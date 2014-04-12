@@ -29,7 +29,7 @@ public class Container extends Holdable {
 			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
 			while(iter.hasNext()) {
 				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
-				itemText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemText[itemCount] = entry.getKey() + " - " + entry.getValue().inventoryName();
 				itemCount++;
 			}
 		}
@@ -37,7 +37,7 @@ public class Container extends Holdable {
 			Iterator<Entry<Character, Armour>> iter = armours.entrySet().iterator();
 			while (iter.hasNext()) {
 				Map.Entry<Character, Armour> entry = (Map.Entry<Character, Armour>)iter.next();
-				itemText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				itemText[itemCount] = entry.getKey() + " - " + entry.getValue().inventoryName();
 				itemCount++;
 			}
 		}
@@ -67,7 +67,7 @@ public class Container extends Holdable {
 			Iterator<Entry<Character, Weapon>> iter = weapons.entrySet().iterator();
 			while(iter.hasNext()) {
 				Map.Entry<Character, Weapon> entry = (Map.Entry<Character, Weapon>)iter.next();
-				weaponText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				weaponText[itemCount] = entry.getKey() + " - " + entry.getValue().inventoryName();
 				itemCount++;
 			}			
 		}
@@ -81,7 +81,7 @@ public class Container extends Holdable {
 			Iterator<Entry<Character, Armour>> iter = armours.entrySet().iterator();
 			while(iter.hasNext()) {
 				Map.Entry<Character, Armour> entry = (Map.Entry<Character, Armour>)iter.next();
-				armourText[itemCount] = entry.getKey() + " - " + entry.getValue().properName();
+				armourText[itemCount] = entry.getKey() + " - " + entry.getValue().inventoryName();
 				itemCount++;
 			}			
 		}

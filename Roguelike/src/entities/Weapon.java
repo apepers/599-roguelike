@@ -1,5 +1,6 @@
 package entities;
 
+import game.Controller;
 import graphics.ImageManager;
 
 import javax.swing.ImageIcon;
@@ -75,5 +76,13 @@ public class Weapon extends Holdable {
 
 	public void setDamageMsg(String damageMsg) {
 		this.damageMsg = damageMsg;
+	}
+	
+	public String inventoryName() {
+		Weapon equippedWeapon = Controller.getInstance().getPlayer().getEquippedWeapon();
+		if (equippedWeapon != null && equippedWeapon.equals(this))
+			return this.getName() + " (currently equipped)";
+		else
+			return this.getName();
 	}
 }

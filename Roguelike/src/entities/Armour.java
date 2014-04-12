@@ -1,5 +1,6 @@
 package entities;
 
+import game.Controller;
 import graphics.ImageManager;
 
 import javax.swing.ImageIcon;
@@ -54,5 +55,13 @@ public class Armour extends Holdable {
 
 	public void setAC(int aC) {
 		AC = aC;
+	}
+
+	public String inventoryName() {
+		Armour equippedArmour = Controller.getInstance().getPlayer().getEquippedArmour();
+		if (equippedArmour != null && equippedArmour.equals(this))
+			return this.getName() + " (currently equipped)";
+		else
+			return this.getName();
 	}
 }

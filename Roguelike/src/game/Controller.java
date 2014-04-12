@@ -245,6 +245,10 @@ public class Controller {
 	public Messenger getMessenger() {
 		return messenger;
 	}
+	
+	public Player getPlayer() {
+		return player;
+	}
 
 	public String playerEat(Food food) {
 		player.increaseNutrition(food.getNutrition());
