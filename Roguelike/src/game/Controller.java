@@ -6,8 +6,6 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import entities.*;
 import graphics.ImageManager;
 import graphics.ImageRegistry;
@@ -19,8 +17,6 @@ import mapGeneration.SimpleMap;
 
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.io.*;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,13 +28,6 @@ public class Controller {
 	private Cursor cursor;
 	
 	EntityCreator creator;
-/*
-	ArrayList<Food> foods;
-	ArrayList<Monster> monsters;
-	ArrayList<Weapon> weapons;
-	ArrayList<Armour> armours;
-	private ItemDuplicator duplicator;
-*/
 	private Map map;								//the current map loaded
 
 	private Messenger messenger;
@@ -48,34 +37,8 @@ public class Controller {
 	private static Controller global;
 
 	private Controller() { 
-
-		//load the food and monster CSV files.
-/*		foods = new ArrayList<Food>();
-		weapons = new ArrayList<Weapon>();
-		monsters = new ArrayList<Monster>();
-		armours = new ArrayList<Armour>();
-
-		try {
-			loadFoods();
-			addFoodDescriptions();
-			loadWeapons();
-			addWeaponDescriptions();
-			loadArmours();
-			addArmourDescriptions();
-			loadMonsters();
-			addMonsterDescriptions();
-		} catch (IOException e) {
-			System.err.println("Error reading the data CSV files.");
-			e.printStackTrace();
-		}
-
-		//prepare duplicator and player
-		duplicator = new ItemDuplicator();
-*/
 		creator = new EntityCreator();
 		timeQueue = new TimeQueue();
-		
-		
 	};
 
 	public static Controller getInstance(){
@@ -86,7 +49,6 @@ public class Controller {
 	}
 
 	public void setup(Messenger messenger, Player p){
-
 		this.messenger = messenger;
 		this.player = p;
 		
@@ -107,8 +69,6 @@ public class Controller {
 	 * between maps and sets the player's spawn when starting.
 	 */
 	private void createMap(){
-
-		ImageRegistry[] allTiles = ImageManager.getInstance().getAllTileSets("map");
 
 		//create space icons
 		ImageIcon[] lavas = { 
@@ -267,7 +227,7 @@ public class Controller {
 		}
 		System.out.println("The " + testMonster.getName() + " is slain!");
 	}
-	
+
 
 	/**
 	 * Begins the game
