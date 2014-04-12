@@ -29,12 +29,12 @@ public final class FinalMap extends MapGenerator {
 	private static final int MONSTER_COUNT = 30;
 	//private static final int MONSTER_TIER = 9001;
 	private static final int MONSTER_TIER = 3;
-	
+
 	private static final Point STAIR_POINT = new Point(ROOM_PADDING+3, ROOM_PADDING+3);
 
 	private ImageRegistry skin;
 
-	
+
 	private Map map;
 	private Rectangle room;
 
@@ -70,7 +70,7 @@ public final class FinalMap extends MapGenerator {
 	public Map getMap(){
 		return map;
 	}
-	
+
 	private Map createMap(){
 
 		ImageRegistry[] skinWrap = {skin};
@@ -89,21 +89,23 @@ public final class FinalMap extends MapGenerator {
 				j++;
 			}
 
-			
-			
+
+
 			//create monster and add to map.
 			Tile selected = newMap.getTile(tempPt.x, tempPt.y);
-			if(selected.isOccupied())
-				continue;
+
 			Monster babyMonster = Controller.getInstance().getRandMapMonster(MONSTER_TIER);
 			selected.setOccupant(babyMonster);
 			newMap.addMonster(babyMonster);
+
+
+
 		}
-		
-		
+
+
 		//add the mcguffin item
-		
-		
+
+
 		return newMap;
 	}
 
