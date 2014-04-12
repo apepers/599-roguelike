@@ -38,7 +38,7 @@ public final class FinalMap extends MapGenerator {
 	
 	private static final Point STAIR_POINT = new Point(ROOM_PADDING+3, ROOM_PADDING+3);
 	private static final Point SPAWN_POINT = new Point(ROOM_PADDING+2,ROOM_PADDING+2);
-	private static final Point TELEPORT_ITEM_POINT = new Point(ROOM.x + ROOM.width -2, ROOM.x + ROOM.height -2);
+	private static final Point TELEPORT_ITEM_POINT = new Point(ROOM.x + ROOM.width -5, ROOM.x + ROOM.height -5);
 	
 
 	private ImageRegistry skin;
