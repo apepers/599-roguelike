@@ -38,6 +38,7 @@ public class Messenger {
 	private Action LAction;
 	private Action equipAction;
 	private Action putOnAction;
+	private Action wizardAction;
 	
 	//cursor events
 	private Action upAction;
@@ -303,6 +304,12 @@ public class Messenger {
 				controller.fieldOfView(true);
 			}
 		};
+		
+		wizardAction = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				wizardMode();
+			}
+		};
 	}
 	
 	
@@ -410,6 +417,8 @@ public class Messenger {
 					if (index != -1) {
 						JRadioButton button = radioButtons[index];
 						button.setSelected(true);
+					} else {
+						println(e.getActionCommand() + " is not a valid ID, do you have capslock on?");
 					}
 				}
 			};
@@ -570,6 +579,8 @@ public class Messenger {
 					if (index != -1) {
 						JCheckBox box = checkBoxes[index];
 						box.setSelected(!box.isSelected());
+					} else {
+						println(e.getActionCommand() + " is not a valid ID, do you have capslock on?");
 					}
 				}
 			};
@@ -661,6 +672,8 @@ public class Messenger {
 					if (index != -1) {
 						JCheckBox box = checkBoxes[index];
 						box.setSelected(!box.isSelected());
+					} else {
+						println(e.getActionCommand() + " is not a valid ID, do you have capslock on?");
 					}
 				}
 			};
@@ -735,6 +748,8 @@ public class Messenger {
 					if (index != -1) {
 						JRadioButton button = radioButtons[index];
 						button.setSelected(!button.isSelected());
+					} else {
+						println(e.getActionCommand() + " is not a valid ID, do you have capslock on?");
 					}
 				}
 			};
@@ -789,6 +804,8 @@ public class Messenger {
 					if (index != -1) {
 						JRadioButton button = radioButtons[index];
 						button.setSelected(!button.isSelected());
+					} else {
+						println(e.getActionCommand() + " is not a valid ID, do you have capslock on?");
 					}
 				}
 			};
@@ -842,6 +859,8 @@ public class Messenger {
 					if (index != -1) {
 						JCheckBox box = checkBoxes[index];
 						box.setSelected(!box.isSelected());
+					} else {
+						println(e.getActionCommand() + " is not a valid ID, do you have capslock on?");
 					}
 				}
 			};
@@ -891,6 +910,19 @@ public class Messenger {
 			
 			JOptionPane.showMessageDialog(null, panel, "Identifying...", JOptionPane.PLAIN_MESSAGE);
 		}
+	}
+	
+	public void wizardMode() {
+		player.setCurrentHP(9999);
+		player.setMaxHP(9999);
+		player.setNaturalAC(50);
+		player.setAttackBonus(50);
+		player.setBaseDamage(100);
+		player.setStrength(100);
+		player.setDexterity(100);
+		player.increaseNutrition(90000);
+		Controller.getInstance().updatePlayerStatus();
+		println("By the Power of Grayskull, I HAVE THE POWER.");
 	}
 
 	public void closeReader() {
@@ -995,6 +1027,8 @@ public class Messenger {
 		return closeDoor;
 	}
 
-	
+	public Action getWizardAction() {
+		return wizardAction;
+	}
 	
 }

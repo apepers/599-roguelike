@@ -138,6 +138,8 @@ public class Frame extends JFrame {
 		console.getActionMap().put("wield", controller.getMessenger().getEquipAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0), "put-on");
 		console.getActionMap().put("put-on", controller.getMessenger().getPutOnAction());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.SHIFT_DOWN_MASK), "wizard");
+		console.getActionMap().put("wizard", controller.getMessenger().getWizardAction());
 
 		//arrrow keys
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
