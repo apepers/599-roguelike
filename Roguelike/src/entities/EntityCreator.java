@@ -286,7 +286,7 @@ public class EntityCreator {
 			line = in.readLine();
 			while((line != null) && (!line.startsWith("##"))) {
 				if(line.startsWith("^^")) {
-					value += line.substring(2).trim();
+					value += "\n" + line.substring(2).trim();
 				} else {
 					value += line + "\n";
 				}
@@ -303,6 +303,8 @@ public class EntityCreator {
 		String name = food.getName().toLowerCase();
 		if(foodQuotes.containsKey(name)) {
 			food.setDescription(foodQuotes.get(name));
+		} else {
+			food.setDescription("Just your average, run of the mill " + name);
 		}
 	}
 	
@@ -311,6 +313,8 @@ public class EntityCreator {
 		String name = weapon.getName().toLowerCase();
 		if(weaponQuotes.containsKey(name)) {
 			weapon.setDescription(weaponQuotes.get(name));
+		} else {
+			weapon.setDescription("Just your average, run of the mill " + name);
 		}
 	}
 	
@@ -319,6 +323,8 @@ public class EntityCreator {
 		String name = armour.getName().toLowerCase();
 		if(armourQuotes.containsKey(name)) {
 			armour.setDescription(armourQuotes.get(name));
+		} else {
+			armour.setDescription("Just your average, run of the mill " + name);
 		}
 	}
 	
@@ -327,6 +333,8 @@ public class EntityCreator {
 		String name = monster.getName().toLowerCase();
 		if(monsterQuotes.containsKey(name)) {
 			monster.setDescription(monsterQuotes.get(name));
+		} else {
+			monster.setDescription("Just your average, run of the mill " + name);
 		}
 	}
 
