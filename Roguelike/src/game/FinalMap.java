@@ -25,7 +25,7 @@ public final class FinalMap extends MapGenerator {
 	private static final int WIDTH = 55;
 
 	private static final int ROOM_PADDING = 6;
-	private static final int RETRY_COUNT = 100;
+	private static final int RETRY_COUNT = 1000;
 	private static final int MONSTER_COUNT = 30;
 	//private static final int MONSTER_TIER = 9001;
 	private static final int MONSTER_TIER = 3;
