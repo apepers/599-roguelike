@@ -31,12 +31,15 @@ import javax.swing.JPanel;
 public class Controller {
 	private Player player;
 	private Cursor cursor;
+	
+	EntityCreator creator;
+/*
 	ArrayList<Food> foods;
 	ArrayList<Monster> monsters;
 	ArrayList<Weapon> weapons;
 	ArrayList<Armour> armours;
 	private ItemDuplicator duplicator;
-
+*/
 	private Map map;								//the current map loaded
 
 	private Messenger messenger;
@@ -48,10 +51,11 @@ public class Controller {
 	private Controller() { 
 
 		//load the food and monster CSV files.
-		foods = new ArrayList<Food>();
+/*		foods = new ArrayList<Food>();
 		weapons = new ArrayList<Weapon>();
 		monsters = new ArrayList<Monster>();
 		armours = new ArrayList<Armour>();
+
 		try {
 			loadFoods();
 			addFoodDescriptions();
@@ -68,6 +72,8 @@ public class Controller {
 
 		//prepare duplicator and player
 		duplicator = new ItemDuplicator();
+*/
+		creator = new EntityCreator();
 		timeQueue = new TimeQueue();
 		
 		
@@ -84,7 +90,12 @@ public class Controller {
 
 		this.messenger = messenger;
 		this.player = p;
-
+		
+		p.addItem(creator.createFood("spice"));
+		p.addItem(creator.createFood("bloodwine"));
+		p.addItem(creator.createWeapon("pneumatic glove"));
+		p.addItem(creator.createArmour("stormtrooper armour"));
+/*
 		for (Food f : foods) {
 			if (f.getName().equals("spice"))
 				p.addItem((Holdable)duplicator.duplicate(f));
@@ -99,6 +110,7 @@ public class Controller {
 			if (a.getName().equals("stormtrooper armour"))
 				p.addItem((Holdable)duplicator.duplicate(a));
 		}
+*/
 
 		//create the map.
 		createMap();
@@ -243,7 +255,7 @@ public class Controller {
 	}
 	
 	
-
+/*
 	private void loadFoods() throws IOException {
 		BufferedReader in = null;
 		in = new BufferedReader(new FileReader("data\\itemdata.txt"));
@@ -322,11 +334,13 @@ public class Controller {
 		}
 		in.close();
 	}
+*/
 
-
+	
 	/*
-	 * Add descriptions and quotes to already existing food
+	 * ADD DESCRIPTIONS AND QUOTES TO EXISTING ENTITIES METHODS
 	 */
+/*
 	private void addFoodDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
 		descMap = parseDescriptionFile("data\\itemquotes.txt");
@@ -339,9 +353,7 @@ public class Controller {
 		}
 	}
 
-	/*
-	 * Add descriptions and quotes to already existing weapons
-	 */
+
 	private void addWeaponDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
 		descMap = parseDescriptionFile("data\\weaponquotes.txt");
@@ -354,9 +366,7 @@ public class Controller {
 		}
 	}
 	
-	/*
-	 * Add descriptions and quotes to already existing weapons
-	 */
+
 	private void addArmourDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
 		descMap = parseDescriptionFile("data\\armourquotes.txt");
@@ -369,9 +379,7 @@ public class Controller {
 		}
 	}
 	
-	/*
-	 * Add descriptions and quotes to already existing monsters
-	 */
+
 	private void addMonsterDescriptions() throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
 		descMap = parseDescriptionFile("data\\monsterquotes.txt");
@@ -383,12 +391,13 @@ public class Controller {
 			}
 		}
 	}
-
+*/
 
 	/*
 	 * Parse through a given description/quotes .txt file and
 	 * convert it into a HashMap with the Entity name as the key
 	 */
+/*
 	private HashMap<String, String> parseDescriptionFile(String filename) throws IOException {
 		HashMap<String, String> descMap = new HashMap<String, String>();
 		BufferedReader in = null;
@@ -415,7 +424,9 @@ public class Controller {
 		in.close();
 		return descMap;
 	}
-
+*/
+	
+	
 	public void resetTimeQueue() {
 		timeQueue.clear();
 		Monster[] monsters = map.getMonsters();
@@ -426,7 +437,6 @@ public class Controller {
 		this.playTurn();
 	}
 
-	
 	
 	public void combatTest() {
 		Monster testMonster = getRandMapMonster(0);
@@ -852,14 +862,20 @@ public class Controller {
 			int rand = MapRand.randInt(7);
 			if (rand == 0) {
 				// 1/8 chance of spawning a weapon
-				int randomIndex = MapRand.randInt(weapons.size() - 1);
-				item = (Holdable)duplicator.duplicate(weapons.get(randomIndex));
+				int randomIndex = MapRand.randInt(creator.numWeapons() - 1);
+				item = creator.createWeapon(randomIndex);
+//				int randomIndex = MapRand.randInt(weapons.size() - 1);
+//				item = (Holdable)duplicator.duplicate(weapons.get(randomIndex));
 			} else if (rand == 1) {
-				int randomIndex = MapRand.randInt(armours.size() - 1);
-				item = (Holdable)duplicator.duplicate(armours.get(randomIndex));
+				int randomIndex = MapRand.randInt(creator.numArmours() - 1);
+				item = creator.createArmour(randomIndex);
+//				int randomIndex = MapRand.randInt(armours.size() - 1);
+//				item = (Holdable)duplicator.duplicate(armours.get(randomIndex));
 			} else {
-				int randomIndex = MapRand.randInt(foods.size() - 1);
-				item = (Holdable)duplicator.duplicate(foods.get(randomIndex));
+				int randomIndex = MapRand.randInt(creator.numFoods() - 1);
+				item = creator.createFood(randomIndex);
+//				int randomIndex = MapRand.randInt(foods.size() - 1);
+//				item = (Holdable)duplicator.duplicate(foods.get(randomIndex));
 			}
 		} while (item.getCost() > tierToMaxCost(mapIndex) || item.getCost() < tierToMinCost(mapIndex));
 		return item;
@@ -898,12 +914,20 @@ public class Controller {
 	}
 
 	public Monster getRandMapMonster(int mapIndex) {
+		int randomIndex = MapRand.randInt(creator.numMonsters() - 1);
+		Monster monster = creator.createMonster(randomIndex);
+		while (monster.getDifficulty() != mapIndex) {
+			randomIndex = MapRand.randInt(creator.numMonsters() - 1);
+			monster = creator.createMonster(randomIndex);
+		}
+/*
 		int randomIndex = MapRand.randInt(monsters.size() - 1);
 		Monster monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));
 		while (monster.getDifficulty() != mapIndex) {
 			randomIndex = MapRand.randInt(monsters.size() - 1);
 			monster = (Monster)duplicator.duplicate(monsters.get(randomIndex));
 		}
+*/
 		return monster;
 	}
 
