@@ -32,11 +32,15 @@ public final class FinalMap extends MapGenerator {
 	//private static final int MONSTER_TIER = 9001;
 	private static final int MONSTER_TIER = 3;
 	
-	private static final Point STAIR_POINT = new Point(ROOM_PADDING+3, ROOM_PADDING+3);
-	private static final Point SPAWN_POINT = new Point(ROOM_PADDING+2,ROOM_PADDING+2);
+	
 	private static final Rectangle ROOM = new Rectangle(ROOM_PADDING, ROOM_PADDING, WIDTH-(ROOM_PADDING*2), HEIGHT-(ROOM_PADDING*2));
 	private static final Rectangle MONSTER_RECT = new Rectangle (ROOM_PADDING+5, ROOM_PADDING+5, ROOM.width-5, ROOM.height-5);
 	
+	private static final Point STAIR_POINT = new Point(ROOM_PADDING+3, ROOM_PADDING+3);
+	private static final Point SPAWN_POINT = new Point(ROOM_PADDING+2,ROOM_PADDING+2);
+	private static final Point TELEPORT_ITEM_POINT = new Point(ROOM.x + ROOM.width -2, ROOM.x + ROOM.height -2);
+	
+
 	private ImageRegistry skin;
 
 	
@@ -110,10 +114,7 @@ public final class FinalMap extends MapGenerator {
 			
 		}
 		
-		Point tempPt = MapRand.randPoint(placement);
-		while (this.getTile(tempPt.x,  tempPt.y) != MapTile.ROOM_FLOOR) {
-			tempPt = MapRand.randPoint(placement);
-		}
+		Point tempPt = TELEPORT_ITEM_POINT;
 		newMap.getTile(tempPt.x, tempPt.y).addItem(Controller.getInstance().creator.createArmour("personal teleport"));	
 		
 		return newMap;
