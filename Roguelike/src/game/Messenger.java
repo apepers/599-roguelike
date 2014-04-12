@@ -919,7 +919,7 @@ public class Messenger {
 		player.setAttackBonus(50);
 		player.setBaseDamage(100);
 		player.setStrength(100);
-		player.setDexterity(100);
+		player.setDexterity(20);
 		player.increaseNutrition(90000);
 		EntityCreator creator = Controller.getInstance().creator;
 		for (int i = 0; i < 10; i++)
