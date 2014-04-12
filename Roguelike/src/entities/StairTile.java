@@ -37,6 +37,26 @@ public class StairTile extends Tile {
 		
 		
 	}
+	/**
+	 * Creates a tile with the specified link point between maps.
+	 * Note that this does not imply a bidirectional link.
+	 * Parameters are passed in order.
+	 * @param map1
+	 * @param map2
+	 * @param p1
+	 * @param p2
+	 * @param imgUp True if the stairs will show stairs going up, false otherwise.
+	 */
+	public StairTile(Map mapA, Map mapB, Point pA, Point pB, boolean imgUp){
+		super(true);
+		this.mapA = mapA;
+		this.mapB = mapB;
+		
+		this.pA = pA;
+		this.pB = pB;
+		
+		this.imgUp = imgUp;
+	}
 
 
 	/**

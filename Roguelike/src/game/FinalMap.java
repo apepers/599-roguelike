@@ -144,7 +144,7 @@ public final class FinalMap extends MapGenerator {
 
 
 		//create the special staircase link
-		this.map.setTile(stair1.x, stair1.y, new StairTile(this.map, linkMap, stair1, stair2));
+		this.map.setTile(stair1.x, stair1.y, new StairTile(this.map, linkMap, stair1, stair2, true));
 		linkMap.setTile(stair2.x, stair2.y, new StairTile(linkMap, this.map, stair2, stair1));
 
 	}

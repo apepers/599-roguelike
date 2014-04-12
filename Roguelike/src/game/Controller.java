@@ -156,7 +156,7 @@ public class Controller {
 		FinalMap finalMap = new FinalMap(registrySubset(level10Tiles)[0]);
 		finalMap.initMap();
 		Map m10 = finalMap.getMap();
-		finalMap.linkRoom(m9);
+		finalMap.linkRoom(m1);
 		m10.setTag("Final Chapter");
 
 
