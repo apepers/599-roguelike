@@ -874,5 +874,6 @@ public class Controller {
 	 */
 	public void winGame(){
 		messenger.showTextDialog(GameText.getText("Win"), "You've won!");
+		messenger.showTextDialog("Your final Score is: " + player.getScore(), "Final Score");
 	}
 }
