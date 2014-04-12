@@ -238,63 +238,6 @@ public class Controller {
 	}
 	
 	
-	/*
-	 * ADD DESCRIPTIONS AND QUOTES TO EXISTING ENTITIES METHODS
-	 */
-/*
-	private void addFoodDescriptions() throws IOException {
-		HashMap<String, String> descMap = new HashMap<String, String>();
-		descMap = parseDescriptionFile("data\\itemquotes.txt");
-
-		for(Food food : foods) {
-			String name = food.getName().toLowerCase();
-			if(descMap.containsKey(name)) {
-				food.setDescription(descMap.get(name));
-			}
-		}
-	}
-
-
-	private void addWeaponDescriptions() throws IOException {
-		HashMap<String, String> descMap = new HashMap<String, String>();
-		descMap = parseDescriptionFile("data\\weaponquotes.txt");
-
-		for(Weapon weapon : weapons) {
-			String name = weapon.getName().toLowerCase();
-			if(descMap.containsKey(name)) {
-				weapon.setDescription(descMap.get(name));
-			}
-		}
-	}
-	
-
-	private void addArmourDescriptions() throws IOException {
-		HashMap<String, String> descMap = new HashMap<String, String>();
-		descMap = parseDescriptionFile("data\\armourquotes.txt");
-
-		for(Armour armour : armours) {
-			String name = armour.getName().toLowerCase();
-			if(descMap.containsKey(name)) {
-				armour.setDescription(descMap.get(name));
-			}
-		}
-	}
-	
-
-	private void addMonsterDescriptions() throws IOException {
-		HashMap<String, String> descMap = new HashMap<String, String>();
-		descMap = parseDescriptionFile("data\\monsterquotes.txt");
-
-		for(Monster monster : monsters) {
-			String name = monster.getName().toLowerCase();
-			if(descMap.containsKey(name)) {
-				monster.setDescription(descMap.get(name));
-			}
-		}
-	}
-*/
-	
-	
 	public void resetTimeQueue() {
 		timeQueue.clear();
 		Monster[] monsters = map.getMonsters();
@@ -324,18 +267,7 @@ public class Controller {
 		}
 		System.out.println("The " + testMonster.getName() + " is slain!");
 	}
-
-	// Make sure that the headers of the food section match what we expect
-	private boolean headersMatch(String[] headers, String input) {
-		String[] inHeaders = input.split(",");
-		if (inHeaders.length != headers.length) 
-			return false;
-		for (int i = 0; i < headers.length; i++) {
-			if (!inHeaders[i].equals(headers[i]))
-				return false;
-		}
-		return true;
-	}
+	
 
 	/**
 	 * Begins the game
