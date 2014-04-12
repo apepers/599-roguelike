@@ -35,7 +35,7 @@ public final class FinalMap extends MapGenerator {
 	private static final Point STAIR_POINT = new Point(ROOM_PADDING+3, ROOM_PADDING+3);
 	private static final Point SPAWN_POINT = new Point(ROOM_PADDING+2,ROOM_PADDING+2);
 	private static final Rectangle ROOM = new Rectangle(ROOM_PADDING, ROOM_PADDING, WIDTH-(ROOM_PADDING*2), HEIGHT-(ROOM_PADDING*2));
-	private static final Rectangle MONSTER_RECT = new Rectangle (ROOM_PADDING+4, ROOM_PADDING+4, ROOM.width-4, ROOM.height-4);
+	private static final Rectangle MONSTER_RECT = new Rectangle (ROOM_PADDING+5, ROOM_PADDING+5, ROOM.width-5, ROOM.height-5);
 	
 	private ImageRegistry skin;
 

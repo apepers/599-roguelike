@@ -161,7 +161,7 @@ public class Controller {
 		FinalMap finalMap = new FinalMap(registrySubset(level10Tiles)[0]);
 		finalMap.initMap();
 		Map m10 = finalMap.getMap();
-		finalMap.linkRoom(m1);
+		finalMap.linkRoom(m9);
 		m10.setTag("Final Chapter");
 
 
@@ -169,13 +169,13 @@ public class Controller {
 		//=====================================================
 		// Place player on the first map
 		
-		this.map = m10;
+		this.map = m1;
 		
-		Point spawn = m10.getPlayerSpawn();
-		m10.getTile(spawn.x, spawn.y).setOccupant(player);
+		Point spawn = m1.getPlayerSpawn();
+		m1.getTile(spawn.x, spawn.y).setOccupant(player);
 
 		//setup the display
-		messenger.drawMap(m10);
+		messenger.drawMap(m1);
 		messenger.updateStatus(playerStatus());
 		messenger.centerMap(spawn);
 
@@ -867,5 +867,12 @@ public class Controller {
 		}
 
 		messenger.updateTile(doorLoc);
+	}
+	
+	/**
+	 * Wins the game and displays end game
+	 */
+	public void winGame(){
+		messenger.showTextDialog(GameText.getText("Win"), "You've won!");
 	}
 }
