@@ -1,14 +1,11 @@
 package entities;
 
-import java.awt.Color;
-import java.awt.Image;
-
 import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public abstract class Entity implements java.io.Serializable {
 	private String name;
-	private String description = "Nothing too interesting";
+	private String description = "No description available";
 	
 	private ImageIcon img;
 	
