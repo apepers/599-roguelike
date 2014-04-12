@@ -407,8 +407,10 @@ public class Messenger {
 			Action charAction = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 					int index = idsString.indexOf(e.getActionCommand());
-					JRadioButton button = radioButtons[index];
-					button.setSelected(true);
+					if (index != -1) {
+						JRadioButton button = radioButtons[index];
+						button.setSelected(true);
+					}
 				}
 			};
 			int foodCount = 0;
@@ -565,8 +567,10 @@ public class Messenger {
 			Action charAction = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 					int index = idsString.indexOf(e.getActionCommand());
-					JCheckBox box = checkBoxes[index];
-					box.setSelected(!box.isSelected());
+					if (index != -1) {
+						JCheckBox box = checkBoxes[index];
+						box.setSelected(!box.isSelected());
+					}
 				}
 			};
 	
@@ -654,8 +658,10 @@ public class Messenger {
 			Action charAction = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 					int index = idsString.indexOf(e.getActionCommand());
-					JCheckBox box = checkBoxes[index];
-					box.setSelected(!box.isSelected());
+					if (index != -1) {
+						JCheckBox box = checkBoxes[index];
+						box.setSelected(!box.isSelected());
+					}
 				}
 			};
 			int itemCount = 0;
@@ -726,8 +732,10 @@ public class Messenger {
 			Action charAction = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 					int index = idsString.indexOf(e.getActionCommand());
-					JRadioButton button = radioButtons[index];
-					button.setSelected(!button.isSelected());
+					if (index != -1) {
+						JRadioButton button = radioButtons[index];
+						button.setSelected(!button.isSelected());
+					}
 				}
 			};
 			int itemCount = 0;
@@ -778,8 +786,10 @@ public class Messenger {
 			Action charAction = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 					int index = idsString.indexOf(e.getActionCommand());
-					JRadioButton button = radioButtons[index];
-					button.setSelected(!button.isSelected());
+					if (index != -1) {
+						JRadioButton button = radioButtons[index];
+						button.setSelected(!button.isSelected());
+					}
 				}
 			};
 			int itemCount = 0;
@@ -829,8 +839,10 @@ public class Messenger {
 			Action charAction = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
 					int index = idsString.indexOf(e.getActionCommand());
-					JCheckBox box = checkBoxes[index];
-					box.setSelected(!box.isSelected());
+					if (index != -1) {
+						JCheckBox box = checkBoxes[index];
+						box.setSelected(!box.isSelected());
+					}
 				}
 			};
 			int itemCount = 0;
