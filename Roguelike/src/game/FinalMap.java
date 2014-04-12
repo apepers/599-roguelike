@@ -67,6 +67,10 @@ public final class FinalMap extends MapGenerator {
 		return map;
 	}
 
+	public Map getMap(){
+		return map;
+	}
+	
 	private Map createMap(){
 
 		ImageRegistry[] skinWrap = {skin};
