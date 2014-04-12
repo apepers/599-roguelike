@@ -24,14 +24,19 @@ public final class FinalMap extends MapGenerator {
 	private static final int HEIGHT = 32;
 	private static final int WIDTH = 56;
 
-	private static final int ROOM_PADDING = 6;
+	private static final int ROOM_PADDING = 8;
 	private static final int RETRY_COUNT = 1000;
 	private static final int MONSTER_COUNT = 30;
+	
+	
 	//private static final int MONSTER_TIER = 9001;
 	private static final int MONSTER_TIER = 3;
 	
 	private static final Point STAIR_POINT = new Point(ROOM_PADDING+3, ROOM_PADDING+3);
 	private static final Point SPAWN_POINT = new Point(ROOM_PADDING+2,ROOM_PADDING+2);
+	private static final Rectangle ROOM = new Rectangle(ROOM_PADDING, ROOM_PADDING, WIDTH-(ROOM_PADDING*2), HEIGHT-(ROOM_PADDING*2));
+	private static final Rectangle MONSTER_RECT = new Rectangle (ROOM_PADDING+4, ROOM_PADDING+4, ROOM.width-4, ROOM.height-4);
+	
 	private ImageRegistry skin;
 
 	
@@ -48,7 +53,7 @@ public final class FinalMap extends MapGenerator {
 
 	@Override
 	protected void generateMap() {
-		this.room = new Rectangle(ROOM_PADDING, ROOM_PADDING, WIDTH-(ROOM_PADDING*2), HEIGHT-(ROOM_PADDING*2));
+		this.room = ROOM;
 
 		super.fillRoom(room);
 		super.addRoom(room);
@@ -76,9 +81,10 @@ public final class FinalMap extends MapGenerator {
 		ImageRegistry[] skinWrap = {skin};
 		super.setPlayerSpawn(SPAWN_POINT);
 		Map newMap = MapInterpreter.interpretMap(this, skinWrap, MONSTER_TIER);
-
+		newMap.setPlayerSpawn(SPAWN_POINT);
+		
 		//fill the room with monsters
-		Rectangle placement = room;
+		Rectangle placement = MONSTER_RECT;
 		for (int i = 0; i < MONSTER_COUNT; i++){
 			Point tempPt = MapRand.randPoint(placement);
 
@@ -98,7 +104,7 @@ public final class FinalMap extends MapGenerator {
 				Monster babyMonster = Controller.getInstance().getRandMapMonster(MONSTER_TIER);
 				selected.setOccupant(babyMonster);
 				newMap.addMonster(babyMonster);
-				System.out.println(newMap.getMonsters().length);
+			
 			}
 				
 			
@@ -106,7 +112,7 @@ public final class FinalMap extends MapGenerator {
 		
 		
 		
-		newMap.setPlayerSpawn(SPAWN_POINT);
+		
 		//add the mcguffin item
 		
 		
