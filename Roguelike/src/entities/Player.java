@@ -188,6 +188,8 @@ public class Player extends Sentient {
 
 	public void setEquippedArmour(Armour equippedArmour) {
 		this.equippedArmour = equippedArmour;
+		if (equippedArmour != null)
+			equippedArmour.equipEffect();
 	}
 	
 	public void addEquippedMisc(Holdable h) {

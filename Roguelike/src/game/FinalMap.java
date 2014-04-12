@@ -110,11 +110,11 @@ public final class FinalMap extends MapGenerator {
 			
 		}
 		
-		
-		
-		
-		//add the mcguffin item
-		
+		Point tempPt = MapRand.randPoint(placement);
+		while (this.getTile(tempPt.x,  tempPt.y) != MapTile.ROOM_FLOOR) {
+			tempPt = MapRand.randPoint(placement);
+		}
+		newMap.getTile(tempPt.x, tempPt.y).addItem(Controller.getInstance().creator.createArmour("personal teleport"));	
 		
 		return newMap;
 	}

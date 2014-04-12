@@ -2,3 +2,4 @@ Name,Cost,Weight,AC,Special
 stormtrooper armour,800,10,6,
 power armour,400,8,4,
 space marine armour,2000,20,10,
+personal teleport,6000,1,1,Teleport

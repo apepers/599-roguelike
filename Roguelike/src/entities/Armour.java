@@ -40,6 +40,9 @@ public class Armour extends Holdable {
 	// Apply the decorators as matched with the strings
 	public static Armour applySpecialTraits(Armour armour, String[] traits) {
 		for (String trait : traits) {
+			if (trait.trim().equals("Teleport")) {
+				armour = new Teleport(armour);
+			}
 		}
 		return armour;
 	}
@@ -64,4 +67,6 @@ public class Armour extends Holdable {
 		else
 			return this.getName();
 	}
+	
+	public void equipEffect() { };
 }
