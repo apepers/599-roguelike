@@ -51,11 +51,6 @@ public class Controller {
 	public void setup(Messenger messenger, Player p){
 		this.messenger = messenger;
 		this.player = p;
-		
-		p.addItem(creator.createFood("spice"));
-		p.addItem(creator.createFood("bloodwine"));
-		p.addItem(creator.createWeapon("pneumatic glove"));
-		p.addItem(creator.createArmour("stormtrooper armour"));
 
 		//create the map.
 		createMap();
