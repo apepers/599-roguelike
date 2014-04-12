@@ -102,7 +102,7 @@ public class Player extends Sentient {
 			setDexterity(getDexterity() + 1);
 			Controller.getInstance().getMessenger().println("You feel more nimble!");
 		}
-		if (getDexterity() - 16 >= getSpeed() * 2 - 2) {
+		if (getDexterity() - 16 >= getSpeed() * 3 - 2 && getSpeed() <= 7) {
 			setSpeed(getSpeed() + 1);
 			Controller.getInstance().getMessenger().println("You feel quicker!");
 		}
