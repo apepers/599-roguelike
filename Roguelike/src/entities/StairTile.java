@@ -102,6 +102,14 @@ public class StairTile extends Tile {
 		imgUp = b;
 	}
 	
+	/**
+	 * Gets whether it is an up staircase or not.
+	 * @return
+	 */
+	public boolean getUp() {
+		return imgUp;
+	}
+	
 	@Override
 	public ImageIcon getBackground(){
 		if(this.isDiscovered()) {

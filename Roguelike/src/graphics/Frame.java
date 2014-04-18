@@ -156,10 +156,10 @@ public class Frame extends JFrame {
 		console.getActionMap().put("wait", controller.getMessenger().getWaitAction());
 
 		//stair use key
-		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, KeyEvent.SHIFT_DOWN_MASK), "stair_up");
-		console.getActionMap().put("stair_up", controller.getMessenger().getStairsUp());
-		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, KeyEvent.SHIFT_DOWN_MASK), "stair_down");
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_PERIOD, KeyEvent.SHIFT_DOWN_MASK), "stair_down");
 		console.getActionMap().put("stair_down", controller.getMessenger().getStairsDown());
+		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_COMMA, KeyEvent.SHIFT_DOWN_MASK), "stair_up");
+		console.getActionMap().put("stair_up", controller.getMessenger().getStairsUp());
 
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), "center_map");
 		console.getActionMap().put("center_map", controller.getMessenger().getCenterMap());

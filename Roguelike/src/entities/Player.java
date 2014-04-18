@@ -292,6 +292,7 @@ public class Player extends Sentient {
 			Controller.getInstance().getMessenger().println("You remember that you are not a Klingon, but a puny weak human. How disappointing.");
 		}
 		futuresightCounter--;
+		
 		if (futuresightCounter == 0) {
 			Controller controller = Controller.getInstance();
 			setSightRange(tempSight);

@@ -517,7 +517,7 @@ public class Controller {
 	public void stairsUp(){
 		Point stairLoc = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
 		Tile currentTile = map.getTile(stairLoc.x, stairLoc.y);
-		if(currentTile instanceof StairTile){
+		if(currentTile instanceof StairTile && ((StairTile)currentTile).getUp()){
 			StairTile stairs = (StairTile) currentTile;
 
 			//switch maps
@@ -531,7 +531,7 @@ public class Controller {
 	public void stairsDown(){
 		Point stairLoc = new Point(player.getLocation().getColumn(), player.getLocation().getRow());
 		Tile currentTile = map.getTile(stairLoc.x, stairLoc.y);
-		if(currentTile instanceof StairTile){
+		if(currentTile instanceof StairTile && !((StairTile)currentTile).getUp()){
 			StairTile stairs = (StairTile) currentTile;
 
 			//switch maps
@@ -549,7 +549,6 @@ public class Controller {
 	 * @param nextPoint
 	 */
 	private void switchMap(StairTile stairs){
-
 		Point oldPt = stairs.getpA();
 		Point nextPt = stairs.getpB();
 		Map nextMap = stairs.getMapB();
@@ -561,15 +560,21 @@ public class Controller {
 		stairs.getMapA().getTile(oldPt.x, oldPt.y).removeOccupant();
 		stairs.getMapB().getTile(nextPt.x, nextPt.y).setOccupant(player);
 
+		if (player.getFuturesightCounter() > 0)
+			this.revealMap(false);
+		
 		//set the current map
 		this.map = nextMap;
 
+		
 		//update the tile
 		messenger.drawMap(nextMap);
 		messenger.updateTile(nextPt);
-		messenger.centerMap(nextPt);
 		resetTimeQueue();
 
+		if (player.getFuturesightCounter() > 0)
+			this.revealMap(true);
+		
 		//show the chapter text.
 		if (nextMap.getTag() != null){
 			//has text on level entry
@@ -578,7 +583,7 @@ public class Controller {
 			nextMap.setTag(null);			// delete tag to not repeat.
 			
 		}
-	
+		messenger.centerMap(nextPt);
 	}
 
 	public boolean sentientAttack(Sentient attacker, Sentient attackee) {
