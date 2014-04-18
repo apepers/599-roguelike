@@ -34,9 +34,8 @@ public class Player extends Sentient {
 	
 	public Player() {
 		this.setName("You!");
-		this.setDescription("A normal, boring person.");
 		nutrition = 1500;
-		setMaxHP(15);
+		setMaxHP(20);
 		setCurrentHP(15);
 		setNaturalAC(0);
 		setAttackBonus(3);

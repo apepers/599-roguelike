@@ -55,11 +55,11 @@ public abstract class Sentient extends Entity {
 	}
 	
 	public int getAC() {
-		return 10 + naturalAC + dexterity % 10;
+		return 10 + naturalAC + getAbilityBonus(dexterity);
 	}
 	
 	public int getMeleeDamage() {
-		return MapRand.randInt(baseDamage) + strength % 10; 
+		return MapRand.randInt(baseDamage) + getAbilityBonus(strength); 
 	}
 	
 	public int getAttack() {
@@ -190,4 +190,7 @@ public abstract class Sentient extends Entity {
 		return getInventory().getFood();
 	}
 
+	private int getAbilityBonus(int score) {
+		return (score / 2) - 5;
+	}
 }

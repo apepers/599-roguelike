@@ -902,13 +902,7 @@ public class Messenger {
 		if (entity == null) {
 			log.println("There's nothing here.");
 		} else {
-			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(0, 1, 0, 10));
-			
-			panel.add(new JLabel("Name: \n" + entity.getName()));
-			panel.add(new JTextArea(entity.getDescription()));
-			
-			JOptionPane.showMessageDialog(null, panel, "Identifying...", JOptionPane.PLAIN_MESSAGE);
+			log.println(entity.getName().substring(0, 1).toUpperCase() + entity.getName().substring(1));
 		}
 	}
 	
