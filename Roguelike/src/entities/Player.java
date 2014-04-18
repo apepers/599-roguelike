@@ -4,6 +4,7 @@
 
 package entities;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,14 +32,15 @@ public class Player extends Sentient {
 	private int tempStrengthCounter;
 	private int futuresightCounter;
 	private int tempSight;
+	private int hpCounter;
 	
 	public Player() {
 		this.setName("You!");
-		nutrition = 1500;
-		setMaxHP(20);
+		nutrition = 2000;
+		setMaxHP(15);
 		setCurrentHP(15);
 		setNaturalAC(0);
-		setAttackBonus(3);
+		setAttackBonus(2);
 		setBaseDamage(4);
 		setStrength(16);
 		setSpeed(2);
@@ -55,6 +57,7 @@ public class Player extends Sentient {
 		drunkCounter = 0;
 		tempStrengthCounter = 0;
 		futuresightCounter = 0;
+		hpCounter = 2;
 		
 		setEquippedMisc(new ArrayList<Holdable>());
 		
@@ -151,9 +154,35 @@ public class Player extends Sentient {
 		else if (nutrition >= 0)
 			return "Weak";
 		else if (nutrition > -600)
-			return "Fainting";
+			return "Starving";
 		else
 			return "Starved";
+	}
+	
+	public Color hungerColor() {
+		if (nutrition >= 4000)
+			return new Color(0, 255, 0);
+		else if (nutrition >= 2000)
+			return new Color(153, 255, 51);
+		else if (nutrition >= 1200)
+			return new Color(255, 255, 51);
+		else if (nutrition >= 600)
+			return new Color(204, 102, 0);
+		else if (nutrition >= 0)
+			return new Color(204, 0, 0);
+		else if (nutrition > -600)
+			return new Color(153, 0, 0);
+		else
+			return new Color(51, 0, 0);
+	}
+	
+	public Color hpColor() {
+		if (this.getCurrentHP() >= this.getMaxHP() * (2.0 / 3.0))
+			return Color.GREEN;
+		else if (this.getCurrentHP() >= this.getMaxHP() / 3)
+			return Color.YELLOW;
+		else
+			return Color.RED;
 	}
 	
 	public void giveXP(int amount) {
@@ -250,6 +279,14 @@ public class Player extends Sentient {
 	public void setFuturesightCounter(int futuresightCounter) {
 		this.futuresightCounter = futuresightCounter;
 	}
+	
+	public int getHpCounter() {
+		return hpCounter;
+	}
+
+	public void setHpCounter(int hpCounter) {
+		this.hpCounter = hpCounter;
+	}
 
 	public int getACBonus() {
 		if (equippedArmour != null)
@@ -302,5 +339,11 @@ public class Player extends Sentient {
 		} /*else if (futuresightCounter == 24) {
 			Controller.getInstance().getMessenger().println("The immediate is blurred. Only the future is clear.");
 		}*/
+		
+		hpCounter--;
+		if (hpCounter == 0) {
+			increaseCurrentHP(1);
+			hpCounter = 2;
+		}
 	}
 }

@@ -1,6 +1,6 @@
 Name,HP,NaturalArmour,Strength,Dexterity,Speed,AttackBonus,BaseMeleeDamage,BaseMeleeDescription,SightRange,Difficulty,Special
-Grid Bug,5,1,10,10,1,0,2,zaps,8,1,
-Morlock,6,0,8,12,2,0,4,hits,4,1,
+Grid Bug,5,1,10,10,1,0,4,zaps,8,1,
+Morlock,6,0,8,14,2,0,6,hits,4,1,
 Sea Devil,15,2,14,10,2,1,6,hits,9,1,
 Zygon,15,1,12,12,2,1,4,stings,9,1,
 Fireman,20,1,12,12,2,1,4,punches,9,1,

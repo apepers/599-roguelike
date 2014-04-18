@@ -373,8 +373,8 @@ public class Messenger {
 	 * Updates the status bar for the player stats
 	 * @param text
 	 */
-	public void updateStatus(String text){
-		status.setText(text);
+	public void updateStatus() {
+		status.updateText();
 	}
 	
 	/**

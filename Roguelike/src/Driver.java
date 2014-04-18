@@ -24,10 +24,9 @@ public class Driver {
 		//intialize GUI elements
 		TileDisplay tileDisplay = new TileDisplay(300,300);
 		PlayerLog console = new PlayerLog();
-		StatusBar status = new StatusBar();
-		Frame frame = new Frame(tileDisplay, console, status);
-		
 		Player player = new Player();
+		StatusBar status = new StatusBar(player);
+		Frame frame = new Frame(tileDisplay, console, status);
 		
 		Controller controller = Controller.getInstance();
 		controller.setup(new Messenger(controller, player, frame, tileDisplay, console, status), player);

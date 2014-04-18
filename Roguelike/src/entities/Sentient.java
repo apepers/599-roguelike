@@ -59,7 +59,10 @@ public abstract class Sentient extends Entity {
 	}
 	
 	public int getMeleeDamage() {
-		return MapRand.randInt(baseDamage) + getAbilityBonus(strength); 
+		int damage = MapRand.randInt(baseDamage) + getAbilityBonus(strength); 
+		if (damage <= 0)
+			damage = 1;
+		return damage;
 	}
 	
 	public int getAttack() {

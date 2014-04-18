@@ -171,7 +171,7 @@ public class Controller {
 
 		//setup the display
 		messenger.drawMap(m1);
-		messenger.updateStatus(playerStatus());
+		this.updatePlayerStatus();
 		messenger.centerMap(spawn);
 
 
@@ -205,27 +205,6 @@ public class Controller {
 		this.addPlayerEvent(10);
 		this.playTurn();
 	}
-
-	
-	public void combatTest() {
-		Monster testMonster = getRandMapMonster(0);
-		System.out.println("A wild " + testMonster.getName() +" appears!");
-		while (!testMonster.isDead()) {
-			System.out.println("The monster attacks!");
-			if (sentientAttack(testMonster, player))
-				System.out.println("The monster " + testMonster.getBaseMeleeDescription() + " you!");
-			else
-				System.out.println("The monster misses!");
-			System.out.println(playerStatus());
-			System.out.println("The player attacks!");
-			if (sentientAttack(player, testMonster))
-				System.out.println("You hit!");
-			else
-				System.out.println("You miss!");
-		}
-		System.out.println("The " + testMonster.getName() + " is slain!");
-	}
-
 
 	/**
 	 * Begins the game
@@ -613,12 +592,7 @@ public class Controller {
 	}
 
 	public void updatePlayerStatus() {
-		messenger.updateStatus(playerStatus());
-	}
-
-	public String playerStatus() {
-		return "Player: HP = " + player.getCurrentHP() + ", Strength = " + player.getStrength() + ", Dexterity = " + player.getDexterity() + 
-				", Armour: " + player.getACBonus() + ", Nutrition = " + player.hungerText() + ", XP = " + player.getXP();
+		messenger.updateStatus();
 	}
 
 	// Return a random item for the map, given the current depth in the station
@@ -688,7 +662,7 @@ public class Controller {
 		
 		timeQueue.addEventToQueue(player, actionCost / player.getSpeed());
 		player.increaseHunger(actionCost/2);
-		messenger.updateStatus(playerStatus());
+		this.updatePlayerStatus();
 		messenger.updateTile(player.getLocation().getColumn(), player.getLocation().getRow());
 		
 	}
@@ -697,12 +671,11 @@ public class Controller {
 		Sentient topEventSentient = timeQueue.getNextEvent();
 		while (!topEventSentient.equals(player)) {
 			monsterAction((Monster)topEventSentient);
-			//moveRandomly(topEventSentient);
 			timeQueue.addEventToQueue(topEventSentient, ((Monster) topEventSentient).getActionCost());
 			topEventSentient = timeQueue.getNextEvent();
 		}
 		checkGameOver();
-		player.increaseCurrentHP(1);
+		//player.increaseCurrentHP(1);
 		player.checkCounters();
 	}
 	
