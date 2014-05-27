@@ -52,7 +52,7 @@ public class ImageRegistry {
 
 		this.dir = textureDir;
 		//open index file
-		File indexFile = new File(textureDir + "\\" + INDEX_FILE);
+		File indexFile = new File(textureDir + File.separator + INDEX_FILE);
 		if (indexFile.exists() == false){
 			System.err.println("Warning! Cannot find the index file for the texture folder: " + textureDir + ". Tile set not added.");
 		}
@@ -76,7 +76,7 @@ public class ImageRegistry {
 						String key = splitted[0].trim();
 						String image = splitted[1].trim();
 
-						File imageFile = new File(textureDir + "\\" + image);
+						File imageFile = new File(textureDir + File.separator + image);
 						if (imageFile.exists() == true){
 							//key is at least length one, and image can be read
 							registry.put(key, new ImageIcon(ImageIO.read(imageFile)));

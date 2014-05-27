@@ -17,7 +17,7 @@ import java.util.LinkedList;
  */
 public class ImageManager {
 
-	private static final String RESOURCE_PATH = System.getProperty("user.dir") + "\\res";
+	private static final String RESOURCE_PATH = System.getProperty("user.dir") + File.separator + "res";
 	private static ImageManager global;
 	
 	

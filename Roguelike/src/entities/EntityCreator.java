@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,10 +34,10 @@ public class EntityCreator {
 	 * LOAD ITEM STRINGS FROM FILE METHODS
 	 */
 	public void loadEntities() throws IOException {
-		loadFile("Food", foods, "data\\itemdata.txt", Food.csvHeaders());
-		loadFile("Weapon", weapons, "data\\weapondata.txt", Weapon.csvHeaders());
-		loadFile("Armour", armours, "data\\armourdata.txt", Armour.csvHeaders());
-		loadFile("Monster", monsters, "data\\monsterdata.txt", Monster.csvHeaders());
+		loadFile("Food", foods, "data" + File.separator + "itemdata.txt", Food.csvHeaders());
+		loadFile("Weapon", weapons, "data" + File.separator + "weapondata.txt", Weapon.csvHeaders());
+		loadFile("Armour", armours, "data" + File.separator + "armourdata.txt", Armour.csvHeaders());
+		loadFile("Monster", monsters, "data" + File.separator + "monsterdata.txt", Monster.csvHeaders());
 	}
 	
 	public void loadFile(String type, ArrayList<String> list, String file, String[] headers) throws IOException {

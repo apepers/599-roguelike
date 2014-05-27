@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class GameText {
 	
 	
-	private static final String TEXT_FOLDER = System.getProperty("user.dir") + "\\text";;
+	private static final String TEXT_FOLDER = System.getProperty("user.dir") + File.separator +"text";
 	
 	private static HashMap<String, String> textMapping = new HashMap<String, String>();
 
