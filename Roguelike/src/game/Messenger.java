@@ -907,21 +907,24 @@ public class Messenger {
 	}
 	
 	public void wizardMode() {
-		player.setCurrentHP(9999);
-		player.setMaxHP(9999);
-		player.setNaturalAC(50);
-		player.setAttackBonus(50);
-		player.setBaseDamage(100);
-		player.setStrength(100);
-		player.setDexterity(20);
-		player.increaseNutrition(90000);
-		EntityCreator creator = Controller.getInstance().creator;
-		for (int i = 0; i < 10; i++)
-			player.addItem(creator.createFood("spice"));
-		player.addItem(creator.createArmour("space marine armour"));
-		player.addItem(creator.createWeapon("lightsaber"));
-		Controller.getInstance().updatePlayerStatus();
-		println("By the Power of Grayskull, I HAVE THE POWER.");
+		if (JOptionPane.showConfirmDialog(null, "Activate Wizard Mode? (This will set your score to 0)", "Wizard Mode", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			player.setWizardUsed(true);
+			player.setCurrentHP(9999);
+			player.setMaxHP(9999);
+			player.setNaturalAC(50);
+			player.setAttackBonus(50);
+			player.setBaseDamage(100);
+			player.setStrength(100);
+			player.setDexterity(20);
+			player.increaseNutrition(90000);
+			EntityCreator creator = Controller.getInstance().creator;
+			for (int i = 0; i < 10; i++)
+				player.addItem(creator.createFood("spice"));
+			player.addItem(creator.createArmour("space marine armour"));
+			player.addItem(creator.createWeapon("lightsaber"));
+			Controller.getInstance().updatePlayerStatus();
+			println("By the Power of Grayskull, I HAVE THE POWER.");
+		}
 	}
 
 	public void closeReader() {

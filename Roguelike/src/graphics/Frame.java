@@ -141,7 +141,7 @@ public class Frame extends JFrame {
 		console.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.SHIFT_DOWN_MASK), "wizard");
 		console.getActionMap().put("wizard", controller.getMessenger().getWizardAction());
 
-		//arrrow keys
+		//arrow keys
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
 		console.getActionMap().put("up", controller.getMessenger().getUpAction());
 		console.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");

@@ -34,6 +34,8 @@ public class Player extends Sentient {
 	private int tempSight;
 	private int hpCounter;
 	
+	private boolean wizardUsed;
+	
 	public Player() {
 		this.setName("You!");
 		nutrition = 2000;
@@ -58,6 +60,7 @@ public class Player extends Sentient {
 		tempStrengthCounter = 0;
 		futuresightCounter = 0;
 		hpCounter = 2;
+		wizardUsed = false;
 		
 		setEquippedMisc(new ArrayList<Holdable>());
 		
@@ -126,15 +129,17 @@ public class Player extends Sentient {
 	
 	public int getScore() {
 		int score = 0;
-		Iterator<Entry<Character, Holdable>> iter = this.getInventory().getAllItems().entrySet().iterator();
-		while(iter.hasNext()) {
-			Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
-			score += entry.getValue().getCost();
+		if (!wizardUsed) {
+			Iterator<Entry<Character, Holdable>> iter = this.getInventory().getAllItems().entrySet().iterator();
+			while(iter.hasNext()) {
+				Map.Entry<Character, Holdable> entry = (Map.Entry<Character, Holdable>)iter.next();
+				score += entry.getValue().getCost();
+			}
+			score += getDexterity();
+			score += getStrength();
+			score += this.level * 500;
+			score += textCollected * 1000;
 		}
-		score += getDexterity();
-		score += getStrength();
-		score += this.level * 500;
-		score += textCollected * 1000;
 		return score;
 	}
 	
@@ -286,6 +291,14 @@ public class Player extends Sentient {
 
 	public void setHpCounter(int hpCounter) {
 		this.hpCounter = hpCounter;
+	}
+	
+	public void setWizardUsed(boolean used) {
+		wizardUsed = used;
+	}
+	
+	public boolean getWizardUsed() {
+		return wizardUsed;
 	}
 
 	public int getACBonus() {
