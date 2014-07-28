@@ -10,6 +10,7 @@ public class Weapon extends Holdable {
 	private int minDamage;
 	private int maxDamage;
 	private String damageMsg;
+	private boolean powered;
 	
 	public static String[] csvHeaders() {
 		String[] headers = {"Name", "Cost", "Weight", "MinDamage", "MaxDamage", "DamageMsg", "Special"};
@@ -45,6 +46,10 @@ public class Weapon extends Holdable {
 	// Apply the decorators as matched with the strings
 	public static Weapon applySpecialTraits(Weapon weapon, String[] traits) {
 		for (String trait : traits) {
+			String t = trait.trim();
+			if (t.equals("Powered")) {
+				weapon = new PoweredWeapon(weapon);
+			}
 		}
 		return weapon;
 	}
@@ -78,6 +83,14 @@ public class Weapon extends Holdable {
 		this.damageMsg = damageMsg;
 	}
 	
+	public boolean isPowered() {
+		return powered;
+	}
+
+	public void setPowered(boolean powered) {
+		this.powered = powered;
+	}
+
 	public String inventoryName() {
 		Weapon equippedWeapon = Controller.getInstance().getPlayer().getEquippedWeapon();
 		if (equippedWeapon != null && equippedWeapon.equals(this))

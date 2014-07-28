@@ -130,6 +130,10 @@ public class Container extends Holdable {
 		return allItems.get(itemID);
 	}
 	
+	public Holdable getTopItem() {
+		return this.getItem((Character)this.getUsedIDs().toArray()[0]);
+	}
+	
 	public HashMap<Character, Weapon> getWeapons() {
 		return weapons;
 	}

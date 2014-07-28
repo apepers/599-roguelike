@@ -87,6 +87,17 @@ public class Tile {
 		return item;
 	}
 
+	// Remove the top item
+	public Holdable removeTopItem() {
+		Holdable item = items.getTopItem();
+		try {
+			items.removeItem(item.getID());
+		} catch (InvalidKeyException e) {
+			// Shouldn't be possible, since we just got that item
+		}
+		return item;
+	}
+	
 	// Get the sentient currently standing in the square
 	// Returns null if no sentient is on the square.
 	public Sentient getOccupant() {

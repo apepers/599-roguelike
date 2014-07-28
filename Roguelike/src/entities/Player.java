@@ -311,9 +311,19 @@ public class Player extends Sentient {
 	@Override
 	public int getMeleeDamage() {
 		if (equippedWeapon != null) {
-			return MapRand.randInt(equippedWeapon.getMinDamage(), equippedWeapon.getMaxDamage()) + getAbilityBonus(getStrength()); 
+			return MapRand.randInt(equippedWeapon.getMinDamage(), equippedWeapon.getMaxDamage()) + getAbilityBonus(getStrength() + comboBonus()); 
 		} else
 			return MapRand.randInt(this.getBaseDamage()) + getAbilityBonus(getStrength());
+	}
+	
+	/*
+	 * Figure out any damage bonuses due to weapon/armour matchups
+	 */
+	private int comboBonus() {
+		int combo = 0;
+		if (equippedArmour.isPowered() && equippedWeapon.isPowered())
+			combo += 4;
+		return combo;
 	}
 	
 	private int getAbilityBonus(int score) {

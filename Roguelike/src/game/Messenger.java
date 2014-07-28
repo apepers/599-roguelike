@@ -566,7 +566,15 @@ public class Messenger {
 		int itemLength = weapons.length + armour.length + foods.length + misc.length;
 		if (itemLength == 0) 
 			log.println("There is nothing here.");
-		else {
+		else if (itemLength == 1) {
+			Holdable newItem = playerLocation.removeTopItem();
+			if (newItem != null) {
+				player.addItem(newItem);
+				log.println("Picked up " + newItem.properName() + " off the floor.");
+			} else {
+				System.out.println("Didn't pick anything up.");
+			}
+		} else {
 			final JCheckBox[] checkBoxes = new JCheckBox[itemLength];
 			
 			JPanel panel = new JPanel();

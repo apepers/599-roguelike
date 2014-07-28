@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 
 public class Armour extends Holdable {
 	private int AC;
+	private boolean powered = false;
 	
 	public static String[] csvHeaders() {
 		String[] headers = {"Name", "Cost", "Weight", "AC", "Special"};
@@ -40,8 +41,12 @@ public class Armour extends Holdable {
 	// Apply the decorators as matched with the strings
 	public static Armour applySpecialTraits(Armour armour, String[] traits) {
 		for (String trait : traits) {
-			if (trait.trim().equals("Teleport")) {
+			String t = trait.trim();
+			if (t.equals("Teleport")) {
 				armour = new Teleport(armour);
+			} 
+			if (t.equals("Powered")) {
+				armour = new PoweredArmour(armour);
 			}
 		}
 		return armour;
@@ -58,6 +63,14 @@ public class Armour extends Holdable {
 
 	public void setAC(int aC) {
 		AC = aC;
+	}
+
+	public boolean isPowered() {
+		return powered;
+	}
+
+	public void setPowered(boolean powered) {
+		this.powered = powered;
 	}
 
 	public String inventoryName() {

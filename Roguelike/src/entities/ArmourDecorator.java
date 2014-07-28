@@ -27,3 +27,11 @@ class Teleport extends ArmourDecorator {
 		Controller.getInstance().winGame();
 	}
 }
+
+@SuppressWarnings("serial")
+class PoweredArmour extends ArmourDecorator {
+	public PoweredArmour(Armour decoratedArmour) {
+		super(decoratedArmour);
+		this.setPowered(true);
+	}
+}
