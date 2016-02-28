@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JMenuBar;
@@ -77,10 +78,14 @@ public class Frame extends JFrame {
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 
+		JOptionPane controls = new JOptionPane(GameText.getText("Controls"), JOptionPane.PLAIN_MESSAGE);
+		final JDialog controlDialog = controls.createDialog(null, "Severed Space Controls");
+		controlDialog.setModal(false);
 		JMenuItem mntmControls = new JMenuItem("Controls...");
 		mntmControls.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, GameText.getText("Controls"), "Severed Space Controls", JOptionPane.PLAIN_MESSAGE);
+				controlDialog.setVisible(true);
+				//JOptionPane.showMessageDialog(null, GameText.getText("Controls"), "Severed Space Controls", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 		mnHelp.add(mntmControls);

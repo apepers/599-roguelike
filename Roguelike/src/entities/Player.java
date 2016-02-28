@@ -38,7 +38,7 @@ public class Player extends Sentient {
 	
 	public Player() {
 		this.setName("You!");
-		nutrition = 2000;
+		nutrition = 2500;
 		setMaxHP(15);
 		setCurrentHP(15);
 		setNaturalAC(0);
@@ -153,7 +153,7 @@ public class Player extends Sentient {
 		else if (nutrition >= 2000)
 			return "Satiated";
 		else if (nutrition >= 1200)
-			return "Not hungry";
+			return "Not Hungry";
 		else if (nutrition >= 600)
 			return "Hungry";
 		else if (nutrition >= 0)
